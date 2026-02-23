@@ -1,0 +1,90 @@
+﻿:root {
+    --brand-red: #e01d30;
+    --brand-black: #000000;
+    --brand-orange: #f89b20;
+    --brand-ivory: #fff8f2;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.brand-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    line-height: 1;
+}
+
+.brand-logo img {
+    max-height: 58px;
+    width: auto;
+    object-fit: contain;
+}
+
+.brand-logo-mark {
+    color: var(--brand-orange);
+}
+
+.text-brand {
+    color: var(--brand-red) !important;
+}
+
+.text-brand-accent {
+    color: var(--brand-orange) !important;
+}
+
+.bg-brand-dark {
+    background-color: var(--brand-black) !important;
+    color: #fff !important;
+}
+
+.border-brand {
+    border-color: var(--brand-red) !important;
+}
+
+.btn-brand {
+    --bs-btn-bg: var(--brand-red);
+    --bs-btn-border-color: var(--brand-red);
+    --bs-btn-hover-bg: #bc1222;
+    --bs-btn-hover-border-color: #bc1222;
+    --bs-btn-active-bg: #a80f1d;
+    --bs-btn-active-border-color: #a80f1d;
+    --bs-btn-color: #fff;
+}
+
+.btn-brand-outline {
+    --bs-btn-color: var(--brand-orange);
+    --bs-btn-border-color: var(--brand-orange);
+    --bs-btn-hover-bg: var(--brand-orange);
+    --bs-btn-hover-border-color: var(--brand-orange);
+    --bs-btn-hover-color: var(--brand-black);
+    --bs-btn-active-bg: #dc8618;
+    --bs-btn-active-border-color: #dc8618;
+    --bs-btn-active-color: var(--brand-black);
+}
+
+.badge-brand {
+    background-color: var(--brand-orange);
+    color: var(--brand-black);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+.text-highlight {
+    color: var(--brand-red);
+}
+
+.highlight-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background-color: rgba(224, 29, 48, 0.1);
+    color: var(--brand-red);
+    border: 1px solid rgba(224, 29, 48, 0.25);
+    border-radius: 999px;
+    padding: 0.35rem 0.9rem;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
