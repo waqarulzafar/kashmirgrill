@@ -88,7 +88,7 @@
             line-height: .95;
             letter-spacing: .02em;
             text-transform: uppercase;
-            max-width: 14ch;
+            max-width: 30ch;
         }
 
         .home-featured-slider__indicators {
