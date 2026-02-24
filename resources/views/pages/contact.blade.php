@@ -94,8 +94,8 @@
             text-align: center;
             color: #fff;
             padding: 1.5rem;
-            background: radial-gradient(circle at 20% 20%, rgba(248, 155, 32, 0.3), transparent 45%),
-                        radial-gradient(circle at 80% 80%, rgba(224, 29, 48, 0.25), transparent 50%);
+            background: radial-gradient(circle at 20% 20%, rgba(255, 149, 44, 0.28), transparent 45%),
+                        radial-gradient(circle at 80% 80%, rgba(219, 29, 48, 0.24), transparent 50%);
         }
 
         .map-frame {

@@ -11,9 +11,9 @@
     @vite(['resources/scss/app.scss', 'resources/js/app.js'])
     <style>
         :root {
-            --brand-red: #e01d30;
+            --brand-red: #db1d30;
             --brand-black: #000000;
-            --brand-orange: #f89b20;
+            --brand-orange: #ff952c;
             --brand-ivory: #fff8f2;
             --nav-height: 84px;
         }
@@ -30,7 +30,7 @@
             z-index: 1030;
             min-height: var(--nav-height);
             background-color: rgba(0, 0, 0, 0.95);
-            border-bottom: 1px solid rgba(248, 155, 32, 0.25);
+            border-bottom: 1px solid rgba(255, 149, 44, 0.25);
             backdrop-filter: blur(8px);
         }
 
@@ -40,9 +40,29 @@
             font-weight: 500;
         }
 
+        .navbar-premium .nav-link {
+            padding: 0.78rem 0.92rem;
+            font-size: 0.98rem;
+            letter-spacing: 0.02em;
+        }
+
         .navbar-premium .nav-link:hover,
         .navbar-premium .nav-link:focus {
             color: var(--brand-orange);
+        }
+
+        .navbar-premium .btn.btn-sm {
+            --bs-btn-padding-y: 0.55rem;
+            --bs-btn-padding-x: 1rem;
+            --bs-btn-font-size: 0.92rem;
+            --bs-btn-border-radius: 0.75rem;
+        }
+
+        .navbar-premium .badge-brand {
+            padding: 0.5rem 0.86rem;
+            font-size: 0.76rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
         }
 
         .hero-ready {
@@ -69,10 +89,10 @@
         .btn-brand {
             --bs-btn-bg: var(--brand-red);
             --bs-btn-border-color: var(--brand-red);
-            --bs-btn-hover-bg: #bc1222;
-            --bs-btn-hover-border-color: #bc1222;
-            --bs-btn-active-bg: #a80f1d;
-            --bs-btn-active-border-color: #a80f1d;
+            --bs-btn-hover-bg: #bb1626;
+            --bs-btn-hover-border-color: #bb1626;
+            --bs-btn-active-bg: #9f101f;
+            --bs-btn-active-border-color: #9f101f;
             --bs-btn-color: #fff;
         }
 
@@ -82,8 +102,8 @@
             --bs-btn-hover-bg: var(--brand-orange);
             --bs-btn-hover-border-color: var(--brand-orange);
             --bs-btn-hover-color: var(--brand-black);
-            --bs-btn-active-bg: #dc8618;
-            --bs-btn-active-border-color: #dc8618;
+            --bs-btn-active-bg: #187522;
+            --bs-btn-active-border-color: #187522;
             --bs-btn-active-color: var(--brand-black);
         }
 
@@ -102,9 +122,9 @@
             display: inline-flex;
             align-items: center;
             gap: 0.45rem;
-            background-color: rgba(224, 29, 48, 0.1);
+            background-color: rgba(219, 29, 48, 0.1);
             color: var(--brand-red);
-            border: 1px solid rgba(224, 29, 48, 0.25);
+            border: 1px solid rgba(219, 29, 48, 0.25);
             border-radius: 999px;
             padding: 0.35rem 0.9rem;
             font-weight: 600;
@@ -135,7 +155,7 @@
             width: 2.25rem;
             height: 2.25rem;
             border-radius: 50%;
-            border: 1px solid rgba(248, 155, 32, 0.55);
+            border: 1px solid rgba(255, 149, 44, 0.55);
             color: var(--brand-orange);
             display: inline-flex;
             align-items: center;

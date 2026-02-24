@@ -56,7 +56,7 @@
                 @if($item->image_path)
                     <div class="col-12">
                         <p class="mb-2 fw-semibold">Current Image</p>
-                        <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}" class="img-fluid rounded" style="max-width: 220px;" loading="lazy">
+                        <img src="{{ $item->imageUrl() }}" alt="{{ $item->name }}" class="img-fluid rounded" style="max-width: 220px;" loading="lazy">
                     </div>
                 @endif
 

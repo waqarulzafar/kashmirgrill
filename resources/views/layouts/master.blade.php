@@ -62,6 +62,25 @@
     <style>
         :root {
             --nav-height: 84px;
+            --accent-primary: var(--brand-red, #db1d30);
+            --accent-secondary: var(--brand-green, #ff952c);
+        }
+
+        html.lenis,
+        html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
         }
 
         body {
@@ -74,9 +93,11 @@
             top: 0;
             z-index: 1030;
             min-height: var(--nav-height);
-            background-color: rgba(0, 0, 0, 0.95);
-            border-bottom: 1px solid rgba(248, 155, 32, 0.25);
-            backdrop-filter: blur(8px);
+            background:
+                linear-gradient(180deg, rgba(0, 0, 0, 0.96), rgba(7, 7, 7, 0.92));
+            border-bottom: 1px solid rgba(219, 29, 48, 0.3);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
         }
 
         .navbar-premium .navbar-brand,
@@ -87,6 +108,9 @@
 
         .navbar-premium .nav-link {
             position: relative;
+            padding: 0.78rem 0.92rem;
+            font-size: 0.98rem;
+            letter-spacing: 0.02em;
         }
 
         .navbar-premium .nav-link::after {
@@ -96,7 +120,7 @@
             right: 0.75rem;
             bottom: 0.2rem;
             height: 2px;
-            background: var(--brand-orange);
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
             transform: scaleX(0);
             transform-origin: left center;
             transition: transform .25s ease;
@@ -104,13 +128,86 @@
 
         .navbar-premium .nav-link:hover,
         .navbar-premium .nav-link:focus {
-            color: var(--brand-orange);
+            color: #fff;
         }
 
         .navbar-premium .nav-link:hover::after,
         .navbar-premium .nav-link:focus::after,
         .navbar-premium .nav-link.active::after {
             transform: scaleX(1);
+        }
+
+        .navbar-premium .navbar-toggler {
+            box-shadow: none;
+        }
+
+        .navbar-premium .navbar-toggler:focus {
+            box-shadow: 0 0 0 3px rgba(255, 149, 44, 0.22);
+        }
+
+        .navbar-premium .btn.btn-sm {
+            --bs-btn-padding-y: 0.55rem;
+            --bs-btn-padding-x: 1rem;
+            --bs-btn-font-size: 0.92rem;
+            --bs-btn-border-radius: 0.75rem;
+        }
+
+        .navbar-premium .badge-brand {
+            padding: 0.5rem 0.86rem;
+            font-size: 0.76rem;
+            letter-spacing: 0.08em;
+        }
+
+        .navbar-premium .dropdown-toggle::before {
+            content: '';
+            position: absolute;
+            left: 0.75rem;
+            right: 0.75rem;
+            top: 0.4rem;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.06);
+            opacity: 0;
+            transition: opacity .2s ease;
+        }
+
+        .navbar-premium .dropdown-toggle:hover::before,
+        .navbar-premium .dropdown-toggle:focus::before,
+        .navbar-premium .dropdown.show .dropdown-toggle::before {
+            opacity: 1;
+        }
+
+        .navbar-premium .dropdown-menu {
+            border-radius: 0.95rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background:
+                linear-gradient(180deg, rgba(20, 20, 20, 0.98), rgba(10, 10, 10, 0.98));
+            box-shadow: 0 18px 34px rgba(0, 0, 0, 0.35);
+            padding: 0.4rem;
+            min-width: 15rem;
+        }
+
+        .navbar-premium .dropdown-item {
+            color: rgba(255, 255, 255, 0.88);
+            border-radius: 0.65rem;
+            padding: 0.55rem 0.8rem;
+            font-weight: 500;
+        }
+
+        .navbar-premium .dropdown-item:hover,
+        .navbar-premium .dropdown-item:focus {
+            color: #fff;
+            background: linear-gradient(90deg, rgba(219, 29, 48, 0.18), rgba(255, 149, 44, 0.18));
+        }
+
+        .navbar-premium .dropdown-divider {
+            border-color: rgba(255, 255, 255, 0.08);
+            margin: 0.35rem 0;
+        }
+
+        .navbar-premium .nav-link.active,
+        .navbar-premium .dropdown.show .dropdown-toggle,
+        .navbar-premium .nav-link.active:hover {
+            color: #fff;
         }
 
         .hero-ready {
@@ -142,13 +239,13 @@
         .btn-brand:hover,
         .btn-brand:focus {
             transform: translateY(-1px);
-            box-shadow: 0 0 0 4px rgba(224, 29, 48, 0.18), 0 .7rem 1.2rem rgba(0, 0, 0, 0.15);
+            box-shadow: 0 0 0 4px rgba(219, 29, 48, 0.18), 0 .7rem 1.2rem rgba(0, 0, 0, 0.15);
         }
 
         .btn-brand-outline:hover,
         .btn-brand-outline:focus {
             transform: translateY(-1px);
-            box-shadow: 0 0 0 4px rgba(248, 155, 32, 0.2), 0 .55rem 1.1rem rgba(0, 0, 0, 0.12);
+            box-shadow: 0 0 0 4px rgba(255, 149, 44, 0.2), 0 .55rem 1.1rem rgba(0, 0, 0, 0.12);
         }
 
         .site-footer {
@@ -175,8 +272,8 @@
             width: 2.25rem;
             height: 2.25rem;
             border-radius: 50%;
-            border: 1px solid rgba(248, 155, 32, 0.55);
-            color: var(--brand-orange);
+            border: 1px solid rgba(255, 149, 44, 0.55);
+            color: var(--brand-green, var(--brand-orange));
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -186,7 +283,7 @@
 
         .social-circle:hover,
         .social-circle:focus {
-            background-color: var(--brand-orange);
+            background-color: var(--brand-green, var(--brand-orange));
             color: var(--brand-black);
         }
 
@@ -281,7 +378,7 @@
     </style>
     @stack('styles')
 </head>
-<body>
+<body class="@yield('body_class')">
     <div id="app" class="d-flex flex-column min-vh-100">
         <nav class="navbar navbar-expand-lg navbar-dark navbar-premium">
             <div class="container">
@@ -296,7 +393,21 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto ms-md-3 mb-2 mb-lg-0">
                         <li class="nav-item"><a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link {{ request()->routeIs('events') ? 'active' : '' }}" href="{{ route('events') }}">Events</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {{ request()->routeIs('events') ? 'active' : '' }}" href="{{ route('events') }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Events
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ route('events') }}">All Events</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ route('events') }}#event-ceremonies">Ceremonies</a></li>
+                                <li><a class="dropdown-item" href="{{ route('events') }}#event-get-together">Get Together</a></li>
+                                <li><a class="dropdown-item" href="{{ route('events') }}#event-meetings">Meetings</a></li>
+                                <li><a class="dropdown-item" href="{{ route('events') }}#event-conferences">Conferences</a></li>
+                                <li><a class="dropdown-item" href="{{ route('events') }}#event-valentines-day">Valentine's Day</a></li>
+                                <li><a class="dropdown-item" href="{{ route('events') }}#event-festivals-eid-ramadan-easter-christmas">Festivals</a></li>
+                            </ul>
+                        </li>
                         <li class="nav-item"><a class="nav-link {{ request()->routeIs('menu') ? 'active' : '' }}" href="{{ route('menu') }}">Menu</a></li>
                         <li class="nav-item"><a class="nav-link {{ request()->routeIs('book-now') ? 'active' : '' }}" href="{{ route('book-now') }}">Book Now</a></li>
                         <li class="nav-item"><a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Contact</a></li>
@@ -360,4 +471,3 @@
     @stack('scripts')
 </body>
 </html>
-

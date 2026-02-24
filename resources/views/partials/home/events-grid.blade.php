@@ -2,39 +2,39 @@
     <div class="container">
         <x-section-header
             badge="Events & Occasions"
-            title="Host Every Celebration in Style"
-            subtitle="Flexible spaces, curated menus, and service tailored for intimate gatherings and large occasions."
+            title="Host Events with Professional Planning and Warm Hospitality"
+            subtitle="From family celebrations to corporate gatherings, we provide flexible hosting, curated menus, and attentive service."
         />
         <div class="row g-4">
             <div class="col-12 col-md-6 col-xl-3" data-gsap-item>
                 <x-highlight-card
                     title="Weddings"
-                    text="Elegant dining experiences with custom menu planning and dedicated hosting support."
-                    ctaLabel="Enquire"
+                    text="Elegant dining service with tailored menu planning and coordinated support for your celebration."
+                    ctaLabel="Enquire Now"
                     :ctaHref="route('contact')"
                 />
             </div>
             <div class="col-12 col-md-6 col-xl-3" data-gsap-item>
                 <x-highlight-card
                     title="Birthdays"
-                    text="From cozy family tables to vibrant group celebrations with signature dishes."
-                    ctaLabel="Plan Event"
+                    text="Celebrate with flexible table arrangements, signature dishes, and a guest-friendly dining experience."
+                    ctaLabel="Plan Birthday"
                     :ctaHref="route('events')"
                 />
             </div>
             <div class="col-12 col-md-6 col-xl-3" data-gsap-item>
                 <x-highlight-card
                     title="Corporate Dinners"
-                    text="Professional yet warm setting for team meals, client hosting, and milestone dinners."
-                    ctaLabel="View Options"
+                    text="A professional setting for team dinners, client hosting, and milestone business gatherings."
+                    ctaLabel="View Packages"
                     :ctaHref="route('events')"
                 />
             </div>
             <div class="col-12 col-md-6 col-xl-3" data-gsap-item>
                 <x-highlight-card
                     title="Private Parties"
-                    text="Tailored service packages with flexible seating and dietary-friendly menu selections."
-                    ctaLabel="Book Consultation"
+                    text="Private event hosting with flexible seating, halal menu options, and coordinated service support."
+                    ctaLabel="Discuss Booking"
                     :ctaHref="route('book-now')"
                 />
             </div>

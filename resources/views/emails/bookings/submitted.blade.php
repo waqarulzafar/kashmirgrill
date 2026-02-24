@@ -10,7 +10,7 @@
         .mail-wrap { width:100%; background:#f4f4f4; padding:18px 10px; }
         .mail-card { width:100%; max-width:680px; margin:0 auto; background:#ffffff; border:1px solid #e8e8e8; border-radius:12px; overflow:hidden; }
         .mail-head { background:#000000; color:#ffffff; padding:20px 22px; }
-        .brand { color:#f89b20; margin:6px 0 0; font-size:14px; }
+        .brand { color:#ff952c; margin:6px 0 0; font-size:14px; }
         .content { padding:22px; color:#1e1e1e; font:14px/1.5 Arial, sans-serif; }
         .meta-row { margin:0 0 14px; color:#5a5a5a; }
         .kv-table { width:100%; border:1px solid #efefef; border-radius:8px; overflow:hidden; }

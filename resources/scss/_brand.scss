@@ -1,7 +1,8 @@
 ﻿:root {
-    --brand-red: #e01d30;
+    --brand-red: #db1d30;
     --brand-black: #000000;
-    --brand-orange: #f89b20;
+    --brand-orange: #ff952c;
+    --brand-green: #ff952c;
     --brand-ivory: #fff8f2;
 }
 
@@ -46,29 +47,50 @@ body {
 .btn-brand {
     --bs-btn-bg: var(--brand-red);
     --bs-btn-border-color: var(--brand-red);
-    --bs-btn-hover-bg: #bc1222;
-    --bs-btn-hover-border-color: #bc1222;
-    --bs-btn-active-bg: #a80f1d;
-    --bs-btn-active-border-color: #a80f1d;
+    --bs-btn-hover-bg: #bb1626;
+    --bs-btn-hover-border-color: #bb1626;
+    --bs-btn-active-bg: #9f101f;
+    --bs-btn-active-border-color: #9f101f;
     --bs-btn-color: #fff;
 }
 
 .btn-brand-outline {
-    --bs-btn-color: var(--brand-orange);
-    --bs-btn-border-color: var(--brand-orange);
-    --bs-btn-hover-bg: var(--brand-orange);
-    --bs-btn-hover-border-color: var(--brand-orange);
+    --bs-btn-color: var(--brand-green);
+    --bs-btn-border-color: var(--brand-green);
+    --bs-btn-hover-bg: var(--brand-green);
+    --bs-btn-hover-border-color: var(--brand-green);
     --bs-btn-hover-color: var(--brand-black);
-    --bs-btn-active-bg: #dc8618;
-    --bs-btn-active-border-color: #dc8618;
+    --bs-btn-active-bg: #187522;
+    --bs-btn-active-border-color: #187522;
     --bs-btn-active-color: var(--brand-black);
 }
 
+.btn-brand,
+.btn-brand-outline {
+    --bs-btn-padding-y: 0.62rem;
+    --bs-btn-padding-x: 1.05rem;
+    --bs-btn-font-size: 0.98rem;
+    --bs-btn-font-weight: 600;
+    --bs-btn-border-radius: 0.75rem;
+    letter-spacing: 0.01em;
+}
+
+.btn-brand.btn-sm,
+.btn-brand-outline.btn-sm {
+    --bs-btn-padding-y: 0.5rem;
+    --bs-btn-padding-x: 0.92rem;
+    --bs-btn-font-size: 0.9rem;
+    --bs-btn-border-radius: 0.7rem;
+}
+
 .badge-brand {
-    background-color: var(--brand-orange);
-    color: var(--brand-black);
+    background: linear-gradient(90deg, rgba(219, 29, 48, 0.94), rgba(255, 149, 44, 0.95));
+    color: #fff;
     font-weight: 600;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.45rem 0.8rem;
+    font-size: 0.76rem;
 }
 
 .text-highlight {
@@ -79,12 +101,11 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
-    background-color: rgba(224, 29, 48, 0.1);
-    color: var(--brand-red);
-    border: 1px solid rgba(224, 29, 48, 0.25);
+    background-color: rgba(255, 149, 44, 0.1);
+    color: var(--brand-green);
+    border: 1px solid rgba(255, 149, 44, 0.25);
     border-radius: 999px;
     padding: 0.35rem 0.9rem;
     font-weight: 600;
     font-size: 0.8rem;
 }
-

@@ -64,14 +64,14 @@
                     $modalId = 'event-details-' . $slug;
                 @endphp
                 <div class="col-12 col-md-6 col-xl-4">
-                    <article class="event-card h-100 rounded-4 bg-white shadow-sm overflow-hidden">
+                    <article id="event-{{ $slug }}" class="event-card h-100 rounded-4 bg-white shadow-sm overflow-hidden">
                         <div class="event-banner">
                             <svg viewBox="0 0 640 280" role="img" aria-label="{{ $category['name'] }} banner image" class="w-100 h-100">
                                 <defs>
                                     <linearGradient id="event-gradient-{{ $slug }}" x1="0%" y1="0%" x2="100%" y2="100%">
                                         <stop offset="0%" stop-color="#000000"></stop>
-                                        <stop offset="55%" stop-color="#e01d30"></stop>
-                                        <stop offset="100%" stop-color="#f89b20"></stop>
+                                        <stop offset="55%" stop-color="#db1d30"></stop>
+                                        <stop offset="100%" stop-color="#ff952c"></stop>
                                     </linearGradient>
                                 </defs>
                                 <rect x="0" y="0" width="640" height="280" fill="url(#event-gradient-{{ $slug }})"></rect>
@@ -130,14 +130,14 @@
 @push('styles')
     <style>
         .event-card {
-            border: 1px solid rgba(224, 29, 48, 0.12);
+            border: 1px solid rgba(219, 29, 48, 0.12);
             transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
         }
 
         .event-card:hover {
             transform: translateY(-6px);
             box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.12) !important;
-            border-color: rgba(248, 155, 32, 0.5);
+            border-color: rgba(255, 149, 44, 0.45);
         }
 
         .event-banner {

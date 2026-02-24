@@ -1,255 +1,873 @@
-﻿@extends('layouts.master')
+@extends('layouts.master')
 
-@section('title', 'Menu | Kashmir Grill House')
-@section('meta_description', 'Explore appetizers, grills, mains, veg dishes, rice, seasoning, desserts, mix platters, and drinks at Kashmir Grill House.')
+@section('title', 'Food Menu | Kashmir Grill House')
+@section('meta_description', 'Browse the Kashmir Grill House food menu by category, with signature grills, curries, rice, desserts, and drinks.')
 
 @php
-    $categories = [
-        ['key' => 'appetizers', 'label' => 'Appetizers'],
-        ['key' => 'grill', 'label' => 'Grill'],
-        ['key' => 'main-course', 'label' => 'Main Course'],
-        ['key' => 'veg-dishes', 'label' => 'Veg Dishes'],
-        ['key' => 'rice', 'label' => 'Rice'],
-        ['key' => 'seasoning', 'label' => 'Seasoning'],
-        ['key' => 'desserts', 'label' => 'Desserts'],
-        ['key' => 'mix-platter', 'label' => 'Mix Platter'],
-        ['key' => 'drinks', 'label' => 'Drinks'],
+    $categoryNotes = [
+        'appetizers' => 'Crispy starters and tandoor bites to begin the table.',
+        'grill' => 'Charcoal-fired meats and tandoor signatures with bold spice.',
+        'main-course' => 'Rich gravies, classics, and house specials.',
+        'veg-dishes' => 'Comforting vegetarian favorites with layered flavor.',
+        'rice' => 'Fragrant basmati rice and biryani dishes.',
+        'seasoning' => 'Chutneys, dips, and house add-ons for extra punch.',
+        'desserts' => 'Traditional sweets and chilled finishes.',
+        'mix-platter' => 'Sharing platters for couples, families, and groups.',
+        'drinks' => 'Cooling lassis, chai, and refreshing house drinks.',
     ];
 
-    $items = [
-        ['category' => 'appetizers', 'name' => 'Samosa Trio', 'description' => 'Crisp pastry parcels with spiced potato filling and mint chutney.', 'price' => '£5.90', 'tags' => ['Popular', 'Crispy']],
-        ['category' => 'appetizers', 'name' => 'Chicken Tikka Bites', 'description' => 'Tender marinated tikka bites finished in the tandoor.', 'price' => '£7.50', 'tags' => ['Protein', 'Tandoor']],
-
-        ['category' => 'grill', 'name' => 'Lamb Seekh Grill', 'description' => 'Smoky minced lamb skewers with onion salad and lemon.', 'price' => '£12.90', 'tags' => ['Spicy', 'Chef Pick']],
-        ['category' => 'grill', 'name' => 'Paneer Charcoal Grill', 'description' => 'Chargrilled paneer cubes with peppers and house marinade.', 'price' => '£11.20', 'tags' => ['Vegetarian', 'Smoky']],
-
-        ['category' => 'main-course', 'name' => 'Butter Chicken', 'description' => 'Creamy tomato curry with balanced heat and aromatic spices.', 'price' => '£13.80', 'tags' => ['Creamy', 'Best Seller']],
-        ['category' => 'main-course', 'name' => 'Lamb Rogan Josh', 'description' => 'Slow-cooked lamb in rich Kashmiri-style gravy.', 'price' => '£14.50', 'tags' => ['Classic', 'Signature']],
-
-        ['category' => 'veg-dishes', 'name' => 'Dal Makhani', 'description' => 'Black lentils simmered overnight with butter and spices.', 'price' => '£10.40', 'tags' => ['Vegetarian', 'Comfort']],
-        ['category' => 'veg-dishes', 'name' => 'Aloo Gobi Masala', 'description' => 'Potato and cauliflower tossed in dry masala seasoning.', 'price' => '£9.80', 'tags' => ['Vegan Friendly', 'Home Style']],
-
-        ['category' => 'rice', 'name' => 'Chicken Biryani', 'description' => 'Fragrant basmati layered with saffron and spiced chicken.', 'price' => '£12.70', 'tags' => ['Aromatic', 'Popular']],
-        ['category' => 'rice', 'name' => 'Jeera Rice', 'description' => 'Light cumin-scented steamed rice for curry pairing.', 'price' => '£4.90', 'tags' => ['Side', 'Light']],
-
-        ['category' => 'seasoning', 'name' => 'Mint Yogurt Dip', 'description' => 'Cool mint and yogurt dip for grills and starters.', 'price' => '£2.20', 'tags' => ['Fresh', 'Add-on']],
-        ['category' => 'seasoning', 'name' => 'Smoked Chili Oil', 'description' => 'House chili oil with smoky notes for flavor boosting.', 'price' => '£2.60', 'tags' => ['Hot', 'Add-on']],
-
-        ['category' => 'desserts', 'name' => 'Gulab Jamun', 'description' => 'Warm milk dumplings soaked in fragrant syrup.', 'price' => '£5.40', 'tags' => ['Sweet', 'Traditional']],
-        ['category' => 'desserts', 'name' => 'Kulfi Pistachio', 'description' => 'Dense Indian-style ice cream with pistachio crunch.', 'price' => '£5.90', 'tags' => ['Cold', 'Chef Pick']],
-
-        ['category' => 'mix-platter', 'name' => 'Family Mix Platter', 'description' => 'A sharing platter of kebabs, wings, paneer, and naan.', 'price' => '£26.90', 'tags' => ['Sharing', 'Value']],
-        ['category' => 'mix-platter', 'name' => 'Signature Tandoor Platter', 'description' => 'Premium mixed proteins with grilled vegetables.', 'price' => '£29.50', 'tags' => ['Signature', 'Grill']],
-
-        ['category' => 'drinks', 'name' => 'Mango Lassi', 'description' => 'Refreshing yogurt drink blended with ripe mango.', 'price' => '£4.20', 'tags' => ['Cold', 'Popular']],
-        ['category' => 'drinks', 'name' => 'Masala Chai', 'description' => 'Classic spiced tea brewed to order.', 'price' => '£3.20', 'tags' => ['Hot', 'Traditional']],
-    ];
-
-    $categoryImages = [
-        'appetizers' => asset('assets/images/menu/appetizers.jpg'),
-        'grill' => asset('assets/images/menu/grill.jpg'),
-        'main-course' => asset('assets/images/menu/main-course.jpg'),
-        'veg-dishes' => asset('assets/images/menu/veg-dishes.jpg'),
-        'rice' => asset('assets/images/menu/rice.jpg'),
-        'seasoning' => asset('assets/images/menu/seasoning.jpg'),
-        'desserts' => asset('assets/images/menu/desserts.jpg'),
-        'mix-platter' => asset('assets/images/menu/mix-platter.jpg'),
-        'drinks' => asset('assets/images/menu/drinks.jpg'),
-    ];
-
-    $fallbackImage = asset('assets/images/logo.png');
-    $items = array_map(function (array $item) use ($categoryImages, $fallbackImage): array {
-        $item['image'] = $categoryImages[$item['category']] ?? $fallbackImage;
-        return $item;
-    }, $items);
+    $heroImage = $categories->flatMap->menuItems->first()?->imageUrl() ?? asset('assets/images/menu/mix-platter.jpg');
 @endphp
 
-@section('hero')
-    <div class="container">
-        <div class="row align-items-center g-3">
-            <div class="col-12 col-lg-8">
-                <h1 class="display-6 fw-bold mb-3">Our Menu</h1>
-                <p class="lead mb-0">Browse categories, search quickly, and discover dishes crafted for every taste.</p>
-            </div>
-        </div>
-    </div>
-@endsection
-
 @section('content')
-    <section class="container py-5">
-        <header class="mb-4">
-            <x-section-header
-                badge="Menu Categories"
-                title="Find Dishes Faster"
-                subtitle="Use category pills and search to narrow results instantly."
-            />
-            <div class="row g-3 align-items-center">
-                <div class="col-12 col-lg-7">
-                    <label for="menu-search" class="form-label mb-1">Search Menu</label>
-                    <input id="menu-search" type="search" class="form-control form-control-lg" placeholder="Search by name, description, or tag">
-                </div>
-                <div class="col-12 col-lg-5 text-lg-end">
-                    <small class="text-secondary" id="menu-results-count">Showing {{ count($items) }} items</small>
+    <div class="menu-page" data-menu-experience data-no-reveal>
+        <div class="menu-scroll-progress" aria-hidden="true">
+            <span data-menu-progress></span>
+        </div>
+
+        <section class="menu-hero position-relative overflow-hidden">
+            <div class="menu-hero-bg" aria-hidden="true"></div>
+            <div class="menu-flames menu-flames-left" data-menu-flame aria-hidden="true"></div>
+            <div class="menu-flames menu-flames-right" data-menu-flame aria-hidden="true"></div>
+            <div class="menu-embers" aria-hidden="true" data-menu-embers>
+                @for($i = 0; $i < 12; $i++)
+                    <span class="menu-ember"></span>
+                @endfor
+            </div>
+
+            <div class="container py-5 py-lg-6 position-relative">
+                <div class="row align-items-center g-4 g-lg-5">
+                    <div class="col-12 col-lg-7">
+                        <span class="menu-hero-badge" data-menu-hero-badge>kashmir grill house</span>
+
+                        <h1 class="menu-hero-title mb-3" data-menu-hero-title>
+                            <span class="line-wrap"><span class="line line-light">FOOD</span></span>
+                            <span class="line-wrap"><span class="line line-red">MENU</span></span>
+                        </h1>
+
+                        <p class="menu-hero-subtitle mb-4" data-menu-hero-subtitle>
+                            Explore our categories and signature dishes presented in a bold menu experience inspired by the original menu artwork.
+                        </p>
+
+                        <div class="d-flex flex-wrap gap-2" data-menu-hero-cta>
+                            @if($categories->isNotEmpty())
+                                <button type="button" class="menu-cta-btn menu-cta-primary" data-menu-chip="{{ $categories->first()->slug }}">
+                                    Start With {{ $categories->first()->name }}
+                                </button>
+                            @endif
+                            <a href="{{ route('book-now') }}" class="menu-cta-btn menu-cta-ghost">Reserve Table</a>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-5">
+                        <div class="menu-hero-visual" data-menu-hero-visual>
+                            <div class="menu-hero-visual-glow" data-menu-hero-glow aria-hidden="true"></div>
+                            <img
+                                src="{{ $heroImage }}"
+                                alt="Kashmir Grill House menu preview"
+                                class="img-fluid"
+                                width="700"
+                                height="700"
+                                loading="eager"
+                                decoding="async"
+                                fetchpriority="high"
+                            >
+                        </div>
+                    </div>
                 </div>
             </div>
-        </header>
+        </section>
 
-        <nav aria-label="Menu categories" class="mb-4">
-            <ul class="nav nav-pills gap-2 flex-wrap" id="menu-category-pills">
-                <li class="nav-item">
-                    <button type="button" class="nav-link active" data-category="all">All</button>
-                </li>
-                @foreach($categories as $category)
-                    <li class="nav-item">
-                        <button type="button" class="nav-link" data-category="{{ $category['key'] }}">{{ $category['label'] }}</button>
-                    </li>
-                @endforeach
-            </ul>
-        </nav>
+        @if($categories->isEmpty())
+            <section class="container py-5">
+                <div class="alert alert-warning border-0 shadow-sm rounded-4">
+                    <h2 class="h5 mb-2">No menu items found</h2>
+                    <p class="mb-0">
+                        Run <code>php artisan db:seed</code> to load the seeded menu categories and items.
+                    </p>
+                </div>
+            </section>
+        @else
+            <section class="menu-chip-shell sticky-top" data-no-reveal>
+                <div class="container py-2">
+                    <div class="menu-chip-rail" data-menu-chip-rail data-lenis-prevent role="tablist" aria-label="Menu categories">
+                        @foreach($categories as $category)
+                            <button
+                                type="button"
+                                class="menu-chip {{ $loop->first ? 'is-active' : '' }}"
+                                data-menu-chip="{{ $category->slug }}"
+                                aria-current="{{ $loop->first ? 'true' : 'false' }}"
+                            >
+                                <span>{{ $category->name }}</span>
+                                <small>{{ $category->menuItems->count() }}</small>
+                            </button>
+                        @endforeach
+                    </div>
+                </div>
+            </section>
 
-        <div class="row g-4" id="menu-grid">
-            @foreach($items as $item)
-                @php
-                    $searchText = strtolower($item['name'] . ' ' . $item['description'] . ' ' . implode(' ', $item['tags']));
-                @endphp
-                <div class="col-12 col-sm-6 col-xl-4 menu-item-col"
-                     data-category="{{ $item['category'] }}"
-                     data-search="{{ $searchText }}">
-                    <article class="menu-card card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
-                        <img
-                            src="{{ $item['image'] }}"
-                            alt="{{ $item['name'] }}"
-                            class="card-img-top menu-card-image"
-                            width="640"
-                            height="420"
-                            loading="lazy"
-                            decoding="async"
-                            fetchpriority="low"
-                            sizes="(max-width: 575px) 100vw, (max-width: 1199px) 50vw, 33vw"
+            <section class="menu-catalog py-4 py-lg-5">
+                <div class="container">
+                    @foreach($categories as $category)
+                        @php
+                            $sectionImage = $category->menuItems->first()?->imageUrl() ?? asset('assets/images/menu/main-course.jpg');
+                        @endphp
+
+                        <section
+                            id="menu-{{ $category->slug }}"
+                            class="menu-category-section mb-5 mb-lg-6"
+                            data-menu-section="{{ $category->slug }}"
+                            data-no-reveal
                         >
-                        <div class="card-body d-flex flex-column p-4">
-                            <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
-                                <h2 class="h5 mb-0">{{ $item['name'] }}</h2>
-                                <span class="badge text-bg-dark">{{ $item['price'] }}</span>
+                            <div class="menu-category-header" data-menu-section-header>
+                                <div class="row g-4 align-items-stretch">
+                                    <div class="col-12 col-lg-7">
+                                        <div class="menu-category-header-panel h-100">
+                                            <div class="menu-kicker">{{ str_pad((string) ($loop->iteration), 2, '0', STR_PAD_LEFT) }}</div>
+                                            <h2 class="menu-category-title mb-2">{{ $category->name }}</h2>
+                                            <p class="menu-category-copy mb-0">
+                                                {{ $categoryNotes[$category->slug] ?? 'Signature dishes made with bold spice and careful preparation.' }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-5">
+                                        <div class="menu-category-banner h-100">
+                                            <img
+                                                src="{{ $sectionImage }}"
+                                                alt="{{ $category->name }}"
+                                                class="img-fluid w-100 h-100"
+                                                width="720"
+                                                height="420"
+                                                loading="lazy"
+                                                decoding="async"
+                                                data-menu-parallax
+                                            >
+                                            <div class="menu-category-banner-overlay" aria-hidden="true"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <p class="text-secondary mb-3">{{ $item['description'] }}</p>
-                            <div class="mt-auto d-flex flex-wrap gap-2">
-                                @foreach($item['tags'] as $tag)
-                                    <span class="badge rounded-pill menu-tag">{{ $tag }}</span>
+
+                            <div class="row g-4 mt-1">
+                                @foreach($category->menuItems as $item)
+                                    @php
+                                        $image = $item->imageUrl() ?? $sectionImage;
+                                        $tags = $item->tagList();
+                                    @endphp
+                                    <div class="col-12 col-md-6 col-xl-4">
+                                        <article class="menu-item-card h-100" data-menu-card>
+                                            <div class="menu-item-glare" aria-hidden="true"></div>
+                                            <div class="menu-item-media">
+                                                <img
+                                                    src="{{ $image }}"
+                                                    alt="{{ $item->name }}"
+                                                    width="640"
+                                                    height="420"
+                                                    loading="lazy"
+                                                    decoding="async"
+                                                    class="w-100 h-100"
+                                                    data-menu-parallax
+                                                >
+                                                <div class="menu-item-media-overlay" aria-hidden="true"></div>
+                                                <div class="menu-item-price">£{{ number_format((float) $item->price, 2) }}</div>
+                                            </div>
+
+                                            <div class="menu-item-body">
+                                                <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                                                    <h3 class="menu-item-title mb-0">{{ $item->name }}</h3>
+                                                    @if(!$item->is_available)
+                                                        <span class="badge text-bg-secondary">Unavailable</span>
+                                                    @endif
+                                                </div>
+
+                                                @if($item->description)
+                                                    <p class="menu-item-desc mb-3">{{ $item->description }}</p>
+                                                @endif
+
+                                                @if(!empty($tags))
+                                                    <div class="menu-tags">
+                                                        @foreach($tags as $tag)
+                                                            <span class="menu-tag">{{ $tag }}</span>
+                                                        @endforeach
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </article>
+                                    </div>
                                 @endforeach
                             </div>
-                        </div>
-                    </article>
+                        </section>
+                    @endforeach
                 </div>
-            @endforeach
-        </div>
-
-        <div id="menu-empty-state" class="text-center py-5 d-none">
-            <h2 class="h4 mb-2">No matching items</h2>
-            <p class="text-secondary mb-0">Try another keyword or switch category.</p>
-        </div>
-    </section>
+            </section>
+        @endif
+    </div>
 @endsection
 
 @push('styles')
     <style>
-        #menu-category-pills .nav-link {
-            border: 1px solid rgba(224, 29, 48, 0.2);
-            color: var(--brand-black);
-            font-weight: 500;
-            background-color: #fff;
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+        .menu-page {
+            --menu-red: #db1d30;
+            --menu-red-deep: #aa0513;
+            --menu-ink: #090909;
+            --menu-panel: #121212;
+            --menu-panel-soft: #181818;
+            --menu-cream: #f2efe8;
+            --menu-line: rgba(255, 255, 255, 0.12);
+            background:
+                radial-gradient(circle at 80% -10%, rgba(219, 29, 48, 0.18), transparent 45%),
+                radial-gradient(circle at 15% 20%, rgba(219, 29, 48, 0.10), transparent 55%),
+                linear-gradient(180deg, #050505 0%, #090909 35%, #0c0c0c 100%);
+            color: #f6f6f6;
+            margin-inline: calc(50% - 50vw);
+            width: 100vw;
         }
 
-        #menu-category-pills .nav-link.active {
-            background-color: var(--brand-red);
-            border-color: var(--brand-red);
+        .menu-scroll-progress {
+            position: fixed;
+            inset: 0 0 auto 0;
+            z-index: 1055;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.06);
+            pointer-events: none;
+        }
+
+        .menu-scroll-progress > span {
+            display: block;
+            width: 100%;
+            height: 100%;
+            transform-origin: 0 50%;
+            transform: scaleX(0);
+            background:
+                linear-gradient(90deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0) 14%),
+                linear-gradient(90deg, #ff3442, #da0919 55%, #8f020d);
+            box-shadow: 0 0 18px rgba(227, 18, 31, 0.5);
+        }
+
+        .menu-hero {
+            isolation: isolate;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background:
+                linear-gradient(180deg, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.88)),
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(255, 255, 255, 0.015) 0 2px,
+                    rgba(0, 0, 0, 0.02) 2px 22px,
+                    rgba(255, 255, 255, 0.012) 22px 24px
+                ),
+                linear-gradient(90deg, #050505, #0a0a0a);
+        }
+
+        .menu-hero-bg {
+            position: absolute;
+            inset: 0;
+            opacity: 0.18;
+            background:
+                radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.08), transparent 20%),
+                radial-gradient(circle at 82% 15%, rgba(255, 255, 255, 0.06), transparent 20%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 18%, rgba(255, 255, 255, 0.02) 65%, transparent);
+            pointer-events: none;
+        }
+
+        .menu-embers {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .menu-ember {
+            position: absolute;
+            bottom: -6%;
+            width: .45rem;
+            height: .45rem;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #ffd1a6, #ff5d23 45%, rgba(227, 18, 31, 0.18) 70%, rgba(227, 18, 31, 0));
+            opacity: .4;
+            filter: blur(.4px);
+        }
+
+        .menu-ember:nth-child(1) { left: 6%; width: .35rem; height: .35rem; }
+        .menu-ember:nth-child(2) { left: 13%; width: .6rem; height: .6rem; }
+        .menu-ember:nth-child(3) { left: 22%; width: .42rem; height: .42rem; }
+        .menu-ember:nth-child(4) { left: 31%; width: .75rem; height: .75rem; }
+        .menu-ember:nth-child(5) { left: 41%; width: .4rem; height: .4rem; }
+        .menu-ember:nth-child(6) { left: 52%; width: .52rem; height: .52rem; }
+        .menu-ember:nth-child(7) { left: 60%; width: .36rem; height: .36rem; }
+        .menu-ember:nth-child(8) { left: 69%; width: .68rem; height: .68rem; }
+        .menu-ember:nth-child(9) { left: 76%; width: .44rem; height: .44rem; }
+        .menu-ember:nth-child(10) { left: 84%; width: .58rem; height: .58rem; }
+        .menu-ember:nth-child(11) { left: 90%; width: .38rem; height: .38rem; }
+        .menu-ember:nth-child(12) { left: 95%; width: .5rem; height: .5rem; }
+
+        .menu-flames {
+            position: absolute;
+            bottom: -6rem;
+            width: min(28rem, 44vw);
+            height: min(24rem, 34vw);
+            background:
+                radial-gradient(circle at 18% 78%, rgba(227, 18, 31, 0.95), rgba(227, 18, 31, 0) 60%),
+                radial-gradient(circle at 52% 58%, rgba(227, 18, 31, 0.88), rgba(227, 18, 31, 0) 62%),
+                radial-gradient(circle at 80% 82%, rgba(227, 18, 31, 0.9), rgba(227, 18, 31, 0) 60%);
+            filter: blur(10px) saturate(1.1);
+            opacity: 0.78;
+            z-index: 0;
+            pointer-events: none;
+            will-change: transform, opacity;
+        }
+
+        .menu-flames-left {
+            left: -4rem;
+            transform: rotate(-6deg);
+        }
+
+        .menu-flames-right {
+            right: -4rem;
+            transform: scaleX(-1) rotate(-6deg);
+        }
+
+        .menu-hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .35rem .85rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(255, 255, 255, 0.03);
+            font: 600 0.9rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.86);
+            margin-bottom: 1rem;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+        }
+
+        .menu-hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            line-height: .9;
+            font-size: clamp(3.2rem, 10vw, 7rem);
+            letter-spacing: .02em;
+            text-transform: uppercase;
+            margin-inline-start: -0.02em;
+        }
+
+        .menu-hero-title .line-wrap {
+            display: block;
+            overflow: hidden;
+        }
+
+        .menu-hero-title .line {
+            display: block;
+            text-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        }
+
+        .menu-hero-title .line-light {
+            color: #f3f3f3;
+        }
+
+        .menu-hero-title .line-red {
+            color: var(--menu-red);
+        }
+
+        .menu-hero-subtitle {
+            max-width: 42rem;
+            color: rgba(255, 255, 255, 0.78);
+            font: 500 1rem/1.6 'Rajdhani', sans-serif;
+            letter-spacing: .01em;
+        }
+
+        .menu-cta-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .4rem;
+            padding: .75rem 1rem;
+            border-radius: .85rem;
+            border: 1px solid transparent;
+            text-decoration: none;
+            cursor: pointer;
+            font: 700 .95rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+            transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background-color .2s ease;
+        }
+
+        .menu-cta-primary {
+            background: linear-gradient(180deg, #ff1f2d, #cb0716);
             color: #fff;
+            box-shadow: 0 10px 30px rgba(227, 18, 31, 0.28);
         }
 
-        .menu-card {
-            transition: transform .2s ease, box-shadow .2s ease;
+        .menu-cta-primary:hover,
+        .menu-cta-primary:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 34px rgba(227, 18, 31, 0.34);
         }
 
-        .menu-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 .9rem 1.8rem rgba(0, 0, 0, 0.12) !important;
+        .menu-cta-ghost {
+            background: rgba(255, 255, 255, 0.03);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.16);
         }
 
-        .menu-card-image {
-            aspect-ratio: 16 / 10;
+        .menu-cta-ghost:hover,
+        .menu-cta-ghost:focus {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.32);
+            transform: translateY(-2px);
+        }
+
+        .menu-hero-visual {
+            position: relative;
+            --hero-tilt-x: 0deg;
+            --hero-tilt-y: 0deg;
+            border-radius: 1.6rem;
+            padding: 1rem;
+            background:
+                linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.01)),
+                rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            transform: perspective(1000px) rotateX(var(--hero-tilt-x)) rotateY(var(--hero-tilt-y));
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .menu-hero-visual-glow {
+            position: absolute;
+            inset: auto -10% -5% -10%;
+            height: 50%;
+            background: radial-gradient(circle at 50% 50%, rgba(227, 18, 31, 0.45), rgba(227, 18, 31, 0));
+            filter: blur(18px);
+            pointer-events: none;
+        }
+
+        .menu-hero-visual img {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            aspect-ratio: 1 / 1;
             object-fit: cover;
+            border-radius: 1.2rem;
+            transform: translateZ(0);
+        }
+
+        .menu-hero-visual::after {
+            content: '';
+            position: absolute;
+            inset: -20% -30% auto auto;
+            width: 60%;
+            aspect-ratio: 1 / 1;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0));
+            transform: rotate(18deg);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .menu-chip-shell {
+            top: calc(var(--nav-height, 84px) - 1px);
+            z-index: 1020;
+            background: rgba(8, 8, 8, 0.78);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .menu-chip-shell::after {
+            content: '';
+            position: absolute;
+            inset: auto 0 0 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(227, 18, 31, 0.38), transparent);
+            pointer-events: none;
+        }
+
+        .menu-chip-rail {
+            display: flex;
+            gap: .65rem;
+            overflow-x: auto;
+            padding-bottom: .15rem;
+            scrollbar-width: thin;
+        }
+
+        .menu-chip-rail::-webkit-scrollbar {
+            height: 7px;
+        }
+
+        .menu-chip-rail::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.16);
+            border-radius: 99px;
+        }
+
+        .menu-chip {
+            flex: 0 0 auto;
+            display: inline-flex;
+            align-items: center;
+            gap: .55rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.03);
+            color: rgba(255, 255, 255, 0.82);
+            padding: .65rem .9rem;
+            font: 700 .88rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            transition: transform .18s ease, border-color .18s ease, background-color .18s ease, color .18s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-chip::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(115deg, transparent 25%, rgba(255, 255, 255, 0.15), transparent 68%);
+            transform: translateX(-120%);
+            transition: transform .45s ease;
+            pointer-events: none;
+        }
+
+        .menu-chip small {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 1.5rem;
+            height: 1.5rem;
+            padding: 0 .35rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            font-size: .75rem;
+            line-height: 1;
+        }
+
+        .menu-chip:hover,
+        .menu-chip:focus {
+            transform: translateY(-1px);
+            border-color: rgba(255, 255, 255, 0.28);
+        }
+
+        .menu-chip:hover::before,
+        .menu-chip:focus::before {
+            transform: translateX(115%);
+        }
+
+        .menu-chip.is-active {
+            background: linear-gradient(180deg, rgba(255, 29, 45, 0.18), rgba(170, 5, 19, 0.18));
+            border-color: rgba(255, 60, 72, 0.55);
+            color: #fff;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04), 0 8px 24px rgba(227, 18, 31, 0.18);
+        }
+
+        .menu-catalog {
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0)),
+                linear-gradient(180deg, #0a0a0a, #0d0d0d);
+        }
+
+        .menu-category-section {
+            scroll-margin-top: calc(var(--nav-height, 84px) + 92px);
+        }
+
+        .menu-category-header-panel {
+            position: relative;
+            border-radius: 1.1rem;
+            padding: 1.1rem 1.1rem 1rem;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+                #131313;
+            border: 1px solid var(--menu-line);
+            overflow: hidden;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.15);
+        }
+
+        .menu-category-header-panel::before {
+            content: '';
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 5px;
+            background: linear-gradient(180deg, #ff2937, #9f0310);
+        }
+
+        .menu-kicker {
+            color: rgba(255, 255, 255, 0.55);
+            font: 700 .9rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+            margin-bottom: .45rem;
+        }
+
+        .menu-category-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            line-height: .92;
+            color: #fff;
+            letter-spacing: .02em;
+            text-transform: uppercase;
+        }
+
+        .menu-category-copy {
+            font: 500 1rem/1.55 'Rajdhani', sans-serif;
+            color: rgba(255, 255, 255, 0.74);
+            max-width: 44rem;
+        }
+
+        .menu-category-banner {
+            position: relative;
+            border-radius: 1.1rem;
+            overflow: hidden;
+            border: 1px solid var(--menu-line);
+            min-height: 13rem;
+            background: #0f0f0f;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.16);
+        }
+
+        .menu-category-banner img {
+            object-fit: cover;
+            transform: scale(1.02);
+            will-change: transform;
+        }
+
+        .menu-category-banner-overlay {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.56)),
+                linear-gradient(120deg, rgba(227, 18, 31, 0.2), rgba(227, 18, 31, 0));
+            pointer-events: none;
+        }
+
+        .menu-item-card {
+            --tilt-x: 0deg;
+            --tilt-y: 0deg;
+            --lift: 0px;
+            --glare-x: 50%;
+            --glare-y: 50%;
+            position: relative;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+                var(--menu-panel);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 16px 34px rgba(0, 0, 0, 0.22);
+            transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+            transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(var(--lift));
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .menu-item-card:hover {
+            --lift: -5px;
+            border-color: rgba(255, 255, 255, 0.18);
+            box-shadow: 0 22px 42px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-item-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            pointer-events: none;
+        }
+
+        .menu-item-glare {
+            position: absolute;
+            inset: -40%;
+            background:
+                radial-gradient(circle at var(--glare-x) var(--glare-y), rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0) 36%),
+                radial-gradient(circle at calc(var(--glare-x) + 10%) calc(var(--glare-y) + 8%), rgba(227, 18, 31, 0.12), rgba(227, 18, 31, 0) 42%);
+            opacity: 0;
+            transition: opacity .25s ease;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .menu-item-card:hover .menu-item-glare {
+            opacity: 1;
+        }
+
+        .menu-item-media {
+            position: relative;
+            height: 13rem;
+            overflow: hidden;
+            background: #0f0f0f;
+            transform: translateZ(14px);
+        }
+
+        .menu-item-media img {
+            object-fit: cover;
+            transform: scale(1.03);
+            transition: transform .35s ease, filter .35s ease;
+            will-change: transform;
+        }
+
+        .menu-item-card:hover .menu-item-media img {
+            transform: scale(1.08);
+            filter: saturate(1.05) contrast(1.03);
+        }
+
+        .menu-item-media-overlay {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(180deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.68)),
+                radial-gradient(circle at 15% 90%, rgba(227, 18, 31, 0.24), transparent 42%);
+            pointer-events: none;
+        }
+
+        .menu-item-price {
+            position: absolute;
+            right: .75rem;
+            bottom: .75rem;
+            z-index: 1;
+            background: linear-gradient(180deg, #ff2130, #c70716);
+            color: #fff;
+            border-radius: .7rem;
+            padding: .45rem .65rem .35rem;
+            box-shadow: 0 10px 22px rgba(227, 18, 31, 0.3);
+            font: 700 1rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .03em;
+        }
+
+        .menu-item-body {
+            padding: 1rem 1rem 1.05rem;
+            position: relative;
+            z-index: 1;
+            transform: translateZ(10px);
+        }
+
+        .menu-item-title {
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+            line-height: 1.05;
+            letter-spacing: .01em;
+            text-transform: uppercase;
+        }
+
+        .menu-item-desc {
+            color: rgba(255, 255, 255, 0.72);
+            font: 500 .98rem/1.45 'Rajdhani', sans-serif;
+        }
+
+        .menu-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .45rem;
         }
 
         .menu-tag {
-            background-color: rgba(248, 155, 32, 0.14);
-            color: #8a4f00;
-            border: 1px solid rgba(248, 155, 32, 0.35);
-            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            padding: .36rem .55rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            background: rgba(255, 255, 255, 0.03);
+            color: rgba(255, 255, 255, 0.86);
+            font: 700 .72rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .py-lg-6 {
+            padding-top: 5rem !important;
+            padding-bottom: 5rem !important;
+        }
+
+        .mb-lg-6 {
+            margin-bottom: 5rem !important;
+        }
+
+        @media (max-width: 991.98px) {
+            .menu-chip-shell {
+                top: calc(var(--nav-height, 84px) - 1px);
+            }
+
+            .menu-item-media {
+                height: 12rem;
+            }
+
+            .menu-flames {
+                opacity: .52;
+                bottom: -7rem;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .menu-page .container {
+                padding-inline: 1rem;
+            }
+
+            .menu-hero-title {
+                font-size: clamp(2.7rem, 16vw, 4.2rem);
+            }
+
+            .menu-hero-subtitle {
+                font-size: .95rem;
+            }
+
+            .menu-cta-btn {
+                width: 100%;
+            }
+
+            .menu-category-header-panel,
+            .menu-category-banner,
+            .menu-item-card {
+                border-radius: .9rem;
+            }
+
+            .menu-item-body {
+                padding: .9rem;
+            }
+
+            .menu-item-title {
+                font-size: 1.05rem;
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .menu-card {
-                transition: none;
+            .menu-cta-btn,
+            .menu-chip,
+            .menu-item-card,
+            .menu-item-media img,
+            .menu-chip::before {
+                transition: none !important;
             }
 
-            .menu-card:hover {
-                transform: none;
+            .menu-item-card:hover,
+            .menu-cta-primary:hover,
+            .menu-cta-ghost:hover {
+                transform: none !important;
             }
+
+            .menu-scroll-progress {
+                display: none;
+            }
+        }
+
+        body[data-performance-mode="lite"] .menu-embers,
+        body[data-performance-mode="lite"] .menu-flames,
+        body[data-performance-mode="lite"] .menu-item-glare {
+            display: none;
+        }
+
+        body[data-performance-mode="lite"] .menu-chip-shell {
+            backdrop-filter: none;
+        }
+
+        body[data-performance-mode="lite"] .menu-hero-visual {
+            transform: none !important;
+        }
+
+        body[data-performance-mode="lite"] .menu-item-card,
+        body[data-performance-mode="lite"] .menu-item-media img,
+        body[data-performance-mode="lite"] .menu-chip::before {
+            transition-duration: .12s !important;
         }
     </style>
 @endpush
-
-@push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const boot = () => {
-            const pills = document.querySelectorAll('#menu-category-pills .nav-link');
-            const searchInput = document.getElementById('menu-search');
-            const cards = document.querySelectorAll('.menu-item-col');
-            const emptyState = document.getElementById('menu-empty-state');
-            const resultCount = document.getElementById('menu-results-count');
-            let activeCategory = 'all';
-
-            const applyFilters = () => {
-                const term = (searchInput.value || '').trim().toLowerCase();
-                let visibleCount = 0;
-
-                cards.forEach((card) => {
-                    const category = card.dataset.category;
-                    const searchText = card.dataset.search || '';
-                    const inCategory = activeCategory === 'all' || category === activeCategory;
-                    const matchesTerm = term.length === 0 || searchText.includes(term);
-                    const show = inCategory && matchesTerm;
-
-                    card.classList.toggle('d-none', !show);
-                    if (show) {
-                        visibleCount += 1;
-                    }
-                });
-
-                emptyState.classList.toggle('d-none', visibleCount > 0);
-                resultCount.textContent = `Showing ${visibleCount} item${visibleCount === 1 ? '' : 's'}`;
-            };
-
-            pills.forEach((pill) => {
-                pill.addEventListener('click', () => {
-                    pills.forEach((btn) => btn.classList.remove('active'));
-                    pill.classList.add('active');
-                    activeCategory = pill.dataset.category;
-                    applyFilters();
-                });
-            });
-
-            searchInput.addEventListener('input', applyFilters);
-            applyFilters();
-            };
-
-            if ('requestIdleCallback' in window) {
-                window.requestIdleCallback(boot, { timeout: 500 });
-            } else {
-                window.setTimeout(boot, 0);
-            }
-        });
-    </script>
-@endpush
-

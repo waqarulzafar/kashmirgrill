@@ -27,7 +27,7 @@
                             <tr>
                                 <td style="width: 90px;">
                                     @if($item->image_path)
-                                        <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}" class="img-fluid rounded" loading="lazy">
+                                        <img src="{{ $item->imageUrl() }}" alt="{{ $item->name }}" class="img-fluid rounded" loading="lazy">
                                     @else
                                         <span class="badge text-bg-light">No Image</span>
                                     @endif
