@@ -1,9 +1,9 @@
 <section class="hero-signature position-relative overflow-hidden" data-home-hero data-no-reveal>
     <div class="hero-signature__media" aria-hidden="true">
-        <video class="hero-signature__video d-none d-md-block" data-home-hero-video autoplay muted loop playsinline preload="metadata" poster="{{ asset('assets/images/menu/main-course.jpg') }}">
+        <video class="hero-signature__video d-none d-md-block" data-home-hero-video autoplay muted loop playsinline preload="metadata" poster="{{ asset('assets/images/menu/primi-piati/chicken-korma.jpg') }}">
             <source src="{{ asset('assets/videos/pyramid-desktop.mp4') }}" type="video/mp4">
         </video>
-        <video class="hero-signature__video d-md-none" data-home-hero-video autoplay muted loop playsinline preload="metadata" poster="{{ asset('assets/images/menu/main-course.jpg') }}">
+        <video class="hero-signature__video d-md-none" data-home-hero-video autoplay muted loop playsinline preload="metadata" poster="{{ asset('assets/images/menu/primi-piati/chicken-korma.jpg') }}">
             <source src="{{ asset('assets/videos/pyramid-mobile.mp4') }}" type="video/mp4">
         </video>
     </div>
@@ -34,11 +34,11 @@
                 <div class="hero-signature__aside" data-home-hero-aside>
                     <div class="hero-signature__visual" data-home-hero-visual-stack>
                         <div class="hero-signature__disc hero-signature__disc--main" data-home-rotate-disc>
-                            <img src="{{ asset('assets/images/menu/mix-platter.jpg') }}" alt="Signature mixed platter" loading="lazy" decoding="async">
+                            <img src="{{ asset('assets/images/menu/griglia/mix-grill-tandoori.jpg') }}" alt="Signature mixed grill platter" loading="lazy" decoding="async">
                             <div class="hero-signature__disc-ring" aria-hidden="true"></div>
                         </div>
                         <div class="hero-signature__disc hero-signature__disc--small" data-home-rotate-disc-reverse>
-                            <img src="{{ asset('assets/images/menu/butter-chicken.jpg') }}" alt="Butter chicken bowl" loading="lazy" decoding="async">
+                            <img src="{{ asset('assets/images/menu/primi-piati/butter-chicken.jpg') }}" alt="Butter chicken bowl" loading="lazy" decoding="async">
                         </div>
                         <span class="hero-signature__float-pill hero-signature__float-pill--one" data-home-float-pill>Chef Special</span>
                         <span class="hero-signature__float-pill hero-signature__float-pill--two" data-home-float-pill>Fresh Tandoor</span>

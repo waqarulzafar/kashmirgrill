@@ -1,14 +1,14 @@
-@php
+﻿@php
     $featuredSlides = [
         [
             'kicker' => 'Featured Selection',
             'title' => 'Grill Signatures',
             'subtitle' => 'Charcoal-grilled favourites prepared in our 100% halal kitchen.',
-            'image' => asset('assets/images/menu/seekh-kebab.jpg'),
+            'image' => asset('assets/images/menu/griglia/beef-seekh-kebab.jpg'),
             'items' => [
-                ['name' => 'Seekh Kebab Platter', 'price' => '£12.90', 'desc' => 'House-spiced lamb seekh kebabs served with chutney and fresh salad.'],
-                ['name' => 'Tandoori Chicken', 'price' => '£13.50', 'desc' => 'Marinated chicken roasted in the tandoor and finished with citrus notes.'],
-                ['name' => 'Mixed Grill Sizzler', 'price' => '£18.90', 'desc' => 'A generous sharing platter with kebabs, wings, and grilled vegetables.'],
+                ['name' => 'Seekh Kebab Platter', 'price' => 'Â£12.90', 'desc' => 'House-spiced lamb seekh kebabs served with chutney and fresh salad.'],
+                ['name' => 'Tandoori Chicken', 'price' => 'Â£13.50', 'desc' => 'Marinated chicken roasted in the tandoor and finished with citrus notes.'],
+                ['name' => 'Mixed Grill Sizzler', 'price' => 'Â£18.90', 'desc' => 'A generous sharing platter with kebabs, wings, and grilled vegetables.'],
             ],
             'badge' => '100% Halal',
         ],
@@ -16,25 +16,25 @@
             'kicker' => 'Featured Selection',
             'title' => 'Signature Curries',
             'subtitle' => 'Classic curry preparations with balanced spice, richness, and fresh herbs.',
-            'image' => asset('assets/images/menu/butter-chicken.jpg'),
+            'image' => asset('assets/images/menu/primi-piati/butter-chicken.jpg'),
             'items' => [
-                ['name' => 'Butter Chicken', 'price' => '£13.80', 'desc' => 'Creamy tomato curry with tandoor-finished chicken and aromatic spices.'],
-                ['name' => 'Lamb Rogan Josh', 'price' => '£14.90', 'desc' => 'Slow-cooked lamb in a rich Kashmiri-inspired gravy.'],
-                ['name' => 'Chicken Karahi', 'price' => '£13.20', 'desc' => 'Traditional karahi-style chicken with tomato, ginger, and green chilli.'],
+                ['name' => 'Butter Chicken', 'price' => 'Â£13.80', 'desc' => 'Creamy tomato curry with tandoor-finished chicken and aromatic spices.'],
+                ['name' => 'Lamb Rogan Josh', 'price' => 'Â£14.90', 'desc' => 'Slow-cooked lamb in a rich Kashmiri-inspired gravy.'],
+                ['name' => 'Chicken Karahi', 'price' => 'Â£13.20', 'desc' => 'Traditional karahi-style chicken with tomato, ginger, and green chilli.'],
             ],
             'badge' => 'House Favorites',
         ],
         [
             'kicker' => 'Featured Selection',
-            'title' => 'Biryani & Rice',
-            'subtitle' => 'Fragrant basmati rice dishes prepared for family dining and group tables.',
-            'image' => asset('assets/images/menu/lamb-biryani.jpg'),
+            'title' => 'Starters & Soups',
+            'subtitle' => 'Popular appetizer and soup selections prepared fresh for the table.',
+            'image' => asset('assets/images/menu/antipasti/samosa-chaat.jpg'),
             'items' => [
-                ['name' => 'Chicken Biryani', 'price' => '£12.70', 'desc' => 'Layered basmati rice with saffron and seasoned chicken.'],
-                ['name' => 'Lamb Biryani', 'price' => '£13.90', 'desc' => 'Dum-cooked basmati with tender lamb, mint, and caramelised onions.'],
-                ['name' => 'Jeera Rice', 'price' => '£4.90', 'desc' => 'Steamed cumin basmati rice, ideal alongside our curry selection.'],
+                ['name' => 'Samosa Chaat', 'price' => 'Â£6.90', 'desc' => 'Crispy samosa topped with chutneys, herbs, and house seasoning.'],
+                ['name' => 'Chicken Soup', 'price' => 'Â£5.90', 'desc' => 'Comforting chicken soup with aromatic spices and fresh garnish.'],
+                ['name' => 'Paneer Pakora', 'price' => 'Â£6.40', 'desc' => 'Golden paneer pakora served with a bright, tangy chutney.'],
             ],
-            'badge' => 'Family Dining',
+            'badge' => 'Starter Favorites',
         ],
     ];
 @endphp
@@ -121,3 +121,4 @@
         </div>
     </div>
 </section>
+

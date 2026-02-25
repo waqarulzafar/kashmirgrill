@@ -30,7 +30,7 @@
             <div class="col-12 col-lg-5" data-gsap-item>
                 <figure class="dish-tile dish-tile--featured dish-float js-dish-card rounded-4 p-4 h-100 shadow-sm" data-parallax-speed="0.08">
                     <div class="dish-visual mb-3" data-gsap-parallax data-parallax-factor="0.11">
-                        <img src="{{ asset('assets/images/menu/seekh-kebab.jpg') }}" alt="Smoky seekh kebab plated with herbs" loading="lazy" decoding="async" fetchpriority="low" sizes="(max-width: 991px) 100vw, 40vw">
+                        <img src="{{ asset('assets/images/menu/griglia/beef-seekh-kebab.jpg') }}" alt="Smoky seekh kebab plated with herbs" loading="lazy" decoding="async" fetchpriority="low" sizes="(max-width: 991px) 100vw, 40vw">
                         <span class="dish-visual-label">Chef Selection</span>
                     </div>
                     <div class="dish-meta-row mb-2">
@@ -53,7 +53,7 @@
                     <div class="col-12 col-md-6" data-gsap-item>
                         <figure class="dish-tile dish-tile--compact dish-float-delay js-dish-card rounded-4 p-4 h-100 shadow-sm" data-parallax-speed="0.12">
                             <div class="dish-visual mb-3" data-gsap-parallax data-parallax-factor="0.14">
-                                <img src="{{ asset('assets/images/menu/butter-chicken.jpg') }}" alt="Butter chicken served in copper bowl" loading="lazy" decoding="async" fetchpriority="low" sizes="(max-width: 991px) 100vw, 33vw">
+                                <img src="{{ asset('assets/images/menu/primi-piati/butter-chicken.jpg') }}" alt="Butter chicken served in copper bowl" loading="lazy" decoding="async" fetchpriority="low" sizes="(max-width: 991px) 100vw, 33vw">
                                 <span class="dish-visual-label">House Favorite</span>
                             </div>
                             <div class="dish-meta-row mb-2">
@@ -68,15 +68,15 @@
                     <div class="col-12 col-md-6" data-gsap-item>
                         <figure class="dish-tile dish-tile--compact dish-float js-dish-card rounded-4 p-4 h-100 shadow-sm" data-parallax-speed="0.06">
                             <div class="dish-visual mb-3" data-gsap-parallax data-parallax-factor="0.1">
-                                <img src="{{ asset('assets/images/menu/lamb-biryani.jpg') }}" alt="Aromatic lamb biryani with saffron rice" loading="lazy" decoding="async" fetchpriority="low" sizes="(max-width: 991px) 100vw, 33vw">
+                                <img src="{{ asset('assets/images/menu/primi-piati/mutton-korma.jpg') }}" alt="Rich mutton korma served hot" loading="lazy" decoding="async" fetchpriority="low" sizes="(max-width: 991px) 100vw, 33vw">
                                 <span class="dish-visual-label">Signature</span>
                             </div>
                             <div class="dish-meta-row mb-2">
-                                <span class="dish-meta-chip">Rice</span>
-                                <span class="dish-meta-chip">Aromatic</span>
+                                <span class="dish-meta-chip">Curry</span>
+                                <span class="dish-meta-chip">Rich</span>
                             </div>
-                            <h3 class="h5 mb-2">Royal Lamb Biryani</h3>
-                            <p class="mb-0">Aromatic basmati rice layered with saffron, herbs, and tender spiced lamb.</p>
+                            <h3 class="h5 mb-2">Royal Mutton Korma</h3>
+                            <p class="mb-0">A rich, slow-cooked korma with tender mutton and deep house spice flavor.</p>
                         </figure>
                     </div>
 

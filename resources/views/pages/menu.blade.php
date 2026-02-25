@@ -6,8 +6,11 @@
 @php
     $categoryNotes = [
         'appetizers' => 'Crispy starters and tandoor bites to begin the table.',
+        'antipasti' => 'Classic starters and soups to open the table.',
         'grill' => 'Charcoal-fired meats and tandoor signatures with bold spice.',
+        'griglia' => 'Smoky tandoor grills and signature kebab cuts.',
         'main-course' => 'Rich gravies, classics, and house specials.',
+        'primi-piati' => 'Hearty curry classics and karahi-style specialties.',
         'veg-dishes' => 'Comforting vegetarian favorites with layered flavor.',
         'rice' => 'Fragrant basmati rice and biryani dishes.',
         'seasoning' => 'Chutneys, dips, and house add-ons for extra punch.',
@@ -221,8 +224,9 @@
                 radial-gradient(circle at 15% 20%, rgba(219, 29, 48, 0.10), transparent 55%),
                 linear-gradient(180deg, #050505 0%, #090909 35%, #0c0c0c 100%);
             color: #f6f6f6;
-            margin-inline: calc(50% - 50vw);
-            width: 100vw;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: clip;
         }
 
         .menu-scroll-progress {

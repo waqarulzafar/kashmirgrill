@@ -32,7 +32,7 @@
                         </div>
                         <div class="col-12 col-lg-5">
                             <div class="chef-spotlight__image-wrap h-100">
-                                <img src="{{ asset('assets/images/menu/grill.jpg') }}" alt="Grill classics at Kashmir Grill House" class="chef-spotlight__image" loading="lazy" decoding="async">
+                                <img src="{{ asset('assets/images/menu/griglia/grill-chicken.jpg') }}" alt="Grill classics at Kashmir Grill House" class="chef-spotlight__image" loading="lazy" decoding="async">
                             </div>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                         </div>
                         <div class="col-12 col-lg-5">
                             <div class="chef-spotlight__image-wrap h-100">
-                                <img src="{{ asset('assets/images/menu/main-course.jpg') }}" alt="Signature curries at Kashmir Grill House" class="chef-spotlight__image" loading="lazy" decoding="async">
+                                <img src="{{ asset('assets/images/menu/primi-piati/chicken-tikka-masala.jpg') }}" alt="Signature curries at Kashmir Grill House" class="chef-spotlight__image" loading="lazy" decoding="async">
                             </div>
                         </div>
                     </div>
@@ -73,26 +73,26 @@
                         <div class="col-12 col-lg-7">
                             <div class="chef-spotlight__content p-4 p-md-5 h-100">
                                 <p class="text-uppercase small mb-2 text-brand">Chef Spotlight</p>
-                                <h2 class="h3 mb-3">Desserts & Refreshments</h2>
+                                <h2 class="h3 mb-3">Starters & Snacks</h2>
                                 <ul class="list-unstyled mb-0">
                                     <li class="chef-spotlight__line mb-3">
-                                        <div class="d-flex justify-content-between gap-3"><strong>Kulfi Pistachio</strong><span>£5.90</span></div>
-                                        <p class="mb-0 text-secondary">Traditional kulfi with pistachio texture and a rich finish.</p>
+                                        <div class="d-flex justify-content-between gap-3"><strong>Vegetable Soup</strong><span>£5.90</span></div>
+                                        <p class="mb-0 text-secondary">Comforting house-style vegetable soup served hot.</p>
                                     </li>
                                     <li class="chef-spotlight__line mb-3">
-                                        <div class="d-flex justify-content-between gap-3"><strong>Gulab Jamun</strong><span>£5.40</span></div>
-                                        <p class="mb-0 text-secondary">Warm syrup-soaked dumplings finished with saffron notes.</p>
+                                        <div class="d-flex justify-content-between gap-3"><strong>Samosa Chaat</strong><span>£5.40</span></div>
+                                        <p class="mb-0 text-secondary">Crispy samosa topped with chutneys and fresh garnish.</p>
                                     </li>
                                     <li class="chef-spotlight__line">
-                                        <div class="d-flex justify-content-between gap-3"><strong>Mango Lassi</strong><span>£4.20</span></div>
-                                        <p class="mb-0 text-secondary">A refreshing yoghurt-based drink with ripe mango sweetness.</p>
+                                        <div class="d-flex justify-content-between gap-3"><strong>Paneer Pakora</strong><span>£4.20</span></div>
+                                        <p class="mb-0 text-secondary">Crisp paneer fritters with balanced spice and chutney.</p>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="col-12 col-lg-5">
                             <div class="chef-spotlight__image-wrap h-100">
-                                <img src="{{ asset('assets/images/menu/desserts.jpg') }}" alt="Desserts and drinks at Kashmir Grill House" class="chef-spotlight__image" loading="lazy" decoding="async">
+                                <img src="{{ asset('assets/images/menu/antipasti/samosa-chaat.jpg') }}" alt="Starters and snacks at Kashmir Grill House" class="chef-spotlight__image" loading="lazy" decoding="async">
                             </div>
                         </div>
                     </div>

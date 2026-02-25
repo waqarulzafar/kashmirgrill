@@ -7,31 +7,37 @@
     $eventCategories = [
         [
             'name' => 'Ceremonies',
+            'image' => 'assets/images/events/ceremonies.jpg',
             'description' => 'Elegant setups for engagements, anniversaries, and family milestones with curated dining experiences.',
             'details' => 'Includes table styling options, set-menu guidance, and dedicated service flow for multi-course celebrations.',
         ],
         [
             'name' => 'Get Together',
+            'image' => 'assets/images/events/get-together.jpg',
             'description' => 'Relaxed group dining for friends and families with sharable platters and flexible seating.',
             'details' => 'Best for casual evenings, weekend reunions, and social dinners with mixed vegetarian and non-vegetarian menus.',
         ],
         [
             'name' => 'Meetings',
+            'image' => 'assets/images/events/meetings.jpg',
             'description' => 'Quiet and comfortable arrangements for team lunches, client discussions, and small business gatherings.',
             'details' => 'Midday slots with efficient service, custom meal pacing, and optional tea/coffee add-ons.',
         ],
         [
             'name' => 'Conferences',
+            'image' => 'assets/images/events/conferences.jpg',
             'description' => 'Structured event dining support for large professional groups with timed serving plans.',
             'details' => 'Suitable for conference delegates and workshop groups requiring pre-planned buffet or plated service.',
         ],
         [
             'name' => "Valentine's Day",
+            'image' => 'assets/images/events/valentines-day.jpg',
             'description' => 'Romantic dining ambiance with chef specials and festive dessert pairings for couples.',
             'details' => 'Advance booking recommended for peak dinner slots and custom celebration notes.',
         ],
         [
             'name' => 'Festivals (Eid, Ramadan, Easter, Christmas)',
+            'image' => 'assets/images/events/festivals.jpg',
             'description' => 'Seasonal menus and celebration dining for major festive moments throughout the year.',
             'details' => 'Festival packages can include themed platters, extended family seating, and pre-order recommendations.',
         ],
@@ -66,21 +72,13 @@
                 <div class="col-12 col-md-6 col-xl-4">
                     <article id="event-{{ $slug }}" class="event-card h-100 rounded-4 bg-white shadow-sm overflow-hidden">
                         <div class="event-banner">
-                            <svg viewBox="0 0 640 280" role="img" aria-label="{{ $category['name'] }} banner image" class="w-100 h-100">
-                                <defs>
-                                    <linearGradient id="event-gradient-{{ $slug }}" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stop-color="#000000"></stop>
-                                        <stop offset="55%" stop-color="#db1d30"></stop>
-                                        <stop offset="100%" stop-color="#ff952c"></stop>
-                                    </linearGradient>
-                                </defs>
-                                <rect x="0" y="0" width="640" height="280" fill="url(#event-gradient-{{ $slug }})"></rect>
-                                <circle cx="{{ 110 + ($index * 8) }}" cy="{{ 82 + ($index * 3) }}" r="66" fill="rgba(255,255,255,0.12)"></circle>
-                                <circle cx="534" cy="192" r="96" fill="rgba(255,255,255,0.08)"></circle>
-                                <text x="38" y="170" fill="#ffffff" font-size="34" font-weight="600" style="font-family: Poppins, sans-serif;">
-                                    {{ $category['name'] }}
-                                </text>
-                            </svg>
+                            <img
+                                src="{{ asset($category['image']) }}"
+                                alt="{{ $category['name'] }} banner image"
+                                class="w-100 h-100"
+                                loading="lazy"
+                                decoding="async"
+                            >
                         </div>
                         <div class="p-4">
                             <h2 class="h4 mb-3">{{ $category['name'] }}</h2>
@@ -145,17 +143,18 @@
             overflow: hidden;
         }
 
-        .event-card:hover .event-banner svg {
+        .event-card:hover .event-banner img {
             transform: scale(1.03);
         }
 
-        .event-banner svg {
+        .event-banner img {
+            object-fit: cover;
             transition: transform .4s ease;
         }
 
         @media (prefers-reduced-motion: reduce) {
             .event-card,
-            .event-banner svg {
+            .event-banner img {
                 transition: none;
             }
 

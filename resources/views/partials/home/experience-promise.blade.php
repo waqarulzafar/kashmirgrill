@@ -43,7 +43,7 @@
                     <div class="row g-3 align-items-stretch">
                         <div class="col-12 col-sm-6">
                             <div class="home-feature-panel__media h-100">
-                                <img src="{{ asset('assets/images/menu/mix-platter.jpg') }}" alt="Mixed platter served at Kashmir Grill House" loading="lazy" decoding="async">
+                                <img src="{{ asset('assets/images/menu/griglia/mix-grill-tandoori.jpg') }}" alt="Mixed platter served at Kashmir Grill House" loading="lazy" decoding="async">
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
@@ -63,7 +63,7 @@
                     <div class="row g-3 align-items-stretch">
                         <div class="col-12 col-sm-6">
                             <div class="home-feature-panel__media h-100">
-                                <img src="{{ asset('assets/images/menu/butter-chicken.jpg') }}" alt="Butter chicken served in a bowl" loading="lazy" decoding="async">
+                                <img src="{{ asset('assets/images/menu/primi-piati/butter-chicken.jpg') }}" alt="Butter chicken served in a bowl" loading="lazy" decoding="async">
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">

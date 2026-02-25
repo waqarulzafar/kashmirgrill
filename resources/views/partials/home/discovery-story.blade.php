@@ -10,13 +10,13 @@
 
         <div class="home-discovery-story__visual-shell mb-4 mb-lg-5" data-home-story-visual>
             <div class="home-discovery-story__disc home-discovery-story__disc--main" data-home-story-disc>
-                <img src="{{ asset('assets/images/menu/main-course.jpg') }}" alt="Signature curry bowl" loading="lazy" decoding="async">
+                <img src="{{ asset('assets/images/menu/primi-piati/shinwari-chicken-karahi.jpg') }}" alt="Signature curry bowl" loading="lazy" decoding="async">
             </div>
             <div class="home-discovery-story__disc home-discovery-story__disc--left" data-home-story-disc-rev>
-                <img src="{{ asset('assets/images/menu/seekh-kebab.jpg') }}" alt="Seekh kebab plate" loading="lazy" decoding="async">
+                <img src="{{ asset('assets/images/menu/griglia/beef-seekh-kebab.jpg') }}" alt="Seekh kebab plate" loading="lazy" decoding="async">
             </div>
             <div class="home-discovery-story__disc home-discovery-story__disc--right" data-home-story-disc>
-                <img src="{{ asset('assets/images/menu/veg-dishes.jpg') }}" alt="Vegetarian curry plate" loading="lazy" decoding="async">
+                <img src="{{ asset('assets/images/menu/antipasti/paneer-pakora-gpz.jpg') }}" alt="Vegetarian starter plate" loading="lazy" decoding="async">
             </div>
             <div class="home-discovery-story__ring home-discovery-story__ring--one" aria-hidden="true"></div>
             <div class="home-discovery-story__ring home-discovery-story__ring--two" aria-hidden="true"></div>

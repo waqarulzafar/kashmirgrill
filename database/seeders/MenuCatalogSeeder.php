@@ -18,6 +18,7 @@ class MenuCatalogSeeder extends Seeder
                     ['name' => 'Samosa Trio', 'price' => 5.90, 'description' => 'Crisp pastry parcels stuffed with spiced potato and peas, served with mint chutney.', 'tags' => 'Popular, Crispy, Veg', 'image' => 'assets/images/menu/appetizers.jpg'],
                     ['name' => 'Chicken Pakora', 'price' => 6.80, 'description' => 'Tender chicken strips dipped in gram-flour batter and fried until golden.', 'tags' => 'Starter, Crunchy', 'image' => 'assets/images/menu/appetizers.jpg'],
                     ['name' => 'Paneer Tikka Bites', 'price' => 7.40, 'description' => 'Charred paneer cubes marinated with yogurt, chili and kasoori methi.', 'tags' => 'Tandoor, Vegetarian', 'image' => 'assets/images/menu/grill.jpg'],
+                    ['name' => 'Chicken Pakora GPZ', 'price' => 7.20, 'description' => 'Crispy gram-flour chicken pakora seasoned with house spices and served hot.', 'tags' => 'Crispy, Starter', 'image' => 'assets/images/menu/appetizers.jpg'],
                 ],
             ],
             [
@@ -27,6 +28,7 @@ class MenuCatalogSeeder extends Seeder
                     ['name' => 'Seekh Kebab', 'price' => 12.90, 'description' => 'Smoky minced lamb skewers with fresh herbs, onions and lemon.', 'tags' => 'Signature, Spicy', 'image' => 'assets/images/menu/seekh-kebab.jpg'],
                     ['name' => 'Tandoori Chicken Half', 'price' => 13.50, 'description' => 'Classic red-marinated chicken roasted in the tandoor and finished with butter.', 'tags' => 'Chargrilled, Chef Pick', 'image' => 'assets/images/menu/grill.jpg'],
                     ['name' => 'Mixed Grill Sizzler', 'price' => 18.90, 'description' => 'A hot platter of seekh kebab, chicken tikka, wings and grilled vegetables.', 'tags' => 'Sharing, House Special', 'image' => 'assets/images/menu/mix-platter.jpg'],
+                    ['name' => 'Mix Grill Tandoori', 'price' => 20.90, 'description' => 'Tandoori mixed grill with juicy chicken cuts and smoky char from the clay oven.', 'tags' => 'Tandoori, Sharing', 'image' => 'assets/images/menu/grill.jpg'],
                 ],
             ],
             [
@@ -36,6 +38,7 @@ class MenuCatalogSeeder extends Seeder
                     ['name' => 'Butter Chicken', 'price' => 13.80, 'description' => 'Creamy tomato-based curry with charcoal-finished chicken tikka pieces.', 'tags' => 'Best Seller, Creamy', 'image' => 'assets/images/menu/butter-chicken.jpg'],
                     ['name' => 'Lamb Rogan Josh', 'price' => 14.90, 'description' => 'Slow-cooked lamb in a deep Kashmiri gravy with aromatic whole spices.', 'tags' => 'Traditional, Rich', 'image' => 'assets/images/menu/main-course.jpg'],
                     ['name' => 'Chicken Karahi', 'price' => 13.20, 'description' => 'Fresh tomato, ginger and green chili curry served in karahi style.', 'tags' => 'Medium Hot, Fresh', 'image' => 'assets/images/menu/main-course.jpg'],
+                    ['name' => 'Shinwari Chicken Karahi', 'price' => 15.90, 'description' => 'Shinwari-style chicken karahi cooked with tomato, garlic and fresh green chilies.', 'tags' => 'Shinwari, Karahi', 'image' => 'assets/images/menu/main-course.jpg'],
                 ],
             ],
             [
