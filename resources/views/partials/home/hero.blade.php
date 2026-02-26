@@ -1,11 +1,17 @@
 <section class="hero-signature position-relative overflow-hidden" data-home-hero data-no-reveal>
     <div class="hero-signature__media" aria-hidden="true">
-        <video class="hero-signature__video d-none d-md-block" data-home-hero-video autoplay muted loop playsinline preload="metadata" poster="{{ asset('assets/images/menu/primi-piati/chicken-korma.jpg') }}">
-            <source src="{{ asset('assets/videos/pyramid-desktop.mp4') }}" type="video/mp4">
-        </video>
-        <video class="hero-signature__video d-md-none" data-home-hero-video autoplay muted loop playsinline preload="metadata" poster="{{ asset('assets/images/menu/primi-piati/chicken-korma.jpg') }}">
-            <source src="{{ asset('assets/videos/pyramid-mobile.mp4') }}" type="video/mp4">
-        </video>
+        <video
+            class="hero-signature__video"
+            data-home-hero-video
+            data-home-hero-video-desktop="{{ asset('assets/videos/kashmir-hero-desktop.mp4') }}"
+            data-home-hero-video-mobile="{{ asset('assets/videos/kashmir-hero-mobile.mp4') }}"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            poster="{{ asset('assets/images/hero/kashmir-hero-poster.jpg') }}"
+        ></video>
     </div>
 
     <div class="hero-signature__veil" data-home-hero-veil></div>

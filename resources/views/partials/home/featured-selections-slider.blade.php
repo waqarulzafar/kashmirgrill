@@ -41,7 +41,7 @@
 
 <section class="py-5 home-featured-slider-section" data-home-featured-slider-section data-no-reveal>
     <div class="container">
-        <div id="homeFeaturedSelections" class="carousel slide home-featured-slider" data-bs-ride="carousel" data-bs-interval="5200" data-bs-pause="hover">
+        <div id="homeFeaturedSelections" class="carousel slide home-featured-slider" data-bs-interval="false" data-bs-touch="true">
             <div class="home-featured-slider__top d-flex flex-column flex-lg-row align-items-lg-end justify-content-between gap-3 mb-4">
                 <div>
                     <p class="home-featured-slider__eyebrow mb-2">Featured Menu</p>

@@ -125,6 +125,7 @@
             box-shadow: 0 18px 36px rgba(0, 0, 0, 0.2);
             overflow: hidden;
             padding: clamp(1rem, 2vw, 1.35rem);
+            contain: paint;
         }
 
         .home-featured-slider__content {
@@ -223,9 +224,11 @@
                 radial-gradient(circle at 20% 80%, rgba(219, 29, 48, 0.18), transparent 50%),
                 radial-gradient(circle at 86% 16%, rgba(255, 149, 44, 0.16), transparent 45%),
                 rgba(8, 8, 8, 0.58);
-            box-shadow: inset 0 0 0 1px rgba(255,255,255,.02), 0 18px 34px rgba(0,0,0,.22);
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,.02), 0 12px 24px rgba(0,0,0,.18);
             overflow: hidden;
-            backdrop-filter: blur(8px);
+            backdrop-filter: none;
+            transform: translateZ(0);
+            contain: paint;
         }
 
         .home-featured-slider__visual::before {
@@ -242,6 +245,7 @@
             border-radius: 50%;
             border: 1px dashed rgba(255, 255, 255, 0.08);
             pointer-events: none;
+            opacity: .65;
         }
 
         .home-featured-slider__visual-ring--lg {
