@@ -3,8 +3,15 @@
 <head>
     @php
         $defaultSite = 'Kashmir Grill House';
+        $businessPhone = '+39 351 1203141';
+        $businessPhoneHref = '+393511203141';
+        $businessAddressLine = 'Via Milano, 253, 22100 Como, Italy';
+        $instagramUrl = 'https://www.instagram.com/kashmirgrillhouse_?utm_source=qr&igsh=ZjJmZDhtZHQzZ2l6';
+        $facebookUrl = 'https://www.facebook.com/share/1CVDdWNQJy/';
+        $tiktokUrl = 'https://www.tiktok.com/@kashmirgrillhouse';
+        $googleBusinessUrl = 'https://share.google/grft1lwOxyW4px1OV';
         $pageTitle = trim($__env->yieldContent('meta_title', $__env->yieldContent('title', $defaultSite)));
-        $pageDescription = trim($__env->yieldContent('meta_description', 'Kashmir Grill House offers premium dining, event hosting, curated menus, and easy table booking.'));
+        $pageDescription = trim($__env->yieldContent('meta_description', 'Kashmir Grill House in Como serves halal Pakistani and Indian specialties with dine-in, takeaway, and delivery options.'));
         $ogImage = trim($__env->yieldContent('og_image', asset('assets/images/logo.png')));
         $ogType = trim($__env->yieldContent('og_type', 'website'));
         $canonicalUrl = trim($__env->yieldContent('canonical_url', url()->current()));
@@ -14,25 +21,22 @@
             'name' => 'Kashmir Grill House',
             'url' => url('/'),
             'image' => [$ogImage],
-            'telephone' => '+44 0123 456 789',
-            'email' => 'hello@kashmirgrillhouse.com',
-            'servesCuisine' => ['Indian', 'Pakistani', 'South Asian', 'Grill'],
-            'priceRange' => 'Â£Â£',
+            'telephone' => $businessPhone,
+            'servesCuisine' => ['Pakistani', 'Indian', 'South Asian', 'Halal', 'Grill'],
+            'priceRange' => '€€',
             'address' => [
                 '@type' => 'PostalAddress',
-                'streetAddress' => '123 Flavor Street',
-                'addressLocality' => 'London',
-                'addressCountry' => 'UK',
+                'streetAddress' => 'Via Milano, 253',
+                'postalCode' => '22100',
+                'addressLocality' => 'Como',
+                'addressRegion' => 'CO',
+                'addressCountry' => 'IT',
             ],
-            'openingHoursSpecification' => [[
-                '@type' => 'OpeningHoursSpecification',
-                'dayOfWeek' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-                'opens' => '12:00',
-                'closes' => '23:00',
-            ]],
             'sameAs' => [
-                'https://www.instagram.com/',
-                'https://www.facebook.com/',
+                $instagramUrl,
+                $facebookUrl,
+                $tiktokUrl,
+                $googleBusinessUrl,
             ],
         ];
     @endphp
@@ -465,21 +469,22 @@
                 <div class="row g-4 align-items-start">
                     <div class="col-lg-4">
                         <h5 class="footer-title section-accent mb-3">Kashmir Grill House</h5>
-                        <p class="mb-3">A premium South Asian dining experience with bold flavors, warm hospitality, and curated event hosting.</p>
-                        <span class="highlight-chip">Open Daily &bull; 12:00 PM - 11:00 PM</span>
+                        <p class="mb-3">Halal Pakistani and Indian cuisine in Como with dine-in, takeaway, and delivery-friendly service.</p>
+                        <span class="highlight-chip">Check Google for today&apos;s opening hours</span>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <h6 class="footer-title mb-3">Contact</h6>
-                        <p class="mb-2">123 Flavor Street, London, UK</p>
-                        <p class="mb-2"><a class="footer-link" href="tel:+440123456789">+44 0123 456 789</a></p>
-                        <p class="mb-0"><a class="footer-link" href="mailto:hello@kashmirgrillhouse.com">hello@kashmirgrillhouse.com</a></p>
+                        <p class="mb-2">{{ $businessAddressLine }}</p>
+                        <p class="mb-2"><a class="footer-link" href="tel:{{ $businessPhoneHref }}">{{ $businessPhone }}</a></p>
+                        <p class="mb-0"><a class="footer-link" href="{{ $googleBusinessUrl }}" target="_blank" rel="noopener noreferrer">Google Business Profile &amp; Directions</a></p>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <h6 class="footer-title mb-3">Follow Us</h6>
                         <div class="d-flex gap-2 mb-3">
-                            <a class="social-circle" href="#" aria-label="Instagram">IG</a>
-                            <a class="social-circle" href="#" aria-label="Facebook">FB</a>
-                            <a class="social-circle" href="#" aria-label="TikTok">TT</a>
+                            <a class="social-circle" href="{{ $instagramUrl }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">IG</a>
+                            <a class="social-circle" href="{{ $facebookUrl }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a>
+                            <a class="social-circle" href="{{ $tiktokUrl }}" target="_blank" rel="noopener noreferrer" aria-label="TikTok">TT</a>
+                            <a class="social-circle" href="{{ $googleBusinessUrl }}" target="_blank" rel="noopener noreferrer" aria-label="Google Business Profile">GB</a>
                         </div>
                         <a href="{{ route('book-now') }}" class="btn btn-brand-outline btn-sm">Reserve Your Table</a>
                     </div>

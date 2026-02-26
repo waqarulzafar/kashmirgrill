@@ -217,21 +217,22 @@
                 <div class="row g-4 align-items-start">
                     <div class="col-lg-4">
                         <h5 class="footer-title section-accent mb-3">Kashmir Grill House</h5>
-                        <p class="mb-3">A premium South Asian dining experience with bold flavors, warm hospitality, and curated event hosting.</p>
-                        <span class="highlight-chip">Open Daily • 12:00 PM - 11:00 PM</span>
+                        <p class="mb-3">Halal Pakistani and Indian cuisine in Como with dine-in, takeaway, and delivery-friendly service.</p>
+                        <span class="highlight-chip">Check Google for today&apos;s opening hours</span>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <h6 class="footer-title mb-3">Contact</h6>
-                        <p class="mb-2">123 Flavor Street, London, UK</p>
-                        <p class="mb-2"><a class="footer-link" href="tel:+440123456789">+44 0123 456 789</a></p>
-                        <p class="mb-0"><a class="footer-link" href="mailto:hello@kashmirgrillhouse.com">hello@kashmirgrillhouse.com</a></p>
+                        <p class="mb-2">Via Milano, 253, 22100 Como, Italy</p>
+                        <p class="mb-2"><a class="footer-link" href="tel:+393511203141">+39 351 1203141</a></p>
+                        <p class="mb-0"><a class="footer-link" href="https://share.google/grft1lwOxyW4px1OV" target="_blank" rel="noopener noreferrer">Google Business Profile &amp; Directions</a></p>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <h6 class="footer-title mb-3">Follow Us</h6>
                         <div class="d-flex gap-2 mb-3">
-                            <a class="social-circle" href="#" aria-label="Instagram">IG</a>
-                            <a class="social-circle" href="#" aria-label="Facebook">FB</a>
-                            <a class="social-circle" href="#" aria-label="TikTok">TT</a>
+                            <a class="social-circle" href="https://www.instagram.com/kashmirgrillhouse_?utm_source=qr&igsh=ZjJmZDhtZHQzZ2l6" target="_blank" rel="noopener noreferrer" aria-label="Instagram">IG</a>
+                            <a class="social-circle" href="https://www.facebook.com/share/1CVDdWNQJy/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a>
+                            <a class="social-circle" href="https://www.tiktok.com/@kashmirgrillhouse" target="_blank" rel="noopener noreferrer" aria-label="TikTok">TT</a>
+                            <a class="social-circle" href="https://share.google/grft1lwOxyW4px1OV" target="_blank" rel="noopener noreferrer" aria-label="Google Business Profile">GB</a>
                         </div>
                         <a href="#book-now" class="btn btn-brand-outline btn-sm">Reserve Your Table</a>
                     </div>

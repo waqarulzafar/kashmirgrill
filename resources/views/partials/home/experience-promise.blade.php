@@ -2,8 +2,8 @@
     <div class="container">
         <x-section-header
             badge="Our Services"
-            title="Professional Halal Dining, Reservations, and Delivery in One Place"
-            subtitle="We provide 100% halal grill dining, advance table reservations with menu preferences, and dependable delivery with the same kitchen standards."
+            title="Halal Dine-In, Takeaway, and Delivery for Como Guests"
+            subtitle="Kashmir Grill House combines halal Pakistani and Indian cooking with dine-in seating, takeaway service, and delivery-friendly ordering."
         />
 
         <div class="row g-4 mb-4">
@@ -17,22 +17,22 @@
             <div class="col-12 col-sm-6 col-xl-3">
                 <article class="home-stat-card h-100">
                     <p class="home-stat-card__label mb-2">Dining Options</p>
-                    <div class="home-stat-card__value">Dine-In Ready</div>
-                    <p class="mb-0 text-secondary">Comfortable dine-in seating for family meals, casual visits, and group dining.</p>
+                    <div class="home-stat-card__value">Dine-In + Takeaway</div>
+                    <p class="mb-0 text-secondary">Visit the restaurant on Via Milano or place takeaway orders for home and office meals.</p>
                 </article>
             </div>
             <div class="col-12 col-sm-6 col-xl-3">
                 <article class="home-stat-card h-100">
-                    <p class="home-stat-card__label mb-2">Reservations</p>
-                    <div class="home-stat-card__value">Table + Menu</div>
-                    <p class="mb-0 text-secondary">Reserve your table online and share menu preferences before you arrive.</p>
+                    <p class="home-stat-card__label mb-2">Location</p>
+                    <div class="home-stat-card__value">Como, Italy</div>
+                    <p class="mb-0 text-secondary">Easy to find at Via Milano, 253 with directions and reviews available on Google Business Profile.</p>
                 </article>
             </div>
             <div class="col-12 col-sm-6 col-xl-3">
                 <article class="home-stat-card h-100">
-                    <p class="home-stat-card__label mb-2">Service Mode</p>
-                    <div class="home-stat-card__value">Delivery Available</div>
-                    <p class="mb-0 text-secondary">Delivery service is available for customers who want Kashmir Grill House at home or work.</p>
+                    <p class="home-stat-card__label mb-2">Ordering</p>
+                    <div class="home-stat-card__value">Delivery Options</div>
+                    <p class="mb-0 text-secondary">Order from home through supported delivery platforms or contact the restaurant directly by phone.</p>
                 </article>
             </div>
         </div>
@@ -49,9 +49,9 @@
                         <div class="col-12 col-sm-6">
                             <div class="home-feature-panel__body h-100">
                                 <p class="home-feature-panel__kicker mb-2">Before You Arrive</p>
-                                <h3 class="h4 mb-3">Reserve Your Table and Menu Preferences</h3>
-                                <p class="text-secondary mb-3">Use the booking form to confirm your table, share occasion details, and request menu preparation in advance for a smoother arrival.</p>
-                                <a href="{{ route('book-now') }}" class="btn btn-brand-outline btn-sm">Start Reservation</a>
+                                <h3 class="h4 mb-3">Reserve a Table and Check Directions</h3>
+                                <p class="text-secondary mb-3">Book your visit online, call the team, and use the Google Business Profile to confirm today&apos;s hours before heading to Como.</p>
+                                <a href="https://share.google/grft1lwOxyW4px1OV" target="_blank" rel="noopener noreferrer" class="btn btn-brand-outline btn-sm">Open Google Profile</a>
                             </div>
                         </div>
                     </div>
@@ -69,8 +69,8 @@
                         <div class="col-12 col-sm-6">
                             <div class="home-feature-panel__body h-100">
                                 <p class="home-feature-panel__kicker mb-2">Dine-In & Delivery</p>
-                                <h3 class="h4 mb-3">Halal Grill Favorites for Every Service Mode</h3>
-                                <p class="text-secondary mb-3">Enjoy charcoal grills, curries, and platters in our dine-in setting or order delivery for family meals and gatherings.</p>
+                                <h3 class="h4 mb-3">Curries, Grills, Rice Dishes, and More</h3>
+                                <p class="text-secondary mb-3">Explore a menu that includes popular curries, grilled items, biryani and rice dishes, starters, and vegetarian options.</p>
                                 <a href="{{ route('menu') }}" class="btn btn-brand btn-sm">Browse Menu</a>
                             </div>
                         </div>

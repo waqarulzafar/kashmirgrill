@@ -2,39 +2,39 @@
     $featuredSlides = [
         [
             'kicker' => 'Featured Selection',
-            'title' => 'Grill Signatures',
-            'subtitle' => 'Charcoal-grilled favourites prepared in our 100% halal kitchen.',
+            'title' => 'Tandoori & Grill Favorites',
+            'subtitle' => 'Popular halal grill and tandoori options for dine-in, takeaway, and delivery orders in Como.',
             'image' => asset('assets/images/menu/griglia/beef-seekh-kebab.jpg'),
             'items' => [
-                ['name' => 'Seekh Kebab Platter', 'price' => 'Â£12.90', 'desc' => 'House-spiced lamb seekh kebabs served with chutney and fresh salad.'],
-                ['name' => 'Tandoori Chicken', 'price' => 'Â£13.50', 'desc' => 'Marinated chicken roasted in the tandoor and finished with citrus notes.'],
-                ['name' => 'Mixed Grill Sizzler', 'price' => 'Â£18.90', 'desc' => 'A generous sharing platter with kebabs, wings, and grilled vegetables.'],
+                ['name' => 'Chicken Tandoori (2 pcs)', 'price' => 'EUR 10.50', 'desc' => 'Classic tandoori chicken portion from the delivery menu lineup.' ],
+                ['name' => 'Chicken Tikka (5 pcs)', 'price' => 'EUR 10.00', 'desc' => 'A popular grilled tikka choice for individual meals or sharing.'],
+                ['name' => 'Seekh Kebab Platter', 'price' => 'EUR 10.00', 'desc' => 'House-spiced seekh kebabs served with chutney and fresh salad.'],
             ],
             'badge' => '100% Halal',
         ],
         [
             'kicker' => 'Featured Selection',
-            'title' => 'Signature Curries',
-            'subtitle' => 'Classic curry preparations with balanced spice, richness, and fresh herbs.',
+            'title' => 'Curry & Karahi Picks',
+            'subtitle' => 'Comfort-food curries and house-style classics commonly ordered by local guests.',
             'image' => asset('assets/images/menu/primi-piati/butter-chicken.jpg'),
             'items' => [
-                ['name' => 'Butter Chicken', 'price' => 'Â£13.80', 'desc' => 'Creamy tomato curry with tandoor-finished chicken and aromatic spices.'],
-                ['name' => 'Lamb Rogan Josh', 'price' => 'Â£14.90', 'desc' => 'Slow-cooked lamb in a rich Kashmiri-inspired gravy.'],
-                ['name' => 'Chicken Karahi', 'price' => 'Â£13.20', 'desc' => 'Traditional karahi-style chicken with tomato, ginger, and green chilli.'],
+                ['name' => 'Butter Chicken', 'price' => 'EUR 10.00', 'desc' => 'Creamy tomato curry and one of the best-known house favorites.'],
+                ['name' => 'Chicken Tikka Masala', 'price' => 'EUR 10.00', 'desc' => 'A delivery-favorite curry with balanced spice and rich sauce.'],
+                ['name' => 'Chicken Korma', 'price' => 'EUR 9.50', 'desc' => 'A milder curry option with creamy texture and aromatic spices.'],
             ],
-            'badge' => 'House Favorites',
+            'badge' => 'Popular in Como',
         ],
         [
             'kicker' => 'Featured Selection',
-            'title' => 'Starters & Soups',
-            'subtitle' => 'Popular appetizer and soup selections prepared fresh for the table.',
+            'title' => 'Starters & Snacks',
+            'subtitle' => 'Quick bites and starters often added to mixed orders and family meals.',
             'image' => asset('assets/images/menu/antipasti/samosa-chaat.jpg'),
             'items' => [
-                ['name' => 'Samosa Chaat', 'price' => 'Â£6.90', 'desc' => 'Crispy samosa topped with chutneys, herbs, and house seasoning.'],
-                ['name' => 'Chicken Soup', 'price' => 'Â£5.90', 'desc' => 'Comforting chicken soup with aromatic spices and fresh garnish.'],
-                ['name' => 'Paneer Pakora', 'price' => 'Â£6.40', 'desc' => 'Golden paneer pakora served with a bright, tangy chutney.'],
+                ['name' => 'Samosa Meat', 'price' => 'EUR 4.50', 'desc' => 'Crispy meat samosa served as a savory starter.'],
+                ['name' => 'Samosa Vegetable', 'price' => 'EUR 3.50', 'desc' => 'Classic vegetarian samosa, ideal for mixed groups.'],
+                ['name' => 'Paneer Pakora', 'price' => 'EUR 4.50', 'desc' => 'Golden paneer pakora with chutney and balanced spice.'],
             ],
-            'badge' => 'Starter Favorites',
+            'badge' => 'Add-On Favorites',
         ],
     ];
 @endphp
@@ -45,7 +45,7 @@
             <div class="home-featured-slider__top d-flex flex-column flex-lg-row align-items-lg-end justify-content-between gap-3 mb-4">
                 <div>
                     <p class="home-featured-slider__eyebrow mb-2">Featured Menu</p>
-                    <h2 class="home-featured-slider__title mb-0">Featured Selections from Our 100% Halal Grill Kitchen</h2>
+                    <h2 class="home-featured-slider__title mb-0">Popular Halal Picks from Kashmir Grill House in Como</h2>
                 </div>
                 <div class="carousel-indicators home-featured-slider__indicators position-static m-0">
                     @foreach($featuredSlides as $slide)
@@ -103,7 +103,7 @@
                                             <img src="{{ $slide['image'] }}" alt="{{ $slide['title'] }}" loading="lazy" decoding="async">
                                         </div>
                                         <span class="home-featured-slider__visual-chip home-featured-slider__visual-chip--a">Halal Kitchen</span>
-                                        <span class="home-featured-slider__visual-chip home-featured-slider__visual-chip--b">Prepared Fresh</span>
+                                        <span class="home-featured-slider__visual-chip home-featured-slider__visual-chip--b">Como Favorites</span>
                                     </div>
                                 </div>
                             </div>
@@ -121,4 +121,3 @@
         </div>
     </div>
 </section>
-

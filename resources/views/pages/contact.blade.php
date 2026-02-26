@@ -1,14 +1,14 @@
 @extends('layouts.master')
 
 @section('title', 'Contact | Kashmir Grill House')
-@section('meta_description', 'Contact Kashmir Grill House for reservations, event planning, opening hours, social channels, and directions.')
+@section('meta_description', 'Contact Kashmir Grill House in Como for reservations, takeaway orders, social channels, and directions.')
 
 @section('hero')
     <div class="container">
         <div class="row">
             <div class="col-12 col-lg-8">
                 <h1 class="display-6 fw-bold mb-3">Contact Us</h1>
-                <p class="lead mb-0">Get in touch for reservations, private events, and quick directions to Kashmir Grill House.</p>
+                <p class="lead mb-0">Get in touch for table bookings, takeaway orders, and quick directions to Kashmir Grill House in Como.</p>
             </div>
         </div>
     </div>
@@ -23,24 +23,32 @@
 
                     <dl class="mb-4">
                         <dt class="fw-semibold">Address</dt>
-                        <dd class="mb-3 text-secondary">123 Flavor Street, London, UK</dd>
+                        <dd class="mb-3 text-secondary">Via Milano, 253, 22100 Como, Italy</dd>
 
                         <dt class="fw-semibold">Phone</dt>
-                        <dd class="mb-3"><a href="tel:+440123456789">+44 0123 456 789</a></dd>
+                        <dd class="mb-3"><a href="tel:+393511203141">+39 351 1203141</a></dd>
 
-                        <dt class="fw-semibold">Email</dt>
-                        <dd class="mb-3"><a href="mailto:hello@kashmirgrillhouse.com">hello@kashmirgrillhouse.com</a></dd>
+                        <dt class="fw-semibold">Google Profile</dt>
+                        <dd class="mb-3">
+                            <a href="https://share.google/grft1lwOxyW4px1OV" target="_blank" rel="noopener noreferrer">
+                                Open business profile, reviews, and directions
+                            </a>
+                        </dd>
 
                         <dt class="fw-semibold">Opening Hours</dt>
-                        <dd class="mb-0 text-secondary">Daily: 12:00 PM - 11:00 PM</dd>
+                        <dd class="mb-0 text-secondary">
+                            Please check the
+                            <a href="https://share.google/grft1lwOxyW4px1OV" target="_blank" rel="noopener noreferrer">Google Business Profile</a>
+                            for today&apos;s hours.
+                        </dd>
                     </dl>
 
                     <h3 class="h6 text-uppercase text-secondary mb-3">Follow Us</h3>
                     <div class="d-flex gap-2">
-                        <a class="social-circle" href="#" aria-label="Instagram">IG</a>
-                        <a class="social-circle" href="#" aria-label="Facebook">FB</a>
-                        <a class="social-circle" href="#" aria-label="TikTok">TT</a>
-                        <a class="social-circle" href="#" aria-label="X">X</a>
+                        <a class="social-circle" href="https://www.instagram.com/kashmirgrillhouse_?utm_source=qr&igsh=ZjJmZDhtZHQzZ2l6" target="_blank" rel="noopener noreferrer" aria-label="Instagram">IG</a>
+                        <a class="social-circle" href="https://www.facebook.com/share/1CVDdWNQJy/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a>
+                        <a class="social-circle" href="https://www.tiktok.com/@kashmirgrillhouse" target="_blank" rel="noopener noreferrer" aria-label="TikTok">TT</a>
+                        <a class="social-circle" href="https://share.google/grft1lwOxyW4px1OV" target="_blank" rel="noopener noreferrer" aria-label="Google Business Profile">GB</a>
                     </div>
                 </article>
             </div>
@@ -53,7 +61,7 @@
                     </div>
 
                     <div class="map-shell" id="lazy-map-shell"
-                         data-map-src="https://www.google.com/maps?q=123+Flavor+Street,+London,+UK&output=embed">
+                         data-map-src="https://www.google.com/maps?q=Via+Milano,+253,+22100+Como,+Italy&output=embed">
                         <div class="map-placeholder" id="map-placeholder">
                             <p class="mb-3">Directions are available on demand.</p>
                             <button type="button" class="btn btn-brand btn-sm" id="load-map-btn">Load Map</button>
@@ -63,7 +71,7 @@
                     <noscript>
                         <iframe
                             title="Kashmir Grill House location"
-                            src="https://www.google.com/maps?q=123+Flavor+Street,+London,+UK&output=embed"
+                            src="https://www.google.com/maps?q=Via+Milano,+253,+22100+Como,+Italy&output=embed"
                             width="100%"
                             height="420"
                             style="border:0;display:block;"

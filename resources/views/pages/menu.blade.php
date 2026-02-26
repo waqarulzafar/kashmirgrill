@@ -172,7 +172,7 @@
                                                     data-menu-parallax
                                                 >
                                                 <div class="menu-item-media-overlay" aria-hidden="true"></div>
-                                                <div class="menu-item-price">£{{ number_format((float) $item->price, 2) }}</div>
+                                                <div class="menu-item-price">&euro;{{ number_format((float) $item->price, 2) }}</div>
                                             </div>
 
                                             <div class="menu-item-body">

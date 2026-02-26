@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title', 'Home | Kashmir Grill House')
-@section('meta_description', 'Discover Kashmir Grill House for premium South Asian dining, signature menu highlights, and effortless table reservations.')
+@section('meta_description', 'Discover Kashmir Grill House in Como, Italy for halal Pakistani and Indian dishes, grills, curries, biryani, dine-in, takeaway, and delivery.')
 @section('body_class', 'home-menu-theme')
 
 @section('hero')
@@ -647,22 +647,19 @@
 
         .hero-signature__aside {
             display: grid;
-            gap: 1rem;
+            gap: 0;
             align-items: start;
         }
 
         .hero-signature__visual {
             position: relative;
-            min-height: 320px;
-            border-radius: 1.25rem;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background:
-                radial-gradient(circle at 88% 16%, rgba(255, 149, 44, 0.16), transparent 42%),
-                radial-gradient(circle at 14% 85%, rgba(219, 29, 48, 0.2), transparent 50%),
-                rgba(8, 8, 8, 0.55);
-            box-shadow: 0 20px 42px rgba(0, 0, 0, 0.28);
-            overflow: hidden;
-            backdrop-filter: blur(8px);
+            min-height: 410px;
+            border-radius: 0;
+            border: 0;
+            background: transparent;
+            box-shadow: none;
+            overflow: visible;
+            backdrop-filter: none;
         }
 
         .hero-signature__visual::before,
@@ -672,6 +669,7 @@
             border-radius: 50%;
             border: 1px dashed rgba(255, 255, 255, 0.08);
             pointer-events: none;
+            display: none;
         }
 
         .hero-signature__visual::before {
@@ -707,17 +705,17 @@
         }
 
         .hero-signature__disc--main {
-            width: min(270px, 64vw);
-            height: min(270px, 64vw);
-            right: 1.2rem;
-            top: 1rem;
+            width: min(360px, 82vw);
+            height: min(360px, 82vw);
+            right: .25rem;
+            top: .35rem;
         }
 
         .hero-signature__disc--small {
-            width: min(120px, 32vw);
-            height: min(120px, 32vw);
-            left: 1rem;
-            bottom: 1.1rem;
+            width: min(155px, 40vw);
+            height: min(155px, 40vw);
+            left: .35rem;
+            bottom: .2rem;
         }
 
         .hero-signature__disc-ring {
@@ -755,13 +753,13 @@
         }
 
         .hero-signature__float-pill--one {
-            right: 0.85rem;
-            bottom: 1.05rem;
+            right: .35rem;
+            bottom: -.15rem;
         }
 
         .hero-signature__float-pill--two {
-            left: 0.95rem;
-            top: 1rem;
+            left: .25rem;
+            top: .35rem;
         }
 
         body.home-menu-theme .hero-signature__content .badge-brand {
@@ -1424,12 +1422,17 @@
             }
 
             .hero-signature__visual {
-                min-height: 280px;
+                min-height: 320px;
             }
 
             .hero-signature__disc--main {
-                width: min(235px, 62vw);
-                height: min(235px, 62vw);
+                width: min(285px, 76vw);
+                height: min(285px, 76vw);
+            }
+
+            .hero-signature__disc--small {
+                width: min(128px, 34vw);
+                height: min(128px, 34vw);
             }
 
             .home-discovery-story__visual-shell {

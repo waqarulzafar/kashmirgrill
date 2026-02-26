@@ -699,6 +699,7 @@ async function initHomeExperience() {
     const heroVisualStack = document.querySelector('[data-home-hero-visual-stack]');
     const heroRotateDisc = document.querySelector('[data-home-rotate-disc]');
     const heroRotateDiscReverse = document.querySelector('[data-home-rotate-disc-reverse]');
+    const heroPanel = document.querySelector('[data-home-hero-panel]');
     const heroFloatPills = Array.from(document.querySelectorAll('[data-home-float-pill]'));
     const storySection = document.querySelector('[data-home-story-section]');
     const storyVisual = document.querySelector('[data-home-story-visual]');
@@ -822,8 +823,11 @@ async function initHomeExperience() {
             .from('[data-home-hero-kicker]', { autoAlpha: 0, y: 16, duration: 0.45 })
             .from('[data-home-hero-title]', { autoAlpha: 0, y: 30, duration: 0.7 }, '-=0.15')
             .from('[data-home-hero-copy]', { autoAlpha: 0, y: 20, duration: 0.5 }, '-=0.35')
-            .from('[data-home-hero-actions] > *', { autoAlpha: 0, y: 14, stagger: 0.08, duration: 0.35 }, '-=0.25')
-            .from('[data-home-hero-panel]', { autoAlpha: 0, x: 20, y: 14, duration: 0.65 }, '-=0.45');
+            .from('[data-home-hero-actions] > *', { autoAlpha: 0, y: 14, stagger: 0.08, duration: 0.35 }, '-=0.25');
+
+        if (heroPanel) {
+            homeHeroTimeline.from(heroPanel, { autoAlpha: 0, x: 20, y: 14, duration: 0.65 }, '-=0.45');
+        }
 
         if (hero) {
             gsap.fromTo(hero, { backgroundPositionY: '0%' }, {
@@ -890,41 +894,28 @@ async function initHomeExperience() {
         }
 
         if (heroRotateDisc) {
-            if (!isLiteMotion) {
-                gsap.to(heroRotateDisc, {
-                    rotate: 360,
-                    duration: 26,
-                    ease: 'none',
-                    repeat: -1,
-                });
-            }
-
             gsap.to(heroRotateDisc, {
-                rotate: isLiteMotion ? '+=20' : '+=45',
+                rotate: isLiteMotion ? '+=42' : '+=140',
                 ease: 'none',
                 scrollTrigger: {
                     trigger: hero || heroRotateDisc,
                     start: 'top top',
                     end: 'bottom top',
-                    scrub: isLiteMotion ? 0.2 : 0.55,
+                    scrub: isLiteMotion ? 0.06 : 0.12,
                 },
             });
         }
 
-        if (heroRotateDiscReverse && !isLiteMotion) {
+        if (heroRotateDiscReverse) {
             gsap.to(heroRotateDiscReverse, {
-                rotate: -360,
-                duration: 20,
+                rotate: isLiteMotion ? '+=20' : '+=70',
                 ease: 'none',
-                repeat: -1,
-            });
-
-            gsap.to(heroRotateDiscReverse, {
-                y: -8,
-                duration: 2.1,
-                ease: 'sine.inOut',
-                repeat: -1,
-                yoyo: true,
+                scrollTrigger: {
+                    trigger: hero || heroRotateDiscReverse,
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: isLiteMotion ? 0.06 : 0.12,
+                },
             });
         }
 
@@ -997,23 +988,14 @@ async function initHomeExperience() {
         }
 
         featuredDiscs.forEach((disc, index) => {
-            if (!isLiteMotion) {
-                gsap.to(disc, {
-                    rotate: index % 2 === 0 ? 360 : -360,
-                    duration: 22 + (index * 2),
-                    ease: 'none',
-                    repeat: -1,
-                });
-            }
-
             gsap.to(disc, {
-                rotate: isLiteMotion ? '+=12' : '+=28',
+                rotate: isLiteMotion ? '+=16' : '+=38',
                 ease: 'none',
                 scrollTrigger: {
                     trigger: disc.closest('[data-home-featured-slide]') || disc,
                     start: 'top bottom',
                     end: 'bottom top',
-                    scrub: isLiteMotion ? 0.12 : 0.34,
+                    scrub: isLiteMotion ? 0.08 : 0.2,
                 },
             });
         });
@@ -1096,47 +1078,29 @@ async function initHomeExperience() {
         }
 
         storyDiscs.forEach((disc, index) => {
-            if (!isLiteMotion) {
-                gsap.to(disc, {
-                    rotate: index % 2 === 0 ? 360 : -360,
-                    duration: 20 + (index * 4),
-                    ease: 'none',
-                    repeat: -1,
-                });
-            }
-
             gsap.to(disc, {
-                rotate: isLiteMotion ? '+=10' : '+=22',
+                rotate: isLiteMotion ? '+=14' : '+=30',
                 ease: 'none',
                 scrollTrigger: {
                     trigger: storySection || disc,
                     start: 'top bottom',
                     end: 'bottom top',
-                    scrub: isLiteMotion ? 0.12 : 0.28,
+                    scrub: isLiteMotion ? 0.08 : 0.18,
                 },
             });
         });
 
         storyDiscsReverse.forEach((disc) => {
-            if (!isLiteMotion) {
-                gsap.to(disc, {
-                    rotate: -360,
-                    duration: 18,
-                    ease: 'none',
-                    repeat: -1,
-                });
-            } else {
-                gsap.to(disc, {
-                    rotate: '+=8',
-                    ease: 'none',
-                    scrollTrigger: {
-                        trigger: storySection || disc,
-                        start: 'top bottom',
-                        end: 'bottom top',
-                        scrub: 0.1,
-                    },
-                });
-            }
+            gsap.to(disc, {
+                rotate: isLiteMotion ? '-=12' : '-=24',
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: storySection || disc,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: isLiteMotion ? 0.08 : 0.16,
+                },
+            });
         });
 
         const animatedSections = Array.from(document.querySelectorAll('main section'));

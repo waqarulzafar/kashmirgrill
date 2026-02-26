@@ -4,22 +4,22 @@
             <div class="col-12 col-lg-7" data-gsap-item>
                 <x-section-header
                     badge="Food Gallery"
-                    title="Signature Dishes Spotlight"
-                    subtitle="A visual overview of key menu favourites, from grill selections and curry classics to rice-based signature dishes."
+                    title="Popular Dishes from the Kashmir Grill Kitchen"
+                    subtitle="A visual overview of guest favorites across grills, curries, and rice dishes served for dine-in and takeaway in Como."
                 />
             </div>
             <div class="col-12 col-lg-5" data-gsap-item>
                 <aside class="dishes-gallery__info-card h-100">
                     <p class="dishes-gallery__info-kicker mb-2">Kitchen Highlights</p>
                     <ul class="list-unstyled mb-3">
-                        <li>Charcoal-grilled meats and tandoor specialities</li>
-                        <li>Signature curries with balanced spice profiles</li>
-                        <li>Biryani, rice dishes, and platters for sharing</li>
+                        <li>Halal Pakistani and Indian dishes made with fresh ingredients</li>
+                        <li>Popular curries, grills, and biryani-style rice dishes</li>
+                        <li>Dine-in, takeaway, and delivery-friendly menu options</li>
                     </ul>
                     <div class="d-flex flex-wrap gap-2 mb-3">
                         <span class="dishes-gallery__chip">Chef Selection</span>
                         <span class="dishes-gallery__chip">House Favorite</span>
-                        <span class="dishes-gallery__chip">Signature Rice</span>
+                        <span class="dishes-gallery__chip">Como Orders</span>
                     </div>
                     <a href="{{ route('menu') }}" class="btn btn-brand btn-sm">View Full Menu</a>
                 </aside>
@@ -39,7 +39,7 @@
                         <span class="dish-meta-chip">Popular</span>
                     </div>
                     <h3 class="h4 mb-2">Smoky Seekh Kebab</h3>
-                    <p class="mb-3">Flame-finished seekh kebabs served with mint chutney and fresh garnish for a bold, smoky introduction to the grill menu.</p>
+                    <p class="mb-3">Flame-finished seekh kebabs with chutney and garnish for a bold introduction to the grill menu.</p>
                     <div class="dish-feature-points">
                         <span>Charcoal-finished</span>
                         <span>Served with chutney</span>
@@ -61,7 +61,7 @@
                                 <span class="dish-meta-chip">Creamy</span>
                             </div>
                             <h3 class="h5 mb-2">House Butter Chicken</h3>
-                            <p class="mb-0">A creamy tomato-based curry with warm spices and tandoor-finished chicken.</p>
+                            <p class="mb-0">A creamy tomato-based curry and one of the most recognisable menu favorites for dine-in and delivery orders.</p>
                         </figure>
                     </div>
 
@@ -76,7 +76,7 @@
                                 <span class="dish-meta-chip">Rich</span>
                             </div>
                             <h3 class="h5 mb-2">Royal Mutton Korma</h3>
-                            <p class="mb-0">A rich, slow-cooked korma with tender mutton and deep house spice flavor.</p>
+                            <p class="mb-0">A rich, slow-cooked korma style dish for guests who want deeper spice and a hearty curry option.</p>
                         </figure>
                     </div>
 
@@ -84,8 +84,8 @@
                         <article class="dishes-gallery__service-strip h-100">
                             <div>
                                 <p class="dishes-gallery__service-kicker mb-1">Service Note</p>
-                                <h3 class="h5 mb-2">Well Suited to Shared Tables and Event Dining</h3>
-                                <p class="mb-0 text-secondary">Our kitchen and service flow support shared platters and mixed preferences, making service easier for families, groups, and private events.</p>
+                                <h3 class="h5 mb-2">Well Suited to Family Tables, Takeaway, and Group Orders</h3>
+                                <p class="mb-0 text-secondary">The menu supports mixed preferences with grills, curries, rice dishes, and vegetarian choices for families and groups.</p>
                             </div>
                             <div class="d-flex flex-wrap gap-2">
                                 <a href="{{ route('events') }}" class="btn btn-brand-outline btn-sm">View Event Options</a>

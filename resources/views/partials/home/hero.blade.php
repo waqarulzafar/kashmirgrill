@@ -20,10 +20,10 @@
             <div class="col-12 col-xl-7">
                 <span class="badge badge-brand rounded-pill mb-3" data-home-hero-kicker>Kashmir Grill House</span>
                 <h1 class="display-4 fw-semibold mb-3 js-hero-headline" data-home-hero-title>
-                    Premium Halal Grill Dining with <span class="text-brand-accent">Refined Hospitality</span>
+                    Halal Pakistani &amp; Indian Dining in <span class="text-brand-accent">Como</span>
                 </h1>
                 <p class="lead text-white-50 mb-4" data-home-hero-copy>
-                    Kashmir Grill House offers 100% halal grill cuisine, comfortable dine-in service, advance table reservations with menu preferences, and reliable delivery for everyday dining and special occasions.
+                    Kashmir Grill House serves halal Pakistani and Indian favorites on Via Milano in Como, with dine-in, takeaway, and delivery-friendly options for everyday meals and family gatherings.
                 </p>
                 <div class="d-flex flex-wrap gap-2" data-home-hero-actions>
                     <a href="{{ route('book-now') }}" class="btn btn-brand px-4">Book Now</a>
@@ -42,20 +42,6 @@
                         </div>
                         <span class="hero-signature__float-pill hero-signature__float-pill--one" data-home-float-pill>Chef Special</span>
                         <span class="hero-signature__float-pill hero-signature__float-pill--two" data-home-float-pill>Fresh Tandoor</span>
-                    </div>
-
-                    <div class="hero-signature__panel rounded-4 p-4 p-lg-5" data-home-hero-panel>
-                        <h2 class="h5 mb-3">Service Highlights</h2>
-                        <ul class="list-unstyled mb-4">
-                            <li class="mb-2">100% halal charcoal grill specialties and signature curries</li>
-                            <li class="mb-2">Dine-in, delivery, and family-friendly table service</li>
-                            <li class="mb-0">Advance reservations with pre-arrival menu preferences</li>
-                        </ul>
-                        <div class="d-flex flex-wrap gap-2">
-                            <span class="highlight-chip">100% Halal</span>
-                            <span class="highlight-chip">Open Daily</span>
-                            <span class="highlight-chip">12:00 PM - 11:00 PM</span>
-                        </div>
                     </div>
                 </div>
             </div>
