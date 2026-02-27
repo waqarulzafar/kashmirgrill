@@ -1,7 +1,8 @@
 @extends('layouts.master')
 
-@section('title', 'Food Menu | Kashmir Grill House')
-@section('meta_description', 'Browse the Kashmir Grill House food menu by category, with signature grills, curries, rice, desserts, and drinks.')
+@section('title', 'Menu | Kashmir Grill House Como')
+@section('meta_description', 'Browse the Kashmir Grill House menu in Como with halal Pakistani and Indian grills, curries, biryani and rice dishes, starters, desserts, and drinks.')
+@section('meta_keywords', 'Kashmir Grill House menu, halal menu Como, Pakistani Indian food menu Como, grills curries biryani Como')
 
 @php
     $categoryNotes = [

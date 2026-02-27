@@ -1,7 +1,8 @@
 @extends('layouts.master')
 
-@section('title', 'Events | Kashmir Grill House')
-@section('meta_description', 'Plan weddings, birthdays, meetings, and seasonal celebrations at Kashmir Grill House with flexible event packages.')
+@section('title', 'Group Dining & Occasions | Kashmir Grill House Como')
+@section('meta_description', 'Plan group dining and occasions at Kashmir Grill House in Como with halal Pakistani and Indian menu options for families, birthdays, and gatherings.')
+@section('meta_keywords', 'group dining Como, Kashmir Grill House events, family dinner Como, birthday dinner halal Como')
 
 @php
     $eventCategories = [

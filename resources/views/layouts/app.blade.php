@@ -5,9 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', config('app.name', 'Kashmir Grill House'))</title>
+    <link rel="icon" type="image/gif" href="{{ asset('assets/images/preloader/kashmir-loader.gif') }}">
+    <link rel="shortcut icon" type="image/gif" href="{{ asset('assets/images/preloader/kashmir-loader.gif') }}">
+    <link rel="apple-touch-icon" href="{{ asset('assets/images/preloader/kashmir-loader.gif') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css">
     @vite(['resources/scss/app.scss', 'resources/js/app.js'])
     <style>
         :root {
@@ -169,6 +173,11 @@
             background-color: var(--brand-orange);
             color: var(--brand-black);
         }
+
+        .social-circle i {
+            font-size: 0.95rem;
+            line-height: 1;
+        }
     </style>
     @stack('styles')
 </head>
@@ -229,10 +238,10 @@
                     <div class="col-md-6 col-lg-4">
                         <h6 class="footer-title mb-3">Follow Us</h6>
                         <div class="d-flex gap-2 mb-3">
-                            <a class="social-circle" href="https://www.instagram.com/kashmirgrillhouse_?utm_source=qr&igsh=ZjJmZDhtZHQzZ2l6" target="_blank" rel="noopener noreferrer" aria-label="Instagram">IG</a>
-                            <a class="social-circle" href="https://www.facebook.com/share/1CVDdWNQJy/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a>
-                            <a class="social-circle" href="https://www.tiktok.com/@kashmirgrillhouse" target="_blank" rel="noopener noreferrer" aria-label="TikTok">TT</a>
-                            <a class="social-circle" href="https://share.google/grft1lwOxyW4px1OV" target="_blank" rel="noopener noreferrer" aria-label="Google Business Profile">GB</a>
+                            <a class="social-circle" href="https://www.instagram.com/kashmirgrillhouse_?utm_source=qr&igsh=ZjJmZDhtZHQzZ2l6" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+                            <a class="social-circle" href="https://www.facebook.com/share/1CVDdWNQJy/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+                            <a class="social-circle" href="https://www.tiktok.com/@kashmirgrillhouse" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a>
+                            <a class="social-circle" href="https://share.google/grft1lwOxyW4px1OV" target="_blank" rel="noopener noreferrer" aria-label="Google Business Profile"><i class="fa-brands fa-google" aria-hidden="true"></i></a>
                         </div>
                         <a href="#book-now" class="btn btn-brand-outline btn-sm">Reserve Your Table</a>
                     </div>

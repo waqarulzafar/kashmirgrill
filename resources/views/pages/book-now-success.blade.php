@@ -1,7 +1,8 @@
 @extends('layouts.master')
 
-@section('title', 'Booking Confirmed | Kashmir Grill House')
-@section('meta_description', 'Your booking request has been received by Kashmir Grill House. We will confirm your reservation shortly.')
+@section('title', 'Reservation Request Received | Kashmir Grill House Como')
+@section('meta_description', 'Your reservation request has been received by Kashmir Grill House in Como. Our team will confirm your booking details shortly.')
+@section('meta_robots', 'noindex,follow')
 
 @section('hero')
     <div class="container">

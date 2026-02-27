@@ -6,12 +6,16 @@
         $businessPhone = '+39 351 1203141';
         $businessPhoneHref = '+393511203141';
         $businessAddressLine = 'Via Milano, 253, 22100 Como, Italy';
+        $businessMapUrl = 'https://www.google.com/maps/search/?api=1&query=Via+Milano,+253,+22100+Como,+Italy';
         $instagramUrl = 'https://www.instagram.com/kashmirgrillhouse_?utm_source=qr&igsh=ZjJmZDhtZHQzZ2l6';
         $facebookUrl = 'https://www.facebook.com/share/1CVDdWNQJy/';
         $tiktokUrl = 'https://www.tiktok.com/@kashmirgrillhouse';
         $googleBusinessUrl = 'https://share.google/grft1lwOxyW4px1OV';
-        $pageTitle = trim($__env->yieldContent('meta_title', $__env->yieldContent('title', $defaultSite)));
-        $pageDescription = trim($__env->yieldContent('meta_description', 'Kashmir Grill House in Como serves halal Pakistani and Indian specialties with dine-in, takeaway, and delivery options.'));
+        $defaultTitle = 'Kashmir Grill House | Halal Pakistani & Indian Restaurant in Como, Italy';
+        $pageTitle = trim($__env->yieldContent('meta_title', $__env->yieldContent('title', $defaultTitle)));
+        $pageDescription = trim($__env->yieldContent('meta_description', 'Kashmir Grill House is a halal Pakistani and Indian restaurant in Como, Italy offering dine-in, takeaway, delivery-friendly service, and table reservations.'));
+        $pageKeywords = trim($__env->yieldContent('meta_keywords', 'Kashmir Grill House, halal restaurant Como, Pakistani restaurant Como, Indian restaurant Como, Via Milano 253 Como, dine-in Como, takeaway Como, delivery Como, grilled food Como, curry Como'));
+        $pageRobots = trim($__env->yieldContent('meta_robots', 'index,follow,max-image-preview:large'));
         $ogImage = trim($__env->yieldContent('og_image', asset('assets/images/logo.png')));
         $ogType = trim($__env->yieldContent('og_type', 'website'));
         $canonicalUrl = trim($__env->yieldContent('canonical_url', url()->current()));
@@ -19,11 +23,16 @@
             '@context' => 'https://schema.org',
             '@type' => 'Restaurant',
             'name' => 'Kashmir Grill House',
+            '@id' => url('/') . '#restaurant',
             'url' => url('/'),
             'image' => [$ogImage],
             'telephone' => $businessPhone,
             'servesCuisine' => ['Pakistani', 'Indian', 'South Asian', 'Halal', 'Grill'],
             'priceRange' => '€€',
+            'currenciesAccepted' => 'EUR',
+            'menu' => route('menu'),
+            'acceptsReservations' => true,
+            'hasMap' => $businessMapUrl,
             'address' => [
                 '@type' => 'PostalAddress',
                 'streetAddress' => 'Via Milano, 253',
@@ -32,6 +41,13 @@
                 'addressRegion' => 'CO',
                 'addressCountry' => 'IT',
             ],
+            'contactPoint' => [[
+                '@type' => 'ContactPoint',
+                'telephone' => $businessPhone,
+                'contactType' => 'reservations',
+                'areaServed' => 'IT',
+                'availableLanguage' => ['English', 'Italian'],
+            ]],
             'sameAs' => [
                 $instagramUrl,
                 $facebookUrl,
@@ -45,23 +61,36 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $pageTitle }}</title>
     <meta name="description" content="{{ $pageDescription }}">
-    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta name="keywords" content="{{ $pageKeywords }}">
+    <meta name="robots" content="{{ $pageRobots }}">
+    <meta name="author" content="{{ $defaultSite }}">
+    <meta name="application-name" content="{{ $defaultSite }}">
+    <meta name="apple-mobile-web-app-title" content="{{ $defaultSite }}">
+    <meta name="geo.region" content="IT-CO">
+    <meta name="geo.placename" content="Como">
+    <meta name="format-detection" content="telephone=yes">
     <link rel="canonical" href="{{ $canonicalUrl }}">
     <meta property="og:site_name" content="{{ $defaultSite }}">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:locale:alternate" content="en_US">
     <meta property="og:type" content="{{ $ogType }}">
     <meta property="og:title" content="{{ $pageTitle }}">
     <meta property="og:description" content="{{ $pageDescription }}">
     <meta property="og:url" content="{{ $canonicalUrl }}">
     <meta property="og:image" content="{{ $ogImage }}">
+    <meta property="og:image:alt" content="Kashmir Grill House in Como, Italy">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $pageTitle }}">
     <meta name="twitter:description" content="{{ $pageDescription }}">
     <meta name="twitter:image" content="{{ $ogImage }}">
-    <link id="favicon" rel="icon" type="image/png" href="{{ asset('favicon/favicon-32x32.png') }}">
+    <link id="favicon" rel="icon" type="image/gif" href="{{ asset('assets/images/preloader/kashmir-loader.gif') }}">
+    <link rel="shortcut icon" type="image/gif" href="{{ asset('assets/images/preloader/kashmir-loader.gif') }}">
+    <link rel="apple-touch-icon" href="{{ asset('assets/images/preloader/kashmir-loader.gif') }}">
     <meta name="theme-color" content="#000000">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css">
     @vite(['resources/scss/app.scss', 'resources/js/app.js'])
     <script type="application/ld+json">{!! json_encode($restaurantSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
     <style>
@@ -311,19 +340,11 @@
 
         .site-preloader__icon {
             width: min(180px, 34vw);
+            height: auto;
+            display: block;
             filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.35));
-            transform-origin: 50% 60%;
             animation: preloader-pop 1.5s ease-in-out infinite;
-        }
-
-        .site-preloader__icon .preloader-flame-main {
-            transform-origin: 50% 34%;
-            animation: preloader-flame 1s ease-in-out infinite;
-        }
-
-        .site-preloader__icon .preloader-flame-accent {
-            transform-origin: 50% 40%;
-            animation: preloader-flame 1.1s ease-in-out infinite reverse;
+            image-rendering: auto;
         }
 
         .site-preloader__text {
@@ -353,11 +374,6 @@
 
         .site-preloader__dots span:nth-child(2) { animation-delay: .14s; }
         .site-preloader__dots span:nth-child(3) { animation-delay: .28s; }
-
-        @keyframes preloader-flame {
-            0%, 100% { transform: rotate(-2deg) scale(0.98); }
-            50% { transform: rotate(2deg) scale(1.03); }
-        }
 
         @keyframes preloader-pop {
             0%, 100% { transform: translateY(0); }
@@ -630,6 +646,11 @@
             color: var(--brand-black);
         }
 
+        .social-circle i {
+            font-size: 0.95rem;
+            line-height: 1;
+        }
+
         .card,
         .event-card,
         .dish-tile,
@@ -764,18 +785,14 @@
 <body class="@yield('body_class')">
     <div id="sitePreloader" class="site-preloader" role="status" aria-live="polite" aria-label="Page loading">
         <div class="site-preloader__inner">
-            <svg class="site-preloader__icon" viewBox="0 0 180 220" aria-hidden="true">
-                <g class="preloader-flame-main">
-                    <path d="M91 14c7 14 6 23-2 34-7 10-4 18 6 25 12 8 16 17 15 29-2 25-22 42-48 42s-45-19-45-43c0-17 10-27 23-37 9-7 16-15 18-29 2-10 0-17-4-25 14 6 22 16 26 29 13-14 18-31 11-54z" fill="#ff2a2f"/>
-                </g>
-                <g class="preloader-flame-accent">
-                    <path d="M67 49c8 5 12 11 12 18 0 4-2 8-5 11 11-1 20 5 22 16 2 12-9 24-24 24-14 0-25-10-25-23 0-10 6-16 13-21 6-4 10-9 11-16 1-3 0-6-1-9 4 0 7 0 9 0-3 0-7 0-12 0z" fill="#ff7577" opacity=".9"/>
-                </g>
-                <g fill="#fff">
-                    <path d="M34 107h112v18c0 20-12 37-30 45l17 36c2 4 0 8-4 9-4 2-8 0-10-4l-18-38c-4 1-8 2-11 2l2 32c0 5-3 8-8 8s-8-4-8-8l2-32c-4 0-8-1-11-2l-18 38c-2 4-6 6-10 4-4-1-6-5-4-9l17-36c-18-8-30-25-30-45v-18z"/>
-                    <path d="M55 174l72-14c4-1 8 2 8 6 1 4-2 8-6 8l-72 14c-5 1-8-2-9-6 0-4 2-8 7-8z"/>
-                </g>
-            </svg>
+            <img
+                class="site-preloader__icon"
+                src="{{ asset('assets/images/preloader/kashmir-loader.gif') }}"
+                alt=""
+                aria-hidden="true"
+                loading="eager"
+                decoding="async"
+            >
             <div class="site-preloader__text">
                 <strong>Kashmir Grill</strong> Loading
                 <span class="site-preloader__dots" aria-hidden="true"><span></span><span></span><span></span></span>
@@ -900,10 +917,10 @@
                     <div class="col-md-6 col-lg-4">
                         <h6 class="footer-title mb-3">Follow Us</h6>
                         <div class="d-flex gap-2 mb-3">
-                            <a class="social-circle" href="{{ $instagramUrl }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">IG</a>
-                            <a class="social-circle" href="{{ $facebookUrl }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a>
-                            <a class="social-circle" href="{{ $tiktokUrl }}" target="_blank" rel="noopener noreferrer" aria-label="TikTok">TT</a>
-                            <a class="social-circle" href="{{ $googleBusinessUrl }}" target="_blank" rel="noopener noreferrer" aria-label="Google Business Profile">GB</a>
+                            <a class="social-circle" href="{{ $instagramUrl }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+                            <a class="social-circle" href="{{ $facebookUrl }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+                            <a class="social-circle" href="{{ $tiktokUrl }}" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a>
+                            <a class="social-circle" href="{{ $googleBusinessUrl }}" target="_blank" rel="noopener noreferrer" aria-label="Google Business Profile"><i class="fa-brands fa-google" aria-hidden="true"></i></a>
                         </div>
                         <a href="{{ route('book-now') }}" class="btn btn-brand-outline btn-sm">Reserve Your Table</a>
                     </div>
@@ -953,25 +970,5 @@
         })();
     </script>
 
-    <script>
-        (function () {
-            const frames = [
-                @for($i=1;$i<=24;$i++)
-                    "{{ asset('favicon/frames-32/frame-' . sprintf('%02d',$i) . '.png') }}",
-                @endfor
-            ];
-
-            const faviconEl = document.getElementById('favicon');
-            let i = 0;
-
-            // lower = faster (ms)
-            const speed = 60;
-
-            setInterval(() => {
-                faviconEl.href = frames[i] + "?f=" + i; // cache-bust so it updates in Chrome/Edge
-                i = (i + 1) % frames.length;
-            }, speed);
-        })();
-    </script>
 </body>
 </html>

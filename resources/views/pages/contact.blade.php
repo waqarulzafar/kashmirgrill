@@ -1,7 +1,8 @@
 @extends('layouts.master')
 
-@section('title', 'Contact | Kashmir Grill House')
-@section('meta_description', 'Contact Kashmir Grill House in Como for reservations, takeaway orders, social channels, and directions.')
+@section('title', 'Contact Kashmir Grill House | Via Milano, Como')
+@section('meta_description', 'Contact Kashmir Grill House at Via Milano, 253, 22100 Como, Italy for reservations, takeaway orders, social links, and Google directions.')
+@section('meta_keywords', 'contact Kashmir Grill House, Via Milano 253 Como, halal restaurant phone Como, Kashmir Grill House directions')
 
 @section('hero')
     <div class="container">
@@ -45,10 +46,10 @@
 
                     <h3 class="h6 text-uppercase text-secondary mb-3">Follow Us</h3>
                     <div class="d-flex gap-2">
-                        <a class="social-circle" href="https://www.instagram.com/kashmirgrillhouse_?utm_source=qr&igsh=ZjJmZDhtZHQzZ2l6" target="_blank" rel="noopener noreferrer" aria-label="Instagram">IG</a>
-                        <a class="social-circle" href="https://www.facebook.com/share/1CVDdWNQJy/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a>
-                        <a class="social-circle" href="https://www.tiktok.com/@kashmirgrillhouse" target="_blank" rel="noopener noreferrer" aria-label="TikTok">TT</a>
-                        <a class="social-circle" href="https://share.google/grft1lwOxyW4px1OV" target="_blank" rel="noopener noreferrer" aria-label="Google Business Profile">GB</a>
+                        <a class="social-circle" href="https://www.instagram.com/kashmirgrillhouse_?utm_source=qr&igsh=ZjJmZDhtZHQzZ2l6" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+                        <a class="social-circle" href="https://www.facebook.com/share/1CVDdWNQJy/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+                        <a class="social-circle" href="https://www.tiktok.com/@kashmirgrillhouse" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a>
+                        <a class="social-circle" href="https://share.google/grft1lwOxyW4px1OV" target="_blank" rel="noopener noreferrer" aria-label="Google Business Profile"><i class="fa-brands fa-google" aria-hidden="true"></i></a>
                     </div>
                 </article>
             </div>

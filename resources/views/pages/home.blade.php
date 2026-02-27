@@ -1,7 +1,8 @@
 @extends('layouts.master')
 
-@section('title', 'Home | Kashmir Grill House')
-@section('meta_description', 'Discover Kashmir Grill House in Como, Italy for halal Pakistani and Indian dishes, grills, curries, biryani, dine-in, takeaway, and delivery.')
+@section('title', 'Kashmir Grill House | Halal Pakistani & Indian Restaurant in Como')
+@section('meta_description', 'Visit Kashmir Grill House in Como, Italy for halal Pakistani and Indian favorites including grills, curries, biryani, dine-in, takeaway, and delivery-friendly service.')
+@section('meta_keywords', 'Kashmir Grill House Como, halal Pakistani Indian restaurant Como, grilled dishes Como, curry Como, biryani Como, dine-in takeaway delivery Como')
 @section('body_class', 'home-menu-theme')
 
 @section('hero')
@@ -405,9 +406,28 @@
             to { transform: translateX(-33%); }
         }
 
+        .home-discovery-story__showcase {
+            position: relative;
+            border-radius: 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            background:
+                radial-gradient(circle at 10% 12%, rgba(219, 29, 48, 0.11), transparent 38%),
+                radial-gradient(circle at 86% 88%, rgba(255, 149, 44, 0.1), transparent 42%),
+                linear-gradient(180deg, rgba(255,255,255,.015), rgba(255,255,255,0)),
+                rgba(8, 8, 8, 0.62);
+            box-shadow: 0 18px 34px rgba(0, 0, 0, 0.2);
+            padding: clamp(1rem, 2vw, 1.25rem);
+        }
+
         .home-discovery-story__intro {
-            max-width: 60rem;
-            margin-inline: auto;
+            height: 100%;
+            border-radius: 1rem;
+            border: 1px solid rgba(255,255,255,.06);
+            background:
+                linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0)),
+                rgba(13, 13, 13, 0.72);
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,.015);
+            padding: clamp(1rem, 2.2vw, 1.35rem);
         }
 
         .home-discovery-story__eyebrow {
@@ -420,32 +440,137 @@
         .home-discovery-story__headline {
             color: #fff;
             font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(2rem, 4.4vw, 3.6rem);
-            line-height: .95;
+            font-size: clamp(2rem, 4vw, 3.25rem);
+            line-height: .93;
             letter-spacing: .02em;
             text-transform: uppercase;
-            margin-inline: auto;
-            max-width: 19ch;
+            max-width: 16ch;
         }
 
         .home-discovery-story__brand {
             color: rgba(255, 149, 44, 0.92);
-            font: 700 1rem/1 'Rajdhani', sans-serif;
+            font: 700 .95rem/1 'Rajdhani', sans-serif;
             letter-spacing: .18em;
+            text-transform: uppercase;
+        }
+
+        .home-discovery-story__service-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .55rem;
+        }
+
+        .home-discovery-story__service-chips span {
+            display: inline-flex;
+            align-items: center;
+            min-height: 32px;
+            padding: .35rem .75rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,.08);
+            background: rgba(255,255,255,.03);
+            color: rgba(255,255,255,.92);
+            font: 700 .7rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .1em;
             text-transform: uppercase;
         }
 
         .home-discovery-story__visual-shell {
             position: relative;
-            min-height: 320px;
-            border-radius: 1.25rem;
+            border-radius: 1rem;
             border: 1px solid rgba(255, 255, 255, 0.07);
             background:
-                radial-gradient(circle at 18% 82%, rgba(219, 29, 48, 0.16), transparent 45%),
-                radial-gradient(circle at 84% 18%, rgba(255, 149, 44, 0.14), transparent 42%),
+                radial-gradient(circle at 84% 16%, rgba(255, 149, 44, 0.14), transparent 42%),
+                radial-gradient(circle at 16% 86%, rgba(219, 29, 48, 0.14), transparent 44%),
                 rgba(10, 10, 10, 0.72);
             box-shadow: 0 18px 36px rgba(0, 0, 0, 0.2);
             overflow: hidden;
+            padding: .9rem;
+        }
+
+        .home-discovery-story__mosaic {
+            display: grid;
+            grid-template-columns: 1.3fr .9fr;
+            grid-template-rows: 1fr 1fr;
+            gap: .75rem;
+            min-height: 340px;
+        }
+
+        .home-discovery-story__media-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: .9rem;
+            border: 1px solid rgba(255,255,255,.08);
+            background: #111;
+            box-shadow: 0 14px 26px rgba(0,0,0,.2);
+            will-change: transform;
+            transform: translateZ(0);
+        }
+
+        .home-discovery-story__media-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transform: scale(1.03);
+        }
+
+        .home-discovery-story__media-card figcaption {
+            position: absolute;
+            left: .6rem;
+            bottom: .6rem;
+            display: inline-flex;
+            align-items: center;
+            min-height: 28px;
+            padding: .25rem .6rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,.08);
+            background: rgba(7,7,7,.82);
+            color: #fff;
+            font: 700 .62rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+        .home-discovery-story__media-card--main {
+            grid-column: 1;
+            grid-row: 1 / span 2;
+            min-height: 340px;
+        }
+
+        .home-discovery-story__media-card--top {
+            grid-column: 2;
+            grid-row: 1;
+            min-height: 164px;
+        }
+
+        .home-discovery-story__media-card--bottom {
+            grid-column: 2;
+            grid-row: 2;
+            min-height: 164px;
+        }
+
+        .home-discovery-story__location-strip {
+            margin-top: .75rem;
+            display: flex;
+            align-items: center;
+            gap: .55rem;
+            border-radius: .75rem;
+            border: 1px solid rgba(255,255,255,.06);
+            background: rgba(12, 12, 12, 0.55);
+            color: rgba(255,255,255,.92);
+            padding: .65rem .8rem;
+            font: 700 .8rem/1.2 'Rajdhani', sans-serif;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .home-discovery-story__location-dot {
+            width: .5rem;
+            height: .5rem;
+            border-radius: 50%;
+            background: linear-gradient(180deg, var(--brand-red), var(--brand-orange));
+            box-shadow: 0 0 8px rgba(219,29,48,.35);
+            flex-shrink: 0;
         }
 
         .home-discovery-story__ring {
@@ -520,10 +645,10 @@
             border-radius: 1rem;
             border: 1px solid rgba(255, 255, 255, 0.08);
             background:
-                linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0)),
-                #121212;
+                linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,0)),
+                rgba(14, 14, 14, 0.86);
             box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
-            padding: 1rem;
+            padding: clamp(.9rem, 1.8vw, 1.15rem);
         }
 
         .home-discovery-story__panel h3 {
@@ -538,7 +663,9 @@
             height: 100%;
             border-radius: .95rem;
             border: 1px solid rgba(255, 255, 255, 0.06);
-            background: rgba(9, 9, 9, 0.5);
+            background:
+                radial-gradient(circle at 86% 12%, rgba(255,149,44,.1), transparent 42%),
+                rgba(9, 9, 9, 0.5);
             padding: 1rem;
         }
 
@@ -555,6 +682,34 @@
             color: #fff;
             font: 700 .95rem/1 'Rajdhani', sans-serif;
             letter-spacing: .08em;
+        }
+
+        .home-discovery-story__mini-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: .7rem;
+        }
+
+        .home-discovery-story__mini-grid > div {
+            border-radius: .8rem;
+            border: 1px solid rgba(255,255,255,.06);
+            background: rgba(255,255,255,.02);
+            padding: .7rem .75rem;
+        }
+
+        .home-discovery-story__mini-grid span {
+            display: block;
+            color: rgba(255,255,255,.55);
+            font: 700 .63rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            margin-bottom: .35rem;
+        }
+
+        .home-discovery-story__mini-grid strong {
+            color: #fff;
+            font: 700 .92rem/1.2 'Rajdhani', sans-serif;
+            letter-spacing: .02em;
         }
 
         .home-scroll-progress {
@@ -1038,16 +1193,26 @@
             letter-spacing: .03em;
         }
 
-        .dishes-gallery__info-card {
-            height: 100%;
-            border-radius: 1rem;
+        .dishes-gallery__intro-shell {
+            border-radius: 1.05rem;
             border: 1px solid rgba(255, 255, 255, 0.08);
             background:
                 radial-gradient(circle at 92% 12%, rgba(255, 149, 44, 0.12), transparent 40%),
                 radial-gradient(circle at 8% 90%, rgba(219, 29, 48, 0.12), transparent 45%),
+                linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)),
                 #121212;
             box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
-            padding: 1rem;
+            padding: clamp(.85rem, 1.8vw, 1.1rem);
+        }
+
+        .dishes-gallery__intro-cta {
+            border-radius: .95rem;
+            border: 1px solid rgba(255,255,255,.07);
+            background:
+                linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,0)),
+                rgba(10,10,10,.55);
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,.015);
+            padding: .95rem;
         }
 
         .dishes-gallery__info-kicker,
@@ -1056,30 +1221,6 @@
             font: 700 .75rem/1 'Rajdhani', sans-serif;
             letter-spacing: .14em;
             text-transform: uppercase;
-        }
-
-        .dishes-gallery__info-card ul li {
-            color: rgba(255, 255, 255, 0.8);
-            position: relative;
-            padding-left: 1rem;
-            margin-bottom: .45rem;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 500;
-        }
-
-        .dishes-gallery__info-card ul li:last-child {
-            margin-bottom: 0;
-        }
-
-        .dishes-gallery__info-card ul li::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: .48rem;
-            width: .4rem;
-            height: .4rem;
-            border-radius: 50%;
-            background: linear-gradient(180deg, var(--brand-red), var(--brand-green));
         }
 
         .dishes-gallery__chip {
@@ -1093,6 +1234,15 @@
             font: 700 .72rem/1 'Rajdhani', sans-serif;
             letter-spacing: .08em;
             text-transform: uppercase;
+        }
+
+        .dishes-gallery__layout {
+            display: grid;
+            grid-template-columns: 1.2fr .9fr .9fr;
+            grid-template-areas:
+                "lead spotA spotB"
+                "lead strip strip";
+            gap: 1rem;
         }
 
         body.home-menu-theme .highlight-card h3,
@@ -1220,20 +1370,29 @@
             color: rgba(255, 255, 255, 0.72);
         }
 
-        .dish-tile--featured {
+        .dish-tile--lead {
+            grid-area: lead;
             padding: 1.1rem !important;
         }
 
-        .dish-tile--featured .dish-visual {
-            height: 250px;
+        .dish-tile--lead .dish-visual {
+            height: 280px;
         }
 
-        .dish-tile--featured h3 {
+        .dish-tile--lead h3 {
             font-size: 1.35rem;
         }
 
-        .dish-tile--compact .dish-visual {
+        .dish-tile--spot .dish-visual {
             height: 175px;
+        }
+
+        .dishes-gallery__layout > .dish-tile:nth-child(2) {
+            grid-area: spotA;
+        }
+
+        .dishes-gallery__layout > .dish-tile:nth-child(3) {
+            grid-area: spotB;
         }
 
         .dish-meta-row {
@@ -1279,6 +1438,7 @@
         }
 
         .dishes-gallery__service-strip {
+            grid-area: strip;
             display: flex;
             flex-wrap: wrap;
             gap: 1rem;
@@ -1400,7 +1560,7 @@
 
             .home-featured-slider__visual {
                 min-height: 300px;
-                backdrop-filter: blur(6px);
+                backdrop-filter: none;
             }
 
             .home-featured-slider__visual-ring--lg {
@@ -1421,8 +1581,21 @@
                 min-height: 180px;
             }
 
-            .dish-tile--featured .dish-visual {
-                height: 220px;
+            .dishes-gallery__layout {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "lead"
+                    "spotA"
+                    "spotB"
+                    "strip";
+            }
+
+            .dish-tile--lead .dish-visual {
+                height: 230px;
+            }
+
+            .dish-tile--spot .dish-visual {
+                height: 200px;
             }
 
             .hero-signature__visual {
@@ -1440,7 +1613,40 @@
             }
 
             .home-discovery-story__visual-shell {
-                min-height: 280px;
+                min-height: 0;
+                padding: .75rem;
+            }
+
+            .home-discovery-story__headline {
+                max-width: 100%;
+            }
+
+            .home-discovery-story__mosaic {
+                min-height: 0;
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+
+            .home-discovery-story__media-card--main,
+            .home-discovery-story__media-card--top,
+            .home-discovery-story__media-card--bottom {
+                grid-column: auto;
+                grid-row: auto;
+                min-height: 180px;
+            }
+
+            .home-discovery-story__media-card--main {
+                min-height: 240px;
+            }
+
+            .home-discovery-story__location-strip {
+                font-size: .74rem;
+                letter-spacing: .06em;
+                text-transform: none;
+            }
+
+            .home-discovery-story__mini-grid {
+                grid-template-columns: 1fr;
             }
 
             .home-discovery-story__ring--one {

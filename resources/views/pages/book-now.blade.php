@@ -1,7 +1,8 @@
 @extends('layouts.master')
 
-@section('title', 'Book Now | Kashmir Grill House')
-@section('meta_description', 'Reserve your table at Kashmir Grill House online. Choose date, time, party size, and dining preference in minutes.')
+@section('title', 'Reserve a Table | Kashmir Grill House Como')
+@section('meta_description', 'Book your table at Kashmir Grill House in Como, Italy. Send your reservation request online with date, time, party size, and preferences.')
+@section('meta_keywords', 'book table Kashmir Grill House, reservation Como halal restaurant, dine-in booking Via Milano Como')
 
 @section('hero')
     <div class="container">
