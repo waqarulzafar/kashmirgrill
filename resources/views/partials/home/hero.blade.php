@@ -39,12 +39,21 @@
             <div class="col-12 col-xl-5">
                 <div class="hero-signature__aside" data-home-hero-aside>
                     <div class="hero-signature__visual" data-home-hero-visual-stack>
-                        <div class="hero-signature__disc hero-signature__disc--main" data-home-rotate-disc>
-                            <img src="{{ asset('assets/images/menu/griglia/mix-grill-tandoori.jpg') }}" alt="Signature mixed grill platter" loading="lazy" decoding="async">
-                            <div class="hero-signature__disc-ring" aria-hidden="true"></div>
-                        </div>
-                        <div class="hero-signature__disc hero-signature__disc--small" data-home-rotate-disc-reverse>
-                            <img src="{{ asset('assets/images/menu/primi-piati/butter-chicken.jpg') }}" alt="Butter chicken bowl" loading="lazy" decoding="async">
+                        <div class="hero-signature__platter-shell" data-home-hero-platter-shell>
+                            <span class="hero-signature__platter-shadow" aria-hidden="true" data-home-hero-platter-shadow></span>
+                            <span class="hero-signature__platter-glow" aria-hidden="true" data-home-hero-platter-glow></span>
+                            <div class="hero-signature__platter-stage" data-home-hero-platter-stage>
+                                <canvas
+                                    class="hero-signature__platter-frame"
+                                    width="620"
+                                    height="620"
+                                    role="img"
+                                    aria-label="Kashmir Grill House menu platter selection"
+                                    data-home-hero-platter
+                                    data-home-hero-frames-base="{{ asset('assets/images/hero/pranzo-scroll-frames') }}"
+                                    data-home-hero-frames-count="60"
+                                ></canvas>
+                            </div>
                         </div>
                         <span class="hero-signature__float-pill hero-signature__float-pill--one" data-home-float-pill>Chef Special</span>
                         <span class="hero-signature__float-pill hero-signature__float-pill--two" data-home-float-pill>Fresh Tandoor</span>

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\MenuCategory;
 use App\Models\MenuItem;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class MenuCatalogSeeder extends Seeder
 {
@@ -12,112 +13,180 @@ class MenuCatalogSeeder extends Seeder
     {
         $catalog = [
             [
-                'name' => 'Appetizers',
-                'slug' => 'appetizers',
+                'name' => 'Antipasti',
+                'slug' => 'antipasti',
+                'image' => '/images/menu/category/antipasti.jpg',
                 'items' => [
-                    ['name' => 'Samosa Trio', 'price' => 5.90, 'description' => 'Crisp pastry parcels stuffed with spiced potato and peas, served with mint chutney.', 'tags' => 'Popular, Crispy, Veg', 'image' => 'assets/images/menu/appetizers.jpg'],
-                    ['name' => 'Chicken Pakora', 'price' => 6.80, 'description' => 'Tender chicken strips dipped in gram-flour batter and fried until golden.', 'tags' => 'Starter, Crunchy', 'image' => 'assets/images/menu/appetizers.jpg'],
-                    ['name' => 'Paneer Tikka Bites', 'price' => 7.40, 'description' => 'Charred paneer cubes marinated with yogurt, chili and kasoori methi.', 'tags' => 'Tandoor, Vegetarian', 'image' => 'assets/images/menu/grill.jpg'],
-                    ['name' => 'Chicken Pakora GPZ', 'price' => 7.20, 'description' => 'Crispy gram-flour chicken pakora seasoned with house spices and served hot.', 'tags' => 'Crispy, Starter', 'image' => 'assets/images/menu/appetizers.jpg'],
+                    ['name' => 'Samosa Chaat', 'price' => 4.50, 'description' => 'Samosa with chickpeas, yogurt, tamarind, and house spices.', 'image' => '/images/menu/category/antipasti/SAMOSA CHAAT.jpg'],
+                    ['name' => 'Onion Rings', 'price' => 3.00, 'description' => 'Crispy onion rings fried until golden.', 'image' => '/images/menu/category/antipasti/ONION RINGS GPZ.jpg'],
+                    ['name' => 'French Fries', 'price' => 3.50, 'description' => 'Classic crispy fries.', 'image' => '/images/menu/category/antipasti/FRENCH FRIES.jpg'],
+                    ['name' => 'Chicken Soup', 'price' => 6.00, 'description' => 'Chicken soup with mixed vegetables and herbs.', 'image' => '/images/menu/category/antipasti/CHICKEN SOUP.jpg'],
+                    ['name' => 'Pakora Mix', 'price' => 3.50, 'description' => 'Mixed vegetable pakora with gram flour and spices.', 'image' => '/images/menu/category/antipasti/PAKORA MIX 6 PZ.jpg'],
+                    ['name' => 'Paneer Pakora', 'price' => 4.00, 'description' => 'Paneer pakora with gram flour and spices.', 'image' => '/images/menu/category/antipasti/PANEER PAKORA GPZ.jpg'],
+                    ['name' => 'Chicken Pakora', 'price' => 6.00, 'description' => 'Chicken pakora in seasoned gram flour batter.', 'image' => '/images/menu/category/antipasti/CHICKEN PAKORA GPZ.jpg'],
+                    ['name' => 'Gamberi Pakora', 'price' => 6.00, 'description' => 'Shrimp pakora fried with house spices.', 'image' => '/images/menu/category/antipasti/GAMBERI PAKORA GPZ.jpg'],
+                    ['name' => 'Samosa Verdure (2 pcs)', 'price' => 3.00, 'description' => 'Vegetable samosa with potato and peas.', 'image' => '/images/menu/category/antipasti/SAMOSA VERDURE 2PZ.jpg'],
+                    ['name' => 'Vegetable Soup', 'price' => 4.00, 'description' => 'Mixed vegetable soup with aromatic herbs.', 'image' => '/images/menu/category/antipasti/VEGETABLE SOUP_.jpg'],
+                    ['name' => 'Samosa Carne (2 pcs)', 'price' => 4.00, 'description' => 'Meat samosa with spices and herbs.', 'image' => '/images/menu/category/antipasti/SAMOSA CARNE 2PZ.jpg'],
+                    ['name' => 'Lentil Soup', 'price' => 4.50, 'description' => 'Lentil soup with garlic, ginger, and warm spices.', 'image' => '/images/menu/category/antipasti/LENTIL SOUP.jpg'],
                 ],
             ],
             [
-                'name' => 'Grill',
-                'slug' => 'grill',
+                'name' => 'Griglia',
+                'slug' => 'griglia',
+                'image' => '/images/menu/category/griglia.jpg',
                 'items' => [
-                    ['name' => 'Seekh Kebab', 'price' => 12.90, 'description' => 'Smoky minced lamb skewers with fresh herbs, onions and lemon.', 'tags' => 'Signature, Spicy', 'image' => 'assets/images/menu/seekh-kebab.jpg'],
-                    ['name' => 'Tandoori Chicken Half', 'price' => 13.50, 'description' => 'Classic red-marinated chicken roasted in the tandoor and finished with butter.', 'tags' => 'Chargrilled, Chef Pick', 'image' => 'assets/images/menu/grill.jpg'],
-                    ['name' => 'Mixed Grill Sizzler', 'price' => 18.90, 'description' => 'A hot platter of seekh kebab, chicken tikka, wings and grilled vegetables.', 'tags' => 'Sharing, House Special', 'image' => 'assets/images/menu/mix-platter.jpg'],
-                    ['name' => 'Mix Grill Tandoori', 'price' => 20.90, 'description' => 'Tandoori mixed grill with juicy chicken cuts and smoky char from the clay oven.', 'tags' => 'Tandoori, Sharing', 'image' => 'assets/images/menu/grill.jpg'],
+                    ['name' => 'Chicken Tandoori', 'price' => 10.00, 'description' => 'Tandoori chicken marinated with yogurt and spices.', 'image' => '/images/menu/category/griglia/CHICKEN TANDOORI.jpg'],
+                    ['name' => 'Grill Chicken', 'price' => 16.00, 'description' => 'Marinated grilled chicken with lemon and spices.', 'image' => '/images/menu/category/griglia/GRILL CHICKEN.jpg'],
+                    ['name' => 'Mix Grill Tandoori', 'price' => 13.00, 'description' => 'Assorted tandoori grilled meats.', 'image' => '/images/menu/category/griglia/MIX GRILL TANDOORI.jpg'],
+                    ['name' => 'Chicken Tikka', 'price' => 10.00, 'description' => 'Boneless chicken tikka with tandoori spices.', 'image' => '/images/menu/category/griglia/CHICKEN TIKKA.jpg'],
+                    ['name' => 'Lamb Chops Grill (5 pcs)', 'price' => 15.00, 'description' => 'Grilled lamb chops with herbs and spices.', 'image' => '/images/menu/category/griglia/LAMB CHAMP GRILL.jpg'],
+                    ['name' => 'Fish Grill', 'price' => 13.00, 'description' => 'Grilled fish with lemon, garlic, and spices.', 'image' => '/images/menu/category/griglia/FISH GRILL.jpg'],
+                    ['name' => 'Malai Tikka', 'price' => 10.00, 'description' => 'Creamy chicken tikka with yogurt and butter.', 'image' => '/images/menu/category/griglia/MALAI TIKKA.jpg'],
+                    ['name' => 'Beef Chapli Kebab', 'price' => 9.00, 'description' => 'Minced beef chapli kebab with fresh herbs.', 'image' => '/images/menu/category/griglia/BEEF CHAPLI KEBAB.jpg'],
+                    ['name' => 'Beef Seekh Kebab (5 pcs)', 'price' => 9.00, 'description' => 'Beef seekh kebab with green chili and coriander.', 'image' => '/images/menu/category/griglia/BEEF SEEKH KEBAB.jpg'],
                 ],
             ],
             [
-                'name' => 'Main Course',
-                'slug' => 'main-course',
+                'name' => 'Primi Piatti',
+                'slug' => 'primi-piatti',
+                'image' => '/images/menu/category/primi-piatti.jpg',
                 'items' => [
-                    ['name' => 'Butter Chicken', 'price' => 13.80, 'description' => 'Creamy tomato-based curry with charcoal-finished chicken tikka pieces.', 'tags' => 'Best Seller, Creamy', 'image' => 'assets/images/menu/butter-chicken.jpg'],
-                    ['name' => 'Lamb Rogan Josh', 'price' => 14.90, 'description' => 'Slow-cooked lamb in a deep Kashmiri gravy with aromatic whole spices.', 'tags' => 'Traditional, Rich', 'image' => 'assets/images/menu/main-course.jpg'],
-                    ['name' => 'Chicken Karahi', 'price' => 13.20, 'description' => 'Fresh tomato, ginger and green chili curry served in karahi style.', 'tags' => 'Medium Hot, Fresh', 'image' => 'assets/images/menu/main-course.jpg'],
-                    ['name' => 'Shinwari Chicken Karahi', 'price' => 15.90, 'description' => 'Shinwari-style chicken karahi cooked with tomato, garlic and fresh green chilies.', 'tags' => 'Shinwari, Karahi', 'image' => 'assets/images/menu/main-course.jpg'],
+                    ['name' => 'Shinwari Lamb Karahi', 'price' => 11.00, 'description' => 'Shinwari-style lamb karahi with tomato, garlic, and ginger.', 'image' => '/images/menu/category/primi-piatti/SHINWARI LAMB KARAHI.jpg'],
+                    ['name' => 'Karela Gosht', 'price' => 10.00, 'description' => 'Meat cooked with bitter gourd and spices.', 'image' => '/images/menu/category/primi-piatti/KARELA GOSHT.jpg'],
+                    ['name' => 'Shinwari Chicken Karahi', 'price' => 9.50, 'description' => 'Shinwari chicken karahi with fresh tomato and chili.', 'image' => '/images/menu/category/primi-piatti/SHINWARI CHICKEN KARAHI.jpg'],
+                    ['name' => 'Daal Gosht', 'price' => 9.50, 'description' => 'Lentils and beef cooked with aromatic spices.', 'image' => '/images/menu/category/primi-piatti/DAAL GOSHT.jpg'],
+                    ['name' => 'Shinwari Beef Karahi', 'price' => 9.50, 'description' => 'Shinwari beef karahi with coriander and chili.', 'image' => '/images/menu/category/primi-piatti/SHINWARI BEEF KARAHI.jpg'],
+                    ['name' => 'Palak Gosht', 'price' => 9.00, 'description' => 'Spinach and beef curry with house spices.', 'image' => '/images/menu/category/primi-piatti/PALAK GOSHT.jpg'],
+                    ['name' => 'Chicken Boneless Handi', 'price' => 11.00, 'description' => 'Boneless chicken handi with tomato, butter, and spices.', 'image' => '/images/menu/category/primi-piatti/CHICKEN BONELESS HANDI.jpg'],
+                    ['name' => 'Butter Chicken', 'price' => 10.00, 'description' => 'Creamy butter chicken with tomato and aromatic spices.', 'image' => '/images/menu/category/primi-piatti/BUTTER CHICKEN.jpg'],
+                    ['name' => 'Chicken Jalfrezi', 'price' => 10.00, 'description' => 'Chicken jalfrezi with peppers, onion, and tomato.', 'image' => '/images/menu/category/primi-piatti/CHICKEN JALFREZI.jpg'],
+                    ['name' => 'Chicken Tikka Masala', 'price' => 10.00, 'description' => 'Chicken tikka masala in a rich spiced sauce.', 'image' => '/images/menu/category/primi-piatti/CHICKEN TIKKA MASALA.jpg'],
+                    ['name' => 'Bhindi Gosht', 'price' => 10.00, 'description' => 'Okra and meat curry with house masala.', 'image' => '/images/menu/category/primi-piatti/BHINDI GOSHT.jpg'],
+                    ['name' => 'Aloo Keema', 'price' => 9.00, 'description' => 'Minced meat with potatoes and warming spices.', 'image' => '/images/menu/category/primi-piatti/ALOO KEEMA.jpg'],
+                    ['name' => 'Chicken Palak', 'price' => 7.00, 'description' => 'Chicken with spinach, tomato, and ginger.', 'image' => '/images/menu/category/primi-piatti/CHICKEN PALAK.jpg'],
+                    ['name' => 'Chicken Korma', 'price' => 9.00, 'description' => 'Classic chicken korma with yogurt and mild spices.', 'image' => '/images/menu/category/primi-piatti/CHICKEN KORMA.jpg'],
+                    ['name' => 'Mutton Korma', 'price' => 10.00, 'description' => 'Mutton korma with yogurt and aromatic spices.', 'image' => '/images/menu/category/primi-piatti/MUTTON KORMA.jpg'],
+                    ['name' => 'Beef Korma', 'price' => 9.50, 'description' => 'Beef korma cooked in a rich spiced gravy.', 'image' => '/images/menu/category/primi-piatti/BEEF KORMA.jpg'],
+                    ['name' => 'Fish Curry', 'price' => 11.00, 'description' => 'Fish curry with tomato, garlic, and turmeric.', 'image' => '/images/menu/category/primi-piatti/FISH CURRY.jpg'],
+                    ['name' => 'Gamberi Curry', 'price' => 10.00, 'description' => 'Shrimp curry with tomato, garlic, and spices.', 'image' => '/images/menu/category/primi-piatti/GAMBERI CURRY.jpg'],
                 ],
             ],
             [
                 'name' => 'Veg Dishes',
                 'slug' => 'veg-dishes',
+                'image' => '/images/menu/category/veg-dishes.jpg',
                 'items' => [
-                    ['name' => 'Dal Makhani', 'price' => 10.40, 'description' => 'Black lentils simmered low and slow with butter, cream and warm spices.', 'tags' => 'Comfort, Vegetarian', 'image' => 'assets/images/menu/veg-dishes.jpg'],
-                    ['name' => 'Saag Paneer', 'price' => 11.20, 'description' => 'Paneer cubes folded into creamy spinach gravy with garlic tempering.', 'tags' => 'Vegetarian, Classic', 'image' => 'assets/images/menu/veg-dishes.jpg'],
-                    ['name' => 'Aloo Gobi Masala', 'price' => 9.80, 'description' => 'Potato and cauliflower tossed in dry masala with coriander and tomato.', 'tags' => 'Vegan Friendly, Home Style', 'image' => 'assets/images/menu/veg-dishes.jpg'],
+                    ['name' => 'Palak Paneer', 'price' => 8.00, 'description' => 'Paneer cooked with spinach and spices.', 'image' => '/images/menu/category/veg-dishes/PALAK PANEER.jpg'],
+                    ['name' => 'Bhindi Okra', 'price' => 8.00, 'description' => 'Okra stir-cooked with onion, tomato, and masala.', 'image' => '/images/menu/category/veg-dishes/BHINDI OKRA.jpg'],
+                    ['name' => 'Chana Masala', 'price' => 7.00, 'description' => 'Chickpea curry with tomato and aromatic spices.', 'image' => '/images/menu/category/veg-dishes/CHANA MASALA.jpg'],
+                    ['name' => 'Karela (Zucca Amara)', 'price' => 8.00, 'description' => 'Bitter gourd cooked with traditional spices.', 'image' => '/images/menu/category/veg-dishes/KARELA ZUCCA AMARA.jpg'],
+                    ['name' => 'Malai Kofta', 'price' => 7.00, 'description' => 'Soft kofta in creamy spiced gravy.', 'image' => '/images/menu/category/veg-dishes/MALAI KOFTA.jpg'],
+                    ['name' => 'Dal Makhni', 'price' => 7.00, 'description' => 'Slow-cooked black lentils with butter and cream.', 'image' => '/images/menu/category/veg-dishes/DAL MAKHNI.jpg'],
+                    ['name' => 'Mix Daal', 'price' => 7.00, 'description' => 'Mixed lentils tempered with spices.', 'image' => '/images/menu/category/veg-dishes/MIX DAAL.jpg'],
+                    ['name' => 'Dal Mash', 'price' => 7.00, 'description' => 'Urad dal mash with ginger and spices.', 'image' => '/images/menu/category/veg-dishes/DAL MASH.jpg'],
+                    ['name' => 'Mix Vegetables', 'price' => 7.00, 'description' => 'Seasonal mixed vegetables with mild spices.', 'image' => '/images/menu/category/veg-dishes/MIX VEGETABLES.jpg'],
+                    ['name' => 'Shahi Paneer', 'price' => 7.00, 'description' => 'Paneer in rich, creamy tomato-based gravy.', 'image' => '/images/menu/category/veg-dishes/SHAHI PANEER.jpg'],
                 ],
             ],
             [
                 'name' => 'Rice',
                 'slug' => 'rice',
+                'image' => '/images/menu/category/rice.jpg',
                 'items' => [
-                    ['name' => 'Chicken Biryani', 'price' => 12.70, 'description' => 'Layered basmati rice, saffron and spiced chicken cooked dum style.', 'tags' => 'Aromatic, Popular', 'image' => 'assets/images/menu/lamb-biryani.jpg'],
-                    ['name' => 'Lamb Biryani', 'price' => 13.90, 'description' => 'Fragrant rice layered with tender lamb, mint and caramelized onions.', 'tags' => 'Signature, Aromatic', 'image' => 'assets/images/menu/lamb-biryani.jpg'],
-                    ['name' => 'Jeera Rice', 'price' => 4.90, 'description' => 'Steamed basmati rice tempered with cumin seeds and clarified butter.', 'tags' => 'Side, Light', 'image' => 'assets/images/menu/rice.jpg'],
+                    ['name' => 'Veg Biryani', 'price' => 6.00, 'description' => 'Basmati rice with mixed vegetables and spices.', 'image' => '/images/menu/category/rice/VEG BIRYANI.jpg'],
+                    ['name' => 'Gamberi Biryani', 'price' => 9.50, 'description' => 'Shrimp biryani with basmati rice and spices.', 'image' => '/images/menu/category/rice/GAMBERI BIRYANI.jpg'],
+                    ['name' => 'Plain White Rice', 'price' => 5.00, 'description' => 'Steamed plain white rice.', 'image' => '/images/menu/category/rice/PLAIN WHITE RICE.jpg'],
+                    ['name' => 'Chicken Biryani', 'price' => 7.00, 'description' => 'Chicken biryani with aromatic basmati rice.', 'image' => '/images/menu/category/rice/CHICKEN BIRYANI.jpg'],
+                    ['name' => 'Dum Biryani', 'price' => 8.00, 'description' => 'Dum-cooked biryani with tandoori chicken and spices.', 'image' => '/images/menu/category/rice/DUM BIRYANI.jpg'],
+                    ['name' => 'Mutton Biryani', 'price' => 9.00, 'description' => 'Mutton biryani with layered basmati rice.', 'image' => '/images/menu/category/rice/MUTTON BIRYANI.jpg'],
+                    ['name' => 'Beef Biryani', 'price' => 8.50, 'description' => 'Beef biryani with basmati rice and spices.', 'image' => '/images/menu/category/rice/BEEF BIRYANI.jpg'],
                 ],
             ],
             [
                 'name' => 'Seasoning',
                 'slug' => 'seasoning',
+                'image' => '/images/menu/category/seasoning.jpg',
                 'items' => [
-                    ['name' => 'Mint Yogurt Dip', 'price' => 2.20, 'description' => 'Cooling yogurt dip with mint, cumin and a touch of black salt.', 'tags' => 'Fresh, Add-on', 'image' => 'assets/images/menu/seasoning.jpg'],
-                    ['name' => 'Tamarind Chutney', 'price' => 2.40, 'description' => 'Sweet and tangy tamarind glaze perfect with starters and grills.', 'tags' => 'Sweet Tangy, Add-on', 'image' => 'assets/images/menu/seasoning.jpg'],
-                    ['name' => 'Smoked Chili Oil', 'price' => 2.60, 'description' => 'House-made chili oil with garlic and smoky pepper notes.', 'tags' => 'Hot, Add-on', 'image' => 'assets/images/menu/seasoning.jpg'],
+                    ['name' => 'Naan', 'price' => 1.50, 'description' => 'Traditional tandoor naan bread.', 'image' => '/images/menu/category/seasoning/NAAN.jpg'],
+                    ['name' => 'Butter Naan', 'price' => 2.50, 'description' => 'Soft naan finished with butter.', 'image' => '/images/menu/category/seasoning/BUTTER NAAN.jpg'],
+                    ['name' => 'Roti', 'price' => 1.00, 'description' => 'Classic whole wheat roti.', 'image' => '/images/menu/category/seasoning/ROTI.jpg'],
+                    ['name' => 'Garlic Naan', 'price' => 2.00, 'description' => 'Naan bread with fresh garlic.', 'image' => '/images/menu/category/seasoning/GARLIC NAAN.jpg'],
+                    ['name' => 'Aloo Naan', 'price' => 2.50, 'description' => 'Stuffed naan with spiced potato filling.', 'image' => '/images/menu/category/seasoning/ALU NAAN.jpg'],
+                    ['name' => 'Keema Naan', 'price' => 3.00, 'description' => 'Stuffed naan with seasoned minced meat.', 'image' => '/images/menu/category/seasoning/KEEMA NAAN.jpg'],
+                    ['name' => 'Cheese Naan', 'price' => 3.00, 'description' => 'Naan filled with melted cheese.', 'image' => '/images/menu/category/seasoning/CHEESE NAAN.jpg'],
+                    ['name' => 'Raita Salata', 'price' => 3.00, 'description' => 'Yogurt raita with cucumber, onion, and tomato.', 'image' => '/images/menu/category/seasoning/RAITA SALATA.jpg'],
+                    ['name' => 'Insalata Mista', 'price' => 4.00, 'description' => 'Mixed salad with olive oil dressing.', 'image' => '/images/menu/category/seasoning/INSALATA MISTA.jpg'],
+                    ['name' => 'Insalata con Cipolla', 'price' => 5.00, 'description' => 'Fresh salad with onion and tomato.', 'image' => '/images/menu/category/seasoning/INSALATA CON CIPOLLA.jpg'],
+                    ['name' => 'Insalata Speciale', 'price' => 6.00, 'description' => 'Special salad with tuna, mozzarella, and vegetables.', 'image' => '/images/menu/category/seasoning/INSALATA SPECIALE.jpg'],
                 ],
             ],
             [
                 'name' => 'Desserts',
                 'slug' => 'desserts',
+                'image' => '/images/menu/category/desserts.jpg',
                 'items' => [
-                    ['name' => 'Gulab Jamun', 'price' => 5.40, 'description' => 'Warm milk dumplings soaked in cardamom and rose syrup.', 'tags' => 'Traditional, Sweet', 'image' => 'assets/images/menu/desserts.jpg'],
-                    ['name' => 'Kulfi Pistachio', 'price' => 5.90, 'description' => 'Dense Indian-style frozen dessert with pistachio and saffron.', 'tags' => 'Cold, Chef Pick', 'image' => 'assets/images/menu/desserts.jpg'],
-                    ['name' => 'Kheer', 'price' => 4.90, 'description' => 'Creamy rice pudding slow-cooked with milk, cardamom and nuts.', 'tags' => 'Classic, Sweet', 'image' => 'assets/images/menu/desserts.jpg'],
+                    ['name' => 'Gulab Jamun (2 pcs)', 'price' => 3.00, 'description' => 'Soft milk dumplings in saffron sugar syrup.', 'image' => '/images/menu/category/desserts/GULAB JAMUN.jpg'],
+                    ['name' => 'Shahi Kheer', 'price' => 3.00, 'description' => 'Traditional rice pudding with nuts and saffron.', 'image' => '/images/menu/category/desserts/SHAHI KHEER.jpg'],
+                    ['name' => 'Jalebi (1 pc)', 'price' => 1.00, 'description' => 'Crispy spiral sweet soaked in sugar syrup.', 'image' => '/images/menu/category/desserts/JALEBI.jpg'],
+                    ['name' => 'Gajar Halwa', 'price' => 3.00, 'description' => 'Carrot halwa with milk, nuts, and cardamom.', 'image' => '/images/menu/category/desserts/GAJAR HALWA.jpg'],
+                    ['name' => 'Barfi (1 pc)', 'price' => 1.00, 'description' => 'Classic milk sweet with cardamom and nuts.', 'image' => '/images/menu/category/desserts/BARFI.jpg'],
+                    ['name' => 'Patisa (1 pc)', 'price' => 1.00, 'description' => 'Flaky gram-flour sweet with cardamom and nuts.', 'image' => '/images/menu/category/desserts/PATISA.jpg'],
                 ],
             ],
             [
                 'name' => 'Mix Platter',
                 'slug' => 'mix-platter',
+                'image' => '/images/menu/category/mix-platter.jpg',
                 'items' => [
-                    ['name' => 'Family Mix Platter', 'price' => 26.90, 'description' => 'Generous platter of kebabs, wings, paneer tikka, naan and sauces.', 'tags' => 'Sharing, Value', 'image' => 'assets/images/menu/mix-platter.jpg'],
-                    ['name' => 'Signature Tandoor Platter', 'price' => 29.50, 'description' => 'Premium mixed meats, grilled vegetables and house chutneys.', 'tags' => 'Signature, Grill', 'image' => 'assets/images/menu/mix-platter.jpg'],
-                    ['name' => 'Couples Grill Board', 'price' => 19.90, 'description' => 'Perfect-for-two board with chicken tikka, seekh kebab and naan.', 'tags' => 'Sharing, Popular', 'image' => 'assets/images/menu/mix-platter.jpg'],
+                    ['name' => 'Fish Tawa', 'price' => 30.00, 'description' => 'Orata fish, shrimp, chicken tikka, chicken tandoori, and rice platter.', 'image' => '/images/menu/category/mix-platter/FISH TAWA.jpg'],
+                    ['name' => 'Mix Grill Tawa Special (Per 2)', 'price' => 30.00, 'description' => 'Mixed grill platter for 2 with naan, salad, and rice.', 'image' => '/images/menu/category/mix-platter/MIX GRILL TAWA SPECIAL PER 2.jpg'],
+                    ['name' => 'Mix Grill Tawa Special (Per 4)', 'price' => 60.00, 'description' => 'Large mixed grill platter for 4 with naan, salad, and rice.', 'image' => '/images/menu/category/mix-platter/MIX GRILL TAWA SPECIAL PER 4.jpg'],
+                    ['name' => 'Grill Chicken & Rice (Per Person)', 'price' => 32.00, 'description' => 'Full grill chicken tandoori with rice, potatoes, and mixed salad.', 'image' => '/images/menu/category/mix-platter/GRILL CHICKEN & RICE PER 2.jpg'],
                 ],
             ],
             [
                 'name' => 'Drinks',
                 'slug' => 'drinks',
+                'image' => '/images/menu/category/drinks.jpg',
                 'items' => [
-                    ['name' => 'Mango Lassi', 'price' => 4.20, 'description' => 'Refreshing yogurt-based mango drink with a creamy finish.', 'tags' => 'Cold, Popular', 'image' => 'assets/images/menu/drinks.jpg'],
-                    ['name' => 'Masala Chai', 'price' => 3.20, 'description' => 'Classic spiced tea brewed fresh with milk and aromatic spices.', 'tags' => 'Hot, Traditional', 'image' => 'assets/images/menu/drinks.jpg'],
-                    ['name' => 'Lemon Mint Soda', 'price' => 3.90, 'description' => 'Sparkling soda with fresh mint, lemon and a pinch of masala salt.', 'tags' => 'Refreshing, House Drink', 'image' => 'assets/images/menu/drinks.jpg'],
+                    ['name' => 'Acqua Naturale/Frizzante (0.5L)', 'price' => 1.50, 'description' => 'Still or sparkling water (0.5L).', 'image' => '/images/menu/category/drinks/ACQUA NATURALE FRIZZANTE 0.5L.jpg'],
+                    ['name' => 'Acqua Naturale/Frizzante (1L)', 'price' => 2.50, 'description' => 'Still or sparkling water (1L).', 'image' => '/images/menu/category/drinks/ACQUA NATURALE FRIZZANTE 1L.jpg'],
+                    ['name' => 'Lattine (33cl)', 'price' => 2.00, 'description' => 'Soft drinks can (33cl).', 'image' => '/images/menu/category/drinks/LATTINE (33CL].jpg'],
+                    ['name' => 'Fresh Juice', 'price' => 3.00, 'description' => 'Fresh juice from seasonal fruits and vegetables.', 'image' => '/images/menu/category/drinks/FRESH JUICE.jpg'],
+                    ['name' => 'Chai Pakistani', 'price' => 2.00, 'description' => 'Pakistani black tea with milk and sugar.', 'image' => '/images/menu/category/drinks/CHAI PAKISTANI.jpg'],
+                    ['name' => 'Lassi Mango', 'price' => 4.00, 'description' => 'Sweet mango yogurt drink.', 'image' => '/images/menu/category/drinks/LASSI MANGO.jpg'],
+                    ['name' => 'Lassi Salato o Dolce', 'price' => 3.00, 'description' => 'Salted or sweet traditional lassi.', 'image' => '/images/menu/category/drinks/LASSI SALATO O.jpg'],
+                    ['name' => 'Nimbu Shikanji', 'price' => 2.50, 'description' => 'Lemon mint cooler with sugar and salt.', 'image' => '/images/menu/category/drinks/NIMBU SHIKANJI.jpg'],
+                    ['name' => 'Caffe', 'price' => 1.50, 'description' => 'Espresso or macchiato.', 'image' => '/images/menu/category/drinks/CAFFE.jpg'],
+                    ['name' => 'Tea con Cardamomo', 'price' => 2.00, 'description' => 'Cardamom tea with spices and milk.', 'image' => '/images/menu/category/drinks/TEA CON CARDAMOMO.jpg'],
+                    ['name' => 'Mint Margarita', 'price' => 3.50, 'description' => 'Mint lemon cooler with crushed ice.', 'image' => '/images/menu/category/drinks/MINT MARGARITA.jpg'],
                 ],
             ],
         ];
 
-        foreach ($catalog as $categoryData) {
-            $category = MenuCategory::query()->updateOrCreate(
-                ['slug' => $categoryData['slug']],
-                ['name' => $categoryData['name']]
-            );
+        DB::transaction(function () use ($catalog): void {
+            MenuItem::query()->delete();
+            MenuCategory::query()->delete();
 
-            foreach ($categoryData['items'] as $itemData) {
-                MenuItem::query()->updateOrCreate(
-                    [
+            foreach ($catalog as $categoryData) {
+                $category = MenuCategory::query()->create([
+                    'name' => $categoryData['name'],
+                    'slug' => $categoryData['slug'],
+                ]);
+
+                foreach ($categoryData['items'] as $itemData) {
+                    MenuItem::query()->create([
                         'menu_category_id' => $category->id,
                         'name' => $itemData['name'],
-                    ],
-                    [
                         'description' => $itemData['description'],
                         'price' => $itemData['price'],
-                        'tags' => $itemData['tags'],
-                        'image_path' => $itemData['image'],
+                        'tags' => null,
+                        'image_path' => $itemData['image'] ?? $categoryData['image'],
                         'is_available' => true,
-                    ]
-                );
+                    ]);
+                }
             }
-        }
+        });
     }
 }

@@ -807,18 +807,23 @@
         .hero-signature__aside {
             display: grid;
             gap: 0;
-            align-items: start;
+            align-items: center;
+            perspective: 1600px;
+            perspective-origin: 50% 45%;
         }
 
         .hero-signature__visual {
             position: relative;
-            min-height: 410px;
+            min-height: clamp(320px, 44vw, 520px);
             border-radius: 0;
             border: 0;
             background: transparent;
             box-shadow: none;
             overflow: visible;
             backdrop-filter: none;
+            display: grid;
+            place-items: center;
+            transform-style: preserve-3d;
         }
 
         .hero-signature__visual::before,
@@ -843,6 +848,80 @@
             height: 120px;
             left: 1rem;
             bottom: 1rem;
+        }
+
+        .hero-signature__platter-shell {
+            position: relative;
+            width: min(100%, 760px);
+            min-height: clamp(320px, 42vw, 500px);
+            display: grid;
+            place-items: center;
+            transform-origin: 50% 55%;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .hero-signature__platter-stage {
+            position: relative;
+            z-index: 2;
+            width: min(100%, 700px);
+            display: grid;
+            place-items: center;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .hero-signature__platter-stage::before {
+            display: none;
+        }
+
+        .hero-signature__platter-shadow,
+        .hero-signature__platter-glow {
+            position: absolute;
+            left: 12%;
+            right: 12%;
+            bottom: 5%;
+            border-radius: 50%;
+            pointer-events: none;
+            will-change: transform, opacity;
+        }
+
+        .hero-signature__platter-shadow {
+            z-index: 0;
+            height: 14%;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.52) 0%, rgba(0, 0, 0, 0.32) 34%, rgba(0, 0, 0, 0) 76%);
+            filter: blur(18px);
+            opacity: 0.65;
+            transform: translateY(32%) translateZ(-60px) scaleX(0.88);
+        }
+
+        .hero-signature__platter-glow {
+            z-index: 1;
+            height: 22%;
+            background:
+                radial-gradient(circle, rgba(255, 149, 44, 0.34) 0%, rgba(219, 29, 48, 0.18) 38%, rgba(0, 0, 0, 0) 72%);
+            filter: blur(26px);
+            opacity: 0.92;
+            transform: translateY(10%) translateZ(-18px);
+        }
+
+        .hero-signature__platter-frame {
+            position: relative;
+            z-index: 3;
+            width: min(100%, 820px);
+            height: auto;
+            display: block;
+            object-fit: contain;
+            backface-visibility: hidden;
+            transform: translateZ(28px);
+            overflow: hidden;
+            user-select: none;
+            -webkit-user-drag: none;
+            will-change: transform;
+            filter:
+                drop-shadow(0 30px 44px rgba(0, 0, 0, 0.36))
+                drop-shadow(0 10px 18px rgba(0, 0, 0, 0.18))
+                drop-shadow(0 0 28px rgba(255, 149, 44, 0.08));
         }
 
         .hero-signature__disc {
@@ -1535,6 +1614,171 @@
             color: rgba(255, 255, 255, 0.62) !important;
         }
 
+        .home-reviews-carousel {
+            position: relative;
+        }
+
+        .home-reviews-carousel__slide {
+            padding: .25rem 0 1rem;
+        }
+
+        .home-reviews-carousel__indicators {
+            gap: .55rem;
+        }
+
+        .home-reviews-carousel__indicators [data-bs-target] {
+            width: .72rem;
+            height: .72rem;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            background: rgba(255, 255, 255, 0.12);
+            opacity: 1;
+            margin: 0;
+            transition: transform .2s ease, background-color .2s ease, border-color .2s ease;
+        }
+
+        .home-reviews-carousel__indicators [data-bs-target].active {
+            transform: scale(1.12);
+            border-color: rgba(255, 149, 44, .75);
+            background: linear-gradient(180deg, rgba(219, 29, 48, .95), rgba(255, 149, 44, .92));
+            box-shadow: 0 0 10px rgba(219, 29, 48, 0.3);
+        }
+
+        .home-review-card {
+            --hx: 0deg;
+            --hy: 0deg;
+            max-width: 52rem;
+            padding: clamp(1.4rem, 3vw, 2rem);
+            border-radius: 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background:
+                radial-gradient(circle at 92% 12%, rgba(255, 149, 44, 0.12), transparent 35%),
+                radial-gradient(circle at 8% 88%, rgba(219, 29, 48, 0.14), transparent 40%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+                #131313 !important;
+            box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
+            transform: perspective(900px) rotateX(var(--hx)) rotateY(var(--hy));
+            transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+            text-align: left;
+        }
+
+        .home-review-card__top {
+            display: flex;
+            align-items: center;
+            gap: .95rem;
+            margin-bottom: 1rem;
+        }
+
+        .home-review-card__avatar {
+            width: 3.35rem;
+            height: 3.35rem;
+            flex: 0 0 3.35rem;
+            border-radius: 999px;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
+            background: linear-gradient(180deg, rgba(255, 149, 44, 0.18), rgba(219, 29, 48, 0.24));
+        }
+
+        .home-review-card__meta {
+            display: flex;
+            flex-direction: column;
+            gap: .15rem;
+            min-width: 0;
+        }
+
+        .home-review-card__meta strong {
+            color: #fff;
+            font: 700 1.05rem/1.1 'Oswald', sans-serif;
+            letter-spacing: .03em;
+            text-transform: uppercase;
+        }
+
+        .home-review-card__meta span {
+            color: rgba(255, 255, 255, 0.62);
+            font: 600 .78rem/1.3 'Rajdhani', sans-serif;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .home-review-card__rating {
+            margin-left: auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 4.5rem;
+            min-height: 2.35rem;
+            padding: .35rem .8rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 149, 44, 0.3);
+            background: linear-gradient(180deg, rgba(255, 149, 44, 0.18), rgba(219, 29, 48, 0.14));
+            color: #fff;
+            font: 700 .95rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .08em;
+        }
+
+        .home-review-card__stars {
+            display: inline-flex;
+            align-items: center;
+            gap: .3rem;
+            margin-bottom: 1rem;
+            color: #ff952c;
+            font-size: 1rem;
+            letter-spacing: .08em;
+            text-shadow: 0 0 14px rgba(255, 149, 44, 0.18);
+        }
+
+        .home-review-card p {
+            color: rgba(255, 255, 255, 0.9);
+            font: 500 clamp(1rem, 2vw, 1.18rem)/1.75 'Rajdhani', sans-serif;
+            max-width: 42rem;
+        }
+
+        .home-review-card footer {
+            color: rgba(255, 255, 255, 0.6);
+            font: 700 .82rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+        }
+
+        .home-reviews-carousel__nav {
+            width: 42px;
+            height: 42px;
+            top: 55%;
+            transform: translateY(-50%);
+            opacity: 1;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(8, 8, 8, 0.74);
+            box-shadow: 0 12px 22px rgba(0, 0, 0, 0.2);
+        }
+
+        .home-reviews-carousel__nav.carousel-control-prev {
+            left: .25rem;
+        }
+
+        .home-reviews-carousel__nav.carousel-control-next {
+            right: .25rem;
+        }
+
+        @media (max-width: 575.98px) {
+            .home-review-card__top {
+                flex-wrap: wrap;
+                gap: .75rem;
+            }
+
+            .home-review-card__rating {
+                margin-left: 0;
+            }
+        }
+
+        .home-reviews-carousel__nav .carousel-control-prev-icon,
+        .home-reviews-carousel__nav .carousel-control-next-icon {
+            width: 1rem;
+            height: 1rem;
+            filter: brightness(0) invert(1);
+        }
+
         body.home-menu-theme .btn-brand:hover,
         body.home-menu-theme .btn-brand:focus {
             box-shadow: 0 0 0 4px rgba(219, 29, 48, 0.16), 0 .8rem 1.35rem rgba(0, 0, 0, 0.18);
@@ -1548,6 +1792,10 @@
         @media (max-width: 991.98px) {
             body.home-menu-theme section:not(.hero-signature) > .container::before {
                 border-radius: 1rem;
+            }
+
+            .home-reviews-carousel__nav {
+                display: none;
             }
 
             .home-featured-slider__top {
@@ -1602,14 +1850,10 @@
                 min-height: 320px;
             }
 
-            .hero-signature__disc--main {
-                width: min(285px, 76vw);
-                height: min(285px, 76vw);
-            }
-
-            .hero-signature__disc--small {
-                width: min(128px, 34vw);
-                height: min(128px, 34vw);
+            .hero-signature__platter-shell,
+            .hero-signature__platter-stage,
+            .hero-signature__platter-frame {
+                width: min(100%, 680px);
             }
 
             .home-discovery-story__visual-shell {
@@ -1726,6 +1970,16 @@
         body[data-performance-mode="lite"] .hero-signature__visual,
         body[data-performance-mode="lite"] .hero-signature__panel {
             backdrop-filter: none;
+        }
+
+        body[data-performance-mode="lite"] .hero-signature__platter-glow {
+            filter: blur(18px);
+            opacity: 0.7;
+        }
+
+        body[data-performance-mode="lite"] .hero-signature__platter-shadow {
+            filter: blur(12px);
+            opacity: 0.5;
         }
 
         body[data-performance-mode="lite"] .home-featured-slider__visual {

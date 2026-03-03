@@ -1,0 +1,7 @@
+<svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="160" height="160" rx="80" fill="#171717"/>
+  <circle cx="80" cy="60" r="28" fill="#FF952C" fill-opacity="0.9"/>
+  <path d="M40 136C43 109 58 94 80 94C102 94 117 109 120 136" fill="#DB1D30"/>
+  <circle cx="125" cy="38" r="11" fill="#1F1F1F" stroke="#FF952C" stroke-width="2"/>
+  <text x="80" y="145" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="22" font-weight="700">AM</text>
+</svg>

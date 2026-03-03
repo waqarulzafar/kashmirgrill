@@ -481,73 +481,62 @@ async function initMenuExperience() {
             });
         }
 
-        if (heroVisual && !isLiteMotion) {
+        if (heroVisual) {
             gsap.to(heroVisual, {
-                y: -10,
-                duration: 2.4,
+                y: isLiteMotion ? -5 : -10,
+                duration: isLiteMotion ? 2.8 : 2.4,
                 ease: 'sine.inOut',
                 repeat: -1,
                 yoyo: true,
             });
 
             gsap.to(heroVisual, {
-                rotate: 1.2,
-                duration: 3.4,
+                rotate: isLiteMotion ? 0.6 : 1.2,
+                duration: isLiteMotion ? 3.8 : 3.4,
                 ease: 'sine.inOut',
                 repeat: -1,
                 yoyo: true,
             });
 
             gsap.to(heroVisual, {
-                yPercent: -5,
+                yPercent: isLiteMotion ? -3 : -5,
                 ease: 'none',
                 scrollTrigger: {
                     trigger: root.querySelector('.menu-hero') || heroVisual,
                     start: 'top top',
                     end: 'bottom top',
-                    scrub: 0.5,
-                },
-            });
-        } else if (heroVisual) {
-            gsap.to(heroVisual, {
-                yPercent: -3,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: root.querySelector('.menu-hero') || heroVisual,
-                    start: 'top top',
-                    end: 'bottom top',
-                    scrub: 0.25,
+                    scrub: isLiteMotion ? 0.25 : 0.5,
                 },
             });
         }
 
-        if (heroImage && !isLiteMotion) {
+        if (heroImage) {
             gsap.to(heroImage, {
-                scale: 1.035,
-                duration: 2.7,
+                scale: isLiteMotion ? 1.02 : 1.035,
+                duration: isLiteMotion ? 3.1 : 2.7,
                 ease: 'sine.inOut',
                 repeat: -1,
                 yoyo: true,
             });
         }
 
-        if (heroGlow && !isLiteMotion) {
+        if (heroGlow) {
             gsap.to(heroGlow, {
-                opacity: 0.95,
-                scale: 1.08,
-                duration: 1.9,
+                opacity: isLiteMotion ? 0.78 : 0.95,
+                scale: isLiteMotion ? 1.04 : 1.08,
+                duration: isLiteMotion ? 2.2 : 1.9,
                 ease: 'sine.inOut',
                 repeat: -1,
                 yoyo: true,
             });
         }
 
-        if (flameBlobs.length && !isLiteMotion) {
+        if (flameBlobs.length) {
             gsap.to(flameBlobs, {
-                yPercent: -8,
-                scale: 1.05,
-                opacity: 0.92,
-                duration: 2.1,
+                yPercent: isLiteMotion ? -4 : -8,
+                scale: isLiteMotion ? 1.02 : 1.05,
+                opacity: isLiteMotion ? 0.82 : 0.92,
+                duration: isLiteMotion ? 2.6 : 2.1,
                 ease: 'sine.inOut',
                 stagger: {
                     each: 0.25,
@@ -794,6 +783,13 @@ async function initHomeExperience() {
     const heroVeil = document.querySelector('[data-home-hero-veil]');
     const heroEmbers = Array.from(document.querySelectorAll('.hero-signature__embers span'));
     const heroVisualStack = document.querySelector('[data-home-hero-visual-stack]');
+    const heroPlatterShell = document.querySelector('[data-home-hero-platter-shell]');
+    const heroPlatterStage = document.querySelector('[data-home-hero-platter-stage]');
+    const heroPlatter = document.querySelector('[data-home-hero-platter]');
+    const heroPlatterShadow = document.querySelector('[data-home-hero-platter-shadow]');
+    const heroPlatterGlow = document.querySelector('[data-home-hero-platter-glow]');
+    const heroPlatterFramesBase = heroPlatter?.dataset.homeHeroFramesBase || '';
+    const heroPlatterFramesCount = Number.parseInt(heroPlatter?.dataset.homeHeroFramesCount || '0', 10);
     const heroRotateDisc = document.querySelector('[data-home-rotate-disc]');
     const heroRotateDiscReverse = document.querySelector('[data-home-rotate-disc-reverse]');
     const heroPanel = document.querySelector('[data-home-hero-panel]');
@@ -996,6 +992,183 @@ async function initHomeExperience() {
                     scrub: isLiteMotion ? 0.18 : 0.5,
                 },
             });
+        }
+
+        if (heroPlatterShell) {
+            gsap.set(heroPlatterShell, {
+                transformPerspective: 1400,
+                transformOrigin: '50% 55%',
+                transformStyle: 'preserve-3d',
+            });
+
+            homeHeroTimeline.from(heroPlatterShell, {
+                autoAlpha: 0,
+                x: 20,
+                y: 28,
+                z: -120,
+                scale: 0.88,
+                duration: 0.8,
+            }, '-=0.55');
+
+            const platterMotion = gsap.timeline({
+                scrollTrigger: {
+                    trigger: hero || heroPlatterShell,
+                    start: 'top top+=12',
+                    end: 'bottom top',
+                    scrub: isLiteMotion ? 0.2 : 0.65,
+                },
+            });
+
+            platterMotion
+                .fromTo(heroPlatterShell, {
+                    xPercent: -3,
+                    yPercent: 1,
+                    z: 0,
+                    scale: 0.98,
+                }, {
+                    xPercent: 2,
+                    yPercent: -3,
+                    z: 32,
+                    scale: 1.02,
+                    ease: 'none',
+                }, 0)
+                .to(heroPlatterShell, {
+                    xPercent: -2,
+                    yPercent: -8,
+                    z: isLiteMotion ? 20 : 64,
+                    scale: isLiteMotion ? 1.03 : 1.08,
+                    ease: 'none',
+                }, 1);
+
+        if (heroPlatterStage) {
+            gsap.set(heroPlatterStage, {
+                transformOrigin: '50% 52%',
+                transformStyle: 'preserve-3d',
+                force3D: true,
+                    rotationX: 0,
+                    rotationY: 0,
+                    rotationZ: 0,
+                });
+
+            platterMotion
+                .to(heroPlatterStage, {
+                    yPercent: -2,
+                    ease: 'none',
+                }, 0)
+                .to(heroPlatterStage, {
+                    yPercent: -5,
+                    ease: 'none',
+                }, 0.35)
+                .to(heroPlatterStage, {
+                    yPercent: -7,
+                    ease: 'none',
+                }, 0.68)
+                .to(heroPlatterStage, {
+                    yPercent: isLiteMotion ? -5 : -8,
+                    ease: 'none',
+                }, 1);
+        }
+
+            if (heroPlatterShadow) {
+                gsap.set(heroPlatterShadow, {
+                    transformOrigin: '50% 50%',
+                });
+
+                platterMotion
+                    .to(heroPlatterShadow, {
+                        scaleX: 0.98,
+                        scaleY: 0.92,
+                        opacity: 0.42,
+                        xPercent: 4,
+                        ease: 'none',
+                    }, 0)
+                    .to(heroPlatterShadow, {
+                        scaleX: 0.78,
+                        scaleY: 0.72,
+                        opacity: 0.28,
+                        xPercent: -5,
+                        ease: 'none',
+                    }, 1);
+            }
+
+            if (heroPlatterGlow) {
+                platterMotion
+                    .to(heroPlatterGlow, {
+                        scale: 1.06,
+                        opacity: 1,
+                        xPercent: 2,
+                        yPercent: -2,
+                        ease: 'none',
+                    }, 0)
+                    .to(heroPlatterGlow, {
+                        scale: 1.12,
+                        opacity: 0.82,
+                        xPercent: -3,
+                        yPercent: -6,
+                        ease: 'none',
+                    }, 1);
+            }
+        }
+
+        if (heroPlatter) {
+            const frameState = { index: 0 };
+            const currentFrame = { index: -1 };
+            const getFrameSrc = (index) => `${heroPlatterFramesBase}/frame-${String(index + 1).padStart(3, '0')}.png`;
+            const frameImages = new Array(heroPlatterFramesCount);
+            const context = heroPlatter.getContext('2d', { alpha: true });
+            const renderFrame = (index) => {
+                const safeIndex = Math.max(0, Math.min(heroPlatterFramesCount - 1, index));
+                if (safeIndex === currentFrame.index || !heroPlatterFramesBase || !heroPlatterFramesCount || !context) {
+                    return;
+                }
+
+                const frame = frameImages[safeIndex];
+                if (!frame) {
+                    return;
+                }
+
+                currentFrame.index = safeIndex;
+                context.clearRect(0, 0, heroPlatter.width, heroPlatter.height);
+                context.drawImage(frame, 0, 0, heroPlatter.width, heroPlatter.height);
+            };
+
+            gsap.set(heroPlatter, {
+                transformOrigin: '50% 50%',
+                z: 28,
+                force3D: true,
+            });
+
+            if (heroPlatterFramesBase && heroPlatterFramesCount) {
+                const loadFrame = (index) => new Promise((resolve) => {
+                    const img = new Image();
+                    img.decoding = 'async';
+                    img.onload = () => {
+                        frameImages[index] = img;
+                        resolve();
+                    };
+                    img.onerror = () => resolve();
+                    img.src = getFrameSrc(index);
+                });
+
+                Promise.all(Array.from({ length: heroPlatterFramesCount }, (_, index) => loadFrame(index))).then(() => {
+                    renderFrame(0);
+
+                    gsap.to(frameState, {
+                        index: heroPlatterFramesCount - 1,
+                        ease: 'none',
+                        snap: { index: 1 },
+                        onUpdate: () => {
+                            renderFrame(Math.round(frameState.index));
+                        },
+                        scrollTrigger: {
+                            trigger: hero || heroPlatter,
+                            start: 'top top+=12',
+                            end: 'bottom top',
+                            scrub: isLiteMotion ? 0.06 : 0.12,
+                        },
+                    });
+                });
+            }
         }
 
         if (heroRotateDisc) {

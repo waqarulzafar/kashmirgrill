@@ -1,167 +1,293 @@
 @extends('layouts.master')
 
-@section('title', 'Group Dining & Occasions | Kashmir Grill House Como')
-@section('meta_description', 'Plan group dining and occasions at Kashmir Grill House in Como with halal Pakistani and Indian menu options for families, birthdays, and gatherings.')
-@section('meta_keywords', 'group dining Como, Kashmir Grill House events, family dinner Como, birthday dinner halal Como')
-
-@php
-    $eventCategories = [
-        [
-            'name' => 'Ceremonies',
-            'image' => 'assets/images/events/ceremonies.jpg',
-            'description' => 'Elegant setups for engagements, anniversaries, and family milestones with curated dining experiences.',
-            'details' => 'Includes table styling options, set-menu guidance, and dedicated service flow for multi-course celebrations.',
-        ],
-        [
-            'name' => 'Get Together',
-            'image' => 'assets/images/events/get-together.jpg',
-            'description' => 'Relaxed group dining for friends and families with sharable platters and flexible seating.',
-            'details' => 'Best for casual evenings, weekend reunions, and social dinners with mixed vegetarian and non-vegetarian menus.',
-        ],
-        [
-            'name' => 'Meetings',
-            'image' => 'assets/images/events/meetings.jpg',
-            'description' => 'Quiet and comfortable arrangements for team lunches, client discussions, and small business gatherings.',
-            'details' => 'Midday slots with efficient service, custom meal pacing, and optional tea/coffee add-ons.',
-        ],
-        [
-            'name' => 'Conferences',
-            'image' => 'assets/images/events/conferences.jpg',
-            'description' => 'Structured event dining support for large professional groups with timed serving plans.',
-            'details' => 'Suitable for conference delegates and workshop groups requiring pre-planned buffet or plated service.',
-        ],
-        [
-            'name' => "Valentine's Day",
-            'image' => 'assets/images/events/valentines-day.jpg',
-            'description' => 'Romantic dining ambiance with chef specials and festive dessert pairings for couples.',
-            'details' => 'Advance booking recommended for peak dinner slots and custom celebration notes.',
-        ],
-        [
-            'name' => 'Festivals (Eid, Ramadan, Easter, Christmas)',
-            'image' => 'assets/images/events/festivals.jpg',
-            'description' => 'Seasonal menus and celebration dining for major festive moments throughout the year.',
-            'details' => 'Festival packages can include themed platters, extended family seating, and pre-order recommendations.',
-        ],
-    ];
-@endphp
-
-@section('hero')
-    <div class="container">
-        <div class="row">
-            <div class="col-12 col-lg-8">
-                <h1 class="display-6 fw-bold mb-3">Events & Occasions</h1>
-                <p class="lead mb-0">Celebrate life's moments in a premium setting with customizable food and hospitality packages.</p>
-            </div>
-        </div>
-    </div>
-@endsection
+@section('title', 'Events & Occasions | Kashmir Grill House Como')
+@section('meta_description', 'Discover private dining, celebrations, and event hosting at Kashmir Grill House with curated halal menus and structured reservation support.')
+@section('body_class', 'home-menu-theme')
 
 @section('content')
-    <section class="container py-5">
-        <x-section-header
-            badge="Occasion Categories"
-            title="Choose the Right Event Experience"
-            subtitle="Every category includes premium dining flow, attentive service, and straightforward reservation support."
-        />
-
-        <div class="row g-4">
-            @foreach($eventCategories as $index => $category)
-                @php
-                    $slug = \Illuminate\Support\Str::slug($category['name']);
-                    $modalId = 'event-details-' . $slug;
-                @endphp
-                <div class="col-12 col-md-6 col-xl-4">
-                    <article id="event-{{ $slug }}" class="event-card h-100 rounded-4 bg-white shadow-sm overflow-hidden">
-                        <div class="event-banner">
-                            <img
-                                src="{{ asset($category['image']) }}"
-                                alt="{{ $category['name'] }} banner image"
-                                class="w-100 h-100"
-                                loading="lazy"
-                                decoding="async"
-                            >
+    <div class="events-premium-page py-5">
+        <section class="container pb-4 pb-lg-5">
+            <div class="events-hero">
+                <div class="row g-4 align-items-center">
+                    <div class="col-12 col-lg-7">
+                        <span class="badge badge-brand rounded-pill mb-3">Events & Occasions</span>
+                        <h1 class="events-hero__title mb-3">Private Dining and Occasion Hosting with the Same Premium Hospitality</h1>
+                        <p class="events-hero__copy mb-4">
+                            Kashmir Grill House offers event-focused dining for celebrations, family gatherings, and professional occasions, with halal menu planning, coordinated service, and advance booking support.
+                        </p>
+                        <div class="d-flex flex-wrap gap-2">
+                            <a href="{{ route('book-now') }}" class="btn btn-brand">Book Event</a>
+                            <a href="{{ route('contact') }}" class="btn btn-brand-outline">Speak to Team</a>
                         </div>
-                        <div class="p-4">
-                            <h2 class="h4 mb-3">{{ $category['name'] }}</h2>
-                            <p class="text-secondary mb-4">{{ $category['description'] }}</p>
-                            <div class="d-flex flex-wrap gap-2">
-                                <a href="{{ route('book-now') }}" class="btn btn-brand btn-sm">Book Now</a>
-                                @if(!empty($category['details']))
-                                    <button type="button" class="btn btn-brand-outline btn-sm" data-bs-toggle="modal" data-bs-target="#{{ $modalId }}">
-                                        View Details
-                                    </button>
-                                @endif
+                    </div>
+
+                    <div class="col-12 col-lg-5">
+                        <div class="events-hero__panel">
+                            <div class="events-hero__panel-item">
+                                <span>Event Types</span>
+                                <strong>{{ count($events) }} curated options</strong>
                             </div>
-                        </div>
-                    </article>
-                </div>
-            @endforeach
-        </div>
-    </section>
-
-    @foreach($eventCategories as $category)
-        @php
-            $slug = \Illuminate\Support\Str::slug($category['name']);
-            $modalId = 'event-details-' . $slug;
-        @endphp
-        @if(!empty($category['details']))
-            <div class="modal fade" id="{{ $modalId }}" tabindex="-1" aria-labelledby="{{ $modalId }}-label" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content rounded-4 border-0 shadow">
-                        <div class="modal-header border-0 pb-0">
-                            <h2 class="modal-title h5" id="{{ $modalId }}-label">{{ $category['name'] }}</h2>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body pt-2">
-                            <p class="mb-0 text-secondary">{{ $category['details'] }}</p>
-                        </div>
-                        <div class="modal-footer border-0 pt-0">
-                            <a href="{{ route('book-now') }}" class="btn btn-brand btn-sm">Book Now</a>
-                            <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Close</button>
+                            <div class="events-hero__panel-item">
+                                <span>Food Standard</span>
+                                <strong>100% halal kitchen</strong>
+                            </div>
+                            <div class="events-hero__panel-item">
+                                <span>Planning Support</span>
+                                <strong>Menu and seating coordination</strong>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        @endif
-    @endforeach
+        </section>
+
+        <section class="container pb-4 pb-lg-5">
+            <div class="events-service-strip">
+                <span>Private Celebrations</span>
+                <span>Family Gatherings</span>
+                <span>Corporate Dining</span>
+                <span>Advance Menu Planning</span>
+                <span>Halal Group Service</span>
+                <span>Seasonal Occasions</span>
+            </div>
+        </section>
+
+        <section class="container pb-4 pb-lg-5">
+            <x-section-header
+                badge="Event Categories"
+                title="Choose the Right Event Format for Your Guests"
+                subtitle="Each event category includes a dedicated overview, service direction, and booking path so guests can understand exactly what we provide."
+            />
+
+            <div class="row g-4">
+                @foreach($events as $event)
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <article class="events-card h-100" id="event-{{ $event['slug'] }}">
+                            <a href="{{ route('events.show', $event['slug']) }}" class="events-card__media">
+                                <img
+                                    src="{{ asset($event['image']) }}"
+                                    alt="{{ $event['name'] }}"
+                                    class="w-100 h-100"
+                                    loading="lazy"
+                                    decoding="async"
+                                >
+                            </a>
+                            <div class="events-card__body">
+                                <p class="events-card__eyebrow mb-2">Occasion Type</p>
+                                <h2 class="events-card__title mb-2">{{ $event['name'] }}</h2>
+                                <p class="events-card__copy mb-3">{{ $event['description'] }}</p>
+
+                                @if(!empty($event['highlights']))
+                                    <div class="events-card__tags mb-4">
+                                        @foreach($event['highlights'] as $highlight)
+                                            <span>{{ $highlight }}</span>
+                                        @endforeach
+                                    </div>
+                                @endif
+
+                                <div class="d-flex flex-wrap gap-2">
+                                    <a href="{{ route('events.show', $event['slug']) }}" class="btn btn-brand btn-sm">View Details</a>
+                                    <a href="{{ route('book-now') }}" class="btn btn-brand-outline btn-sm">Book Now</a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                @endforeach
+            </div>
+        </section>
+
+        <section class="container pb-4 pb-lg-5">
+            <div class="row g-4">
+                <div class="col-12 col-lg-6">
+                    <div class="events-info-panel h-100">
+                        <p class="events-card__eyebrow mb-2">What We Handle</p>
+                        <h2 class="events-info-panel__title mb-3">Professional Event Dining Without Unclear Planning</h2>
+                        <ul class="events-info-panel__list">
+                            <li>Guest-focused seating and table planning</li>
+                            <li>Advance menu coordination before the event date</li>
+                            <li>Flexible service pacing for family and business occasions</li>
+                            <li>Support for shared platters and mixed menu preferences</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="events-info-panel h-100">
+                        <p class="events-card__eyebrow mb-2">Booking Process</p>
+                        <h2 class="events-info-panel__title mb-3">A Clear Reservation Flow for Private Occasions</h2>
+                        <ol class="events-info-panel__steps">
+                            <li>Choose the event type that fits your gathering</li>
+                            <li>Submit booking details with guest count and notes</li>
+                            <li>Confirm menu direction and table requirements with our team</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 @endsection
 
 @push('styles')
     <style>
-        .event-card {
-            border: 1px solid rgba(219, 29, 48, 0.12);
-            transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+        body.home-menu-theme {
+            background:
+                radial-gradient(circle at 86% -12%, rgba(219, 29, 48, 0.22), transparent 42%),
+                radial-gradient(circle at 12% 8%, rgba(255, 149, 44, 0.14), transparent 45%),
+                linear-gradient(180deg, #050505 0%, #090909 34%, #0d0d0d 100%);
+            color: #f2f2f2;
         }
 
-        .event-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.12) !important;
-            border-color: rgba(255, 149, 44, 0.45);
+        body.home-menu-theme main {
+            background: transparent;
         }
 
-        .event-banner {
-            aspect-ratio: 16 / 7;
+        .events-premium-page {
+            background:
+                radial-gradient(circle at 84% 4%, rgba(219, 29, 48, 0.16), transparent 34%),
+                radial-gradient(circle at 12% 14%, rgba(255, 149, 44, 0.08), transparent 34%),
+                linear-gradient(180deg, rgba(5, 5, 5, 0.98) 0%, rgba(11, 11, 11, 0.94) 100%);
+            color: #f5f5f5;
+            min-height: calc(100vh - var(--nav-height, 84px));
+        }
+
+        .events-hero,
+        .events-service-strip,
+        .events-card,
+        .events-info-panel {
+            border-radius: 1.25rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+                #121212;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .events-hero {
+            padding: clamp(1.2rem, 3vw, 1.8rem);
+            background:
+                radial-gradient(circle at 88% 18%, rgba(255, 149, 44, 0.12), transparent 34%),
+                radial-gradient(circle at 8% 88%, rgba(219, 29, 48, 0.14), transparent 38%),
+                linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0)),
+                #111;
+        }
+
+        .events-hero__title,
+        .events-info-panel__title,
+        .events-card__title {
+            color: #fff;
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: .02em;
+            text-transform: uppercase;
+            line-height: .96;
+        }
+
+        .events-hero__title {
+            font-size: clamp(2.3rem, 5vw, 4.4rem);
+        }
+
+        .events-hero__copy,
+        .events-card__copy {
+            color: rgba(255, 255, 255, 0.76);
+            font: 500 1rem/1.65 'Rajdhani', sans-serif;
+        }
+
+        .events-hero__panel {
+            display: grid;
+            gap: .9rem;
+        }
+
+        .events-hero__panel-item {
+            padding: 1rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(255,255,255,.08);
+            background: rgba(255,255,255,.03);
+        }
+
+        .events-hero__panel-item span,
+        .events-card__eyebrow {
+            display: block;
+            color: rgba(255, 255, 255, 0.58);
+            font: 700 .78rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+        }
+
+        .events-hero__panel-item strong {
+            display: block;
+            margin-top: .35rem;
+            color: #fff;
+            font: 700 1rem/1.3 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .events-service-strip {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: .65rem;
+            padding: .95rem 1rem;
+        }
+
+        .events-service-strip span,
+        .events-card__tags span {
+            display: inline-flex;
+            align-items: center;
+            padding: .42rem .7rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,.08);
+            background: rgba(255,255,255,.04);
+            color: rgba(255, 255, 255, 0.86);
+            font: 700 .72rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .events-card {
             overflow: hidden;
+            height: 100%;
         }
 
-        .event-card:hover .event-banner img {
-            transform: scale(1.03);
+        .events-card__media {
+            display: block;
+            aspect-ratio: 16 / 10;
+            overflow: hidden;
+            background: #0a0a0a;
         }
 
-        .event-banner img {
+        .events-card__media img {
             object-fit: cover;
-            transition: transform .4s ease;
+            transition: transform .35s ease;
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            .event-card,
-            .event-banner img {
-                transition: none;
-            }
+        .events-card:hover .events-card__media img {
+            transform: scale(1.04);
+        }
 
-            .event-card:hover {
-                transform: none;
-            }
+        .events-card__body,
+        .events-info-panel {
+            padding: 1.1rem;
+        }
+
+        .events-card__tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .45rem;
+        }
+
+        .events-info-panel__title {
+            font-size: clamp(1.9rem, 3.5vw, 2.7rem);
+        }
+
+        .events-info-panel__list,
+        .events-info-panel__steps {
+            margin: 0;
+            padding-left: 1.2rem;
+            color: rgba(255, 255, 255, 0.78);
+            font: 500 1rem/1.7 'Rajdhani', sans-serif;
+        }
+
+        .events-info-panel__list li,
+        .events-info-panel__steps li {
+            margin-bottom: .55rem;
         }
     </style>
 @endpush

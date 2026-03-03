@@ -124,31 +124,15 @@
                             data-no-reveal
                         >
                             <div class="menu-category-header" data-menu-section-header>
-                                <div class="row g-4 align-items-stretch">
-                                    <div class="col-12 col-lg-7">
-                                        <div class="menu-category-header-panel h-100">
-                                            <div class="menu-kicker">{{ str_pad((string) ($loop->iteration), 2, '0', STR_PAD_LEFT) }}</div>
-                                            <h2 class="menu-category-title mb-2">{{ $category->name }}</h2>
-                                            <p class="menu-category-copy mb-0">
-                                                {{ $categoryNotes[$category->slug] ?? 'Signature dishes made with bold spice and careful preparation.' }}
-                                            </p>
-                                        </div>
+                                <div class="menu-category-header-panel">
+                                    <div class="menu-category-header-top">
+                                        <div class="menu-kicker">{{ str_pad((string) ($loop->iteration), 2, '0', STR_PAD_LEFT) }}</div>
+                                        <span class="menu-category-count">{{ $category->menuItems->count() }} items</span>
                                     </div>
-                                    <div class="col-12 col-lg-5">
-                                        <div class="menu-category-banner h-100">
-                                            <img
-                                                src="{{ $sectionImage }}"
-                                                alt="{{ $category->name }}"
-                                                class="img-fluid w-100 h-100"
-                                                width="720"
-                                                height="420"
-                                                loading="lazy"
-                                                decoding="async"
-                                                data-menu-parallax
-                                            >
-                                            <div class="menu-category-banner-overlay" aria-hidden="true"></div>
-                                        </div>
-                                    </div>
+                                    <h2 class="menu-category-title mb-2">{{ $category->name }}</h2>
+                                    <p class="menu-category-copy mb-0">
+                                        {{ $categoryNotes[$category->slug] ?? 'Signature dishes made with bold spice and careful preparation.' }}
+                                    </p>
                                 </div>
                             </div>
 
@@ -159,44 +143,48 @@
                                         $tags = $item->tagList();
                                     @endphp
                                     <div class="col-12 col-md-6 col-xl-4">
-                                        <article class="menu-item-card h-100" data-menu-card>
-                                            <div class="menu-item-glare" aria-hidden="true"></div>
-                                            <div class="menu-item-media">
-                                                <img
-                                                    src="{{ $image }}"
-                                                    alt="{{ $item->name }}"
-                                                    width="640"
-                                                    height="420"
-                                                    loading="lazy"
-                                                    decoding="async"
-                                                    class="w-100 h-100"
-                                                    data-menu-parallax
-                                                >
-                                                <div class="menu-item-media-overlay" aria-hidden="true"></div>
-                                                <div class="menu-item-price">&euro;{{ number_format((float) $item->price, 2) }}</div>
-                                            </div>
-
-                                            <div class="menu-item-body">
-                                                <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
-                                                    <h3 class="menu-item-title mb-0">{{ $item->name }}</h3>
-                                                    @if(!$item->is_available)
-                                                        <span class="badge text-bg-secondary">Unavailable</span>
-                                                    @endif
+                                        <a href="{{ route('menu.items.show', $item) }}" class="menu-item-card-link">
+                                            <article class="menu-item-card h-100" data-menu-card>
+                                                <div class="menu-item-glare" aria-hidden="true"></div>
+                                                <div class="menu-item-media">
+                                                    <img
+                                                        src="{{ $image }}"
+                                                        alt="{{ $item->name }}"
+                                                        width="640"
+                                                        height="420"
+                                                        loading="lazy"
+                                                        decoding="async"
+                                                        class="w-100 h-100"
+                                                        data-menu-parallax
+                                                    >
+                                                    <div class="menu-item-media-overlay" aria-hidden="true"></div>
+                                                    <div class="menu-item-price">&euro;{{ number_format((float) $item->price, 2) }}</div>
                                                 </div>
 
-                                                @if($item->description)
-                                                    <p class="menu-item-desc mb-3">{{ $item->description }}</p>
-                                                @endif
-
-                                                @if(!empty($tags))
-                                                    <div class="menu-tags">
-                                                        @foreach($tags as $tag)
-                                                            <span class="menu-tag">{{ $tag }}</span>
-                                                        @endforeach
+                                                <div class="menu-item-body">
+                                                    <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                                                        <h3 class="menu-item-title mb-0">{{ $item->name }}</h3>
+                                                        @if(!$item->is_available)
+                                                            <span class="badge text-bg-secondary">Unavailable</span>
+                                                        @endif
                                                     </div>
-                                                @endif
-                                            </div>
-                                        </article>
+
+                                                    @if($item->description)
+                                                        <p class="menu-item-desc mb-3">{{ $item->description }}</p>
+                                                    @endif
+
+                                                    @if(!empty($tags))
+                                                        <div class="menu-tags">
+                                                            @foreach($tags as $tag)
+                                                                <span class="menu-tag">{{ $tag }}</span>
+                                                            @endforeach
+                                                        </div>
+                                                    @endif
+
+                                                    <span class="menu-item-link-label">View Details</span>
+                                                </div>
+                                            </article>
+                                        </a>
                                     </div>
                                 @endforeach
                             </div>
@@ -493,17 +481,29 @@
         .menu-chip-shell .container {
             display: flex;
             justify-content: center;
+            overflow: hidden;
         }
 
         .menu-chip-rail {
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             justify-content: center;
             align-items: center;
-            gap: .75rem;
-            padding: .35rem 0 1.0rem;
-            /*width: min(1120px, 100%);*/
+            gap: .5rem;
+            padding: .24rem .2rem .52rem;
+            width: max-content;
+            min-width: 100%;
             margin: 0 auto;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+            white-space: nowrap;
+            scroll-padding-inline: .6rem;
+        }
+
+        .menu-chip-rail::-webkit-scrollbar {
+            display: none;
         }
 
         .menu-chip {
@@ -511,69 +511,78 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            flex: 0 0 196px;
-            width: 196px;
-            min-height: 3.1rem;
-            gap: .55rem;
+            flex: 0 0 auto;
+            flex-shrink: 0;
+            width: auto;
+            min-height: 2.5rem;
+            gap: .42rem;
+            min-width: 0;
             border-radius: 999px;
             border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(255, 255, 255, 0.03);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.015));
             color: rgba(255, 255, 255, 0.82);
-            padding: .78rem 1.2rem;
-            font: 700 .88rem/1 'Rajdhani', sans-serif;
-            letter-spacing: .06em;
+            padding: .54rem .92rem;
+            font: 700 .78rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .05em;
             text-transform: uppercase;
-            transition: transform .18s ease, border-color .18s ease, background-color .18s ease, color .18s ease;
+            transition: border-color .18s ease, background-color .18s ease, color .18s ease;
             position: relative;
             overflow: hidden;
+            white-space: nowrap;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+        }
+
+        .menu-chip > span {
+            display: inline-flex;
+            align-items: center;
+            line-height: 1;
         }
 
         @media (max-width: 640px) {
-            .menu-chip {
-                flex: 1 1 calc(50% - .75rem);
-                width: auto;
+            .menu-chip-shell .container {
+                justify-content: flex-start;
             }
-        }
 
-        .menu-chip::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(115deg, transparent 25%, rgba(255, 255, 255, 0.15), transparent 68%);
-            transform: translateX(-120%);
-            transition: transform .45s ease;
-            pointer-events: none;
+            .menu-chip-rail {
+                width: max-content;
+                min-width: 100%;
+                padding-right: .35rem;
+                justify-content: flex-start;
+            }
+
+            .menu-chip {
+                min-height: 2.25rem;
+                padding-inline: .7rem;
+                font-size: .71rem;
+            }
         }
 
         .menu-chip small {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-width: 1.5rem;
-            height: 1.5rem;
-            padding: 0 .35rem;
+            min-width: 1.18rem;
+            height: 1.18rem;
+            padding: 0 .28rem;
             border-radius: 999px;
-            background: rgba(255, 255, 255, 0.08);
-            font-size: .75rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.92);
+            font-size: .64rem;
+            font-weight: 700;
             line-height: 1;
         }
 
         .menu-chip:hover,
         .menu-chip:focus {
-            transform: translateY(-1px);
-            border-color: rgba(255, 255, 255, 0.28);
-        }
-
-        .menu-chip:hover::before,
-        .menu-chip:focus::before {
-            transform: translateX(115%);
+            border-color: rgba(255, 255, 255, 0.22);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
         }
 
         .menu-chip.is-active {
-            background: linear-gradient(180deg, rgba(255, 29, 45, 0.18), rgba(170, 5, 19, 0.18));
-            border-color: rgba(255, 60, 72, 0.55);
+            background: linear-gradient(180deg, rgba(255, 29, 45, 0.24), rgba(170, 5, 19, 0.2));
+            border-color: rgba(255, 60, 72, 0.48);
             color: #fff;
-            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04), 0 8px 24px rgba(227, 18, 31, 0.18);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04), 0 10px 22px rgba(227, 18, 31, 0.14);
         }
 
         .menu-catalog {
@@ -586,10 +595,14 @@
             scroll-margin-top: calc(var(--nav-height, 84px) + 92px);
         }
 
+        .menu-category-header {
+            margin-bottom: 1rem;
+        }
+
         .menu-category-header-panel {
             position: relative;
-            border-radius: 1.1rem;
-            padding: 1.1rem 1.1rem 1rem;
+            border-radius: 1rem;
+            padding: .95rem 1rem .9rem 1.15rem;
             background:
                 linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
                 #131313;
@@ -602,56 +615,52 @@
             content: '';
             position: absolute;
             inset: 0 auto 0 0;
-            width: 5px;
+            width: 4px;
             background: linear-gradient(180deg, #ff2937, #9f0310);
+        }
+
+        .menu-category-header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .75rem;
+            margin-bottom: .35rem;
         }
 
         .menu-kicker {
             color: rgba(255, 255, 255, 0.55);
-            font: 700 .9rem/1 'Rajdhani', sans-serif;
-            letter-spacing: .22em;
+            font: 700 .76rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .2em;
             text-transform: uppercase;
-            margin-bottom: .45rem;
+        }
+
+        .menu-category-count {
+            display: inline-flex;
+            align-items: center;
+            min-height: 1.7rem;
+            padding: .25rem .55rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.78);
+            font: 700 .68rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .08em;
+            text-transform: uppercase;
         }
 
         .menu-category-title {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(2rem, 4vw, 3.2rem);
-            line-height: .92;
+            font-size: clamp(1.7rem, 3vw, 2.45rem);
+            line-height: .95;
             color: #fff;
             letter-spacing: .02em;
             text-transform: uppercase;
         }
 
         .menu-category-copy {
-            font: 500 1rem/1.55 'Rajdhani', sans-serif;
+            font: 500 .92rem/1.5 'Rajdhani', sans-serif;
             color: rgba(255, 255, 255, 0.74);
-            max-width: 44rem;
-        }
-
-        .menu-category-banner {
-            position: relative;
-            border-radius: 1.1rem;
-            overflow: hidden;
-            border: 1px solid var(--menu-line);
-            min-height: 13rem;
-            background: #0f0f0f;
-            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.16);
-        }
-
-        .menu-category-banner img {
-            object-fit: cover;
-            transform: scale(1.02);
-            will-change: transform;
-        }
-
-        .menu-category-banner-overlay {
-            position: absolute;
-            inset: 0;
-            background:
-                linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.56)),
-                linear-gradient(120deg, rgba(227, 18, 31, 0.2), rgba(227, 18, 31, 0));
-            pointer-events: none;
+            max-width: 52rem;
         }
 
         .menu-item-card {
@@ -672,6 +681,13 @@
             transform: perspective(900px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(var(--lift));
             transform-style: preserve-3d;
             will-change: transform;
+        }
+
+        .menu-item-card-link {
+            display: block;
+            height: 100%;
+            color: inherit;
+            text-decoration: none;
         }
 
         .menu-item-card:hover {
@@ -714,14 +730,16 @@
         }
 
         .menu-item-media img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            transform: scale(1.03);
+            transform: scale(1);
             transition: transform .35s ease, filter .35s ease;
             will-change: transform;
         }
 
         .menu-item-card:hover .menu-item-media img {
-            transform: scale(1.08);
+            transform: scale(1.05);
             filter: saturate(1.05) contrast(1.03);
         }
 
@@ -774,6 +792,23 @@
             display: flex;
             flex-wrap: wrap;
             gap: .45rem;
+        }
+
+        .menu-item-link-label {
+            display: inline-flex;
+            align-items: center;
+            margin-top: .95rem;
+            color: rgba(255, 255, 255, 0.88);
+            font: 700 .78rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+        .menu-item-link-label::after {
+            content: '›';
+            margin-left: .4rem;
+            font-size: 1rem;
+            line-height: 1;
         }
 
         .menu-tag {
@@ -831,7 +866,6 @@
             }
 
             .menu-category-header-panel,
-            .menu-category-banner,
             .menu-item-card {
                 border-radius: .9rem;
             }
@@ -865,8 +899,6 @@
             }
         }
 
-        body[data-performance-mode="lite"] .menu-embers,
-        body[data-performance-mode="lite"] .menu-flames,
         body[data-performance-mode="lite"] .menu-item-glare {
             display: none;
         }
@@ -875,13 +907,8 @@
             backdrop-filter: none;
         }
 
-        body[data-performance-mode="lite"] .menu-hero-visual {
-            transform: none !important;
-        }
-
         body[data-performance-mode="lite"] .menu-item-card,
-        body[data-performance-mode="lite"] .menu-item-media img,
-        body[data-performance-mode="lite"] .menu-chip::before {
+        body[data-performance-mode="lite"] .menu-item-media img {
             transition-duration: .12s !important;
         }
     </style>

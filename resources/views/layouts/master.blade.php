@@ -385,18 +385,25 @@
             40% { opacity: 1; transform: translateY(-2px); }
         }
 
+        .hero-transfer-banner-shell {
+            position: relative;
+            z-index: 5;
+            margin-top: clamp(-2.6rem, -4.2vw, -1.4rem);
+            margin-bottom: clamp(1.6rem, 3vw, 2.6rem);
+        }
+
         .footer-transfer-banner {
             position: relative;
-            margin-bottom: 2rem;
-            border-radius: 1.1rem;
+            margin: 0;
+            border-radius: 1.15rem;
             overflow: hidden;
             background:
-                radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.04), transparent 38%),
-                radial-gradient(circle at 78% 28%, rgba(219, 29, 48, 0.14), transparent 44%),
-                radial-gradient(circle at 65% 84%, rgba(255, 149, 44, 0.12), transparent 46%),
-                linear-gradient(180deg, #0b0b0b 0%, #070707 100%);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+                radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.05), transparent 40%),
+                radial-gradient(circle at 84% 18%, rgba(219, 29, 48, 0.2), transparent 46%),
+                radial-gradient(circle at 62% 82%, rgba(255, 149, 44, 0.16), transparent 46%),
+                linear-gradient(180deg, #0d0d0d 0%, #060606 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 24px 52px rgba(0, 0, 0, 0.3);
         }
 
         .footer-transfer-banner::before,
@@ -405,8 +412,8 @@
             position: absolute;
             top: 0;
             bottom: 0;
-            width: clamp(14px, 1.8vw, 24px);
-            background: linear-gradient(180deg, #ef2528, #d8161b);
+            width: clamp(12px, 1.7vw, 20px);
+            background: linear-gradient(180deg, #f02c31, #db1d30);
             z-index: 1;
         }
 
@@ -417,108 +424,130 @@
             position: relative;
             z-index: 2;
             display: grid;
-            grid-template-columns: 1.35fr 1fr auto;
-            gap: 1rem;
+            grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) auto;
+            gap: clamp(.9rem, 1.8vw, 1.4rem);
             align-items: center;
-            padding: 1.35rem clamp(1.35rem, 2.2vw, 2.6rem);
-            padding-left: clamp(2.25rem, 4vw, 3.8rem);
-            padding-right: clamp(2.25rem, 4vw, 3.8rem);
+            padding: clamp(1.1rem, 2vw, 1.55rem) clamp(1.35rem, 3.2vw, 2.6rem);
+            padding-left: clamp(2.05rem, 4.2vw, 3.4rem);
+            padding-right: clamp(2.05rem, 4.2vw, 3.4rem);
         }
 
         .footer-transfer-banner__title-top {
-            color: rgba(255, 255, 255, 0.94);
-            font: 600 clamp(1rem, 2.2vw, 1.25rem)/1.2 'Poppins', sans-serif;
-            margin: 0 0 .15rem;
+            margin: 0 0 .32rem;
+            color: rgba(255, 255, 255, 0.9);
+            font: 600 clamp(.98rem, 1.8vw, 1.15rem)/1.2 'Poppins', sans-serif;
         }
 
         .footer-transfer-banner__title-main {
+            margin: 0 0 .72rem;
             color: #fff;
-            font: 800 clamp(1.55rem, 3.4vw, 2.3rem)/.95 'Poppins', sans-serif;
-            letter-spacing: -0.02em;
-            margin: 0 0 .7rem;
+            font: 800 clamp(1.65rem, 3.1vw, 2.3rem)/.95 'Poppins', sans-serif;
+            letter-spacing: -0.03em;
+            text-wrap: balance;
         }
 
         .footer-transfer-banner__offer-row {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
-            gap: .65rem .75rem;
+            gap: .55rem .7rem;
+            margin-bottom: .82rem;
         }
 
         .footer-transfer-banner__offer-label {
-            color: #fff;
-            font: 800 clamp(1.55rem, 3.6vw, 2.45rem)/1 'Poppins', sans-serif;
-            letter-spacing: -0.03em;
             margin: 0;
+            color: rgba(255, 255, 255, 0.96);
+            font: 700 clamp(1.22rem, 2.6vw, 1.65rem)/1 'Poppins', sans-serif;
+            letter-spacing: -0.02em;
         }
 
         .footer-transfer-banner__offer-pill {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-height: 54px;
-            padding: .7rem 1.5rem;
-            border-radius: 1.1rem;
-            background: linear-gradient(180deg, #ff2c35, #e61d24);
+            min-height: 46px;
+            padding: .6rem 1.18rem;
+            border-radius: .9rem;
+            background: linear-gradient(180deg, #ff343f, #df1d27);
             color: #fff;
-            font: 800 clamp(1.1rem, 2.15vw, 1.6rem)/1 'Poppins', sans-serif;
-            letter-spacing: -0.02em;
-            box-shadow: 0 10px 24px rgba(230, 29, 36, 0.25);
+            font: 800 clamp(.95rem, 1.65vw, 1.2rem)/1 'Poppins', sans-serif;
+            letter-spacing: .01em;
+            box-shadow: 0 10px 24px rgba(219, 29, 48, 0.3);
             white-space: nowrap;
+        }
+
+        .footer-transfer-banner__actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .55rem;
+        }
+
+        .footer-transfer-banner__cta {
+            min-width: 136px;
+            font-weight: 700;
+            letter-spacing: .01em;
         }
 
         .footer-transfer-banner__road-wrap {
             display: grid;
-            gap: .75rem;
+            gap: .78rem;
         }
 
         .footer-transfer-banner__road {
             position: relative;
-            height: 58px;
+            height: 60px;
+            border-radius: 999px;
             overflow: hidden;
+            background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.28));
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .footer-transfer-banner__road-line {
             position: absolute;
-            left: 0;
-            right: 0;
+            left: 14px;
+            right: 14px;
             top: 50%;
-            height: 6px;
+            height: 5px;
             transform: translateY(-50%);
             border-radius: 999px;
-            background: linear-gradient(90deg, #ef2528, #ff4247);
+            background:
+                linear-gradient(90deg,
+                rgba(255, 255, 255, 0.12) 0%,
+                rgba(255, 255, 255, 0.85) 24%,
+                rgba(255, 149, 44, 0.95) 65%,
+                rgba(219, 29, 48, 0.95) 100%);
         }
 
         .footer-transfer-banner__car-shell {
             position: absolute;
             top: 50%;
-            left: 0;
-            width: 150px;
-            height: 44px;
-            transform: translate(-105%, -50%);
-            animation: footer-car-run 8.5s linear infinite;
+            left: 8px;
+            width: 148px;
+            height: 42px;
+            transform: translate(-112%, -50%);
+            animation: footer-car-run 7.2s linear infinite;
             will-change: transform;
         }
 
         .footer-transfer-banner__car-body {
             position: absolute;
-            inset: 8px 2px 6px;
+            inset: 7px 3px 5px;
             border-radius: 16px 18px 14px 14px;
-            background: linear-gradient(180deg, #ff4a4f 0%, #d5151f 100%);
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.32);
+            background: linear-gradient(180deg, #ff474f 0%, #d41420 100%);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
         }
 
         .footer-transfer-banner__car-body::before {
             content: '';
             position: absolute;
             left: 20px;
-            right: 22px;
+            right: 21px;
             top: -10px;
             height: 18px;
-            border-radius: 16px 22px 6px 6px;
-            background: linear-gradient(180deg, #ff6165 0%, #ea232c 100%);
-            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 15px 22px 6px 6px;
+            background: linear-gradient(180deg, #ff5f63 0%, #e3212c 100%);
+            border: 1px solid rgba(255, 255, 255, 0.16);
         }
 
         .footer-transfer-banner__car-window {
@@ -526,8 +555,8 @@
             top: 5px;
             height: 9px;
             border-radius: 4px;
-            background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(210,230,255,.65));
-            opacity: .88;
+            background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(210,230,255,.62));
+            opacity: .9;
             z-index: 1;
         }
 
@@ -537,21 +566,21 @@
         .footer-transfer-banner__car-wheel {
             position: absolute;
             bottom: 0;
-            width: 20px;
-            height: 20px;
+            width: 19px;
+            height: 19px;
             border-radius: 50%;
-            background: #0f0f0f;
-            border: 2px solid #2f2f2f;
-            box-shadow: inset 0 0 0 3px #8f8f8f;
+            background: #111;
+            border: 2px solid #333;
+            box-shadow: inset 0 0 0 3px #8d8d8d;
         }
 
         .footer-transfer-banner__car-wheel::before {
             content: '';
             position: absolute;
-            inset: 5px;
+            inset: 4px;
             border-radius: 50%;
             background: #ddd;
-            opacity: .9;
+            opacity: .95;
         }
 
         .footer-transfer-banner__car-wheel--front { left: 28px; }
@@ -561,7 +590,7 @@
             position: absolute;
             left: 56px;
             top: 18px;
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.92);
             font: 700 .5rem/1 'Poppins', sans-serif;
             letter-spacing: .04em;
             text-transform: lowercase;
@@ -569,17 +598,22 @@
 
         .footer-transfer-banner__copy {
             margin: 0;
-            color: rgba(255, 255, 255, 0.96);
-            font: 500 clamp(.95rem, 1.9vw, 1.2rem)/1.2 'Poppins', sans-serif;
-            max-width: 31ch;
+            color: rgba(255, 255, 255, 0.94);
+            font: 500 clamp(.92rem, 1.8vw, 1.12rem)/1.25 'Poppins', sans-serif;
+            max-width: 34ch;
+        }
+
+        .footer-transfer-banner__copy strong {
+            color: #fff;
+            font-weight: 700;
         }
 
         .footer-transfer-banner__qr {
-            width: clamp(122px, 11vw, 150px);
-            border-radius: 1rem;
-            padding: .45rem .45rem .35rem;
-            background: linear-gradient(180deg, #ffffff 0%, #f8f8f8 100%);
-            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22);
+            width: clamp(114px, 10vw, 142px);
+            border-radius: .9rem;
+            padding: .4rem .4rem .32rem;
+            background: linear-gradient(180deg, #ffffff 0%, #f7f7f7 100%);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.26);
             border: 2px solid #ef2528;
             text-align: center;
             flex-shrink: 0;
@@ -589,27 +623,27 @@
             display: block;
             width: 100%;
             height: auto;
-            border-radius: .45rem;
+            border-radius: .4rem;
             background: #fff;
         }
 
         .footer-transfer-banner__qr-label {
-            margin-top: .4rem;
+            margin-top: .35rem;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-height: 32px;
+            min-height: 28px;
             width: 100%;
-            border-radius: .65rem;
+            border-radius: .5rem;
             background: linear-gradient(180deg, #ff2c35, #e61d24);
             color: #fff;
-            font: 800 clamp(.82rem, 1.3vw, 1.05rem)/1 'Poppins', sans-serif;
-            letter-spacing: -0.01em;
+            font: 800 clamp(.78rem, 1.1vw, .95rem)/1 'Poppins', sans-serif;
+            letter-spacing: 0;
         }
 
         @keyframes footer-car-run {
-            from { transform: translate(-105%, -50%); }
-            to { transform: translate(calc(100% + 42px), -50%); }
+            from { transform: translate(-112%, -50%); }
+            to { transform: translate(calc(100% + 64px), -50%); }
         }
 
         .footer-title {
@@ -747,36 +781,74 @@
         }
 
         @media (max-width: 1199.98px) {
+            .hero-transfer-banner-shell {
+                margin-top: clamp(-2.1rem, -3.6vw, -1rem);
+            }
+
             .footer-transfer-banner__inner {
-                grid-template-columns: 1.15fr .95fr auto;
-                gap: .9rem;
+                grid-template-columns: minmax(0, 1.2fr) minmax(0, .95fr) auto;
+                gap: .82rem;
             }
 
             .footer-transfer-banner__car-shell {
-                width: 132px;
+                width: 128px;
                 height: 40px;
+            }
+
+            .footer-transfer-banner__cta {
+                min-width: 128px;
             }
         }
 
         @media (max-width: 991.98px) {
+            .hero-transfer-banner-shell {
+                margin-top: -1.2rem;
+                margin-bottom: 1.6rem;
+            }
+
             .footer-transfer-banner__inner {
                 grid-template-columns: 1fr;
-                gap: 1rem;
-                padding-top: 1rem;
-                padding-bottom: 1rem;
+                gap: .95rem;
+                padding-top: 1.05rem;
+                padding-bottom: 1.05rem;
             }
 
             .footer-transfer-banner__qr {
-                width: min(150px, 46vw);
+                width: min(146px, 46vw);
                 justify-self: start;
             }
 
             .footer-transfer-banner__road-wrap {
-                order: 3;
+                order: 2;
             }
 
             .footer-transfer-banner__copy {
                 max-width: none;
+            }
+
+            .footer-transfer-banner__actions {
+                margin-top: .2rem;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .hero-transfer-banner-shell {
+                margin-top: -1rem;
+            }
+
+            .footer-transfer-banner__inner {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+
+            .footer-transfer-banner__offer-pill {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .footer-transfer-banner__cta {
+                width: 100%;
+                min-width: 0;
             }
         }
     </style>
@@ -814,18 +886,18 @@
                     <ul class="navbar-nav me-auto ms-md-3 mb-2 mb-lg-0">
                         <li class="nav-item"><a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a></li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle {{ request()->routeIs('events') ? 'active' : '' }}" href="{{ route('events') }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle {{ request()->routeIs('events*') ? 'active' : '' }}" href="{{ route('events') }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Events
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ route('events') }}">All Events</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{{ route('events') }}#event-ceremonies">Ceremonies</a></li>
-                                <li><a class="dropdown-item" href="{{ route('events') }}#event-get-together">Get Together</a></li>
-                                <li><a class="dropdown-item" href="{{ route('events') }}#event-meetings">Meetings</a></li>
-                                <li><a class="dropdown-item" href="{{ route('events') }}#event-conferences">Conferences</a></li>
-                                <li><a class="dropdown-item" href="{{ route('events') }}#event-valentines-day">Valentine's Day</a></li>
-                                <li><a class="dropdown-item" href="{{ route('events') }}#event-festivals-eid-ramadan-easter-christmas">Festivals</a></li>
+                                <li><a class="dropdown-item" href="{{ route('events.show', 'ceremonies') }}">Ceremonies</a></li>
+                                <li><a class="dropdown-item" href="{{ route('events.show', 'get-together') }}">Get Together</a></li>
+                                <li><a class="dropdown-item" href="{{ route('events.show', 'meetings') }}">Meetings</a></li>
+                                <li><a class="dropdown-item" href="{{ route('events.show', 'conferences') }}">Conferences</a></li>
+                                <li><a class="dropdown-item" href="{{ route('events.show', 'valentines-day') }}">Valentine's Day</a></li>
+                                <li><a class="dropdown-item" href="{{ route('events.show', 'festivals') }}">Festivals</a></li>
                             </ul>
                         </li>
                         <li class="nav-item"><a class="nav-link {{ request()->routeIs('menu') ? 'active' : '' }}" href="{{ route('menu') }}">Menu</a></li>
@@ -855,53 +927,67 @@
             </header>
         @endif
 
-        <main class="flex-grow-1 py-4">
+        @if (request()->routeIs('home'))
+            <section class="hero-transfer-banner-shell" aria-label="Airport transfer offer">
+                <div class="container">
+                    <section class="footer-transfer-banner" aria-label="Free pick and drop offer">
+                        <div class="footer-transfer-banner__inner">
+                            <div>
+                                <p class="footer-transfer-banner__title-top">Enjoy a seamless journey with</p>
+                                <h2 class="footer-transfer-banner__title-main">Kashmir Grill House in Como</h2>
+                                <div class="footer-transfer-banner__offer-row">
+                                    <p class="footer-transfer-banner__offer-label">We provide</p>
+                                    <span class="footer-transfer-banner__offer-pill">FREE PICK &amp; DROP</span>
+                                </div>
+                                <div class="footer-transfer-banner__actions">
+                                    <a href="{{ route('book-now') }}" class="btn btn-brand btn-sm footer-transfer-banner__cta">Reserve Table</a>
+                                    <a href="tel:{{ $businessPhoneHref }}" class="btn btn-brand-outline btn-sm footer-transfer-banner__cta">Call {{ $businessPhone }}</a>
+                                </div>
+                            </div>
+
+                            <div class="footer-transfer-banner__road-wrap">
+                                <div class="footer-transfer-banner__road" aria-hidden="true">
+                                    <div class="footer-transfer-banner__road-line"></div>
+                                    <div class="footer-transfer-banner__car-shell">
+                                        <div class="footer-transfer-banner__car-body">
+                                            <span class="footer-transfer-banner__car-window footer-transfer-banner__car-window--front"></span>
+                                            <span class="footer-transfer-banner__car-window footer-transfer-banner__car-window--rear"></span>
+                                            <span class="footer-transfer-banner__car-logo">kashmir</span>
+                                        </div>
+                                        <span class="footer-transfer-banner__car-wheel footer-transfer-banner__car-wheel--front"></span>
+                                        <span class="footer-transfer-banner__car-wheel footer-transfer-banner__car-wheel--rear"></span>
+                                    </div>
+                                </div>
+                                <p class="footer-transfer-banner__copy">
+                                    Reserve your table now for <strong>free airport transfers</strong> to our restaurant.
+                                </p>
+                            </div>
+
+                            <a class="footer-transfer-banner__qr" href="{{ $googleBusinessUrl }}" target="_blank" rel="noopener noreferrer" aria-label="Scan QR to open Kashmir Grill House Google Business Profile">
+                                <img
+                                    src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data={{ urlencode($googleBusinessUrl) }}"
+                                    alt="QR code for Kashmir Grill House Google Business Profile"
+                                    loading="lazy"
+                                    decoding="async"
+                                >
+                                <span class="footer-transfer-banner__qr-label">Scan Me!</span>
+                            </a>
+                        </div>
+                    </section>
+                </div>
+            </section>
+        @endif
+
+        @php
+            $fullBleedMain = request()->routeIs('home', 'menu', 'menu.*', 'events', 'events.*', 'contact');
+        @endphp
+
+        <main class="flex-grow-1 {{ $fullBleedMain ? 'py-0' : 'py-4' }}">
             @yield('content')
         </main>
 
         <footer id="contact" class="site-footer bg-brand-dark mt-5 pt-5 pb-4">
             <div class="container">
-                <section class="footer-transfer-banner" aria-label="Free pick and drop offer">
-                    <div class="footer-transfer-banner__inner">
-                        <div>
-                            <p class="footer-transfer-banner__title-top">Enjoy a seamless journey with</p>
-                            <h2 class="footer-transfer-banner__title-main">Kashmir Grill House in Como</h2>
-                            <div class="footer-transfer-banner__offer-row">
-                                <p class="footer-transfer-banner__offer-label">We provide</p>
-                                <span class="footer-transfer-banner__offer-pill">FREE PICK &amp; DROP</span>
-                            </div>
-                        </div>
-
-                        <div class="footer-transfer-banner__road-wrap">
-                            <div class="footer-transfer-banner__road" aria-hidden="true">
-                                <div class="footer-transfer-banner__road-line"></div>
-                                <div class="footer-transfer-banner__car-shell">
-                                    <div class="footer-transfer-banner__car-body">
-                                        <span class="footer-transfer-banner__car-window footer-transfer-banner__car-window--front"></span>
-                                        <span class="footer-transfer-banner__car-window footer-transfer-banner__car-window--rear"></span>
-                                        <span class="footer-transfer-banner__car-logo">kashmir</span>
-                                    </div>
-                                    <span class="footer-transfer-banner__car-wheel footer-transfer-banner__car-wheel--front"></span>
-                                    <span class="footer-transfer-banner__car-wheel footer-transfer-banner__car-wheel--rear"></span>
-                                </div>
-                            </div>
-                            <p class="footer-transfer-banner__copy">
-                                Reserve your table now for free airport transfers to our restaurant!
-                            </p>
-                        </div>
-
-                        <a class="footer-transfer-banner__qr" href="{{ $googleBusinessUrl }}" target="_blank" rel="noopener noreferrer" aria-label="Scan QR to open Kashmir Grill House Google Business Profile">
-                            <img
-                                src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data={{ urlencode($googleBusinessUrl) }}"
-                                alt="QR code for Kashmir Grill House Google Business Profile"
-                                loading="lazy"
-                                decoding="async"
-                            >
-                            <span class="footer-transfer-banner__qr-label">Scan Me!</span>
-                        </a>
-                    </div>
-                </section>
-
                 <div class="row g-4 align-items-start">
                     <div class="col-lg-4">
                         <h5 class="footer-title section-accent mb-3">Kashmir Grill House</h5>

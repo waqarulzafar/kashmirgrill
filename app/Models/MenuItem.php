@@ -14,6 +14,7 @@ class MenuItem extends Model
     protected $fillable = [
         'menu_category_id',
         'name',
+        'slug',
         'description',
         'price',
         'tags',
@@ -26,9 +27,25 @@ class MenuItem extends Model
         'is_available' => 'boolean',
     ];
 
+    protected static function booted(): void
+    {
+        static::saving(function (MenuItem $item): void {
+            if (!$item->isDirty('name') && filled($item->slug)) {
+                return;
+            }
+
+            $item->slug = static::generateUniqueSlug($item->name, $item->getKey());
+        });
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(MenuCategory::class, 'menu_category_id');
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
     }
 
     public function imageUrl(): ?string
@@ -63,5 +80,24 @@ class MenuItem extends Model
             ->filter()
             ->values()
             ->all();
+    }
+
+    protected static function generateUniqueSlug(string $name, int|string|null $ignoreId = null): string
+    {
+        $base = Str::slug($name) ?: 'menu-item';
+        $slug = $base;
+        $suffix = 2;
+
+        while (
+            static::query()
+                ->when($ignoreId, fn ($query) => $query->whereKeyNot($ignoreId))
+                ->where('slug', $slug)
+                ->exists()
+        ) {
+            $slug = $base . '-' . $suffix;
+            $suffix++;
+        }
+
+        return $slug;
     }
 }
