@@ -286,6 +286,27 @@ function initCartUi() {
         }
     };
 
+    const buildRequestError = async (response) => {
+        const contentType = response.headers.get('content-type') || '';
+        const responseText = await response.text();
+        let message = `Request failed: ${response.status}`;
+
+        if (contentType.includes('application/json')) {
+            try {
+                const payload = JSON.parse(responseText);
+                message = payload.message || payload.error || message;
+            } catch (error) {
+                message = `${message} (invalid JSON response)`;
+            }
+        } else if (response.redirected) {
+            message = `Request was redirected to ${response.url}.`;
+        } else if (responseText.trim()) {
+            message = `${message} (${responseText.slice(0, 160)})`;
+        }
+
+        return new Error(message);
+    };
+
     const requestJson = async (url, options = {}) => {
         const response = await fetch(url, {
             credentials: 'same-origin',
@@ -299,10 +320,21 @@ function initCartUi() {
         });
 
         if (!response.ok) {
-            throw new Error(`Request failed: ${response.status}`);
+            throw await buildRequestError(response);
         }
 
-        return response.json();
+        const contentType = response.headers.get('content-type') || '';
+        const responseText = await response.text();
+
+        if (!contentType.includes('application/json')) {
+            if (response.redirected) {
+                throw new Error(`Expected JSON but received a redirect to ${response.url}.`);
+            }
+
+            throw new Error(`Expected JSON response but received ${contentType || 'an unknown content type'}.`);
+        }
+
+        return JSON.parse(responseText);
     };
 
     const updateQuantity = async (menuItemId, quantity) => {
@@ -348,6 +380,10 @@ function initCartUi() {
 
     document.querySelectorAll('[data-add-to-cart-form]').forEach((form) => {
         form.addEventListener('submit', async (event) => {
+            if (form.dataset.cartNativeSubmit === 'true') {
+                return;
+            }
+
             if (!addUrl || pending) {
                 return;
             }
@@ -365,6 +401,8 @@ function initCartUi() {
                 openDrawer();
             } catch (error) {
                 console.error('Cart add failed.', error);
+                form.dataset.cartNativeSubmit = 'true';
+                HTMLFormElement.prototype.submit.call(form);
             } finally {
                 setPending(false);
             }
