@@ -97,7 +97,7 @@
                         <section class="booking-search mt-4" data-booking-search>
                             <div class="booking-search__meta">
                                 <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-                                Via Milano, 253, 22100 Como, Italy
+                                Via Milano, 253, 22100 Como CO, Italy
                             </div>
 
                             <div class="row g-3 mt-1">

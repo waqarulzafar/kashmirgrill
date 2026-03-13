@@ -245,7 +245,7 @@
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <h6 class="footer-title mb-3">Contact</h6>
-                        <p class="mb-2">Via Milano, 253, 22100 Como, Italy</p>
+                        <p class="mb-2">Via Milano, 253, 22100 Como CO, Italy</p>
                         <p class="mb-2"><a class="footer-link" href="tel:+393511203141">+39 351 1203141</a></p>
                         <p class="mb-0"><a class="footer-link" href="https://share.google/grft1lwOxyW4px1OV" target="_blank" rel="noopener noreferrer">Google Business Profile &amp; Directions</a></p>
                     </div>

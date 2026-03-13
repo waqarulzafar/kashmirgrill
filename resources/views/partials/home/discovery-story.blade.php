@@ -47,7 +47,7 @@
 
                         <div class="home-discovery-story__location-strip">
                             <span class="home-discovery-story__location-dot" aria-hidden="true"></span>
-                            Via Milano, 253, 22100 Como, Italy
+                            Via Milano, 253, 22100 Como CO, Italy
                         </div>
                     </div>
                 </div>

@@ -5,7 +5,7 @@
         $defaultSite = 'Kashmir Grill House';
         $businessPhone = '+39 351 1203141';
         $businessPhoneHref = '+393511203141';
-        $businessAddressLine = 'Via Milano, 253, 22100 Como, Italy';
+        $businessAddressLine = 'Via Milano, 253, 22100 Como CO, Italy';
         $businessMapUrl = 'https://www.google.com/maps/search/?api=1&query=Via+Milano,+253,+22100+Como,+Italy';
         $instagramUrl = 'https://www.instagram.com/kashmirgrillhouse_?utm_source=qr&igsh=ZjJmZDhtZHQzZ2l6';
         $facebookUrl = 'https://www.facebook.com/share/1CVDdWNQJy/';

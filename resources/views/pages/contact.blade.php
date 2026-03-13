@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title', 'Contact Kashmir Grill House | Via Milano, Como')
-@section('meta_description', 'Contact Kashmir Grill House at Via Milano, 253, 22100 Como, Italy for reservations, takeaway orders, social links, and Google directions.')
+@section('meta_description', 'Contact Kashmir Grill House at Via Milano, 253, 22100 Como CO, Italy for reservations, takeaway orders, social links, and Google directions.')
 @section('meta_keywords', 'contact Kashmir Grill House, Via Milano 253 Como, halal restaurant phone Como, Kashmir Grill House directions')
 @section('body_class', 'home-menu-theme')
 
@@ -26,7 +26,7 @@
                         <div class="contact-hero__panel">
                             <div class="contact-hero__panel-item">
                                 <span>Address</span>
-                                <strong>Via Milano, 253, 22100 Como, Italy</strong>
+                                <strong>Via Milano, 253, 22100 Como CO, Italy</strong>
                             </div>
                             <div class="contact-hero__panel-item">
                                 <span>Phone</span>
@@ -61,7 +61,7 @@
 
                         <dl class="contact-info-list mb-4">
                             <dt>Address</dt>
-                            <dd>Via Milano, 253, 22100 Como, Italy</dd>
+                            <dd>Via Milano, 253, 22100 Como CO, Italy</dd>
 
                             <dt>Phone</dt>
                             <dd><a href="tel:+393511203141">+39 351 1203141</a></dd>
