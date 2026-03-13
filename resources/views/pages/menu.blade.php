@@ -94,7 +94,7 @@
         @else
             <section class="menu-chip-shell sticky-top" data-no-reveal>
                 <div class="container py-2">
-                    <div class="menu-chip-rail" data-menu-chip-rail data-lenis-prevent role="tablist" aria-label="Menu categories">
+                    <div class="menu-chip-rail" data-menu-chip-rail role="tablist" aria-label="Menu categories">
                         @foreach($categories as $category)
                             <button
                                 type="button"
@@ -143,48 +143,58 @@
                                         $tags = $item->tagList();
                                     @endphp
                                     <div class="col-12 col-md-6 col-xl-4">
-                                        <a href="{{ route('menu.items.show', $item) }}" class="menu-item-card-link">
-                                            <article class="menu-item-card h-100" data-menu-card>
-                                                <div class="menu-item-glare" aria-hidden="true"></div>
-                                                <div class="menu-item-media">
-                                                    <img
-                                                        src="{{ $image }}"
-                                                        alt="{{ $item->name }}"
-                                                        width="640"
-                                                        height="420"
-                                                        loading="lazy"
-                                                        decoding="async"
-                                                        class="w-100 h-100"
-                                                        data-menu-parallax
-                                                    >
-                                                    <div class="menu-item-media-overlay" aria-hidden="true"></div>
-                                                    <div class="menu-item-price">&euro;{{ number_format((float) $item->price, 2) }}</div>
+                                        <article class="menu-item-card h-100" data-menu-card>
+                                            <div class="menu-item-glare" aria-hidden="true"></div>
+                                            <div class="menu-item-media">
+                                                <img
+                                                    src="{{ $image }}"
+                                                    alt="{{ $item->name }}"
+                                                    width="640"
+                                                    height="420"
+                                                    loading="lazy"
+                                                    decoding="async"
+                                                    class="w-100 h-100"
+                                                    data-menu-parallax
+                                                >
+                                                <div class="menu-item-media-overlay" aria-hidden="true"></div>
+                                                <div class="menu-item-price">&euro;{{ number_format((float) $item->price, 2) }}</div>
+                                            </div>
+
+                                            <div class="menu-item-body">
+                                                <div class="d-flex justify-content-between align-items-start gap-2">
+                                                    <h3 class="menu-item-title mb-0">{{ $item->name }}</h3>
+                                                    @if(!$item->is_available)
+                                                        <span class="badge text-bg-secondary">Unavailable</span>
+                                                    @endif
                                                 </div>
 
-                                                <div class="menu-item-body">
-                                                    <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
-                                                        <h3 class="menu-item-title mb-0">{{ $item->name }}</h3>
-                                                        @if(!$item->is_available)
-                                                            <span class="badge text-bg-secondary">Unavailable</span>
-                                                        @endif
+                                                @if($item->description)
+                                                    <p class="menu-item-desc mb-0">{{ $item->description }}</p>
+                                                @endif
+
+                                                @if(!empty($tags))
+                                                    <div class="menu-tags">
+                                                        @foreach($tags as $tag)
+                                                            <span class="menu-tag">{{ $tag }}</span>
+                                                        @endforeach
                                                     </div>
+                                                @endif
 
-                                                    @if($item->description)
-                                                        <p class="menu-item-desc mb-3">{{ $item->description }}</p>
-                                                    @endif
+                                                <div class="menu-item-actions">
+                                                    <a href="{{ route('menu.items.show', $item) }}" class="menu-item-link-label">View Details</a>
 
-                                                    @if(!empty($tags))
-                                                        <div class="menu-tags">
-                                                            @foreach($tags as $tag)
-                                                                <span class="menu-tag">{{ $tag }}</span>
-                                                            @endforeach
-                                                        </div>
-                                                    @endif
-
-                                                    <span class="menu-item-link-label">View Details</span>
+                                                    <form method="POST" action="{{ route('cart.items.add') }}" class="menu-item-card-actions" data-add-to-cart-form>
+                                                        @csrf
+                                                        <input type="hidden" name="menu_item_id" value="{{ $item->id }}">
+                                                        <input type="hidden" name="quantity" value="1">
+                                                        <button type="submit" class="menu-add-btn">
+                                                            <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
+                                                            Add To Cart
+                                                        </button>
+                                                    </form>
                                                 </div>
-                                            </article>
-                                        </a>
+                                            </div>
+                                        </article>
                                     </div>
                                 @endforeach
                             </div>
@@ -670,6 +680,9 @@
             --glare-x: 50%;
             --glare-y: 50%;
             position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
             background:
                 linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
                 var(--menu-panel);
@@ -683,11 +696,34 @@
             will-change: transform;
         }
 
-        .menu-item-card-link {
-            display: block;
-            height: 100%;
-            color: inherit;
-            text-decoration: none;
+        .menu-item-card-actions {
+            margin: 0;
+            margin-left: auto;
+        }
+
+        .menu-add-btn {
+            min-height: 2.45rem;
+            border-radius: .7rem;
+            border: 1px solid rgba(255, 149, 44, .35);
+            background: linear-gradient(180deg, rgba(255, 149, 44, .16), rgba(219, 29, 48, .12));
+            color: #fff;
+            font: 700 .76rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .45rem;
+            padding: .45rem .8rem;
+            white-space: nowrap;
+            transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+        }
+
+        .menu-add-btn:hover,
+        .menu-add-btn:focus {
+            border-color: rgba(255, 149, 44, .55);
+            box-shadow: 0 0 0 4px rgba(255, 149, 44, .12);
+            transform: translateY(-1px);
         }
 
         .menu-item-card:hover {
@@ -768,6 +804,10 @@
 
         .menu-item-body {
             padding: 1rem 1rem 1.05rem;
+            display: flex;
+            flex-direction: column;
+            gap: .7rem;
+            flex: 1;
             position: relative;
             z-index: 1;
             transform: translateZ(10px);
@@ -794,14 +834,29 @@
             gap: .45rem;
         }
 
+        .menu-item-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .75rem;
+            margin-top: auto;
+            padding-top: .35rem;
+        }
+
         .menu-item-link-label {
             display: inline-flex;
             align-items: center;
-            margin-top: .95rem;
             color: rgba(255, 255, 255, 0.88);
             font: 700 .78rem/1 'Rajdhani', sans-serif;
             letter-spacing: .1em;
             text-transform: uppercase;
+            text-decoration: none;
+            transition: color .2s ease;
+        }
+
+        .menu-item-link-label:hover,
+        .menu-item-link-label:focus {
+            color: #fff;
         }
 
         .menu-item-link-label::after {
@@ -876,6 +931,19 @@
 
             .menu-item-title {
                 font-size: 1.05rem;
+            }
+
+            .menu-item-actions {
+                flex-wrap: wrap;
+            }
+
+            .menu-item-card-actions {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .menu-add-btn {
+                width: 100%;
             }
         }
 

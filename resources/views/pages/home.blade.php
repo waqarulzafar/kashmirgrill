@@ -1315,12 +1315,38 @@
             text-transform: uppercase;
         }
 
+        .dishes-gallery__stats {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: .85rem;
+        }
+
+        .dishes-gallery__stat-card {
+            border-radius: .95rem;
+            border: 1px solid rgba(255,255,255,.08);
+            background:
+                linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0)),
+                rgba(10,10,10,.62);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.16);
+            padding: .8rem .95rem;
+        }
+
+        .dishes-gallery__stat-label {
+            color: rgba(255, 255, 255, 0.62);
+            font: 700 .72rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        .dishes-gallery__stat-value {
+            color: #fff;
+            font: 700 clamp(1rem, 1.8vw, 1.24rem)/1.1 'Rajdhani', sans-serif;
+            letter-spacing: .03em;
+        }
+
         .dishes-gallery__layout {
             display: grid;
-            grid-template-columns: 1.2fr .9fr .9fr;
-            grid-template-areas:
-                "lead spotA spotB"
-                "lead strip strip";
+            grid-template-columns: repeat(12, minmax(0, 1fr));
             gap: 1rem;
         }
 
@@ -1450,28 +1476,28 @@
         }
 
         .dish-tile--lead {
-            grid-area: lead;
+            grid-column: span 6;
             padding: 1.1rem !important;
         }
 
         .dish-tile--lead .dish-visual {
-            height: 280px;
+            height: 255px;
         }
 
         .dish-tile--lead h3 {
             font-size: 1.35rem;
         }
 
+        .dish-tile--spot {
+            grid-column: span 3;
+        }
+
+        .dishes-gallery__layout > .dish-tile:nth-of-type(n+4):not(.dish-tile--lead) {
+            grid-column: span 4;
+        }
+
         .dish-tile--spot .dish-visual {
-            height: 175px;
-        }
-
-        .dishes-gallery__layout > .dish-tile:nth-child(2) {
-            grid-area: spotA;
-        }
-
-        .dishes-gallery__layout > .dish-tile:nth-child(3) {
-            grid-area: spotB;
+            height: 185px;
         }
 
         .dish-meta-row {
@@ -1516,8 +1542,44 @@
             box-shadow: 0 0 10px rgba(255, 149, 44, 0.28);
         }
 
+        .dish-detail-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .45rem;
+            align-items: center;
+        }
+
+        .dish-price {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 1.95rem;
+            padding: .28rem .65rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 149, 44, 0.38);
+            background: linear-gradient(180deg, rgba(255, 149, 44, .16), rgba(219, 29, 48, .12));
+            color: #fff;
+            font: 700 .79rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .dish-detail-pill {
+            display: inline-flex;
+            align-items: center;
+            min-height: 1.85rem;
+            padding: .25rem .58rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            color: rgba(255, 255, 255, 0.84);
+            font: 700 .7rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
         .dishes-gallery__service-strip {
-            grid-area: strip;
+            grid-column: 1 / -1;
             display: flex;
             flex-wrap: wrap;
             gap: 1rem;
@@ -1829,13 +1891,18 @@
                 min-height: 180px;
             }
 
+            .dishes-gallery__stats {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
             .dishes-gallery__layout {
-                grid-template-columns: 1fr;
-                grid-template-areas:
-                    "lead"
-                    "spotA"
-                    "spotB"
-                    "strip";
+                grid-template-columns: repeat(6, minmax(0, 1fr));
+            }
+
+            .dish-tile--lead,
+            .dish-tile--spot,
+            .dishes-gallery__layout > .dish-tile:nth-of-type(n+4):not(.dish-tile--lead) {
+                grid-column: span 3;
             }
 
             .dish-tile--lead .dish-visual {
@@ -1920,6 +1987,22 @@
                 height: 104px;
                 left: calc(50% + 42px);
                 top: calc(50% - 100px);
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .dishes-gallery__stats {
+                grid-template-columns: 1fr;
+            }
+
+            .dishes-gallery__layout {
+                grid-template-columns: 1fr;
+            }
+
+            .dish-tile--lead,
+            .dish-tile--spot,
+            .dishes-gallery__layout > .dish-tile:nth-of-type(n+4):not(.dish-tile--lead) {
+                grid-column: auto;
             }
         }
 

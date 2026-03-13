@@ -22,6 +22,15 @@
             --nav-height: 84px;
         }
 
+        #smooth-wrapper {
+            min-height: 100%;
+        }
+
+        #smooth-content {
+            min-height: 100vh;
+            padding-top: var(--nav-height);
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(180deg, #fff, var(--brand-ivory));
@@ -29,9 +38,12 @@
         }
 
         .navbar-premium {
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 1030;
+            width: 100%;
             min-height: var(--nav-height);
             background-color: rgba(0, 0, 0, 0.95);
             border-bottom: 1px solid rgba(255, 149, 44, 0.25);
@@ -211,18 +223,20 @@
             </div>
         </nav>
 
-        @hasSection('hero')
-            <header class="hero-ready">
-                @yield('hero')
-            </header>
-        @endif
+        <div id="smooth-wrapper">
+            <div id="smooth-content">
+                @hasSection('hero')
+                    <header class="hero-ready">
+                        @yield('hero')
+                    </header>
+                @endif
 
-        <main class="flex-grow-1 py-4">
-            @yield('content')
-        </main>
+                <main class="flex-grow-1 py-4">
+                    @yield('content')
+                </main>
 
-        <footer id="contact" class="site-footer mt-5 pt-5 pb-4">
-            <div class="container">
+                <footer id="contact" class="site-footer mt-5 pt-5 pb-4">
+                    <div class="container">
                 <div class="row g-4 align-items-start">
                     <div class="col-lg-4">
                         <h5 class="footer-title section-accent mb-3">Kashmir Grill House</h5>
@@ -248,8 +262,10 @@
                 </div>
                 <hr class="border-secondary border-opacity-25 my-4">
                 <p class="mb-0 small text-white-50">&copy; {{ date('Y') }} Kashmir Grill House. All rights reserved.</p>
+                    </div>
+                </footer>
             </div>
-        </footer>
+        </div>
     </div>
     @stack('scripts')
 </body>

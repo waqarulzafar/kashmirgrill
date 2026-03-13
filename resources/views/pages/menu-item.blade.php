@@ -46,8 +46,18 @@
                                 </div>
                             @endif
 
-                            <div class="d-flex flex-wrap gap-2">
-                                <a href="{{ route('book-now') }}" class="menu-detail-btn menu-detail-btn-primary">Reserve Table</a>
+                            <div class="d-flex flex-wrap gap-2 align-items-center">
+                                @if($menuItem->is_available)
+                                    <form method="POST" action="{{ route('cart.items.add') }}" class="menu-detail-cart-form d-flex gap-2 align-items-center" data-add-to-cart-form>
+                                        @csrf
+                                        <input type="hidden" name="menu_item_id" value="{{ $menuItem->id }}">
+                                        <input type="number" name="quantity" min="1" max="20" value="1" class="menu-detail-qty" aria-label="Quantity">
+                                        <button type="submit" class="menu-detail-btn menu-detail-btn-primary">Add To Cart</button>
+                                    </form>
+                                @else
+                                    <span class="badge text-bg-secondary align-self-center">Currently unavailable</span>
+                                @endif
+                                <a href="{{ route('book-now') }}" class="menu-detail-btn menu-detail-btn-ghost">Reserve Table</a>
                                 <a href="{{ route('menu') }}#menu-{{ $menuItem->category?->slug }}" class="menu-detail-btn menu-detail-btn-ghost">View {{ $menuItem->category?->name }}</a>
                             </div>
                         </div>
@@ -220,6 +230,21 @@
             letter-spacing: .07em;
             text-transform: uppercase;
             border: 1px solid transparent;
+        }
+
+        .menu-detail-cart-form {
+            margin: 0;
+        }
+
+        .menu-detail-qty {
+            width: 72px;
+            min-height: 3rem;
+            border-radius: .75rem;
+            border: 1px solid rgba(255,255,255,.14);
+            background: rgba(255,255,255,.04);
+            color: #fff;
+            text-align: center;
+            font: 700 .95rem/1 'Rajdhani', sans-serif;
         }
 
         .menu-detail-btn-primary {

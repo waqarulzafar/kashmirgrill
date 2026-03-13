@@ -1,28 +1,39 @@
-@extends('layouts.app')
+@extends('layouts.master')
+
+@section('title', 'Verify Email | Kashmir Grill House')
+@section('body_class', 'auth-page-theme')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Verify Your Email Address') }}</div>
-
-                <div class="card-body">
-                    @if (session('resent'))
-                        <div class="alert alert-success" role="alert">
-                            {{ __('A fresh verification link has been sent to your email address.') }}
+    <section class="auth-shell">
+        <div class="container py-4 py-md-5">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-7 col-xl-6">
+                    <div class="auth-panel">
+                        <div class="auth-panel__header">
+                            <span class="badge rounded-pill badge-brand auth-panel__badge">{{ __('Email Verification') }}</span>
+                            <h1 class="auth-panel__title">{{ __('Verify Your Email') }}</h1>
+                            <p class="auth-panel__subtitle">{{ __('Before proceeding, please check your email for a verification link.') }}</p>
                         </div>
-                    @endif
 
-                    {{ __('Before proceeding, please check your email for a verification link.') }}
-                    {{ __('If you did not receive the email') }},
-                    <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
-                    </form>
+                        @if (session('resent'))
+                            <div class="alert alert-success" role="alert">
+                                {{ __('A fresh verification link has been sent to your email address.') }}
+                            </div>
+                        @endif
+
+                        <p class="auth-note mb-4">
+                            {{ __('If you did not receive the email, request another verification email below.') }}
+                        </p>
+
+                        <form method="POST" action="{{ route('verification.resend') }}" class="auth-form">
+                            @csrf
+                            <button type="submit" class="btn btn-brand auth-submit-btn">
+                                {{ __('Resend Verification Email') }}
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
 @endsection

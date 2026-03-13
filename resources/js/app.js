@@ -3,7 +3,11 @@ import 'bootstrap/js/dist/carousel';
 import 'bootstrap/js/dist/dropdown';
 import 'bootstrap/js/dist/modal';
 
-let lenisGsapBridge = null;
+let gsapRuntimePromise = null;
+let globalScrollSmootherPromise = null;
+let globalScrollSmoother = null;
+const HOME_HERO_FRAME_CACHE_NAME = 'kgh-home-hero-frames-v1';
+const homeHeroFrameCache = new Map();
 
 document.addEventListener('DOMContentLoaded', () => {
     const hasMenuExperience = Boolean(document.querySelector('[data-menu-experience]'));
@@ -16,6 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!hasMenuExperience && !hasHomeExperience) {
         initScrollReveal();
+    }
+
+    initCartUi();
+    initCheckoutExperience();
+
+    if (!motionProfile.prefersReduced && document.body.dataset.gsap !== 'off') {
+        void initGlobalSmoothScroll({ isLiteMotion: motionProfile.isLite });
     }
 
     const startNonCritical = () => {
@@ -52,6 +63,82 @@ function getMotionProfile() {
         coarsePointer,
         smallViewport,
     };
+}
+
+function buildHomeHeroFrameUrls(basePath, frameCount) {
+    if (!basePath || frameCount <= 0) {
+        return [];
+    }
+
+    return Array.from({ length: frameCount }, (_, index) => (
+        `${basePath}/frame-${String(index + 1).padStart(3, '0')}.png`
+    ));
+}
+
+function loadImageElement(src) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.decoding = 'async';
+        img.onload = () => resolve(img);
+        img.onerror = () => reject(new Error(`Failed to load image: ${src}`));
+        img.src = src;
+    });
+}
+
+async function warmHomeHeroFrameCacheStorage(frameUrls) {
+    if (!('caches' in window) || !frameUrls.length) {
+        return;
+    }
+
+    try {
+        const cache = await caches.open(HOME_HERO_FRAME_CACHE_NAME);
+        await Promise.all(frameUrls.map(async (url) => {
+            const request = new Request(url, { credentials: 'same-origin' });
+            const existing = await cache.match(request);
+            if (existing) {
+                return;
+            }
+
+            const response = await fetch(request);
+            if (response.ok) {
+                await cache.put(request, response.clone());
+            }
+        }));
+    } catch (error) {
+        // Cache storage can be unavailable in strict browser contexts; ignore and continue.
+    }
+}
+
+function preloadHomeHeroFrames(basePath, frameCount) {
+    const frameUrls = buildHomeHeroFrameUrls(basePath, frameCount);
+    const cacheKey = `${basePath}|${frameCount}`;
+
+    if (homeHeroFrameCache.has(cacheKey)) {
+        return homeHeroFrameCache.get(cacheKey);
+    }
+
+    const preloadPromise = (async () => {
+        if (!frameUrls.length) {
+            return [];
+        }
+
+        // Persist frames in browser cache for subsequent visits while also decoding in-memory now.
+        void warmHomeHeroFrameCacheStorage(frameUrls);
+
+        const decoded = await Promise.all(frameUrls.map(async (src) => {
+            try {
+                return await loadImageElement(src);
+            } catch (error) {
+                return null;
+            }
+        }));
+
+        return decoded;
+    })();
+
+    homeHeroFrameCache.set(cacheKey, preloadPromise);
+
+    return preloadPromise;
 }
 
 function initAdaptiveHeroVideoSources(videos) {
@@ -131,6 +218,288 @@ async function initTooltipsAndPopovers() {
             new Popover(el);
         });
     }
+}
+
+function initCartUi() {
+    const root = document.querySelector('[data-floating-cart]');
+    if (!root) {
+        return;
+    }
+
+    const drawer = root.querySelector('[data-cart-drawer]');
+    const backdrop = root.querySelector('[data-cart-backdrop]');
+    const toggle = root.querySelector('[data-cart-toggle]');
+    const closeButton = root.querySelector('[data-cart-close]');
+    const body = root.querySelector('[data-cart-body]');
+    const countTargets = root.querySelectorAll('[data-cart-count]');
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+
+    const addUrl = root.dataset.cartAddUrl || '';
+    const clearUrl = root.dataset.cartClearUrl || '';
+    const updateTemplate = root.dataset.cartUpdateUrlTemplate || '';
+    const removeTemplate = root.dataset.cartRemoveUrlTemplate || '';
+
+    let pending = false;
+
+    const setPending = (state) => {
+        pending = state;
+        root.classList.toggle('is-pending', state);
+    };
+
+    const openDrawer = () => {
+        if (!drawer || !backdrop) {
+            return;
+        }
+        drawer.hidden = false;
+        drawer.setAttribute('aria-hidden', 'false');
+        backdrop.hidden = false;
+        document.body.classList.add('cart-drawer-open');
+    };
+
+    const closeDrawer = () => {
+        if (!drawer || !backdrop) {
+            return;
+        }
+        drawer.hidden = true;
+        drawer.setAttribute('aria-hidden', 'true');
+        backdrop.hidden = true;
+        document.body.classList.remove('cart-drawer-open');
+    };
+
+    const updateCount = (count) => {
+        countTargets.forEach((target) => {
+            target.textContent = String(count ?? 0);
+        });
+    };
+
+    const applyResponse = (payload) => {
+        if (!payload || typeof payload !== 'object') {
+            return;
+        }
+
+        if (payload.drawer_html && body) {
+            body.innerHTML = payload.drawer_html;
+        }
+
+        if (payload.cart && typeof payload.cart === 'object') {
+            updateCount(payload.cart.count ?? 0);
+        }
+    };
+
+    const requestJson = async (url, options = {}) => {
+        const response = await fetch(url, {
+            credentials: 'same-origin',
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': csrfToken,
+                ...(options.headers || {}),
+            },
+            ...options,
+        });
+
+        if (!response.ok) {
+            throw new Error(`Request failed: ${response.status}`);
+        }
+
+        return response.json();
+    };
+
+    const updateQuantity = async (menuItemId, quantity) => {
+        if (!updateTemplate) {
+            return;
+        }
+        const url = updateTemplate.replace('__ID__', String(menuItemId));
+        const formData = new FormData();
+        formData.set('quantity', String(quantity));
+
+        const payload = await requestJson(url, {
+            method: 'PATCH',
+            body: formData,
+        });
+
+        applyResponse(payload);
+    };
+
+    const removeItem = async (menuItemId) => {
+        const url = removeTemplate.replace('__ID__', String(menuItemId));
+        const payload = await requestJson(url, {
+            method: 'DELETE',
+        });
+
+        applyResponse(payload);
+    };
+
+    toggle?.addEventListener('click', () => {
+        if (drawer?.hidden) {
+            openDrawer();
+        } else {
+            closeDrawer();
+        }
+    });
+    closeButton?.addEventListener('click', closeDrawer);
+    backdrop?.addEventListener('click', closeDrawer);
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && drawer && !drawer.hidden) {
+            closeDrawer();
+        }
+    });
+
+    document.querySelectorAll('[data-add-to-cart-form]').forEach((form) => {
+        form.addEventListener('submit', async (event) => {
+            if (!addUrl || pending) {
+                return;
+            }
+
+            event.preventDefault();
+            setPending(true);
+
+            try {
+                const payload = await requestJson(addUrl, {
+                    method: 'POST',
+                    body: new FormData(form),
+                });
+
+                applyResponse(payload);
+                openDrawer();
+            } catch (error) {
+                console.error('Cart add failed.', error);
+            } finally {
+                setPending(false);
+            }
+        });
+    });
+
+    root.addEventListener('click', async (event) => {
+        const button = event.target.closest('[data-cart-action]');
+        if (!button || pending) {
+            return;
+        }
+
+        const action = button.dataset.cartAction;
+        const menuItemId = Number.parseInt(button.dataset.menuItemId || '0', 10);
+        const quantity = Number.parseInt(button.dataset.quantity || '0', 10);
+
+        setPending(true);
+        try {
+            if (action === 'set-qty' && menuItemId > 0) {
+                await updateQuantity(menuItemId, quantity);
+            } else if (action === 'remove' && menuItemId > 0) {
+                await removeItem(menuItemId);
+            } else if (action === 'clear' && clearUrl) {
+                const payload = await requestJson(clearUrl, { method: 'POST' });
+                applyResponse(payload);
+            }
+        } catch (error) {
+            console.error('Cart action failed.', error);
+        } finally {
+            setPending(false);
+        }
+    });
+}
+
+function initCheckoutExperience() {
+    const root = document.querySelector('[data-checkout-page]');
+    if (!root) {
+        return;
+    }
+
+    const fulfillmentInputs = Array.from(root.querySelectorAll('[data-fulfillment-input]'));
+    const deliverySection = root.querySelector('[data-fulfillment-section="delivery"]');
+    const dineInSection = root.querySelector('[data-fulfillment-section="dine_in"]');
+    const createAccountToggle = root.querySelector('[data-create-account-toggle]');
+    const createAccountFields = root.querySelector('[data-create-account-fields]');
+
+    const slotDateInput = root.querySelector('[data-slot-date]');
+    const slotGuestsInput = root.querySelector('[data-slot-guests]');
+    const slotSelect = root.querySelector('[data-slot-select]');
+    const slotsUrl = root.dataset.slotsUrl;
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+
+    const updateFulfillmentSections = () => {
+        const selected = fulfillmentInputs.find((input) => input.checked)?.value;
+        if (deliverySection) {
+            deliverySection.hidden = selected !== 'delivery';
+        }
+        if (dineInSection) {
+            dineInSection.hidden = selected !== 'dine_in';
+        }
+    };
+
+    const updateCreateAccountSection = () => {
+        if (!createAccountToggle || !createAccountFields) {
+            return;
+        }
+        createAccountFields.hidden = !createAccountToggle.checked;
+    };
+
+    const refreshSlots = async () => {
+        if (!slotsUrl || !slotDateInput || !slotGuestsInput || !slotSelect) {
+            return;
+        }
+
+        const date = slotDateInput.value;
+        const guestCount = slotGuestsInput.value;
+        if (!date) {
+            return;
+        }
+
+        const selectedBefore = slotSelect.value;
+        const params = new URLSearchParams({
+            date,
+            guest_count: guestCount || '2',
+        });
+
+        try {
+            const response = await fetch(`${slotsUrl}?${params.toString()}`, {
+                credentials: 'same-origin',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+            });
+
+            if (!response.ok) {
+                return;
+            }
+
+            const payload = await response.json();
+            const slots = Array.isArray(payload.slots) ? payload.slots : [];
+            slotSelect.innerHTML = '';
+
+            const placeholder = document.createElement('option');
+            placeholder.value = '';
+            placeholder.textContent = 'Select a slot';
+            slotSelect.appendChild(placeholder);
+
+            slots.forEach((slot) => {
+                const option = document.createElement('option');
+                option.value = String(slot.id);
+                option.textContent = `${slot.name} (${slot.time_range}) - ${slot.remaining} seats left`;
+                option.disabled = slot.can_book !== true;
+                if (option.value === selectedBefore) {
+                    option.selected = true;
+                }
+                slotSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Unable to refresh reservation slots.', error);
+        }
+    };
+
+    fulfillmentInputs.forEach((input) => {
+        input.addEventListener('change', updateFulfillmentSections);
+    });
+    createAccountToggle?.addEventListener('change', updateCreateAccountSection);
+
+    slotDateInput?.addEventListener('change', refreshSlots);
+    slotGuestsInput?.addEventListener('change', refreshSlots);
+    slotGuestsInput?.addEventListener('input', refreshSlots);
+
+    updateFulfillmentSections();
+    updateCreateAccountSection();
 }
 
 function initScrollReveal() {
@@ -265,92 +634,69 @@ async function initOptionalGsapAnimations() {
     }
 }
 
-function attachLenisToGsap({ Lenis, gsap, ScrollTrigger, config = {} }) {
-    if (lenisGsapBridge) {
-        return lenisGsapBridge;
+async function getGsapRuntime() {
+    if (!gsapRuntimePromise) {
+        gsapRuntimePromise = Promise.all([
+            import('gsap'),
+            import('gsap/ScrollTrigger'),
+            import('gsap/ScrollSmoother'),
+        ]).then(([{ gsap }, { ScrollTrigger }, { ScrollSmoother }]) => {
+            gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+            return {
+                gsap,
+                ScrollTrigger,
+                ScrollSmoother,
+            };
+        });
     }
 
-    const lenis = new Lenis({
-        duration: 1.1,
-        smoothWheel: true,
-        syncTouch: true,
-        syncTouchLerp: 0.08,
-        touchMultiplier: 1,
-        wheelMultiplier: 0.9,
-        ...config,
-    });
+    return gsapRuntimePromise;
+}
 
-    const scrollerTargets = [document.documentElement, document.body].filter(Boolean);
-    scrollerTargets.forEach((target) => {
-        ScrollTrigger.scrollerProxy(target, {
-            scrollTop(value) {
-                if (arguments.length) {
-                    lenis.scrollTo(value, { immediate: true, force: true });
-                    return value;
-                }
+async function initGlobalSmoothScroll({ isLiteMotion = false } = {}) {
+    if (globalScrollSmoother) {
+        return globalScrollSmoother;
+    }
 
-                return window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
-            },
-            scrollLeft(value) {
-                if (arguments.length) {
-                    window.scrollTo(value, window.scrollY || window.pageYOffset || 0);
-                    return value;
-                }
+    if (globalScrollSmootherPromise) {
+        return globalScrollSmootherPromise;
+    }
 
-                return window.scrollX || window.pageXOffset || document.documentElement.scrollLeft || 0;
-            },
-            getBoundingClientRect() {
-                return {
-                    top: 0,
-                    left: 0,
-                    width: window.innerWidth,
-                    height: window.innerHeight,
-                };
-            },
-            pinType: 'fixed',
-            fixedMarkers: true,
-        });
-    });
-
-    const onLenisScroll = () => {
-        ScrollTrigger.update();
-    };
-    lenis.on('scroll', onLenisScroll);
-
-    const onGsapTick = (time) => {
-        lenis.raf(time * 1000);
-    };
-    gsap.ticker.add(onGsapTick);
-    gsap.ticker.lagSmoothing(0);
-
-    const onRefresh = () => {
-        if (typeof lenis.resize === 'function') {
-            lenis.resize();
+    globalScrollSmootherPromise = (async () => {
+        if (document.body.dataset.gsap === 'off') {
+            return null;
         }
-    };
-    ScrollTrigger.addEventListener('refresh', onRefresh);
 
-    const refresh = () => {
-        onRefresh();
-        ScrollTrigger.refresh();
-    };
-    window.setTimeout(refresh, 120);
-    window.addEventListener('load', refresh, { once: true });
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            return null;
+        }
 
-    lenisGsapBridge = {
-        lenis,
-        destroy() {
-            gsap.ticker.remove(onGsapTick);
-            ScrollTrigger.removeEventListener('refresh', onRefresh);
-            if (typeof lenis.off === 'function') {
-                lenis.off('scroll', onLenisScroll);
-            }
-            lenis.destroy();
-            lenisGsapBridge = null;
-        },
-    };
+        const wrapper = document.getElementById('smooth-wrapper');
+        const content = document.getElementById('smooth-content');
+        if (!wrapper || !content) {
+            return null;
+        }
 
-    return lenisGsapBridge;
+        const { ScrollSmoother, ScrollTrigger } = await getGsapRuntime();
+
+        globalScrollSmoother = ScrollSmoother.get() || ScrollSmoother.create({
+            wrapper,
+            content,
+            effects: false,
+            normalizeScroll: true,
+            ignoreMobileResize: true,
+            smooth: isLiteMotion ? 0.75 : 1.05,
+            smoothTouch: isLiteMotion ? 0.08 : 0.12,
+        });
+
+        const refresh = () => ScrollTrigger.refresh();
+        window.setTimeout(refresh, 120);
+        window.addEventListener('load', refresh, { once: true });
+
+        return globalScrollSmoother;
+    })();
+
+    return globalScrollSmootherPromise;
 }
 
 async function initMenuExperience() {
@@ -374,7 +720,7 @@ async function initMenuExperience() {
     const prefersReduced = motionProfile.prefersReduced;
     const isLiteMotion = motionProfile.isLite;
     const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
-    let lenis = null;
+    let smoothScroller = null;
     let pulseActiveChip = null;
 
     const setActiveChip = (slug) => {
@@ -395,11 +741,11 @@ async function initMenuExperience() {
             return;
         }
 
-        if (lenis) {
+        if (smoothScroller) {
             const navHeightVar = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 84;
             const chipHeight = chipShell?.getBoundingClientRect().height || 58;
-            const offset = -1 * (navHeightVar + chipHeight + 10);
-            lenis.scrollTo(target, { offset, duration: 1.15, easing: (t) => 1 - Math.pow(1 - t, 3) });
+            const offset = navHeightVar + chipHeight + 10;
+            smoothScroller.scrollTo(target, true, `top ${offset}px`);
             return;
         }
 
@@ -440,25 +786,8 @@ async function initMenuExperience() {
     }
 
     try {
-        const [{ default: Lenis }, { gsap }, { ScrollTrigger }] = await Promise.all([
-            import('lenis'),
-            import('gsap'),
-            import('gsap/ScrollTrigger'),
-        ]);
-
-        gsap.registerPlugin(ScrollTrigger);
-
-        if (!isLiteMotion) {
-            ({ lenis } = attachLenisToGsap({
-                Lenis,
-                gsap,
-                ScrollTrigger,
-                config: {
-                    duration: 1.12,
-                    wheelMultiplier: 0.85,
-                },
-            }));
-        }
+        const { gsap, ScrollTrigger } = await getGsapRuntime();
+        smoothScroller = await initGlobalSmoothScroll({ isLiteMotion });
 
         const heroTimeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
         heroTimeline
@@ -812,25 +1141,9 @@ async function initHomeExperience() {
     }
 
     try {
-        const [{ default: Lenis }, { gsap }, { ScrollTrigger }] = await Promise.all([
-            import('lenis'),
-            import('gsap'),
-            import('gsap/ScrollTrigger'),
-        ]);
-
-        gsap.registerPlugin(ScrollTrigger);
-
-        if (!isLiteMotion) {
-            attachLenisToGsap({
-                Lenis,
-                gsap,
-                ScrollTrigger,
-                config: {
-                    duration: 1.06,
-                    wheelMultiplier: 0.88,
-                },
-            });
-        }
+        const { gsap, ScrollTrigger } = await getGsapRuntime();
+        await initGlobalSmoothScroll({ isLiteMotion });
+        const heroFramePreloadPromise = preloadHomeHeroFrames(heroPlatterFramesBase, heroPlatterFramesCount);
 
         if (progressBar) {
             gsap.to(progressBar, {
@@ -973,13 +1286,22 @@ async function initHomeExperience() {
         }
 
         if (heroVisualStack) {
-            gsap.from(heroVisualStack, {
+            const startScale = isLiteMotion ? 1.26 : 1.9;
+            gsap.set(heroVisualStack, {
                 autoAlpha: 0,
                 y: 18,
-                scale: 0.97,
-                duration: 0.7,
-                ease: 'power3.out',
-                delay: 0.15,
+                scale: startScale,
+            });
+
+            heroFramePreloadPromise.finally(() => {
+                gsap.to(heroVisualStack, {
+                    autoAlpha: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: isLiteMotion ? 0.75 : 1.15,
+                    ease: 'power4.out',
+                    delay: 0.08,
+                });
             });
 
             gsap.to(heroVisualStack, {
@@ -1005,9 +1327,7 @@ async function initHomeExperience() {
                 autoAlpha: 0,
                 x: 20,
                 y: 28,
-                z: -120,
-                scale: 0.88,
-                duration: 0.8,
+                duration: 0.58,
             }, '-=0.55');
 
             const platterMotion = gsap.timeline({
@@ -1021,10 +1341,10 @@ async function initHomeExperience() {
 
             platterMotion
                 .fromTo(heroPlatterShell, {
-                    xPercent: -3,
-                    yPercent: 1,
+                    xPercent: 0,
+                    yPercent: 0,
                     z: 0,
-                    scale: 0.98,
+                    scale: 1,
                 }, {
                     xPercent: 2,
                     yPercent: -3,
@@ -1052,11 +1372,11 @@ async function initHomeExperience() {
 
             platterMotion
                 .to(heroPlatterStage, {
-                    yPercent: -2,
+                    yPercent: 0,
                     ease: 'none',
                 }, 0)
                 .to(heroPlatterStage, {
-                    yPercent: -5,
+                    yPercent: -3,
                     ease: 'none',
                 }, 0.35)
                 .to(heroPlatterStage, {
@@ -1113,7 +1433,6 @@ async function initHomeExperience() {
         if (heroPlatter) {
             const frameState = { index: 0 };
             const currentFrame = { index: -1 };
-            const getFrameSrc = (index) => `${heroPlatterFramesBase}/frame-${String(index + 1).padStart(3, '0')}.png`;
             const frameImages = new Array(heroPlatterFramesCount);
             const context = heroPlatter.getContext('2d', { alpha: true });
             const renderFrame = (index) => {
@@ -1139,18 +1458,13 @@ async function initHomeExperience() {
             });
 
             if (heroPlatterFramesBase && heroPlatterFramesCount) {
-                const loadFrame = (index) => new Promise((resolve) => {
-                    const img = new Image();
-                    img.decoding = 'async';
-                    img.onload = () => {
-                        frameImages[index] = img;
-                        resolve();
-                    };
-                    img.onerror = () => resolve();
-                    img.src = getFrameSrc(index);
-                });
+                heroFramePreloadPromise.then((cachedFrames) => {
+                    cachedFrames.forEach((frame, index) => {
+                        if (frame) {
+                            frameImages[index] = frame;
+                        }
+                    });
 
-                Promise.all(Array.from({ length: heroPlatterFramesCount }, (_, index) => loadFrame(index))).then(() => {
                     renderFrame(0);
 
                     gsap.to(frameState, {

@@ -100,21 +100,13 @@
             --accent-secondary: var(--brand-green, #ff952c);
         }
 
-        html.lenis,
-        html.lenis body {
-            height: auto;
+        #smooth-wrapper {
+            min-height: 100%;
         }
 
-        .lenis.lenis-smooth {
-            scroll-behavior: auto !important;
-        }
-
-        .lenis.lenis-stopped {
-            overflow: hidden;
-        }
-
-        .lenis.lenis-smooth [data-lenis-prevent] {
-            overscroll-behavior: contain;
+        #smooth-content {
+            min-height: 100vh;
+            padding-top: var(--nav-height);
         }
 
         body {
@@ -123,9 +115,12 @@
         }
 
         .navbar-premium {
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 1030;
+            width: 100%;
             min-height: var(--nav-height);
             background:
                 linear-gradient(180deg, rgba(0, 0, 0, 0.96), rgba(7, 7, 7, 0.92));
@@ -388,7 +383,7 @@
         .hero-transfer-banner-shell {
             position: relative;
             z-index: 5;
-            margin-top: clamp(-2.6rem, -4.2vw, -1.4rem);
+            margin-top: clamp(1.8rem, 3.2vw, 2.8rem);
             margin-bottom: clamp(1.6rem, 3vw, 2.6rem);
         }
 
@@ -685,6 +680,228 @@
             line-height: 1;
         }
 
+        .floating-cart {
+            position: fixed;
+            right: 1rem;
+            bottom: 1rem;
+            z-index: 1080;
+        }
+
+        .floating-cart.is-pending {
+            opacity: .82;
+        }
+
+        body.cart-drawer-open {
+            overflow: hidden;
+        }
+
+        .floating-cart__toggle {
+            border: 1px solid rgba(255, 149, 44, 0.42);
+            border-radius: 999px;
+            min-height: 3.2rem;
+            padding: .45rem .75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            background:
+                linear-gradient(180deg, rgba(255,149,44,.2), rgba(219,29,48,.18)),
+                #101010;
+            color: #fff;
+            font: 700 .86rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.28);
+        }
+
+        .floating-cart__toggle-count {
+            min-width: 1.55rem;
+            height: 1.55rem;
+            border-radius: 999px;
+            padding: 0 .4rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            color: #111;
+            font: 800 .75rem/1 'Poppins', sans-serif;
+        }
+
+        .floating-cart__backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.42);
+            backdrop-filter: blur(2px);
+        }
+
+        .floating-cart__drawer {
+            position: fixed;
+            right: .85rem;
+            bottom: 4.85rem;
+            width: min(420px, calc(100vw - 1.7rem));
+            max-height: min(78vh, 640px);
+            border-radius: 1rem;
+            border: 1px solid rgba(255,255,255,.1);
+            background:
+                radial-gradient(circle at 82% 10%, rgba(255,149,44,.14), transparent 42%),
+                linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0)),
+                #111;
+            color: #fff;
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .floating-cart__head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .75rem;
+            padding: .9rem 1rem;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+        }
+
+        .floating-cart__kicker {
+            color: rgba(255,255,255,.58);
+            font: 700 .72rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+        }
+
+        .floating-cart__title {
+            color: #fff;
+            font: 700 1.1rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .03em;
+            text-transform: uppercase;
+        }
+
+        .floating-cart__close {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,.16);
+            background: rgba(255,255,255,.04);
+            color: #fff;
+        }
+
+        .floating-cart__body {
+            padding: .9rem 1rem 1rem;
+            overflow-y: auto;
+        }
+
+        .floating-cart__empty {
+            border-radius: .85rem;
+            border: 1px dashed rgba(255,255,255,.14);
+            padding: .95rem;
+            color: rgba(255,255,255,.88);
+            background: rgba(255,255,255,.02);
+        }
+
+        .floating-cart__items {
+            display: grid;
+            gap: .72rem;
+        }
+
+        .floating-cart__item {
+            display: grid;
+            grid-template-columns: 74px 1fr;
+            gap: .72rem;
+            border-radius: .85rem;
+            border: 1px solid rgba(255,255,255,.08);
+            background: rgba(255,255,255,.02);
+            padding: .55rem;
+        }
+
+        .floating-cart__item-image {
+            width: 74px;
+            height: 74px;
+            border-radius: .6rem;
+            object-fit: cover;
+            border: 1px solid rgba(255,255,255,.09);
+        }
+
+        .floating-cart__item-title {
+            margin: 0 0 .15rem;
+            color: #fff;
+            font: 700 .95rem/1.2 'Rajdhani', sans-serif;
+        }
+
+        .floating-cart__item-category {
+            margin: 0 0 .25rem;
+            color: rgba(255,255,255,.62);
+            font: 600 .72rem/1.2 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+        }
+
+        .floating-cart__item-meta {
+            display: flex;
+            gap: .45rem;
+            flex-wrap: wrap;
+            margin-bottom: .35rem;
+        }
+
+        .floating-cart__item-price,
+        .floating-cart__item-line {
+            color: rgba(255,255,255,.88);
+            font: 700 .72rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+        }
+
+        .floating-cart__qty {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            flex-wrap: wrap;
+        }
+
+        .floating-cart__qty button {
+            min-width: 1.6rem;
+            height: 1.6rem;
+            border-radius: .45rem;
+            border: 1px solid rgba(255,255,255,.14);
+            background: rgba(255,255,255,.04);
+            color: #fff;
+            font: 700 .82rem/1 'Rajdhani', sans-serif;
+        }
+
+        .floating-cart__qty span {
+            min-width: 1.3rem;
+            text-align: center;
+            color: #fff;
+            font: 700 .8rem/1 'Rajdhani', sans-serif;
+        }
+
+        .floating-cart__qty .floating-cart__remove {
+            min-width: auto;
+            padding: 0 .5rem;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            font-size: .66rem;
+        }
+
+        .floating-cart__footer {
+            margin-top: .8rem;
+            padding-top: .8rem;
+            border-top: 1px solid rgba(255,255,255,.08);
+        }
+
+        .floating-cart__totals {
+            color: rgba(255,255,255,.88);
+            font: 600 .88rem/1.4 'Rajdhani', sans-serif;
+            margin-bottom: .7rem;
+        }
+
+        .floating-cart__actions {
+            display: flex;
+            gap: .55rem;
+        }
+
+        .floating-cart__actions .btn {
+            flex: 1;
+        }
+
         .card,
         .event-card,
         .dish-tile,
@@ -782,7 +999,7 @@
 
         @media (max-width: 1199.98px) {
             .hero-transfer-banner-shell {
-                margin-top: clamp(-2.1rem, -3.6vw, -1rem);
+                margin-top: clamp(1.5rem, 2.8vw, 2.2rem);
             }
 
             .footer-transfer-banner__inner {
@@ -802,7 +1019,7 @@
 
         @media (max-width: 991.98px) {
             .hero-transfer-banner-shell {
-                margin-top: -1.2rem;
+                margin-top: 1.2rem;
                 margin-bottom: 1.6rem;
             }
 
@@ -833,7 +1050,7 @@
 
         @media (max-width: 575.98px) {
             .hero-transfer-banner-shell {
-                margin-top: -1rem;
+                margin-top: 1rem;
             }
 
             .footer-transfer-banner__inner {
@@ -849,6 +1066,15 @@
             .footer-transfer-banner__cta {
                 width: 100%;
                 min-width: 0;
+            }
+
+            .floating-cart {
+                right: .65rem;
+                bottom: .65rem;
+            }
+
+            .floating-cart__toggle {
+                min-height: 2.95rem;
             }
         }
     </style>
@@ -921,73 +1147,75 @@
             </div>
         </nav>
 
-        @hasSection('hero')
-            <header class="hero-ready">
-                @yield('hero')
-            </header>
-        @endif
+        <div id="smooth-wrapper">
+            <div id="smooth-content">
+                @hasSection('hero')
+                    <header class="hero-ready">
+                        @yield('hero')
+                    </header>
+                @endif
 
-        @if (request()->routeIs('home'))
-            <section class="hero-transfer-banner-shell" aria-label="Airport transfer offer">
-                <div class="container">
-                    <section class="footer-transfer-banner" aria-label="Free pick and drop offer">
-                        <div class="footer-transfer-banner__inner">
-                            <div>
-                                <p class="footer-transfer-banner__title-top">Enjoy a seamless journey with</p>
-                                <h2 class="footer-transfer-banner__title-main">Kashmir Grill House in Como</h2>
-                                <div class="footer-transfer-banner__offer-row">
-                                    <p class="footer-transfer-banner__offer-label">We provide</p>
-                                    <span class="footer-transfer-banner__offer-pill">FREE PICK &amp; DROP</span>
-                                </div>
-                                <div class="footer-transfer-banner__actions">
-                                    <a href="{{ route('book-now') }}" class="btn btn-brand btn-sm footer-transfer-banner__cta">Reserve Table</a>
-                                    <a href="tel:{{ $businessPhoneHref }}" class="btn btn-brand-outline btn-sm footer-transfer-banner__cta">Call {{ $businessPhone }}</a>
-                                </div>
-                            </div>
+                @php
+                    $fullBleedMain = request()->routeIs('home', 'menu', 'menu.*', 'events', 'events.*', 'contact');
+                @endphp
 
-                            <div class="footer-transfer-banner__road-wrap">
-                                <div class="footer-transfer-banner__road" aria-hidden="true">
-                                    <div class="footer-transfer-banner__road-line"></div>
-                                    <div class="footer-transfer-banner__car-shell">
-                                        <div class="footer-transfer-banner__car-body">
-                                            <span class="footer-transfer-banner__car-window footer-transfer-banner__car-window--front"></span>
-                                            <span class="footer-transfer-banner__car-window footer-transfer-banner__car-window--rear"></span>
-                                            <span class="footer-transfer-banner__car-logo">kashmir</span>
+                <main class="flex-grow-1 {{ $fullBleedMain ? 'py-0' : 'py-4' }}">
+                    @yield('content')
+                </main>
+
+                @if (request()->routeIs('home'))
+                    <section class="hero-transfer-banner-shell" aria-label="Airport transfer offer">
+                        <div class="container">
+                            <section class="footer-transfer-banner" aria-label="Free pick and drop offer">
+                                <div class="footer-transfer-banner__inner">
+                                    <div>
+                                        <p class="footer-transfer-banner__title-top">Enjoy a seamless journey with</p>
+                                        <h2 class="footer-transfer-banner__title-main">Kashmir Grill House in Como</h2>
+                                        <div class="footer-transfer-banner__offer-row">
+                                            <p class="footer-transfer-banner__offer-label">We provide</p>
+                                            <span class="footer-transfer-banner__offer-pill">FREE PICK &amp; DROP</span>
                                         </div>
-                                        <span class="footer-transfer-banner__car-wheel footer-transfer-banner__car-wheel--front"></span>
-                                        <span class="footer-transfer-banner__car-wheel footer-transfer-banner__car-wheel--rear"></span>
+                                        <div class="footer-transfer-banner__actions">
+                                            <a href="{{ route('book-now') }}" class="btn btn-brand btn-sm footer-transfer-banner__cta">Reserve Table</a>
+                                            <a href="tel:{{ $businessPhoneHref }}" class="btn btn-brand-outline btn-sm footer-transfer-banner__cta">Call {{ $businessPhone }}</a>
+                                        </div>
                                     </div>
-                                </div>
-                                <p class="footer-transfer-banner__copy">
-                                    Reserve your table now for <strong>free airport transfers</strong> to our restaurant.
-                                </p>
-                            </div>
 
-                            <a class="footer-transfer-banner__qr" href="{{ $googleBusinessUrl }}" target="_blank" rel="noopener noreferrer" aria-label="Scan QR to open Kashmir Grill House Google Business Profile">
-                                <img
-                                    src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data={{ urlencode($googleBusinessUrl) }}"
-                                    alt="QR code for Kashmir Grill House Google Business Profile"
-                                    loading="lazy"
-                                    decoding="async"
-                                >
-                                <span class="footer-transfer-banner__qr-label">Scan Me!</span>
-                            </a>
+                                    <div class="footer-transfer-banner__road-wrap">
+                                        <div class="footer-transfer-banner__road" aria-hidden="true">
+                                            <div class="footer-transfer-banner__road-line"></div>
+                                            <div class="footer-transfer-banner__car-shell">
+                                                <div class="footer-transfer-banner__car-body">
+                                                    <span class="footer-transfer-banner__car-window footer-transfer-banner__car-window--front"></span>
+                                                    <span class="footer-transfer-banner__car-window footer-transfer-banner__car-window--rear"></span>
+                                                    <span class="footer-transfer-banner__car-logo">kashmir</span>
+                                                </div>
+                                                <span class="footer-transfer-banner__car-wheel footer-transfer-banner__car-wheel--front"></span>
+                                                <span class="footer-transfer-banner__car-wheel footer-transfer-banner__car-wheel--rear"></span>
+                                            </div>
+                                        </div>
+                                        <p class="footer-transfer-banner__copy">
+                                            Reserve your table now for <strong>free airport transfers</strong> to our restaurant.
+                                        </p>
+                                    </div>
+
+                                    <a class="footer-transfer-banner__qr" href="{{ $googleBusinessUrl }}" target="_blank" rel="noopener noreferrer" aria-label="Scan QR to open Kashmir Grill House Google Business Profile">
+                                        <img
+                                            src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data={{ urlencode($googleBusinessUrl) }}"
+                                            alt="QR code for Kashmir Grill House Google Business Profile"
+                                            loading="lazy"
+                                            decoding="async"
+                                        >
+                                        <span class="footer-transfer-banner__qr-label">Scan Me!</span>
+                                    </a>
+                                </div>
+                            </section>
                         </div>
                     </section>
-                </div>
-            </section>
-        @endif
+                @endif
 
-        @php
-            $fullBleedMain = request()->routeIs('home', 'menu', 'menu.*', 'events', 'events.*', 'contact');
-        @endphp
-
-        <main class="flex-grow-1 {{ $fullBleedMain ? 'py-0' : 'py-4' }}">
-            @yield('content')
-        </main>
-
-        <footer id="contact" class="site-footer bg-brand-dark mt-5 pt-5 pb-4">
-            <div class="container">
+                <footer id="contact" class="site-footer bg-brand-dark mt-5 pt-5 pb-4">
+                    <div class="container">
                 <div class="row g-4 align-items-start">
                     <div class="col-lg-4">
                         <h5 class="footer-title section-accent mb-3">Kashmir Grill House</h5>
@@ -1013,9 +1241,16 @@
                 </div>
                 <hr class="border-secondary border-opacity-25 my-4">
                 <p class="mb-0 small text-white-50">&copy; {{ date('Y') }} Kashmir Grill House. All rights reserved.</p>
+                    </div>
+                </footer>
             </div>
-        </footer>
+        </div>
     </div>
+
+    @if(!request()->routeIs('admin.*'))
+        @include('partials.cart.floating-cart', ['cart' => $globalCart ?? ['items' => [], 'count' => 0, 'subtotal' => '0.00']])
+    @endif
+
     @stack('scripts')
 
     <script>

@@ -1,3 +1,87 @@
+@php
+    $featuredDishes = [
+        [
+            'name' => 'Charcoal Seekh Kebab Plate',
+            'label' => 'Lead Favorite',
+            'image' => 'assets/images/menu/griglia/beef-seekh-kebab.jpg',
+            'alt' => 'Smoky seekh kebab plated with herbs',
+            'tags' => ['Grill', 'Smoky', 'Sharing'],
+            'description' => 'Flame-finished seekh kebabs with mint chutney and garnish, built for mixed-table ordering.',
+            'price' => 'EUR 14',
+            'prep' => '12-15 min',
+            'orderHint' => 'Top grill pick',
+            'parallax' => '0.08',
+        ],
+        [
+            'name' => 'House Butter Chicken',
+            'label' => 'Curry Classic',
+            'image' => 'assets/images/menu/primi-piati/butter-chicken.jpg',
+            'alt' => 'Butter chicken served in copper bowl',
+            'tags' => ['Curry', 'Creamy'],
+            'description' => 'Creamy tomato curry with balanced spice and tender chicken; a repeat-order staple.',
+            'price' => 'EUR 13',
+            'prep' => '10-12 min',
+            'orderHint' => 'Family favorite',
+            'parallax' => '0.11',
+        ],
+        [
+            'name' => 'Lamb Biryani',
+            'label' => 'Rice Special',
+            'image' => 'assets/images/menu/lamb-biryani.jpg',
+            'alt' => 'Lamb biryani served with aromatic rice',
+            'tags' => ['Rice', 'Aromatic'],
+            'description' => 'Fragrant basmati rice layered with spiced lamb, ideal for weekend lunch and takeaway.',
+            'price' => 'EUR 14',
+            'prep' => '14-16 min',
+            'orderHint' => 'Best seller',
+            'parallax' => '0.1',
+        ],
+        [
+            'name' => 'Mix Grill Tandoori',
+            'label' => 'Chef Mix',
+            'image' => 'assets/images/menu/griglia/mix-grill-tandoori.jpg',
+            'alt' => 'Mixed tandoori grill platter',
+            'tags' => ['Grill', 'Platter'],
+            'description' => 'A mixed grill board combining chicken cuts and kebabs for group tables and sharing.',
+            'price' => 'EUR 18',
+            'prep' => '16-20 min',
+            'orderHint' => 'Group order',
+            'parallax' => '0.09',
+        ],
+        [
+            'name' => 'Chicken Tikka Masala',
+            'label' => 'House Sauce',
+            'image' => 'assets/images/menu/primi-piati/chicken-tikka-masala.jpg',
+            'alt' => 'Chicken tikka masala in rich sauce',
+            'tags' => ['Curry', 'Classic'],
+            'description' => 'Chargrilled chicken tikka finished in a smooth masala sauce with warm spice depth.',
+            'price' => 'EUR 13',
+            'prep' => '10-12 min',
+            'orderHint' => 'Repeat order',
+            'parallax' => '0.1',
+        ],
+        [
+            'name' => 'Shinwari Lamb Karahi',
+            'label' => 'Karahi Style',
+            'image' => 'assets/images/menu/primi-piati/shinwari-lamb-karahi.jpg',
+            'alt' => 'Shinwari lamb karahi cooked with herbs',
+            'tags' => ['Karahi', 'Lamb'],
+            'description' => 'Traditional karahi profile with ginger, tomato, and green chili notes for bold flavor fans.',
+            'price' => 'EUR 16',
+            'prep' => '15-18 min',
+            'orderHint' => 'Rich flavor',
+            'parallax' => '0.12',
+        ],
+    ];
+
+    $totalFeatured = count($featuredDishes);
+    $priceValues = collect($featuredDishes)
+        ->map(fn ($dish) => (int) filter_var($dish['price'], FILTER_SANITIZE_NUMBER_INT))
+        ->filter();
+    $lowestPrice = $priceValues->min() ?? 12;
+    $highestPrice = $priceValues->max() ?? 18;
+@endphp
+
 <section id="dishes" class="py-5 dishes-gallery" data-dish-parallax="true" data-gsap-stagger>
     <div class="container">
         <div class="dishes-gallery__intro-shell mb-4 mb-lg-5" data-gsap-item>
@@ -17,58 +101,54 @@
                             <span class="dishes-gallery__chip">Curry Classics</span>
                             <span class="dishes-gallery__chip">Rice Specials</span>
                         </div>
-                        <p class="mb-3 text-secondary">Explore dishes guests repeat-order for family dining, takeaway, and group tables.</p>
+                        <p class="mb-2 text-secondary">Explore dishes guests repeat-order for family dining, takeaway, and group tables.</p>
+                        <p class="mb-3 text-secondary">Featured now: <strong>{{ $totalFeatured }} dishes</strong> | Typical range: <strong>EUR {{ $lowestPrice }}-{{ $highestPrice }}</strong></p>
                         <a href="{{ route('menu') }}" class="btn btn-brand btn-sm">View Full Menu</a>
                     </aside>
                 </div>
             </div>
         </div>
 
+        <div class="dishes-gallery__stats mb-4" data-gsap-item>
+            <article class="dishes-gallery__stat-card">
+                <p class="dishes-gallery__stat-label mb-1">Featured Picks</p>
+                <p class="dishes-gallery__stat-value mb-0">{{ $totalFeatured }}</p>
+            </article>
+            <article class="dishes-gallery__stat-card">
+                <p class="dishes-gallery__stat-label mb-1">Cuisine Streams</p>
+                <p class="dishes-gallery__stat-value mb-0">3 Core</p>
+            </article>
+            <article class="dishes-gallery__stat-card">
+                <p class="dishes-gallery__stat-label mb-1">Price Window</p>
+                <p class="dishes-gallery__stat-value mb-0">EUR {{ $lowestPrice }}-{{ $highestPrice }}</p>
+            </article>
+            <article class="dishes-gallery__stat-card">
+                <p class="dishes-gallery__stat-label mb-1">Halal Kitchen</p>
+                <p class="dishes-gallery__stat-value mb-0">100%</p>
+            </article>
+        </div>
+
         <div class="dishes-gallery__layout">
-            <article class="dish-tile dish-tile--lead js-dish-card rounded-4 p-4 h-100 shadow-sm" data-gsap-item data-parallax-speed="0.06">
-                <div class="dish-visual mb-3" data-gsap-parallax data-parallax-factor="0.08">
-                    <img src="{{ asset('assets/images/menu/griglia/beef-seekh-kebab.jpg') }}" alt="Smoky seekh kebab plated with herbs" loading="lazy" decoding="async" fetchpriority="low" sizes="(max-width: 991px) 100vw, 52vw">
-                    <span class="dish-visual-label">Lead Favorite</span>
-                </div>
-                <div class="dish-meta-row mb-2">
-                    <span class="dish-meta-chip">Grill</span>
-                    <span class="dish-meta-chip">Smoky</span>
-                    <span class="dish-meta-chip">Sharing Plate</span>
-                </div>
-                <h3 class="h4 mb-2">Charcoal Seekh Kebab Plate</h3>
-                <p class="mb-3">Flame-finished seekh kebabs served with chutney and fresh garnish, ideal for shared tables and mixed group orders.</p>
-                <div class="dish-feature-points">
-                    <span>Charcoal finish</span>
-                    <span>House chutney</span>
-                    <span>Group-friendly</span>
-                </div>
-            </article>
-
-            <article class="dish-tile dish-tile--spot js-dish-card rounded-4 p-4 h-100 shadow-sm" data-gsap-item data-parallax-speed="0.1">
-                <div class="dish-visual mb-3" data-gsap-parallax data-parallax-factor="0.12">
-                    <img src="{{ asset('assets/images/menu/primi-piati/butter-chicken.jpg') }}" alt="Butter chicken served in copper bowl" loading="lazy" decoding="async" fetchpriority="low" sizes="(max-width: 991px) 100vw, 25vw">
-                    <span class="dish-visual-label">House Favorite</span>
-                </div>
-                <div class="dish-meta-row mb-2">
-                    <span class="dish-meta-chip">Curry</span>
-                    <span class="dish-meta-chip">Creamy</span>
-                </div>
-                <h3 class="h5 mb-2">House Butter Chicken</h3>
-                <p class="mb-0">A creamy tomato-based curry and one of the most recognisable menu favorites for dine-in and delivery orders.</p>
-            </article>
-
-            <article class="dish-tile dish-tile--spot js-dish-card rounded-4 p-4 h-100 shadow-sm" data-gsap-item data-parallax-speed="0.08">
-                <div class="dish-visual mb-3" data-gsap-parallax data-parallax-factor="0.1">
-                    <img src="{{ asset('assets/images/menu/lamb-biryani.jpg') }}" alt="Lamb biryani served with aromatic rice" loading="lazy" decoding="async" fetchpriority="low" sizes="(max-width: 991px) 100vw, 25vw">
-                    <span class="dish-visual-label">Rice Special</span>
-                </div>
-                <div class="dish-meta-row mb-2">
-                    <span class="dish-meta-chip">Rice</span>
-                    <span class="dish-meta-chip">Aromatic</span>
-                </div>
-                <h3 class="h5 mb-2">Lamb Biryani</h3>
-                <p class="mb-0">A fragrant rice dish with warm spice notes and tender lamb, commonly chosen for family meals and takeaway.</p>
-            </article>
+            @foreach($featuredDishes as $dish)
+                <article class="dish-tile {{ $loop->first ? 'dish-tile--lead' : 'dish-tile--spot' }} js-dish-card rounded-4 p-4 h-100 shadow-sm" data-gsap-item data-parallax-speed="{{ $dish['parallax'] }}">
+                    <div class="dish-visual mb-3" data-gsap-parallax data-parallax-factor="{{ $dish['parallax'] }}">
+                        <img src="{{ asset($dish['image']) }}" alt="{{ $dish['alt'] }}" loading="lazy" decoding="async" fetchpriority="low" sizes="(max-width: 991px) 100vw, 32vw">
+                        <span class="dish-visual-label">{{ $dish['label'] }}</span>
+                    </div>
+                    <div class="dish-meta-row mb-2">
+                        @foreach($dish['tags'] as $tag)
+                            <span class="dish-meta-chip">{{ $tag }}</span>
+                        @endforeach
+                    </div>
+                    <h3 class="{{ $loop->first ? 'h4' : 'h5' }} mb-2">{{ $dish['name'] }}</h3>
+                    <p class="mb-3">{{ $dish['description'] }}</p>
+                    <div class="dish-detail-row">
+                        <span class="dish-price">{{ $dish['price'] }}</span>
+                        <span class="dish-detail-pill">{{ $dish['prep'] }}</span>
+                        <span class="dish-detail-pill">{{ $dish['orderHint'] }}</span>
+                    </div>
+                </article>
+            @endforeach
 
             <article class="dishes-gallery__service-strip h-100" data-gsap-item>
                 <div>

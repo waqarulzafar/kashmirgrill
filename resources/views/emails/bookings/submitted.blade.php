@@ -61,6 +61,10 @@
                             <td class="kv-value">{{ $booking->email }}</td>
                         </tr>
                         <tr>
+                            <td class="kv-key">Booking Type</td>
+                            <td class="kv-value">{{ $bookingType }}</td>
+                        </tr>
+                        <tr>
                             <td class="kv-key">Phone</td>
                             <td class="kv-value">{{ $booking->phone }}</td>
                         </tr>
@@ -77,12 +81,28 @@
                             <td class="kv-value">{{ $booking->persons }}</td>
                         </tr>
                         <tr>
+                            <td class="kv-key">Slot</td>
+                            <td class="kv-value">{{ $booking->dineInSlot?->name ?: 'Not selected' }}</td>
+                        </tr>
+                        <tr>
                             <td class="kv-key">Table Preference</td>
                             <td class="kv-value">{{ $booking->table_preference ?: 'No preference' }}</td>
                         </tr>
                         <tr>
                             <td class="kv-key">Selected Menu</td>
                             <td class="kv-value">{{ $booking->selected_menu ?: 'Not specified' }}</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">Special Occasion</td>
+                            <td class="kv-value">{{ $booking->special_occasion ?: 'None' }}</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">Payment Preference</td>
+                            <td class="kv-value">{{ $paymentMethod }}</td>
+                        </tr>
+                        <tr>
+                            <td class="kv-key">Marketing Opt-In</td>
+                            <td class="kv-value">{{ $booking->marketing_opt_in ? 'Yes' : 'No' }}</td>
                         </tr>
                         <tr>
                             <td class="kv-key">Additional Notes</td>
