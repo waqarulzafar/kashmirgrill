@@ -6,6 +6,7 @@ use App\Models\MenuCategory;
 use App\Models\MenuItem;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class MenuCatalogSeeder extends Seeder
 {
@@ -179,6 +180,7 @@ class MenuCatalogSeeder extends Seeder
                     MenuItem::query()->create([
                         'menu_category_id' => $category->id,
                         'name' => $itemData['name'],
+                        'slug' => $this->generateUniqueSlug($itemData['name']),
                         'description' => $itemData['description'],
                         'price' => $itemData['price'],
                         'tags' => null,
@@ -188,5 +190,19 @@ class MenuCatalogSeeder extends Seeder
                 }
             }
         });
+    }
+
+    protected function generateUniqueSlug(string $name): string
+    {
+        $base = Str::slug($name) ?: 'menu-item';
+        $slug = $base;
+        $suffix = 2;
+
+        while (MenuItem::query()->where('slug', $slug)->exists()) {
+            $slug = $base.'-'.$suffix;
+            $suffix++;
+        }
+
+        return $slug;
     }
 }
