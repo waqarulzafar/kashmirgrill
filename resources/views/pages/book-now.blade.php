@@ -103,24 +103,37 @@
                             <div class="row g-3 mt-1">
                                 <div class="col-12 col-md-4">
                                     <p class="booking-search__label">Date</p>
-                                    <button class="booking-search__control" type="button" id="openBookingFilterModal">
-                                        <span data-search-date-label>{{ \Carbon\Carbon::parse($searchDate)->format('d M Y') }}</span>
-                                        <i class="fa-regular fa-calendar"></i>
-                                    </button>
+                                    <div class="booking-search__control booking-search__control--field" id="bookingSearchDateTrigger" role="button" tabindex="0" aria-label="Select booking date">
+                                        <input
+                                            id="bookingSearchDate"
+                                            type="text"
+                                            class="booking-search__control-input"
+                                            value="{{ \Carbon\Carbon::parse($searchDate)->format('d/m/Y') }}"
+                                            placeholder="Select date"
+                                            autocomplete="off"
+                                            readonly
+                                            onfocus="this.click()"
+                                        >
+                                        <span class="booking-search__control-icon" aria-hidden="true">
+                                            <i class="fa-regular fa-calendar"></i>
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="col-6 col-md-4">
                                     <p class="booking-search__label">Size</p>
-                                    <div class="booking-search__control">
-                                        <span data-search-size-label>{{ $searchGuests }}</span>
-                                        <i class="fa-solid fa-users"></i>
-                                    </div>
+                                    <select id="bookingSearchPersons" class="booking-search__control booking-search__control--select">
+                                        @for($i = 1; $i <= 80; $i++)
+                                            <option value="{{ $i }}" @selected($searchGuests === $i)>{{ $i }} {{ \Illuminate\Support\Str::plural('Guest', $i) }}</option>
+                                        @endfor
+                                    </select>
                                 </div>
                                 <div class="col-6 col-md-4">
                                     <p class="booking-search__label">Time</p>
-                                    <div class="booking-search__control">
-                                        <span data-search-time-label>{{ ucfirst($searchTimeFilter) }}</span>
-                                        <i class="fa-regular fa-clock"></i>
-                                    </div>
+                                    <select id="bookingSearchTime" class="booking-search__control booking-search__control--select">
+                                        <option value="all" @selected($searchTimeFilter === 'all')>All</option>
+                                        <option value="lunch" @selected($searchTimeFilter === 'lunch')>Lunch</option>
+                                        <option value="dinner" @selected($searchTimeFilter === 'dinner')>Dinner</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -258,37 +271,17 @@
         </div>
     </section>
 
-    <div class="booking-overlay d-none" id="bookingFilterModal" aria-hidden="true">
-        <div class="booking-modal-card" role="dialog" aria-modal="true" aria-labelledby="bookingFilterTitle">
-            <div class="booking-modal-head">
-                <h4 id="bookingFilterTitle" class="mb-0">Select Date, Party Size, and Time</h4>
-                <button type="button" class="booking-modal-close" data-close-booking-modal>
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+    <div class="modal fade booking-date-modal" id="bookingDateModal" tabindex="-1" aria-labelledby="bookingDateModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content booking-modal-card booking-modal-card--calendar">
+                <div class="booking-modal-head">
+                    <h4 id="bookingDateModalTitle" class="mb-0">Select Date</h4>
+                    <button type="button" class="booking-modal-close" data-close-date-modal data-bs-dismiss="modal" aria-label="Close date picker modal">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div id="bookingDateInlinePicker" class="booking-date-inline-picker"></div>
             </div>
-            <div class="row g-3 mt-1">
-                <div class="col-12">
-                    <label for="bookingFilterDate" class="form-label">Date</label>
-                    <input id="bookingFilterDate" type="date" class="form-control" value="{{ $searchDate }}" min="{{ now()->toDateString() }}">
-                </div>
-                <div class="col-12 col-md-6">
-                    <label for="bookingFilterPersons" class="form-label">Persons</label>
-                    <select id="bookingFilterPersons" class="form-select">
-                        @for($i = 1; $i <= 80; $i++)
-                            <option value="{{ $i }}" @selected($searchGuests === $i)>{{ $i }}</option>
-                        @endfor
-                    </select>
-                </div>
-                <div class="col-12 col-md-6">
-                    <label for="bookingFilterTime" class="form-label">Time Window</label>
-                    <select id="bookingFilterTime" class="form-select">
-                        <option value="all" @selected($searchTimeFilter === 'all')>All</option>
-                        <option value="lunch" @selected($searchTimeFilter === 'lunch')>Lunch</option>
-                        <option value="dinner" @selected($searchTimeFilter === 'dinner')>Dinner</option>
-                    </select>
-                </div>
-            </div>
-            <button type="button" class="btn btn-brand booking-modal-apply mt-3" id="applyBookingFilters">Find Availability</button>
         </div>
     </div>
 
@@ -313,6 +306,7 @@
 
 @push('styles')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.12.4/build/css/intlTelInput.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/css/bootstrap-datepicker.min.css">
     <style>
         body.booking-flow-theme {
             background:
@@ -485,6 +479,66 @@
             padding: .75rem .9rem;
             text-decoration: none;
             font-weight: 500;
+        }
+
+        .booking-search__control--field {
+            position: relative;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .booking-search__control-input {
+            width: 100%;
+            min-height: 3rem;
+            border: 0;
+            background: transparent;
+            color: #fff;
+            padding: .75rem 2.9rem .75rem .9rem;
+            font-weight: 500;
+            outline: 0;
+        }
+
+        .booking-search__control-input::placeholder {
+            color: rgba(255, 255, 255, 0.46);
+        }
+
+        .booking-search__control-icon {
+            position: absolute;
+            right: .9rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.72);
+            pointer-events: none;
+        }
+
+        .booking-search__control--select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+            padding-right: 2.6rem;
+            background-image:
+                linear-gradient(45deg, transparent 50%, rgba(255, 255, 255, 0.7) 50%),
+                linear-gradient(135deg, rgba(255, 255, 255, 0.7) 50%, transparent 50%);
+            background-position:
+                calc(100% - 1.15rem) calc(50% - 2px),
+                calc(100% - .8rem) calc(50% - 2px);
+            background-size: 8px 8px, 8px 8px;
+            background-repeat: no-repeat;
+        }
+
+        .booking-search__control:focus,
+        .booking-search__control-input:focus {
+            border-color: rgba(255, 149, 44, 0.55);
+            box-shadow: 0 0 0 .2rem rgba(255, 149, 44, 0.15);
+            background-color: rgba(255, 255, 255, 0.04);
+            color: #fff;
+        }
+
+        .booking-search__control--field:focus-within {
+            border-color: rgba(255, 149, 44, 0.55);
+            box-shadow: 0 0 0 .2rem rgba(255, 149, 44, 0.15);
+            background-color: rgba(255, 255, 255, 0.04);
         }
 
         .booking-find-btn {
@@ -676,6 +730,26 @@
             color: #fff;
         }
 
+        .booking-modal-card--calendar {
+            width: min(420px, 100%);
+        }
+
+        .booking-date-modal .modal-dialog {
+            max-width: 420px;
+        }
+
+        .booking-date-modal .modal-content {
+            background: linear-gradient(180deg, #111, #161616);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: .9rem;
+            box-shadow: 0 18px 34px rgba(0, 0, 0, 0.28);
+        }
+
+        .booking-date-modal .modal-backdrop,
+        .booking-date-modal.show {
+            backdrop-filter: blur(4px);
+        }
+
         .booking-modal-head {
             display: flex;
             align-items: center;
@@ -701,6 +775,97 @@
             width: 100%;
             min-height: 2.8rem;
             font-weight: 700;
+        }
+
+        .datepicker-dropdown {
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: .9rem;
+            background: linear-gradient(180deg, #111, #161616);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.34);
+            padding: .55rem;
+            min-width: 280px;
+            z-index: 6000 !important;
+        }
+
+        .datepicker-dropdown::before,
+        .datepicker-dropdown::after {
+            display: none;
+        }
+
+        .datepicker table {
+            width: 100%;
+            color: #fff;
+        }
+
+        .booking-date-inline-picker .datepicker-inline {
+            width: 100%;
+        }
+
+        .booking-date-inline-picker .datepicker {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .booking-date-fallback {
+            width: 100%;
+            min-height: 3.2rem;
+            border-radius: .8rem;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+            padding: .8rem .9rem;
+        }
+
+        .datepicker table tr td,
+        .datepicker table tr th {
+            width: 2.35rem;
+            height: 2.35rem;
+            border-radius: .6rem;
+            border: 0;
+        }
+
+        .datepicker table tr td.day:hover,
+        .datepicker table tr td.focused,
+        .datepicker table tr td.active:hover,
+        .datepicker table tr td.active:focus {
+            background: rgba(255, 149, 44, 0.18);
+            color: #fff;
+        }
+
+        .datepicker table tr td.active,
+        .datepicker table tr td.active.active,
+        .datepicker table tr td span.active,
+        .datepicker table tr td span.active.active {
+            background: linear-gradient(180deg, #ff2332, #ca0817);
+            color: #fff;
+        }
+
+        .datepicker table tr td.today,
+        .datepicker table tr td.today:hover {
+            background: rgba(255, 149, 44, 0.12);
+            color: #fff;
+        }
+
+        .datepicker table tr td.new,
+        .datepicker table tr td.old,
+        .datepicker table tr td.disabled,
+        .datepicker table tr td.disabled:hover {
+            color: rgba(255, 255, 255, 0.34);
+        }
+
+        .datepicker table tr th.dow,
+        .datepicker table tr th.datepicker-switch,
+        .datepicker table tr th.prev,
+        .datepicker table tr th.next {
+            color: rgba(255, 255, 255, 0.92);
+            font-weight: 700;
+        }
+
+        .datepicker .datepicker-switch:hover,
+        .datepicker .next:hover,
+        .datepicker .prev:hover,
+        .datepicker tfoot tr th:hover {
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .booking-occasion-grid {
@@ -766,6 +931,9 @@
 @endpush
 
 @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.12.4/build/js/intlTelInput.min.js"></script>
     <script>
         (() => {
@@ -792,23 +960,19 @@
             const findLabel = root.querySelector('[data-find-label]');
             const eventTimeGroup = root.querySelector('[data-event-time-group]');
             const eventTimeInput = root.querySelector('[data-event-time-input]');
-            const dateLabel = root.querySelector('[data-search-date-label]');
-            const sizeLabel = root.querySelector('[data-search-size-label]');
-            const timeLabel = root.querySelector('[data-search-time-label]');
+            const bookingSearchDateInput = document.getElementById('bookingSearchDate');
+            const bookingSearchDateTrigger = document.getElementById('bookingSearchDateTrigger');
+            const bookingSearchPersonsInput = document.getElementById('bookingSearchPersons');
+            const bookingSearchTimeInput = document.getElementById('bookingSearchTime');
             const slotsSection = root.querySelector('[data-step-slots]');
             const detailsSection = root.querySelector('[data-step-details]');
             const paymentSection = root.querySelector('[data-step-payment]');
             const submitButton = root.querySelector('[data-step-submit]');
             const openPaymentStepButton = root.querySelector('[data-open-payment-step]');
 
-            const filterModal = document.getElementById('bookingFilterModal');
-            const openFilterModalButton = document.getElementById('openBookingFilterModal');
-            const closeFilterModalButtons = filterModal?.querySelectorAll('[data-close-booking-modal]') || [];
-            const applyFiltersButton = document.getElementById('applyBookingFilters');
-            const filterDateInput = document.getElementById('bookingFilterDate');
-            const filterPersonsInput = document.getElementById('bookingFilterPersons');
-            const filterTimeInput = document.getElementById('bookingFilterTime');
-
+            const dateModal = document.getElementById('bookingDateModal');
+            const closeDateModalButton = dateModal?.querySelector('[data-close-date-modal]') || null;
+            const dateInlinePicker = document.getElementById('bookingDateInlinePicker');
             const occasionModal = document.getElementById('occasionModal');
             const openOccasionModalButton = document.getElementById('openOccasionModal');
             const closeOccasionModalButtons = occasionModal?.querySelectorAll('[data-close-occasion-modal]') || [];
@@ -820,25 +984,49 @@
             const cardCheckoutNote = root.querySelector('[data-card-checkout-note]');
 
             const getBookingType = () => bookingTypeInputs.find((input) => input.checked)?.value || 'table';
-            const autoOpenFiltersKey = 'kgh-booking-filter-autoshown';
             let availabilityChecked = false;
             let availabilityAbortController = null;
+            let datepickerReady = false;
+            let fallbackDateInput = null;
+            let dateModalInstance = null;
 
-            [filterModal, occasionModal].forEach((modal) => {
+            [occasionModal, dateModal].forEach((modal) => {
                 if (modal && modal.parentElement !== document.body) {
                     document.body.appendChild(modal);
                 }
             });
 
-            const formatDateLabel = (dateValue) => {
+            if (dateModal && window.bootstrap?.Modal) {
+                dateModalInstance = window.bootstrap.Modal.getOrCreateInstance(dateModal, {
+                    backdrop: true,
+                    focus: true,
+                });
+            }
+
+            const formatDateForDisplay = (dateValue) => {
                 if (!dateValue) {
-                    return 'Select date';
+                    return '';
                 }
 
-                const parsed = new Date(`${dateValue}T00:00:00`);
-                return Number.isNaN(parsed.getTime())
-                    ? dateValue
-                    : parsed.toLocaleDateString(undefined, { day: '2-digit', month: 'short', year: 'numeric' });
+                const [year, month, day] = dateValue.split('-');
+
+                if (!year || !month || !day) {
+                    return dateValue;
+                }
+
+                return `${day}/${month}/${year}`;
+            };
+
+            const formatDateForStorage = (date) => {
+                if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
+                    return '';
+                }
+
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+
+                return `${year}-${month}-${day}`;
             };
 
             const setStepVisible = (element, shouldShow) => {
@@ -908,12 +1096,63 @@
                 }
             };
 
-            const updateSearchLabels = () => {
-                dateLabel.textContent = formatDateLabel(bookingDateInput.value);
-                sizeLabel.textContent = bookingPersonsInput.value || '1';
-                timeLabel.textContent = bookingTimeFilterInput.value
-                    ? bookingTimeFilterInput.value.charAt(0).toUpperCase() + bookingTimeFilterInput.value.slice(1)
-                    : 'All';
+            const syncSearchControls = () => {
+                if (bookingSearchDateInput) {
+                    bookingSearchDateInput.value = formatDateForDisplay(bookingDateInput.value);
+                }
+
+                if (bookingSearchPersonsInput) {
+                    bookingSearchPersonsInput.value = bookingPersonsInput.value || '1';
+                }
+
+                if (bookingSearchTimeInput) {
+                    bookingSearchTimeInput.value = bookingTimeFilterInput.value || 'all';
+                }
+            };
+
+            const markFiltersDirty = () => {
+                availabilityChecked = false;
+                resetSlotSelection();
+                resetAfterSearch();
+            };
+
+            const syncSelectedDate = (nextDate) => {
+                if (!nextDate) {
+                    return;
+                }
+
+                bookingDateInput.value = nextDate;
+                syncSearchControls();
+                markFiltersDirty();
+                dateModalInstance?.hide();
+            };
+
+            const openDateModal = () => {
+                if (dateModalInstance) {
+                    dateModalInstance.show();
+                    return;
+                }
+
+                if (dateModal) {
+                    dateModal.classList.add('show');
+                    dateModal.style.display = 'block';
+                    dateModal.removeAttribute('aria-hidden');
+                    document.body.classList.add('modal-open');
+                }
+            };
+
+            const closeDateModal = () => {
+                if (dateModalInstance) {
+                    dateModalInstance.hide();
+                    return;
+                }
+
+                if (dateModal) {
+                    dateModal.classList.remove('show');
+                    dateModal.style.display = 'none';
+                    dateModal.setAttribute('aria-hidden', 'true');
+                    document.body.classList.remove('modal-open');
+                }
             };
 
             const resetSlotSelection = () => {
@@ -1073,27 +1312,82 @@
                 cardCheckoutNote?.classList.toggle('d-none', selectedPayment !== 'card_on_confirmation');
             };
 
-            openFilterModalButton?.addEventListener('click', () => showModal(filterModal));
-            closeFilterModalButtons.forEach((button) => {
-                button.addEventListener('click', () => hideModal(filterModal));
-            });
+            dateModal?.addEventListener('show.bs.modal', () => {
+                if (datepickerReady && dateInlinePicker && window.jQuery?.fn?.datepicker) {
+                    window.jQuery(dateInlinePicker).datepicker('setDate', bookingSearchDateInput?.value || formatDateForDisplay(bookingDateInput.value));
+                }
 
-            filterModal?.addEventListener('click', (event) => {
-                if (event.target === filterModal) {
-                    hideModal(filterModal);
+                if (fallbackDateInput) {
+                    fallbackDateInput.value = bookingDateInput.value || '{{ now()->toDateString() }}';
                 }
             });
 
-            applyFiltersButton?.addEventListener('click', () => {
-                bookingDateInput.value = filterDateInput.value;
-                bookingPersonsInput.value = filterPersonsInput.value;
-                bookingTimeFilterInput.value = filterTimeInput.value;
-                updateSearchLabels();
-                availabilityChecked = false;
-                resetSlotSelection();
-                resetAfterSearch();
-                hideModal(filterModal);
-                refreshAvailability();
+            dateModal?.addEventListener('click', (event) => {
+                if (event.target === dateModal) {
+                    closeDateModal();
+                }
+            });
+
+            closeDateModalButton?.addEventListener('click', () => {
+                closeDateModal();
+            });
+
+            if (dateInlinePicker) {
+                if (window.jQuery?.fn?.datepicker) {
+                    try {
+                        window.jQuery(dateInlinePicker)
+                            .datepicker({
+                                todayHighlight: true,
+                                format: 'dd/mm/yyyy',
+                                startDate: '{{ now()->format('d/m/Y') }}',
+                                keyboardNavigation: false,
+                            })
+                            .on('changeDate', (event) => {
+                                syncSelectedDate(formatDateForStorage(event.date));
+                            });
+
+                        datepickerReady = true;
+                    } catch (error) {
+                        console.error('Booking datepicker failed to initialize.', error);
+                    }
+                }
+
+                if (!datepickerReady) {
+                    dateInlinePicker.innerHTML = `<input type="date" class="booking-date-fallback" min="{{ now()->toDateString() }}" value="${bookingDateInput.value || '{{ now()->toDateString() }}'}">`;
+
+                    fallbackDateInput = dateInlinePicker.querySelector('.booking-date-fallback');
+                    fallbackDateInput?.addEventListener('change', () => {
+                        syncSelectedDate(fallbackDateInput.value || '');
+                    });
+                }
+            }
+
+            bookingSearchDateTrigger?.addEventListener('click', (event) => {
+                event.preventDefault();
+                openDateModal();
+            });
+
+            bookingSearchDateTrigger?.addEventListener('keydown', (event) => {
+                if (event.key !== 'Enter' && event.key !== ' ') {
+                    return;
+                }
+
+                event.preventDefault();
+                openDateModal();
+            });
+
+            bookingSearchDateInput?.addEventListener('focus', () => {
+                openDateModal();
+            });
+
+            bookingSearchPersonsInput?.addEventListener('change', () => {
+                bookingPersonsInput.value = bookingSearchPersonsInput.value || '1';
+                markFiltersDirty();
+            });
+
+            bookingSearchTimeInput?.addEventListener('change', () => {
+                bookingTimeFilterInput.value = bookingSearchTimeInput.value || 'all';
+                markFiltersDirty();
             });
 
             openOccasionModalButton?.addEventListener('click', () => showModal(occasionModal));
@@ -1206,7 +1500,7 @@
                 }
             });
 
-            updateSearchLabels();
+            syncSearchControls();
             updateBookingTypeState();
             updatePaymentNote();
 
@@ -1251,11 +1545,6 @@
                 setStepVisible(detailsSection, false);
                 setStepVisible(paymentSection, false);
                 setStepVisible(submitButton, false);
-            }
-
-            if (!hasValidationErrors && !hasFilledGuestDetails && !selectedSlotInput.value && !sessionStorage.getItem(autoOpenFiltersKey)) {
-                showModal(filterModal);
-                sessionStorage.setItem(autoOpenFiltersKey, '1');
             }
         })();
     </script>

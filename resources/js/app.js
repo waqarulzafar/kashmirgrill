@@ -238,21 +238,156 @@ function initCartUi() {
     const clearUrl = root.dataset.cartClearUrl || '';
     const updateTemplate = root.dataset.cartUpdateUrlTemplate || '';
     const removeTemplate = root.dataset.cartRemoveUrlTemplate || '';
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     let pending = false;
+    let currentCount = Number.parseInt(toggle?.querySelector('[data-cart-count]')?.textContent || toggle?.textContent || '0', 10) || 0;
+    let drawerHideTimer = null;
 
     const setPending = (state) => {
         pending = state;
         root.classList.toggle('is-pending', state);
     };
 
+    const pulseCartToggle = () => {
+        if (!toggle) {
+            return;
+        }
+
+        toggle.classList.remove('is-pulsing');
+        void toggle.offsetWidth;
+        toggle.classList.add('is-pulsing');
+
+        window.setTimeout(() => {
+            toggle.classList.remove('is-pulsing');
+        }, 520);
+    };
+
+    const flashCartItem = (menuItemId) => {
+        if (!body || !menuItemId) {
+            return;
+        }
+
+        const cartItem = body.querySelector(`[data-cart-item-id="${menuItemId}"]`);
+        if (!cartItem) {
+            return;
+        }
+
+        cartItem.classList.remove('is-just-added');
+        void cartItem.offsetWidth;
+        cartItem.classList.add('is-just-added');
+
+        window.setTimeout(() => {
+            cartItem.classList.remove('is-just-added');
+        }, 900);
+    };
+
+    const createCartFlyer = (sourceImage) => {
+        const flyer = document.createElement('div');
+        flyer.className = 'floating-cart__flyer';
+
+        const thumb = document.createElement('span');
+        thumb.className = 'floating-cart__flyer-thumb';
+
+        if (sourceImage?.currentSrc || sourceImage?.src) {
+            thumb.style.backgroundImage = `url("${sourceImage.currentSrc || sourceImage.src}")`;
+        } else {
+            thumb.classList.add('is-fallback');
+            thumb.textContent = '+';
+        }
+
+        const badge = document.createElement('span');
+        badge.className = 'floating-cart__flyer-badge';
+        badge.innerHTML = '<i class="fa-solid fa-cart-plus" aria-hidden="true"></i>';
+
+        flyer.append(thumb, badge);
+
+        return flyer;
+    };
+
+    const animateAddToCart = async (form) => {
+        if (reducedMotion || !toggle) {
+            pulseCartToggle();
+            return;
+        }
+
+        const productCard = form.closest('[data-cart-product-card]');
+        const sourceImage = productCard?.querySelector('[data-cart-product-image]');
+        const sourceElement = sourceImage || form.querySelector('button[type="submit"]') || form;
+        const sourceRect = sourceElement.getBoundingClientRect();
+        const targetElement = toggle.querySelector('[data-cart-count]') || toggle;
+        const targetRect = targetElement.getBoundingClientRect();
+        const flyer = createCartFlyer(sourceImage);
+        const flyerSize = sourceImage ? 54 : 46;
+        const startLeft = sourceRect.left + (sourceRect.width / 2) - (flyerSize / 2);
+        const startTop = sourceRect.top + Math.min(sourceRect.height * 0.24, 22);
+        const endLeft = targetRect.left + (targetRect.width / 2) - (flyerSize / 2);
+        const endTop = targetRect.top + (targetRect.height / 2) - (flyerSize / 2);
+        const deltaX = endLeft - startLeft;
+        const deltaY = endTop - startTop;
+        const arcLift = Math.max(58, Math.min(110, Math.abs(deltaX) * 0.14 + 42));
+
+        Object.assign(flyer.style, {
+            width: `${flyerSize}px`,
+            height: `${flyerSize}px`,
+            left: `${startLeft}px`,
+            top: `${startTop}px`,
+        });
+
+        document.body.appendChild(flyer);
+
+        const animation = flyer.animate(
+            [
+                {
+                    transform: 'translate3d(0, 0, 0) scale(0.9)',
+                    opacity: 0,
+                },
+                {
+                    transform: 'translate3d(0, 0, 0) scale(1)',
+                    opacity: 1,
+                    offset: 0.12,
+                },
+                {
+                    transform: `translate3d(${deltaX * 0.52}px, ${(deltaY * 0.45) - arcLift}px, 0) scale(0.84)`,
+                    opacity: 0.96,
+                    offset: 0.62,
+                },
+                {
+                    transform: `translate3d(${deltaX}px, ${deltaY}px, 0) scale(0.22)`,
+                    opacity: 0.08,
+                },
+            ],
+            {
+                duration: 720,
+                easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+                fill: 'forwards',
+            },
+        );
+
+        try {
+            await animation.finished;
+        } catch (error) {
+            // Ignore aborted animations from rapid interactions.
+        } finally {
+            flyer.remove();
+        }
+    };
+
     const openDrawer = () => {
         if (!drawer || !backdrop) {
             return;
         }
+
+        window.clearTimeout(drawerHideTimer);
         drawer.hidden = false;
-        drawer.setAttribute('aria-hidden', 'false');
         backdrop.hidden = false;
+        drawer.setAttribute('aria-hidden', 'false');
+
+        requestAnimationFrame(() => {
+            drawer.classList.add('is-open');
+            backdrop.classList.add('is-open');
+        });
+
         document.body.classList.add('cart-drawer-open');
     };
 
@@ -260,9 +395,18 @@ function initCartUi() {
         if (!drawer || !backdrop) {
             return;
         }
-        drawer.hidden = true;
+
         drawer.setAttribute('aria-hidden', 'true');
-        backdrop.hidden = true;
+        drawer.classList.remove('is-open');
+        backdrop.classList.remove('is-open');
+
+        drawerHideTimer = window.setTimeout(() => {
+            if (drawer.getAttribute('aria-hidden') === 'true') {
+                drawer.hidden = true;
+                backdrop.hidden = true;
+            }
+        }, 320);
+
         document.body.classList.remove('cart-drawer-open');
     };
 
@@ -272,7 +416,7 @@ function initCartUi() {
         });
     };
 
-    const applyResponse = (payload) => {
+    const applyResponse = (payload, options = {}) => {
         if (!payload || typeof payload !== 'object') {
             return;
         }
@@ -282,7 +426,18 @@ function initCartUi() {
         }
 
         if (payload.cart && typeof payload.cart === 'object') {
-            updateCount(payload.cart.count ?? 0);
+            const nextCount = Number(payload.cart.count ?? 0);
+            updateCount(nextCount);
+
+            if (nextCount !== currentCount) {
+                pulseCartToggle();
+            }
+
+            currentCount = nextCount;
+        }
+
+        if (options.menuItemId) {
+            flashCartItem(options.menuItemId);
         }
     };
 
@@ -343,10 +498,11 @@ function initCartUi() {
         }
         const url = updateTemplate.replace('__ID__', String(menuItemId));
         const formData = new FormData();
+        formData.set('_method', 'PATCH');
         formData.set('quantity', String(quantity));
 
         const payload = await requestJson(url, {
-            method: 'PATCH',
+            method: 'POST',
             body: formData,
         });
 
@@ -355,8 +511,11 @@ function initCartUi() {
 
     const removeItem = async (menuItemId) => {
         const url = removeTemplate.replace('__ID__', String(menuItemId));
+        const formData = new FormData();
+        formData.set('_method', 'DELETE');
         const payload = await requestJson(url, {
-            method: 'DELETE',
+            method: 'POST',
+            body: formData,
         });
 
         applyResponse(payload);
@@ -392,12 +551,15 @@ function initCartUi() {
             setPending(true);
 
             try {
+                const menuItemId = Number.parseInt(new FormData(form).get('menu_item_id') || '0', 10);
+                const animationPromise = animateAddToCart(form);
                 const payload = await requestJson(addUrl, {
                     method: 'POST',
                     body: new FormData(form),
                 });
 
-                applyResponse(payload);
+                await animationPromise;
+                applyResponse(payload, { menuItemId });
                 openDrawer();
             } catch (error) {
                 console.error('Cart add failed.', error);
@@ -423,6 +585,7 @@ function initCartUi() {
         try {
             if (action === 'set-qty' && menuItemId > 0) {
                 await updateQuantity(menuItemId, quantity);
+                flashCartItem(menuItemId);
             } else if (action === 'remove' && menuItemId > 0) {
                 await removeItem(menuItemId);
             } else if (action === 'clear' && clearUrl) {

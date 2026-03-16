@@ -143,7 +143,7 @@
                                         $tags = $item->tagList();
                                     @endphp
                                     <div class="col-12 col-md-6 col-xl-4">
-                                        <article class="menu-item-card h-100" data-menu-card>
+                                        <article class="menu-item-card h-100" data-menu-card data-cart-product-card>
                                             <div class="menu-item-glare" aria-hidden="true"></div>
                                             <div class="menu-item-media">
                                                 <img
@@ -155,6 +155,7 @@
                                                     decoding="async"
                                                     class="w-100 h-100"
                                                     data-menu-parallax
+                                                    data-cart-product-image
                                                 >
                                                 <div class="menu-item-media-overlay" aria-hidden="true"></div>
                                                 <div class="menu-item-price">&euro;{{ number_format((float) $item->price, 2) }}</div>

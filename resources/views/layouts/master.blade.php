@@ -711,6 +711,14 @@
             letter-spacing: .08em;
             text-transform: uppercase;
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.28);
+            transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+            transform-origin: center;
+        }
+
+        .floating-cart__toggle.is-pulsing {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 18px 30px rgba(219, 29, 48, 0.34);
+            border-color: rgba(255, 149, 44, 0.75);
         }
 
         .floating-cart__toggle-count {
@@ -731,6 +739,14 @@
             inset: 0;
             background: rgba(0, 0, 0, 0.42);
             backdrop-filter: blur(2px);
+            opacity: 0;
+            transition: opacity .28s ease;
+            pointer-events: none;
+        }
+
+        .floating-cart__backdrop.is-open {
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .floating-cart__drawer {
@@ -750,6 +766,17 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            opacity: 0;
+            transform: translateY(1.1rem) scale(.96);
+            transform-origin: bottom right;
+            transition: opacity .3s ease, transform .34s cubic-bezier(.22, 1, .36, 1);
+            pointer-events: none;
+        }
+
+        .floating-cart__drawer.is-open {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
         }
 
         .floating-cart__head {
@@ -810,6 +837,14 @@
             border: 1px solid rgba(255,255,255,.08);
             background: rgba(255,255,255,.02);
             padding: .55rem;
+            transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease, background-color .28s ease;
+        }
+
+        .floating-cart__item.is-just-added {
+            transform: translateY(-4px) scale(1.01);
+            border-color: rgba(255, 149, 44, 0.52);
+            background: rgba(255, 149, 44, 0.10);
+            box-shadow: 0 18px 32px rgba(0, 0, 0, 0.24);
         }
 
         .floating-cart__item-image {
@@ -900,6 +935,57 @@
 
         .floating-cart__actions .btn {
             flex: 1;
+        }
+
+        .floating-cart__flyer {
+            position: fixed;
+            z-index: 1095;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.28));
+            will-change: transform, opacity;
+        }
+
+        .floating-cart__flyer-thumb {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background-color: rgba(17, 17, 17, 0.95);
+            background-size: cover;
+            background-position: center;
+            box-shadow:
+                inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+                0 10px 18px rgba(0, 0, 0, 0.18);
+        }
+
+        .floating-cart__flyer-thumb.is-fallback {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-image: linear-gradient(180deg, rgba(255,149,44,.95), rgba(219,29,48,.92));
+            color: #fff;
+            font: 800 1.1rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .08em;
+        }
+
+        .floating-cart__flyer-badge {
+            position: absolute;
+            right: -4px;
+            bottom: -2px;
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, #ff9f34, #db1d30);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.32);
+            box-shadow: 0 8px 14px rgba(0, 0, 0, 0.22);
+            font-size: .58rem;
         }
 
         .card,
