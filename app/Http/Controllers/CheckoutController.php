@@ -198,7 +198,7 @@ class CheckoutController extends Controller
 
         $order->forceFill([
             'payment_session_id' => $checkoutRedirect->sessionId,
-            'payment_reference' => $checkoutRedirect->reference,
+            'payment_reference' => $this->normalizePaymentReference($checkoutRedirect->reference),
             'payment_meta' => $this->mergePaymentMeta($order, $checkoutRedirect->meta),
         ])->save();
 
@@ -358,7 +358,7 @@ class CheckoutController extends Controller
                 'status' => Order::STATUS_PAYMENT_FAILED,
                 'payment_status' => Order::PAYMENT_STATUS_FAILED,
                 'payment_session_id' => $confirmation->sessionId ?? $order->payment_session_id,
-                'payment_reference' => $confirmation->transactionId ?? $order->payment_reference,
+                'payment_reference' => $this->normalizePaymentReference($confirmation->transactionId ?? $order->payment_reference),
                 'payment_meta' => $this->mergePaymentMeta($order, $confirmation->payload),
             ])->save();
 
@@ -371,7 +371,7 @@ class CheckoutController extends Controller
             'status' => Order::STATUS_PENDING,
             'payment_status' => Order::PAYMENT_STATUS_PAID,
             'payment_session_id' => $confirmation->sessionId ?? $order->payment_session_id,
-            'payment_reference' => $confirmation->transactionId ?? $order->payment_reference,
+            'payment_reference' => $this->normalizePaymentReference($confirmation->transactionId ?? $order->payment_reference),
             'payment_meta' => $this->mergePaymentMeta($order, $confirmation->payload),
             'paid_at' => now(),
         ])->save();
@@ -414,6 +414,21 @@ class CheckoutController extends Controller
         $current = is_array($order->payment_meta) ? $order->payment_meta : [];
 
         return array_merge($current, $incoming);
+    }
+
+    private function normalizePaymentReference(?string $reference): ?string
+    {
+        if ($reference === null) {
+            return null;
+        }
+
+        $reference = trim($reference);
+
+        if ($reference === '') {
+            return null;
+        }
+
+        return Str::limit($reference, 120, '');
     }
 
     private function getSlotAvailability(string $reservationDate, int $guestCount): Collection

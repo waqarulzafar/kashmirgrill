@@ -9,6 +9,7 @@ use App\Services\Payments\Data\PaymentConfirmation;
 use App\Services\Payments\Exceptions\PaymentException;
 use Illuminate\Http\Request;
 use Stripe\StripeClient;
+use Stripe\StripeObject;
 use Throwable;
 
 class StripePaymentGateway implements PaymentGateway
@@ -79,7 +80,7 @@ class StripePaymentGateway implements PaymentGateway
             method: $this->method(),
             url: (string) $session->url,
             sessionId: (string) $session->id,
-            reference: $session->payment_intent ? (string) $session->payment_intent : null,
+            reference: $this->paymentIntentReference($session->payment_intent ?? null),
             meta: ['session' => $session->toArray()],
         );
     }
@@ -108,14 +109,14 @@ class StripePaymentGateway implements PaymentGateway
         if (($session->payment_status ?? null) !== 'paid') {
             return PaymentConfirmation::failed(
                 message: 'Stripe reports this payment as unpaid.',
-                transactionId: $session->payment_intent ? (string) $session->payment_intent : null,
+                transactionId: $this->paymentIntentReference($session->payment_intent ?? null),
                 sessionId: (string) $session->id,
                 payload: ['session' => $session->toArray()],
             );
         }
 
         return PaymentConfirmation::paid(
-            transactionId: $session->payment_intent ? (string) $session->payment_intent : null,
+            transactionId: $this->paymentIntentReference($session->payment_intent ?? null),
             sessionId: (string) $session->id,
             payload: ['session' => $session->toArray()],
         );
@@ -134,5 +135,30 @@ class StripePaymentGateway implements PaymentGateway
     private function amountToMinor(float $amount): int
     {
         return (int) round($amount * 100);
+    }
+
+    private function paymentIntentReference(mixed $paymentIntent): ?string
+    {
+        if (is_string($paymentIntent)) {
+            return $paymentIntent !== '' ? $paymentIntent : null;
+        }
+
+        if (is_array($paymentIntent)) {
+            $paymentIntentId = $paymentIntent['id'] ?? null;
+
+            return is_string($paymentIntentId) && $paymentIntentId !== '' ? $paymentIntentId : null;
+        }
+
+        if ($paymentIntent instanceof StripeObject) {
+            $paymentIntentId = $paymentIntent->id ?? null;
+
+            return is_string($paymentIntentId) && $paymentIntentId !== '' ? $paymentIntentId : null;
+        }
+
+        if (is_object($paymentIntent) && isset($paymentIntent->id) && is_string($paymentIntent->id) && $paymentIntent->id !== '') {
+            return $paymentIntent->id;
+        }
+
+        return null;
     }
 }

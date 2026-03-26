@@ -180,4 +180,76 @@ class AdminOrderManagementTest extends TestCase
             return $mail->order->is($order) && $mail->hasTo($order->customer_email);
         });
     }
+
+    public function test_checkout_success_truncates_oversized_payment_reference_before_saving(): void
+    {
+        Mail::fake();
+
+        $oversizedReference = str_repeat('x', 180);
+
+        $gateway = new class($oversizedReference) implements PaymentGateway
+        {
+            public function __construct(private readonly string $oversizedReference) {}
+
+            public function method(): string
+            {
+                return Order::PAYMENT_METHOD_STRIPE;
+            }
+
+            public function createCheckout(Order $order, string $successUrl, string $cancelUrl): CheckoutRedirect
+            {
+                return new CheckoutRedirect(
+                    method: Order::PAYMENT_METHOD_STRIPE,
+                    url: 'https://example.com/checkout',
+                    sessionId: 'sess_test',
+                );
+            }
+
+            public function confirmCheckout(Order $order, Request $request): PaymentConfirmation
+            {
+                return PaymentConfirmation::paid($this->oversizedReference, (string) $request->query('session_id', 'sess_test'));
+            }
+        };
+
+        $manager = $this->createMock(PaymentGatewayManager::class);
+        $manager->method('for')
+            ->with(Order::PAYMENT_METHOD_STRIPE)
+            ->willReturn($gateway);
+
+        $this->app->instance(PaymentGatewayManager::class, $manager);
+
+        $order = Order::query()->create([
+            'reference' => 'KGH-20260325-00004',
+            'status' => Order::STATUS_PENDING_PAYMENT,
+            'fulfillment_type' => Order::FULFILLMENT_TAKEAWAY,
+            'customer_name' => 'Amina Khan',
+            'customer_email' => 'amina@example.com',
+            'customer_phone' => '+39 6666666',
+            'subtotal' => 18.00,
+            'delivery_fee' => 0,
+            'total' => 18.00,
+            'payment_method' => Order::PAYMENT_METHOD_STRIPE,
+            'payment_provider' => Order::PAYMENT_METHOD_STRIPE,
+            'payment_status' => Order::PAYMENT_STATUS_PENDING,
+            'payment_session_id' => 'sess_test',
+            'placed_at' => now(),
+        ]);
+
+        OrderItem::query()->create([
+            'order_id' => $order->id,
+            'item_name' => 'Seekh Kebab',
+            'unit_price' => 18.00,
+            'quantity' => 1,
+            'line_total' => 18.00,
+        ]);
+
+        $this->get(route('checkout.payment.stripe.success', $order).'?session_id=sess_test')
+            ->assertRedirect(route('checkout.success'));
+
+        $order->refresh();
+
+        $this->assertSame(Order::PAYMENT_STATUS_PAID, $order->payment_status);
+        $this->assertSame(substr($oversizedReference, 0, 120), $order->payment_reference);
+        $this->assertSame(120, strlen((string) $order->payment_reference));
+    }
 }
