@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Booking Status Updated</title>
+    <title>Booking Request Received</title>
     <style>
         body { margin:0; padding:0; background:#f4f4f4; }
         table { border-collapse:collapse; }
@@ -25,14 +25,14 @@
         <table role="presentation" class="mail-card" cellspacing="0" cellpadding="0" align="center">
             <tr>
                 <td class="mail-head" style="font-family:Arial,sans-serif;">
-                    <h1 style="margin:0;font-size:20px;line-height:1.3;">Booking Update</h1>
+                    <h1 style="margin:0;font-size:20px;line-height:1.3;">Booking Request Received</h1>
                     <p class="brand" style="font-family:Arial,sans-serif;">Kashmir Grill House</p>
                 </td>
             </tr>
             <tr>
                 <td class="content" style="font-family:Arial,sans-serif;">
                     <p style="margin-top:0;">Hello {{ $booking->full_name }},</p>
-                    <p>{{ $headline }}</p>
+                    <p>Thank you for your booking request. We have received your details and our team will review availability shortly.</p>
                     <p><strong>Reference:</strong> <span class="badge">{{ $referenceId }}</span></p>
 
                     <table role="presentation" class="kv-table" cellspacing="0" cellpadding="0">
@@ -40,11 +40,7 @@
                         <tr><td class="kv-key">Date</td><td>{{ $bookingDate }}</td></tr>
                         <tr><td class="kv-key">Time</td><td>{{ $bookingTime }}</td></tr>
                         <tr><td class="kv-key">Guests</td><td>{{ $booking->persons }}</td></tr>
-                        <tr><td class="kv-key">Previous Status</td><td>{{ $previousStatusLabel }}</td></tr>
-                        <tr><td class="kv-key">Current Status</td><td>{{ $statusLabel }}</td></tr>
-                        <tr><td class="kv-key">Payment Method</td><td>{{ $paymentMethod }}</td></tr>
-                        <tr><td class="kv-key">Previous Payment Status</td><td>{{ $previousPaymentStatusLabel }}</td></tr>
-                        <tr><td class="kv-key">Payment Status</td><td>{{ $paymentStatusLabel }}</td></tr>
+                        <tr><td class="kv-key">Payment Preference</td><td>{{ $paymentMethod }}</td></tr>
                         @if($booking->dineInSlot?->name)
                             <tr><td class="kv-key">Slot</td><td>{{ $booking->dineInSlot->name }}</td></tr>
                         @endif
@@ -62,7 +58,7 @@
                         @endif
                     </table>
 
-                    <p style="margin-bottom:0;">If you need to change anything, reply to this email or contact the restaurant directly.</p>
+                    <p style="margin-bottom:0;">If you need to update your request, contact the restaurant and include your reference number.</p>
                 </td>
             </tr>
             <tr>

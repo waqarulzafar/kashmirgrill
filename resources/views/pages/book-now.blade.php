@@ -11,6 +11,12 @@
     $searchTimeFilter = old('time_filter', $selectedTimeFilter ?? 'all');
     $bookingType = old('booking_type', $selectedBookingType ?? \App\Models\Booking::TYPE_TABLE);
     $selectedSlotId = old('selected_slot_id');
+    $defaultBookingPaymentMethod = array_key_first($paymentMethodOptions);
+    $selectedBookingPaymentMethod = old('payment_method', \App\Models\Booking::PAYMENT_METHOD_PAY_ON_ARRIVAL);
+
+    if (! array_key_exists((string) $selectedBookingPaymentMethod, $paymentMethodOptions) && $defaultBookingPaymentMethod) {
+        $selectedBookingPaymentMethod = $defaultBookingPaymentMethod;
+    }
 @endphp
 
 @section('content')
@@ -243,7 +249,7 @@
                             <div class="booking-mode-grid">
                                 @foreach($paymentMethodOptions as $value => $label)
                                     <label class="booking-mode-option booking-mode-option--payment">
-                                        <input type="radio" name="payment_method" value="{{ $value }}" @checked(old('payment_method', \App\Models\Booking::PAYMENT_METHOD_PAY_ON_ARRIVAL) === $value)>
+                                        <input type="radio" name="payment_method" value="{{ $value }}" @checked($selectedBookingPaymentMethod === $value)>
                                         <span>
                                             <strong>{{ $label }}</strong>
                                             <small>{{ $value === \App\Models\Booking::PAYMENT_METHOD_CARD_ON_CONFIRMATION ? 'Secure payment link sent once slot is confirmed' : 'Settle bill at the restaurant' }}</small>

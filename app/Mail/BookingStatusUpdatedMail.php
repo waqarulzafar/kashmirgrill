@@ -18,7 +18,9 @@ class BookingStatusUpdatedMail extends Mailable
         public Booking $booking,
         public string $previousStatus,
         public string $previousPaymentStatus,
-    ) {}
+    ) {
+        $this->booking->loadMissing('dineInSlot');
+    }
 
     public function envelope(): Envelope
     {
@@ -34,7 +36,9 @@ class BookingStatusUpdatedMail extends Mailable
         $bookingType = Booking::typeLabels()[$this->booking->booking_type] ?? ucfirst($this->booking->booking_type);
         $paymentMethod = Booking::paymentMethodLabels()[$this->booking->payment_method] ?? ucfirst((string) $this->booking->payment_method);
         $statusLabel = Booking::statusLabels()[$this->booking->status] ?? ucfirst($this->booking->status);
+        $previousStatusLabel = Booking::statusLabels()[$this->previousStatus] ?? ucfirst($this->previousStatus);
         $paymentStatusLabel = Booking::paymentStatusLabels()[$this->booking->payment_status] ?? ucfirst((string) $this->booking->payment_status);
+        $previousPaymentStatusLabel = Booking::paymentStatusLabels()[$this->previousPaymentStatus] ?? ucfirst((string) $this->previousPaymentStatus);
         $headline = match ($this->booking->status) {
             Booking::STATUS_CONFIRMED => 'Your booking has been confirmed.',
             Booking::STATUS_CANCELLED => 'Your booking has been cancelled.',
@@ -48,8 +52,10 @@ class BookingStatusUpdatedMail extends Mailable
                 'referenceId' => $this->booking->formattedReference(),
                 'bookingType' => $bookingType,
                 'statusLabel' => $statusLabel,
+                'previousStatusLabel' => $previousStatusLabel,
                 'paymentMethod' => $paymentMethod,
                 'paymentStatusLabel' => $paymentStatusLabel,
+                'previousPaymentStatusLabel' => $previousPaymentStatusLabel,
                 'bookingDate' => $this->booking->date?->format('F j, Y'),
                 'bookingTime' => Carbon::parse($this->booking->time)->format('g:i A'),
             ],

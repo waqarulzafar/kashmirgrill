@@ -53,10 +53,7 @@ class StoreBookingRequest extends FormRequest
             'table_preference' => ['nullable', 'string', 'max:120'],
             'selected_menu' => ['nullable', 'string', 'max:120'],
             'special_occasion' => ['nullable', 'string', 'max:120'],
-            'payment_method' => ['required', Rule::in([
-                Booking::PAYMENT_METHOD_PAY_ON_ARRIVAL,
-                Booking::PAYMENT_METHOD_CARD_ON_CONFIRMATION,
-            ])],
+            'payment_method' => ['required', Rule::in($this->availablePaymentMethods())],
             'additional_notes' => ['nullable', 'string', 'max:1200'],
             'marketing_opt_in' => ['nullable', 'boolean'],
         ];
@@ -79,5 +76,16 @@ class StoreBookingRequest extends FormRequest
         $validator->sometimes('time', ['required', 'date_format:H:i'], function (): bool {
             return $this->input('booking_type') === Booking::TYPE_EVENT;
         });
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function availablePaymentMethods(): array
+    {
+        return collect(config('payments.methods.bookings', []))
+            ->filter(fn (array $method): bool => (bool) ($method['enabled'] ?? false))
+            ->keys()
+            ->all();
     }
 }

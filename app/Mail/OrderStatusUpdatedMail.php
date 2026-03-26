@@ -17,7 +17,9 @@ class OrderStatusUpdatedMail extends Mailable
     public function __construct(
         public Order $order,
         public string $previousStatus,
-    ) {}
+    ) {
+        $this->order->loadMissing(['items', 'dineInSlot']);
+    }
 
     public function envelope(): Envelope
     {
@@ -31,7 +33,9 @@ class OrderStatusUpdatedMail extends Mailable
     public function content(): Content
     {
         $statusLabel = Order::statusLabels()[$this->order->status] ?? ucfirst($this->order->status);
+        $previousStatusLabel = Order::statusLabels()[$this->previousStatus] ?? ucfirst($this->previousStatus);
         $fulfillmentLabel = Order::fulfillmentLabels()[$this->order->fulfillment_type] ?? ucfirst($this->order->fulfillment_type);
+        $paymentMethod = Order::paymentMethodLabels()[$this->order->payment_method] ?? ucfirst((string) $this->order->payment_method);
         $paymentStatusLabel = Order::paymentStatusLabels()[$this->order->payment_status] ?? ucfirst($this->order->payment_status);
         $headline = match ($this->order->status) {
             Order::STATUS_CONFIRMED => 'Your order has been accepted by the restaurant.',
@@ -47,7 +51,9 @@ class OrderStatusUpdatedMail extends Mailable
             with: [
                 'headline' => $headline,
                 'statusLabel' => $statusLabel,
+                'previousStatusLabel' => $previousStatusLabel,
                 'fulfillmentLabel' => $fulfillmentLabel,
+                'paymentMethod' => $paymentMethod,
                 'paymentStatusLabel' => $paymentStatusLabel,
                 'reservationDate' => $this->order->reservation_date?->format('F j, Y'),
                 'reservationTime' => $this->order->reservation_time

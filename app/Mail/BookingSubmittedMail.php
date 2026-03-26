@@ -14,7 +14,10 @@ class BookingSubmittedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(public Booking $booking) {}
+    public function __construct(public Booking $booking)
+    {
+        $this->booking->loadMissing('dineInSlot');
+    }
 
     public function envelope(): Envelope
     {

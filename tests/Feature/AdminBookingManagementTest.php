@@ -90,7 +90,15 @@ class AdminBookingManagementTest extends TestCase
         $this->assertSame(Booking::PAYMENT_STATUS_PAID, $booking->payment_status);
 
         Mail::assertSent(BookingStatusUpdatedMail::class, function (BookingStatusUpdatedMail $mail) use ($booking): bool {
-            return $mail->booking->is($booking) && $mail->hasTo($booking->email);
+            $rendered = $mail->render();
+
+            return $mail->booking->is($booking)
+                && $mail->hasTo($booking->email)
+                && str_contains($rendered, 'Previous Status')
+                && str_contains($rendered, 'Pending')
+                && str_contains($rendered, 'Confirmed')
+                && str_contains($rendered, 'Previous Payment Status')
+                && str_contains($rendered, 'Paid');
         });
     }
 

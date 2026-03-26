@@ -12,7 +12,17 @@
     $prefillEmail = old('email', auth()->user()?->email);
     $prefillPhone = old('phone');
     $selectedFulfillment = old('fulfillment_type', \App\Models\Order::FULFILLMENT_TAKEAWAY);
-    $selectedPaymentMethod = old('payment_method', \App\Models\Order::PAYMENT_METHOD_STRIPE);
+    $defaultPaymentMethod = array_key_first($paymentOptions);
+    $selectedPaymentMethod = old(
+        'payment_method',
+        array_key_exists(\App\Models\Order::PAYMENT_METHOD_STRIPE, $paymentOptions)
+            ? \App\Models\Order::PAYMENT_METHOD_STRIPE
+            : $defaultPaymentMethod
+    );
+
+    if (! array_key_exists((string) $selectedPaymentMethod, $paymentOptions) && $defaultPaymentMethod) {
+        $selectedPaymentMethod = $defaultPaymentMethod;
+    }
     $fulfillmentMeta = [
         \App\Models\Order::FULFILLMENT_TAKEAWAY => [
             'icon' => 'fa-bag-shopping',

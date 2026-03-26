@@ -14,7 +14,10 @@ class OrderPlacedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(public Order $order) {}
+    public function __construct(public Order $order)
+    {
+        $this->order->loadMissing(['items', 'dineInSlot']);
+    }
 
     public function envelope(): Envelope
     {
@@ -37,6 +40,7 @@ class OrderPlacedMail extends Mailable
                 'reservationTime' => $this->order->reservation_time
                     ? Carbon::parse($this->order->reservation_time)->format('g:i A')
                     : null,
+                'paymentReference' => $this->order->payment_reference,
             ],
         );
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BookingAvailabilityRequest;
 use App\Http\Requests\StoreBookingRequest;
+use App\Mail\BookingReceivedMail;
 use App\Mail\BookingSubmittedMail;
 use App\Models\Booking;
 use App\Models\DineInSlot;
@@ -24,6 +25,7 @@ class BookingController extends Controller
         $selectedGuests = max(1, (int) old('persons', 2));
         $selectedTimeFilter = (string) old('time_filter', 'all');
         $selectedBookingType = (string) old('booking_type', Booking::TYPE_TABLE);
+        $paymentMethodOptions = $this->availablePaymentMethodOptions();
 
         return view('pages.book-now', [
             'selectedDate' => $selectedDate,
@@ -37,10 +39,7 @@ class BookingController extends Controller
                 Booking::TYPE_TABLE => 'Table Reservation',
                 Booking::TYPE_EVENT => 'Whole Restaurant Event',
             ],
-            'paymentMethodOptions' => [
-                Booking::PAYMENT_METHOD_PAY_ON_ARRIVAL => 'Pay at Restaurant',
-                Booking::PAYMENT_METHOD_CARD_ON_CONFIRMATION => 'Card Checkout After Confirmation',
-            ],
+            'paymentMethodOptions' => $paymentMethodOptions,
             'occasionOptions' => [
                 'Birthday',
                 'Anniversary',
@@ -181,6 +180,7 @@ class BookingController extends Controller
             Cache::put($idempotencyResultKey, $booking->id, now()->addHours(6));
 
             Mail::to(config('mail.restaurant_email'))->send(new BookingSubmittedMail($booking));
+            Mail::to($booking->email)->send(new BookingReceivedMail($booking));
 
             return redirect()
                 ->route('bookings.success')
@@ -293,5 +293,16 @@ class BookingController extends Controller
     private function formatReference(Booking $booking): string
     {
         return 'KGH-'.str_pad((string) $booking->id, 6, '0', STR_PAD_LEFT);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function availablePaymentMethodOptions(): array
+    {
+        return collect(config('payments.methods.bookings', []))
+            ->filter(fn (array $method): bool => (bool) ($method['enabled'] ?? false))
+            ->mapWithKeys(fn (array $method, string $key): array => [$key => (string) ($method['label'] ?? $key)])
+            ->all();
     }
 }

@@ -37,6 +37,7 @@ class CheckoutController extends Controller
         $selectedDate = $request->old('reservation_date', now()->toDateString());
         $selectedGuests = (int) $request->old('guest_count', 2);
         $slotAvailability = $this->getSlotAvailability($selectedDate, max(1, $selectedGuests));
+        $paymentOptions = $this->availablePaymentOptions();
 
         return view('pages.checkout', [
             'cart' => $cart->summary(),
@@ -47,10 +48,7 @@ class CheckoutController extends Controller
                 Order::FULFILLMENT_DELIVERY => 'Delivery',
                 Order::FULFILLMENT_DINE_IN => 'Dine In',
             ],
-            'paymentOptions' => [
-                Order::PAYMENT_METHOD_STRIPE => 'Stripe (Card)',
-                Order::PAYMENT_METHOD_PAYPAL => 'PayPal',
-            ],
+            'paymentOptions' => $paymentOptions,
         ]);
     }
 
@@ -76,10 +74,7 @@ class CheckoutController extends Controller
             'reservation_date' => ['nullable', 'date', 'after_or_equal:today'],
             'reservation_slot_id' => ['nullable', 'integer', 'exists:dine_in_slots,id'],
             'guest_count' => ['nullable', 'integer', 'min:1', 'max:20'],
-            'payment_method' => ['required', Rule::in([
-                Order::PAYMENT_METHOD_STRIPE,
-                Order::PAYMENT_METHOD_PAYPAL,
-            ])],
+            'payment_method' => ['required', Rule::in(array_keys($this->availablePaymentOptions()))],
             'create_account' => ['nullable', 'boolean'],
             'account_name' => ['nullable', 'string', 'max:120'],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
@@ -429,6 +424,17 @@ class CheckoutController extends Controller
         }
 
         return Str::limit($reference, 120, '');
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function availablePaymentOptions(): array
+    {
+        return collect(config('payments.methods.orders', []))
+            ->filter(fn (array $method): bool => (bool) ($method['enabled'] ?? false))
+            ->mapWithKeys(fn (array $method, string $key): array => [$key => (string) ($method['label'] ?? $key)])
+            ->all();
     }
 
     private function getSlotAvailability(string $reservationDate, int $guestCount): Collection

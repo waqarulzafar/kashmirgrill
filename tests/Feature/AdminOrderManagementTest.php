@@ -70,7 +70,14 @@ class AdminOrderManagementTest extends TestCase
         $this->assertSame(Order::STATUS_PREPARING, $order->status);
 
         Mail::assertSent(OrderStatusUpdatedMail::class, function (OrderStatusUpdatedMail $mail) use ($order): bool {
-            return $mail->order->is($order) && $mail->hasTo($order->customer_email);
+            $rendered = $mail->render();
+
+            return $mail->order->is($order)
+                && $mail->hasTo($order->customer_email)
+                && str_contains($rendered, 'Previous Status')
+                && str_contains($rendered, 'Pending Review')
+                && str_contains($rendered, 'Preparing')
+                && str_contains($rendered, 'Chicken Karahi');
         });
     }
 
@@ -150,6 +157,7 @@ class AdminOrderManagementTest extends TestCase
             'customer_name' => 'Noor Fatima',
             'customer_email' => 'noor@example.com',
             'customer_phone' => '+39 7777777',
+            'notes' => 'No onions, please.',
             'subtotal' => 31.00,
             'delivery_fee' => 0,
             'total' => 31.00,
@@ -177,7 +185,13 @@ class AdminOrderManagementTest extends TestCase
         $this->assertSame(Order::PAYMENT_STATUS_PAID, $order->payment_status);
 
         Mail::assertSent(OrderPlacedMail::class, function (OrderPlacedMail $mail) use ($order): bool {
-            return $mail->order->is($order) && $mail->hasTo($order->customer_email);
+            $rendered = $mail->render();
+
+            return $mail->order->is($order)
+                && $mail->hasTo($order->customer_email)
+                && str_contains($rendered, 'Mutton Biryani')
+                && str_contains($rendered, 'No onions, please.')
+                && str_contains($rendered, '+39 7777777');
         });
     }
 

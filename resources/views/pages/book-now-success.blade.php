@@ -11,7 +11,7 @@
             <div class="col-12 col-xl-10 text-center">
                 <p class="booking-success-kicker mb-2">Reservation Status</p>
                 <h1 class="display-5 fw-bold mb-3 text-white">Booking Request Received</h1>
-                <p class="lead mb-0 booking-success-hero-copy">Thank you. Our team will verify your slot availability and contact you soon.</p>
+                <p class="lead mb-0 booking-success-hero-copy">Thank you. We have emailed your booking details and our team will verify your slot availability shortly.</p>
             </div>
         </div>
     </div>
@@ -28,7 +28,7 @@
                         </span>
                         <div>
                             <h2 class="booking-success-title mb-2">Success</h2>
-                            <p class="booking-success-copy mb-0">Your booking request is now in review. We usually respond quickly with confirmation details.</p>
+                            <p class="booking-success-copy mb-0">Your booking request is now in review. A confirmation email with your reservation details has been sent.</p>
                         </div>
                     </div>
 
