@@ -82,15 +82,16 @@
     $highestPrice = $priceValues->max() ?? 18;
 @endphp
 
-<section id="dishes" class="py-5 dishes-gallery" data-dish-parallax="true" data-gsap-stagger>
+<section id="dishes" class="py-4 py-lg-5 dishes-gallery" data-dish-parallax="true" data-gsap-stagger>
     <div class="container">
-        <div class="dishes-gallery__intro-shell mb-4 mb-lg-5" data-gsap-item>
+        <div class="dishes-gallery__intro-shell mb-3 mb-lg-4" data-gsap-item>
             <div class="row g-4 align-items-end">
                 <div class="col-12 col-lg-8">
                     <x-section-header
+                        class="dishes-gallery__header"
                         badge="Food Gallery"
                         title="Popular Dishes from the Kashmir Grill Kitchen"
-                        subtitle="A visual overview of guest favorites across grills, curries, and rice dishes served for dine-in and takeaway in Como."
+                        subtitle="A quick look at guest favorites from the grill, curry, and rice menu in Como."
                     />
                 </div>
                 <div class="col-12 col-lg-4">
@@ -101,15 +102,15 @@
                             <span class="dishes-gallery__chip">Curry Classics</span>
                             <span class="dishes-gallery__chip">Rice Specials</span>
                         </div>
-                        <p class="mb-2 text-secondary">Explore dishes guests repeat-order for family dining, takeaway, and group tables.</p>
-                        <p class="mb-3 text-secondary">Featured now: <strong>{{ $totalFeatured }} dishes</strong> | Typical range: <strong>EUR {{ $lowestPrice }}-{{ $highestPrice }}</strong></p>
+                        <p class="mb-3 text-secondary">Guest repeat-orders for dine-in, takeaway, and group tables in Como.</p>
+                        <p class="mb-3 text-secondary">Now showing <strong>{{ $totalFeatured }} dishes</strong> | <strong>EUR {{ $lowestPrice }}-{{ $highestPrice }}</strong></p>
                         <a href="{{ route('menu') }}" class="btn btn-brand btn-sm">View Full Menu</a>
                     </aside>
                 </div>
             </div>
         </div>
 
-        <div class="dishes-gallery__stats mb-4" data-gsap-item>
+        <div class="dishes-gallery__stats mb-3 mb-lg-4" data-gsap-item>
             <article class="dishes-gallery__stat-card">
                 <p class="dishes-gallery__stat-label mb-1">Featured Picks</p>
                 <p class="dishes-gallery__stat-value mb-0">{{ $totalFeatured }}</p>
@@ -130,7 +131,7 @@
 
         <div class="dishes-gallery__layout">
             @foreach($featuredDishes as $dish)
-                <article class="dish-tile {{ $loop->first ? 'dish-tile--lead' : 'dish-tile--spot' }} js-dish-card rounded-4 p-4 h-100 shadow-sm" data-gsap-item data-parallax-speed="{{ $dish['parallax'] }}">
+                <article class="dish-tile {{ $loop->first ? 'dish-tile--lead' : 'dish-tile--spot' }} js-dish-card rounded-4 p-4 h-100 shadow-sm" data-parallax-speed="{{ $dish['parallax'] }}">
                     <div class="dish-visual mb-3" data-gsap-parallax data-parallax-factor="{{ $dish['parallax'] }}">
                         <img src="{{ asset($dish['image']) }}" alt="{{ $dish['alt'] }}" loading="lazy" decoding="async" fetchpriority="low" sizes="(max-width: 991px) 100vw, 32vw">
                         <span class="dish-visual-label">{{ $dish['label'] }}</span>
@@ -150,7 +151,7 @@
                 </article>
             @endforeach
 
-            <article class="dishes-gallery__service-strip h-100" data-gsap-item>
+            <article class="dishes-gallery__service-strip h-100">
                 <div>
                     <p class="dishes-gallery__service-kicker mb-1">Service Note</p>
                     <h3 class="h5 mb-2">Designed for Mixed Preferences at Family and Group Tables</h3>

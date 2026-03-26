@@ -28,6 +28,8 @@ class Booking extends Model
 
     public const PAYMENT_STATUS_PAID = 'paid';
 
+    public const PAYMENT_STATUS_CANCELLED = 'cancelled';
+
     protected $fillable = [
         'full_name',
         'email',
@@ -56,5 +58,56 @@ class Booking extends Model
     public function dineInSlot(): BelongsTo
     {
         return $this->belongsTo(DineInSlot::class);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public static function typeLabels(): array
+    {
+        return [
+            self::TYPE_TABLE => 'Table Reservation',
+            self::TYPE_EVENT => 'Whole Restaurant Event',
+        ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public static function statusLabels(): array
+    {
+        return [
+            self::STATUS_PENDING => 'Pending',
+            self::STATUS_CONFIRMED => 'Confirmed',
+            self::STATUS_CANCELLED => 'Cancelled',
+        ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public static function paymentMethodLabels(): array
+    {
+        return [
+            self::PAYMENT_METHOD_PAY_ON_ARRIVAL => 'Pay at Restaurant',
+            self::PAYMENT_METHOD_CARD_ON_CONFIRMATION => 'Card Checkout After Confirmation',
+        ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public static function paymentStatusLabels(): array
+    {
+        return [
+            self::PAYMENT_STATUS_PENDING => 'Pending',
+            self::PAYMENT_STATUS_PAID => 'Paid',
+            self::PAYMENT_STATUS_CANCELLED => 'Cancelled',
+        ];
+    }
+
+    public function formattedReference(): string
+    {
+        return 'KGH-'.str_pad((string) $this->id, 6, '0', STR_PAD_LEFT);
     }
 }

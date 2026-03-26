@@ -1,17 +1,23 @@
 @extends('admin.layout')
 
 @section('admin_title', 'Manage Menu Categories')
+@section('admin_description', 'Organize the catalog structure that powers menu grouping, customer browsing, and back-office maintenance.')
+
+@section('admin_actions')
+    <a href="{{ route('admin.menu-categories.create') }}" class="btn btn-primary">Add Category</a>
+@endsection
 
 @section('admin_content')
-    <div class="card border-0 shadow-sm rounded-4">
-        <div class="card-body p-4">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h2 class="h5 mb-0">Categories</h2>
-                <a href="{{ route('admin.menu-categories.create') }}" class="btn btn-brand btn-sm">Add Category</a>
+    <div class="card admin-panel">
+        <div class="admin-panel-head">
+            <div>
+                <h3 class="admin-panel-title">Category Directory</h3>
+                <p class="admin-panel-copy">Manage the top-level dish groups that hold the rest of the menu system together.</p>
             </div>
-
+        </div>
+        <div class="admin-panel-body pt-4">
             <div class="table-responsive">
-                <table class="table align-middle">
+                <table class="table align-middle admin-table">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -23,17 +29,17 @@
                     <tbody>
                         @forelse($categories as $category)
                             <tr>
-                                <td>{{ $category->name }}</td>
+                                <td class="fw-semibold">{{ $category->name }}</td>
                                 <td><code>{{ $category->slug }}</code></td>
                                 <td>{{ $category->menu_items_count }}</td>
                                 <td class="text-end">
-                                    <a href="{{ route('admin.menu-categories.edit', $category) }}" class="btn btn-outline-secondary btn-sm">Edit</a>
-                                    <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete-category-{{ $category->id }}">Delete</button>
+                                    <a href="{{ route('admin.menu-categories.edit', $category) }}" class="btn btn-light btn-sm">Edit</a>
+                                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete-category-{{ $category->id }}">Delete</button>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="text-center text-secondary py-4">No categories yet.</td>
+                                <td colspan="4" class="admin-empty">No categories yet.</td>
                             </tr>
                         @endforelse
                     </tbody>

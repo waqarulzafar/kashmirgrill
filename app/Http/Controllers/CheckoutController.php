@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderPlacedMail;
 use App\Models\Booking;
 use App\Models\DineInSlot;
 use App\Models\Order;
@@ -17,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -373,6 +375,8 @@ class CheckoutController extends Controller
             'payment_meta' => $this->mergePaymentMeta($order, $confirmation->payload),
             'paid_at' => now(),
         ])->save();
+
+        Mail::to($order->customer_email)->send(new OrderPlacedMail($order));
 
         $cart->clear();
 

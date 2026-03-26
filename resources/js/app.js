@@ -6,8 +6,6 @@ import 'bootstrap/js/dist/modal';
 let gsapRuntimePromise = null;
 let globalScrollSmootherPromise = null;
 let globalScrollSmoother = null;
-const HOME_HERO_FRAME_CACHE_NAME = 'kgh-home-hero-frames-v1';
-const homeHeroFrameCache = new Map();
 
 document.addEventListener('DOMContentLoaded', () => {
     const hasMenuExperience = Boolean(document.querySelector('[data-menu-experience]'));
@@ -63,138 +61,6 @@ function getMotionProfile() {
         coarsePointer,
         smallViewport,
     };
-}
-
-function buildHomeHeroFrameUrls(basePath, frameCount) {
-    if (!basePath || frameCount <= 0) {
-        return [];
-    }
-
-    return Array.from({ length: frameCount }, (_, index) => (
-        `${basePath}/frame-${String(index + 1).padStart(3, '0')}.png`
-    ));
-}
-
-function loadImageElement(src) {
-    return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.decoding = 'async';
-        img.onload = () => resolve(img);
-        img.onerror = () => reject(new Error(`Failed to load image: ${src}`));
-        img.src = src;
-    });
-}
-
-async function warmHomeHeroFrameCacheStorage(frameUrls) {
-    if (!('caches' in window) || !frameUrls.length) {
-        return;
-    }
-
-    try {
-        const cache = await caches.open(HOME_HERO_FRAME_CACHE_NAME);
-        await Promise.all(frameUrls.map(async (url) => {
-            const request = new Request(url, { credentials: 'same-origin' });
-            const existing = await cache.match(request);
-            if (existing) {
-                return;
-            }
-
-            const response = await fetch(request);
-            if (response.ok) {
-                await cache.put(request, response.clone());
-            }
-        }));
-    } catch (error) {
-        // Cache storage can be unavailable in strict browser contexts; ignore and continue.
-    }
-}
-
-function preloadHomeHeroFrames(basePath, frameCount) {
-    const frameUrls = buildHomeHeroFrameUrls(basePath, frameCount);
-    const cacheKey = `${basePath}|${frameCount}`;
-
-    if (homeHeroFrameCache.has(cacheKey)) {
-        return homeHeroFrameCache.get(cacheKey);
-    }
-
-    const preloadPromise = (async () => {
-        if (!frameUrls.length) {
-            return [];
-        }
-
-        // Persist frames in browser cache for subsequent visits while also decoding in-memory now.
-        void warmHomeHeroFrameCacheStorage(frameUrls);
-
-        const decoded = await Promise.all(frameUrls.map(async (src) => {
-            try {
-                return await loadImageElement(src);
-            } catch (error) {
-                return null;
-            }
-        }));
-
-        return decoded;
-    })();
-
-    homeHeroFrameCache.set(cacheKey, preloadPromise);
-
-    return preloadPromise;
-}
-
-function initAdaptiveHeroVideoSources(videos) {
-    if (!videos?.length) {
-        return;
-    }
-
-    const mobileBreakpoint = window.matchMedia('(max-width: 767.98px)');
-    const connection = navigator.connection;
-    const saveData = connection?.saveData === true;
-    const lowBandwidth = /(2g|3g)/i.test(connection?.effectiveType || '');
-
-    const applySource = () => {
-        videos.forEach((video) => {
-            const desktopSrc = video.dataset.homeHeroVideoDesktop;
-            const mobileSrc = video.dataset.homeHeroVideoMobile || desktopSrc;
-            if (!desktopSrc && !mobileSrc) {
-                return;
-            }
-
-            // Prefer the lighter mobile encode on small screens and slower connections.
-            const nextSrc = (mobileBreakpoint.matches || saveData || lowBandwidth) ? mobileSrc : desktopSrc;
-            if (!nextSrc || video.dataset.activeHeroSrc === nextSrc) {
-                return;
-            }
-
-            video.dataset.activeHeroSrc = nextSrc;
-            video.pause();
-            video.src = nextSrc;
-            video.load();
-
-            const tryPlay = () => {
-                video.play().catch(() => {
-                    // Autoplay may be blocked transiently; video remains ready with poster fallback.
-                });
-            };
-
-            if (video.readyState >= 2) {
-                tryPlay();
-            } else {
-                video.addEventListener('loadeddata', tryPlay, { once: true });
-            }
-        });
-    };
-
-    applySource();
-
-    if (!window.__heroVideoAdaptiveBound) {
-        const onViewportChange = () => applySource();
-        if (typeof mobileBreakpoint.addEventListener === 'function') {
-            mobileBreakpoint.addEventListener('change', onViewportChange);
-        } else if (typeof mobileBreakpoint.addListener === 'function') {
-            mobileBreakpoint.addListener(onViewportChange);
-        }
-        window.__heroVideoAdaptiveBound = true;
-    }
 }
 
 async function initTooltipsAndPopovers() {
@@ -1309,21 +1175,17 @@ async function initHomeExperience() {
     const prefersReduced = motionProfile.prefersReduced;
     const isLiteMotion = motionProfile.isLite;
     const hero = document.querySelector('[data-home-hero]');
-    const heroVideos = Array.from(document.querySelectorAll('[data-home-hero-video]'));
+    const heroBackdrop = document.querySelector('[data-home-hero-backdrop]');
     const heroVeil = document.querySelector('[data-home-hero-veil]');
     const heroEmbers = Array.from(document.querySelectorAll('.hero-signature__embers span'));
     const heroVisualStack = document.querySelector('[data-home-hero-visual-stack]');
-    const heroPlatterShell = document.querySelector('[data-home-hero-platter-shell]');
-    const heroPlatterStage = document.querySelector('[data-home-hero-platter-stage]');
-    const heroPlatter = document.querySelector('[data-home-hero-platter]');
-    const heroPlatterShadow = document.querySelector('[data-home-hero-platter-shadow]');
-    const heroPlatterGlow = document.querySelector('[data-home-hero-platter-glow]');
-    const heroPlatterFramesBase = heroPlatter?.dataset.homeHeroFramesBase || '';
-    const heroPlatterFramesCount = Number.parseInt(heroPlatter?.dataset.homeHeroFramesCount || '0', 10);
-    const heroRotateDisc = document.querySelector('[data-home-rotate-disc]');
-    const heroRotateDiscReverse = document.querySelector('[data-home-rotate-disc-reverse]');
+    const heroOrbitalShell = document.querySelector('[data-home-hero-orbital-shell]');
+    const heroOrbitalGlow = heroOrbitalShell?.querySelector('.hero-signature__orbital-glow') ?? null;
+    const heroImageShell = document.querySelector('[data-home-hero-image-shell]');
+    const heroImage = document.querySelector('[data-home-hero-image]');
+    const heroOrbits = Array.from(document.querySelectorAll('[data-home-hero-orbit]'));
+    const heroPlanets = Array.from(document.querySelectorAll('[data-home-hero-planet]'));
     const heroPanel = document.querySelector('[data-home-hero-panel]');
-    const heroFloatPills = Array.from(document.querySelectorAll('[data-home-float-pill]'));
     const storySection = document.querySelector('[data-home-story-section]');
     const storyVisual = document.querySelector('[data-home-story-visual]');
     const storyPanel = document.querySelector('[data-home-story-panel]');
@@ -1335,8 +1197,6 @@ async function initHomeExperience() {
     const featuredDiscs = Array.from(document.querySelectorAll('[data-home-featured-disc]'));
     const progressBar = root.querySelector('[data-home-progress]');
 
-    initAdaptiveHeroVideoSources(heroVideos);
-
     if (prefersReduced || document.body.dataset.gsap === 'off') {
         return;
     }
@@ -1344,7 +1204,6 @@ async function initHomeExperience() {
     try {
         const { gsap, ScrollTrigger } = await getGsapRuntime();
         await initGlobalSmoothScroll({ isLiteMotion });
-        const heroFramePreloadPromise = preloadHomeHeroFrames(heroPlatterFramesBase, heroPlatterFramesCount);
 
         if (progressBar) {
             gsap.to(progressBar, {
@@ -1438,38 +1297,20 @@ async function initHomeExperience() {
             homeHeroTimeline.from(heroPanel, { autoAlpha: 0, x: 20, y: 14, duration: 0.65 }, '-=0.45');
         }
 
-        if (hero) {
-            gsap.fromTo(hero, { backgroundPositionY: '0%' }, {
-                backgroundPositionY: '10%',
+        if (heroBackdrop) {
+            gsap.fromTo(heroBackdrop, {
+                scale: 1,
+                yPercent: 0,
+            }, {
+                scale: isLiteMotion ? 1.03 : 1.08,
+                yPercent: -4,
                 ease: 'none',
                 scrollTrigger: {
-                    trigger: hero,
+                    trigger: hero || heroBackdrop,
                     start: 'top top',
                     end: 'bottom top',
-                    scrub: isLiteMotion ? 0.2 : 0.6,
+                    scrub: isLiteMotion ? 0.18 : 0.45,
                 },
-            });
-        }
-
-        if (!isLiteMotion) {
-            heroVideos.forEach((video) => {
-                gsap.set(video, { willChange: 'transform' });
-                gsap.fromTo(video, {
-                    scale: 1.04,
-                }, {
-                    scale: 1.1,
-                    ease: 'none',
-                    scrollTrigger: {
-                        trigger: hero || video,
-                        start: 'top top',
-                        end: 'bottom top',
-                        scrub: 0.65,
-                    },
-                });
-            });
-        } else {
-            heroVideos.forEach((video) => {
-                gsap.set(video, { clearProps: 'transform,willChange' });
             });
         }
 
@@ -1487,237 +1328,137 @@ async function initHomeExperience() {
         }
 
         if (heroVisualStack) {
-            const startScale = isLiteMotion ? 1.26 : 1.9;
             gsap.set(heroVisualStack, {
                 autoAlpha: 0,
                 y: 18,
-                scale: startScale,
-            });
-
-            heroFramePreloadPromise.finally(() => {
-                gsap.to(heroVisualStack, {
-                    autoAlpha: 1,
-                    y: 0,
-                    scale: 1,
-                    duration: isLiteMotion ? 0.75 : 1.15,
-                    ease: 'power4.out',
-                    delay: 0.08,
-                });
+                scale: isLiteMotion ? 1.06 : 1.12,
             });
 
             gsap.to(heroVisualStack, {
-                yPercent: -4,
+                autoAlpha: 1,
+                y: 0,
+                scale: 1,
+                duration: isLiteMotion ? 0.75 : 1,
+                ease: 'power4.out',
+                delay: 0.08,
+            });
+
+            gsap.to(heroVisualStack, {
+                yPercent: -5,
                 ease: 'none',
                 scrollTrigger: {
                     trigger: hero || heroVisualStack,
                     start: 'top top',
                     end: 'bottom top',
-                    scrub: isLiteMotion ? 0.18 : 0.5,
+                    scrub: isLiteMotion ? 0.16 : 0.38,
                 },
             });
         }
 
-        if (heroPlatterShell) {
-            gsap.set(heroPlatterShell, {
+        if (heroOrbitalShell) {
+            gsap.set(heroOrbitalShell, {
                 transformPerspective: 1400,
-                transformOrigin: '50% 55%',
+                transformOrigin: '50% 50%',
                 transformStyle: 'preserve-3d',
             });
 
-            homeHeroTimeline.from(heroPlatterShell, {
+            homeHeroTimeline.from(heroOrbitalShell, {
                 autoAlpha: 0,
-                x: 20,
-                y: 28,
-                duration: 0.58,
-            }, '-=0.55');
+                x: 18,
+                y: 24,
+                scale: 0.94,
+                duration: 0.65,
+            }, '-=0.5');
 
-            const platterMotion = gsap.timeline({
+            gsap.to(heroOrbitalShell, {
+                yPercent: isLiteMotion ? -2 : -6,
+                ease: 'none',
                 scrollTrigger: {
-                    trigger: hero || heroPlatterShell,
+                    trigger: hero || heroOrbitalShell,
                     start: 'top top+=12',
                     end: 'bottom top',
-                    scrub: isLiteMotion ? 0.2 : 0.65,
+                    scrub: isLiteMotion ? 0.16 : 0.42,
                 },
             });
-
-            platterMotion
-                .fromTo(heroPlatterShell, {
-                    xPercent: 0,
-                    yPercent: 0,
-                    z: 0,
-                    scale: 1,
-                }, {
-                    xPercent: 2,
-                    yPercent: -3,
-                    z: 32,
-                    scale: 1.02,
-                    ease: 'none',
-                }, 0)
-                .to(heroPlatterShell, {
-                    xPercent: -2,
-                    yPercent: -8,
-                    z: isLiteMotion ? 20 : 64,
-                    scale: isLiteMotion ? 1.03 : 1.08,
-                    ease: 'none',
-                }, 1);
-
-        if (heroPlatterStage) {
-            gsap.set(heroPlatterStage, {
-                transformOrigin: '50% 52%',
-                transformStyle: 'preserve-3d',
-                force3D: true,
-                    rotationX: 0,
-                    rotationY: 0,
-                    rotationZ: 0,
-                });
-
-            platterMotion
-                .to(heroPlatterStage, {
-                    yPercent: 0,
-                    ease: 'none',
-                }, 0)
-                .to(heroPlatterStage, {
-                    yPercent: -3,
-                    ease: 'none',
-                }, 0.35)
-                .to(heroPlatterStage, {
-                    yPercent: -7,
-                    ease: 'none',
-                }, 0.68)
-                .to(heroPlatterStage, {
-                    yPercent: isLiteMotion ? -5 : -8,
-                    ease: 'none',
-                }, 1);
         }
 
-            if (heroPlatterShadow) {
-                gsap.set(heroPlatterShadow, {
-                    transformOrigin: '50% 50%',
-                });
-
-                platterMotion
-                    .to(heroPlatterShadow, {
-                        scaleX: 0.98,
-                        scaleY: 0.92,
-                        opacity: 0.42,
-                        xPercent: 4,
-                        ease: 'none',
-                    }, 0)
-                    .to(heroPlatterShadow, {
-                        scaleX: 0.78,
-                        scaleY: 0.72,
-                        opacity: 0.28,
-                        xPercent: -5,
-                        ease: 'none',
-                    }, 1);
-            }
-
-            if (heroPlatterGlow) {
-                platterMotion
-                    .to(heroPlatterGlow, {
-                        scale: 1.06,
-                        opacity: 1,
-                        xPercent: 2,
-                        yPercent: -2,
-                        ease: 'none',
-                    }, 0)
-                    .to(heroPlatterGlow, {
-                        scale: 1.12,
-                        opacity: 0.82,
-                        xPercent: -3,
-                        yPercent: -6,
-                        ease: 'none',
-                    }, 1);
-            }
-        }
-
-        if (heroPlatter) {
-            const frameState = { index: 0 };
-            const currentFrame = { index: -1 };
-            const frameImages = new Array(heroPlatterFramesCount);
-            const context = heroPlatter.getContext('2d', { alpha: true });
-            const renderFrame = (index) => {
-                const safeIndex = Math.max(0, Math.min(heroPlatterFramesCount - 1, index));
-                if (safeIndex === currentFrame.index || !heroPlatterFramesBase || !heroPlatterFramesCount || !context) {
-                    return;
-                }
-
-                const frame = frameImages[safeIndex];
-                if (!frame) {
-                    return;
-                }
-
-                currentFrame.index = safeIndex;
-                context.clearRect(0, 0, heroPlatter.width, heroPlatter.height);
-                context.drawImage(frame, 0, 0, heroPlatter.width, heroPlatter.height);
-            };
-
-            gsap.set(heroPlatter, {
+        if (heroImageShell) {
+            gsap.set(heroImageShell, {
                 transformOrigin: '50% 50%',
-                z: 28,
                 force3D: true,
             });
 
-            if (heroPlatterFramesBase && heroPlatterFramesCount) {
-                heroFramePreloadPromise.then((cachedFrames) => {
-                    cachedFrames.forEach((frame, index) => {
-                        if (frame) {
-                            frameImages[index] = frame;
-                        }
-                    });
-
-                    renderFrame(0);
-
-                    gsap.to(frameState, {
-                        index: heroPlatterFramesCount - 1,
-                        ease: 'none',
-                        snap: { index: 1 },
-                        onUpdate: () => {
-                            renderFrame(Math.round(frameState.index));
-                        },
-                        scrollTrigger: {
-                            trigger: hero || heroPlatter,
-                            start: 'top top+=12',
-                            end: 'bottom top',
-                            scrub: isLiteMotion ? 0.06 : 0.12,
-                        },
-                    });
-                });
-            }
-        }
-
-        if (heroRotateDisc) {
-            gsap.to(heroRotateDisc, {
-                rotate: isLiteMotion ? '+=42' : '+=140',
+            gsap.to(heroImageShell, {
+                rotate: isLiteMotion ? 26 : 72,
                 ease: 'none',
                 scrollTrigger: {
-                    trigger: hero || heroRotateDisc,
-                    start: 'top top+=84',
+                    trigger: hero || heroImageShell,
+                    start: 'top top+=24',
                     end: 'bottom top',
-                    scrub: isLiteMotion ? 0.06 : 0.12,
+                    scrub: isLiteMotion ? 0.08 : 0.16,
+                },
+            });
+
+            gsap.to(heroImageShell, {
+                scale: isLiteMotion ? 1.01 : 1.04,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: hero || heroImageShell,
+                    start: 'top top+=24',
+                    end: 'bottom top',
+                    scrub: isLiteMotion ? 0.12 : 0.24,
                 },
             });
         }
 
-        if (heroRotateDiscReverse) {
-            gsap.to(heroRotateDiscReverse, {
-                rotate: isLiteMotion ? '+=20' : '+=70',
+        if (heroImage) {
+            gsap.to(heroImage, {
+                rotate: isLiteMotion ? -8 : -18,
                 ease: 'none',
                 scrollTrigger: {
-                    trigger: hero || heroRotateDiscReverse,
-                    start: 'top top+=84',
+                    trigger: hero || heroImage,
+                    start: 'top top+=24',
                     end: 'bottom top',
-                    scrub: isLiteMotion ? 0.06 : 0.12,
+                    scrub: isLiteMotion ? 0.08 : 0.18,
+                },
+            });
+        }
+
+        heroOrbits.forEach((orbit, index) => {
+            const direction = orbit.dataset.orbitDirection === '-1' ? -1 : 1;
+            const rotationAmount = isLiteMotion ? (18 + (index * 6)) : (52 + (index * 18));
+
+            gsap.to(orbit, {
+                rotate: direction * rotationAmount,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: hero || orbit,
+                    start: 'top top+=24',
+                    end: 'bottom top',
+                    scrub: isLiteMotion ? 0.08 : 0.18,
+                },
+            });
+        });
+
+        if (heroOrbitalGlow) {
+            gsap.to(heroOrbitalGlow, {
+                scale: isLiteMotion ? 1.03 : 1.1,
+                opacity: isLiteMotion ? 0.72 : 0.94,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: hero || heroOrbitalGlow,
+                    start: 'top top+=12',
+                    end: 'bottom top',
+                    scrub: isLiteMotion ? 0.12 : 0.28,
                 },
             });
         }
 
         if (!isLiteMotion) {
-            heroFloatPills.forEach((pill, index) => {
-                gsap.to(pill, {
-                    y: index % 2 === 0 ? -8 : 7,
-                    x: index % 2 === 0 ? -2 : 3,
-                    duration: 2 + (index * 0.35),
+            heroPlanets.forEach((planet, index) => {
+                gsap.to(planet, {
+                    y: index % 2 === 0 ? -6 : 6,
+                    duration: 2.1 + (index * 0.35),
                     ease: 'sine.inOut',
                     repeat: -1,
                     yoyo: true,

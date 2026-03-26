@@ -750,14 +750,14 @@
             inset: 0;
         }
 
-        .hero-signature__video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
+        .hero-signature__media {
+            background:
+                radial-gradient(circle at 82% 22%, rgba(255, 149, 44, 0.2), transparent 26%),
+                radial-gradient(circle at 22% 18%, rgba(219, 29, 48, 0.18), transparent 28%),
+                radial-gradient(circle at 70% 74%, rgba(255, 149, 44, 0.14), transparent 22%),
+                linear-gradient(145deg, #030303 0%, #090909 45%, #130704 100%);
             transform: translateZ(0);
             will-change: transform;
-            backface-visibility: hidden;
         }
 
         .hero-signature__veil {
@@ -814,7 +814,7 @@
 
         .hero-signature__visual {
             position: relative;
-            min-height: clamp(320px, 44vw, 520px);
+            min-height: clamp(360px, 44vw, 560px);
             border-radius: 0;
             border: 0;
             background: transparent;
@@ -826,178 +826,145 @@
             transform-style: preserve-3d;
         }
 
-        .hero-signature__visual::before,
-        .hero-signature__visual::after {
-            content: '';
+        .hero-signature__orbital-shell {
             position: absolute;
-            border-radius: 50%;
-            border: 1px dashed rgba(255, 255, 255, 0.08);
-            pointer-events: none;
-            display: none;
-        }
-
-        .hero-signature__visual::before {
-            width: 240px;
-            height: 240px;
-            right: 1.2rem;
-            top: 1rem;
-        }
-
-        .hero-signature__visual::after {
-            width: 120px;
-            height: 120px;
-            left: 1rem;
-            bottom: 1rem;
-        }
-
-        .hero-signature__platter-shell {
-            position: relative;
-            width: min(100%, 760px);
-            min-height: clamp(320px, 42vw, 500px);
+            width: min(100%, 560px);
+            aspect-ratio: 1;
             display: grid;
             place-items: center;
-            transform-origin: 50% 55%;
+            isolation: isolate;
+            transform-origin: 50% 50%;
             transform-style: preserve-3d;
             will-change: transform;
         }
 
-        .hero-signature__platter-stage {
+        .hero-signature__orbital-glow {
+            position: absolute;
+            inset: 16%;
+            z-index: 0;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle, rgba(255, 149, 44, 0.36) 0%, rgba(219, 29, 48, 0.22) 42%, rgba(0, 0, 0, 0) 72%);
+            filter: blur(34px);
+            opacity: 0.88;
+            pointer-events: none;
+        }
+
+        .hero-signature__orbit {
+            --orbit-size: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: var(--orbit-size);
+            height: var(--orbit-size);
+            border-radius: 50%;
+            border: 1px dashed rgba(255, 255, 255, 0.14);
+            transform: translate(-50%, -50%) rotate(var(--orbit-rotation, 0deg));
+            transform-origin: 50% 50%;
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        .hero-signature__orbit--outer {
+            --orbit-size: 100%;
+            --orbit-rotation: 0deg;
+        }
+
+        .hero-signature__orbit--middle {
+            --orbit-size: 82%;
+            --orbit-rotation: 112deg;
+        }
+
+        .hero-signature__orbit--inner {
+            --orbit-size: 64%;
+            --orbit-rotation: 228deg;
+        }
+
+        .hero-signature__planet {
+            position: absolute;
+            top: -1.35rem;
+            left: 50%;
+            display: grid;
+            justify-items: center;
+            gap: .45rem;
+            transform: translateX(-50%);
+        }
+
+        .hero-signature__planet-core {
+            width: clamp(3.2rem, 6vw, 4rem);
+            height: clamp(3.2rem, 6vw, 4rem);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background:
+                radial-gradient(circle at 28% 28%, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0) 30%),
+                linear-gradient(145deg, rgba(255, 149, 44, 0.18), rgba(219, 29, 48, 0.16)),
+                rgba(10, 10, 10, 0.86);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow:
+                0 12px 26px rgba(0, 0, 0, 0.28),
+                0 0 18px rgba(255, 149, 44, 0.14);
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-signature__planet-core svg {
+            width: 1.35rem;
+            height: 1.35rem;
+            stroke: rgba(255, 255, 255, 0.92);
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 1.7;
+        }
+
+        .hero-signature__planet-label {
+            font: 700 .68rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.74);
+            text-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
+        }
+
+        .hero-signature__image-shell {
             position: relative;
             z-index: 2;
-            width: min(100%, 700px);
-            display: grid;
-            place-items: center;
-            transform-style: preserve-3d;
-            will-change: transform;
-        }
-
-        .hero-signature__platter-stage::before {
-            display: none;
-        }
-
-        .hero-signature__platter-shadow,
-        .hero-signature__platter-glow {
-            position: absolute;
-            left: 12%;
-            right: 12%;
-            bottom: 5%;
+            width: min(100%, 470px);
+            aspect-ratio: 1;
             border-radius: 50%;
-            pointer-events: none;
-            will-change: transform, opacity;
-        }
-
-        .hero-signature__platter-shadow {
-            z-index: 0;
-            height: 14%;
-            background: radial-gradient(circle, rgba(0, 0, 0, 0.52) 0%, rgba(0, 0, 0, 0.32) 34%, rgba(0, 0, 0, 0) 76%);
-            filter: blur(18px);
-            opacity: 0.65;
-            transform: translateY(32%) translateZ(-60px) scaleX(0.88);
-        }
-
-        .hero-signature__platter-glow {
-            z-index: 1;
-            height: 22%;
+            padding: clamp(.45rem, 1.1vw, .65rem);
             background:
-                radial-gradient(circle, rgba(255, 149, 44, 0.34) 0%, rgba(219, 29, 48, 0.18) 38%, rgba(0, 0, 0, 0) 72%);
-            filter: blur(26px);
-            opacity: 0.92;
-            transform: translateY(10%) translateZ(-18px);
-        }
-
-        .hero-signature__platter-frame {
-            position: relative;
-            z-index: 3;
-            width: min(100%, 820px);
-            height: auto;
-            display: block;
-            object-fit: contain;
-            backface-visibility: hidden;
-            transform: translateZ(28px);
-            overflow: hidden;
-            user-select: none;
-            -webkit-user-drag: none;
+                linear-gradient(155deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.03)),
+                rgba(8, 8, 8, 0.78);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow:
+                0 28px 46px rgba(0, 0, 0, 0.34),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
             will-change: transform;
-            filter:
-                drop-shadow(0 30px 44px rgba(0, 0, 0, 0.36))
-                drop-shadow(0 10px 18px rgba(0, 0, 0, 0.18))
-                drop-shadow(0 0 28px rgba(255, 149, 44, 0.08));
-        }
-
-        .hero-signature__disc {
-            position: absolute;
-            border-radius: 50%;
             overflow: hidden;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 16px 34px rgba(0, 0, 0, 0.28);
-            will-change: transform;
-            transform: translateZ(0);
         }
 
-        .hero-signature__disc img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transform: scale(1.04);
-        }
-
-        .hero-signature__disc--main {
-            width: min(360px, 82vw);
-            height: min(360px, 82vw);
-            right: .25rem;
-            top: .35rem;
-        }
-
-        .hero-signature__disc--small {
-            width: min(155px, 40vw);
-            height: min(155px, 40vw);
-            left: .35rem;
-            bottom: .2rem;
-        }
-
-        .hero-signature__disc-ring {
+        .hero-signature__image-shell::after {
+            content: '';
             position: absolute;
-            inset: 6px;
+            inset: 3.2%;
             border-radius: 50%;
             border: 1px solid rgba(255, 255, 255, 0.12);
             pointer-events: none;
         }
 
-        .hero-signature__float-pill {
-            position: absolute;
-            display: inline-flex;
-            align-items: center;
-            gap: .4rem;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(10, 10, 10, 0.78);
-            color: #fff;
-            padding: .35rem .65rem;
-            font: 700 .72rem/1 'Rajdhani', sans-serif;
-            letter-spacing: .08em;
-            text-transform: uppercase;
-            box-shadow: 0 10px 18px rgba(0, 0, 0, 0.2);
-            will-change: transform;
-        }
-
-        .hero-signature__float-pill::before {
-            content: '';
-            width: .4rem;
-            height: .4rem;
+        .hero-signature__hero-image {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            object-position: center;
             border-radius: 50%;
-            background: linear-gradient(180deg, var(--brand-red), var(--brand-orange));
-            box-shadow: 0 0 8px rgba(255, 149, 44, 0.35);
-        }
-
-        .hero-signature__float-pill--one {
-            right: .35rem;
-            bottom: -.15rem;
-        }
-
-        .hero-signature__float-pill--two {
-            left: .25rem;
-            top: .35rem;
+            user-select: none;
+            -webkit-user-drag: none;
+            will-change: transform;
+            transform: scale(1.2);
+            filter:
+                drop-shadow(0 18px 28px rgba(0, 0, 0, 0.24))
+                drop-shadow(0 0 26px rgba(255, 149, 44, 0.12));
         }
 
         body.home-menu-theme .hero-signature__content .badge-brand {
@@ -1281,7 +1248,20 @@
                 linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)),
                 #121212;
             box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
-            padding: clamp(.85rem, 1.8vw, 1.1rem);
+            padding: clamp(.72rem, 1.5vw, .95rem);
+        }
+
+        .dishes-gallery__header {
+            margin-bottom: 0 !important;
+        }
+
+        .dishes-gallery__header .section-accent {
+            font-size: clamp(1.45rem, 2.3vw, 2.1rem);
+        }
+
+        .dishes-gallery__header .section-header-subtitle {
+            max-width: 42rem;
+            font-size: .95rem;
         }
 
         .dishes-gallery__intro-cta {
@@ -1291,7 +1271,7 @@
                 linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,0)),
                 rgba(10,10,10,.55);
             box-shadow: inset 0 0 0 1px rgba(255,255,255,.015);
-            padding: .95rem;
+            padding: .8rem .9rem;
         }
 
         .dishes-gallery__info-kicker,
@@ -1318,7 +1298,7 @@
         .dishes-gallery__stats {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: .85rem;
+            gap: .75rem;
         }
 
         .dishes-gallery__stat-card {
@@ -1328,7 +1308,7 @@
                 linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0)),
                 rgba(10,10,10,.62);
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.16);
-            padding: .8rem .95rem;
+            padding: .68rem .82rem;
         }
 
         .dishes-gallery__stat-label {
@@ -1340,7 +1320,7 @@
 
         .dishes-gallery__stat-value {
             color: #fff;
-            font: 700 clamp(1rem, 1.8vw, 1.24rem)/1.1 'Rajdhani', sans-serif;
+            font: 700 clamp(.94rem, 1.6vw, 1.14rem)/1.1 'Rajdhani', sans-serif;
             letter-spacing: .03em;
         }
 
@@ -1917,10 +1897,16 @@
                 min-height: 320px;
             }
 
-            .hero-signature__platter-shell,
-            .hero-signature__platter-stage,
-            .hero-signature__platter-frame {
-                width: min(100%, 680px);
+            .hero-signature__orbital-shell {
+                width: min(100%, 460px);
+            }
+
+            .hero-signature__image-shell {
+                width: min(100%, 390px);
+            }
+
+            .hero-signature__planet-label {
+                font-size: .62rem;
             }
 
             .home-discovery-story__visual-shell {
@@ -2004,6 +1990,18 @@
             .dishes-gallery__layout > .dish-tile:nth-of-type(n+4):not(.dish-tile--lead) {
                 grid-column: auto;
             }
+
+            .hero-signature__orbital-shell {
+                width: min(100%, 380px);
+            }
+
+            .hero-signature__image-shell {
+                width: min(100%, 320px);
+            }
+
+            .hero-signature__planet-label {
+                display: none;
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -2033,8 +2031,12 @@
                 display: none;
             }
 
-            .hero-signature__float-pill {
+            .hero-signature__orbit,
+            .hero-signature__image-shell,
+            .hero-signature__hero-image,
+            .hero-signature__planet {
                 animation: none !important;
+                transition: none !important;
             }
 
             .home-discovery-story__disc {
@@ -2046,23 +2048,18 @@
             display: none;
         }
 
-        body[data-performance-mode="lite"] .hero-signature__float-pill {
-            display: none;
-        }
-
         body[data-performance-mode="lite"] .hero-signature__visual,
         body[data-performance-mode="lite"] .hero-signature__panel {
             backdrop-filter: none;
         }
 
-        body[data-performance-mode="lite"] .hero-signature__platter-glow {
+        body[data-performance-mode="lite"] .hero-signature__orbital-glow {
             filter: blur(18px);
             opacity: 0.7;
         }
 
-        body[data-performance-mode="lite"] .hero-signature__platter-shadow {
-            filter: blur(12px);
-            opacity: 0.5;
+        body[data-performance-mode="lite"] .hero-signature__planet-label {
+            display: none;
         }
 
         body[data-performance-mode="lite"] .home-featured-slider__visual {

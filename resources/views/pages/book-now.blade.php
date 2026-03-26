@@ -103,20 +103,21 @@
                             <div class="row g-3 mt-1">
                                 <div class="col-12 col-md-4">
                                     <p class="booking-search__label">Date</p>
-                                    <div class="booking-search__control booking-search__control--field" id="bookingSearchDateTrigger" role="button" tabindex="0" aria-label="Select booking date">
+                                    <div class="booking-search__control booking-search__control--field booking-search__control--date">
                                         <input
                                             id="bookingSearchDate"
                                             type="text"
-                                            class="booking-search__control-input"
-                                            value="{{ \Carbon\Carbon::parse($searchDate)->format('d/m/Y') }}"
-                                            placeholder="Select date"
+                                            class="booking-search__control-input booking-search__control-input--date"
+                                            value="{{ $searchDate }}"
+                                            data-min-date="{{ now()->toDateString() }}"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#bookingDateModal"
                                             autocomplete="off"
+                                            placeholder="Select date"
+                                            aria-haspopup="dialog"
                                             readonly
-                                            onfocus="this.click()"
                                         >
-                                        <span class="booking-search__control-icon" aria-hidden="true">
-                                            <i class="fa-regular fa-calendar"></i>
-                                        </span>
+                                        <i class="fa-regular fa-calendar booking-search__control-icon" aria-hidden="true"></i>
                                     </div>
                                 </div>
                                 <div class="col-6 col-md-4">
@@ -271,16 +272,34 @@
         </div>
     </section>
 
-    <div class="modal fade booking-date-modal" id="bookingDateModal" tabindex="-1" aria-labelledby="bookingDateModalTitle" aria-hidden="true">
+    <div class="modal booking-date-modal" id="bookingDateModal" tabindex="-1" aria-labelledby="bookingDateModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content booking-modal-card booking-modal-card--calendar">
-                <div class="booking-modal-head">
-                    <h4 id="bookingDateModalTitle" class="mb-0">Select Date</h4>
-                    <button type="button" class="booking-modal-close" data-close-date-modal data-bs-dismiss="modal" aria-label="Close date picker modal">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="d-flex align-items-start justify-content-between gap-3 mb-3">
+                        <div>
+                            <p class="booking-date-modal__kicker mb-1">Reservation Date</p>
+                            <h3 id="bookingDateModalTitle" class="booking-date-modal__title mb-1">Choose your date</h3>
+                            <p class="booking-date-modal__copy mb-0">Pick a date and we will refresh availability for that day.</p>
+                        </div>
+                        <button type="button" class="booking-modal-close" data-bs-dismiss="modal" aria-label="Close date picker">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+
+                    <div class="booking-date-modal__selection mb-3">
+                        <span class="booking-date-modal__selection-label">Selected date</span>
+                        <strong data-booking-date-preview>{{ \Illuminate\Support\Carbon::parse($searchDate)->format('D, d M Y') }}</strong>
+                    </div>
+
+                    <p class="booking-date-modal__hint mb-3">
+                        Tap any available day below. Your date will be applied instantly.
+                    </p>
+
+                    <div class="booking-date-modal__calendar">
+                        <input id="bookingDateModalInput" type="text" class="booking-date-modal__input" value="{{ $searchDate }}" tabindex="-1" aria-hidden="true">
+                    </div>
                 </div>
-                <div id="bookingDateInlinePicker" class="booking-date-inline-picker"></div>
             </div>
         </div>
     </div>
@@ -306,9 +325,11 @@
 
 @push('styles')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.12.4/build/css/intlTelInput.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
         body.booking-flow-theme {
+            --booking-radius-lg: .45rem;
+            --booking-radius-md: .35rem;
             background:
                 radial-gradient(circle at 86% -12%, rgba(219, 29, 48, 0.22), transparent 42%),
                 radial-gradient(circle at 12% 8%, rgba(255, 149, 44, 0.14), transparent 45%),
@@ -329,7 +350,7 @@
 
         .booking-showcase,
         .booking-panel {
-            border-radius: 1rem;
+            border-radius: var(--booking-radius-lg);
             border: 1px solid rgba(255, 255, 255, 0.08);
             background:
                 linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
@@ -404,7 +425,7 @@
             align-items: flex-start;
             gap: .65rem;
             padding: .8rem .85rem;
-            border-radius: .8rem;
+            border-radius: var(--booking-radius-md);
             border: 1px solid rgba(255, 255, 255, 0.14);
             background: rgba(255, 255, 255, 0.03);
             cursor: pointer;
@@ -442,7 +463,7 @@
         }
 
         .booking-search {
-            border-radius: .95rem;
+            border-radius: var(--booking-radius-lg);
             border: 1px solid rgba(255, 255, 255, 0.12);
             background: rgba(255, 255, 255, 0.02);
             padding: 1rem;
@@ -471,7 +492,7 @@
             border: 1px solid rgba(255, 255, 255, 0.16);
             background: rgba(255, 255, 255, 0.03);
             color: #fff;
-            border-radius: .7rem;
+            border-radius: var(--booking-radius-md);
             display: inline-flex;
             align-items: center;
             justify-content: space-between;
@@ -487,6 +508,11 @@
             overflow: hidden;
         }
 
+        .booking-search__control--date {
+            padding-inline: .85rem;
+            justify-content: flex-start;
+        }
+
         .booking-search__control-input {
             width: 100%;
             min-height: 3rem;
@@ -496,6 +522,18 @@
             padding: .75rem 2.9rem .75rem .9rem;
             font-weight: 500;
             outline: 0;
+        }
+
+        .booking-search__control-input--date {
+            padding: .75rem 0;
+            cursor: pointer;
+            color-scheme: dark;
+        }
+
+        .booking-search__control-input--date::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+            filter: invert(1) brightness(0.9);
+            opacity: .85;
         }
 
         .booking-search__control-input::placeholder {
@@ -578,8 +616,8 @@
             border: 1px solid rgba(255, 255, 255, 0.14);
             background: rgba(255, 255, 255, 0.04);
             color: #fff;
-            border-radius: .75rem;
-            min-height: 4.5rem;
+            border-radius: var(--booking-radius-md);
+            min-height: 4.75rem;
             padding: .65rem;
             display: grid;
             align-content: center;
@@ -622,7 +660,7 @@
 
         .booking-steps span {
             border: 1px solid rgba(255, 255, 255, 0.16);
-            border-radius: .65rem;
+            border-radius: var(--booking-radius-md);
             min-height: 2.35rem;
             display: grid;
             place-items: center;
@@ -668,7 +706,7 @@
         .booking-inline-select {
             width: 100%;
             min-height: 3rem;
-            border-radius: .7rem;
+            border-radius: var(--booking-radius-md);
             padding: .75rem .9rem;
             display: inline-flex;
             align-items: center;
@@ -723,31 +761,11 @@
 
         .booking-modal-card {
             width: min(760px, 100%);
-            border-radius: .9rem;
+            border-radius: var(--booking-radius-lg);
             border: 1px solid rgba(255, 255, 255, 0.15);
             background: linear-gradient(180deg, #111, #161616);
             padding: 1rem;
             color: #fff;
-        }
-
-        .booking-modal-card--calendar {
-            width: min(420px, 100%);
-        }
-
-        .booking-date-modal .modal-dialog {
-            max-width: 420px;
-        }
-
-        .booking-date-modal .modal-content {
-            background: linear-gradient(180deg, #111, #161616);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: .9rem;
-            box-shadow: 0 18px 34px rgba(0, 0, 0, 0.28);
-        }
-
-        .booking-date-modal .modal-backdrop,
-        .booking-date-modal.show {
-            backdrop-filter: blur(4px);
         }
 
         .booking-modal-head {
@@ -777,97 +795,6 @@
             font-weight: 700;
         }
 
-        .datepicker-dropdown {
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            border-radius: .9rem;
-            background: linear-gradient(180deg, #111, #161616);
-            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.34);
-            padding: .55rem;
-            min-width: 280px;
-            z-index: 6000 !important;
-        }
-
-        .datepicker-dropdown::before,
-        .datepicker-dropdown::after {
-            display: none;
-        }
-
-        .datepicker table {
-            width: 100%;
-            color: #fff;
-        }
-
-        .booking-date-inline-picker .datepicker-inline {
-            width: 100%;
-        }
-
-        .booking-date-inline-picker .datepicker {
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        .booking-date-fallback {
-            width: 100%;
-            min-height: 3.2rem;
-            border-radius: .8rem;
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            background: rgba(255, 255, 255, 0.04);
-            color: #fff;
-            padding: .8rem .9rem;
-        }
-
-        .datepicker table tr td,
-        .datepicker table tr th {
-            width: 2.35rem;
-            height: 2.35rem;
-            border-radius: .6rem;
-            border: 0;
-        }
-
-        .datepicker table tr td.day:hover,
-        .datepicker table tr td.focused,
-        .datepicker table tr td.active:hover,
-        .datepicker table tr td.active:focus {
-            background: rgba(255, 149, 44, 0.18);
-            color: #fff;
-        }
-
-        .datepicker table tr td.active,
-        .datepicker table tr td.active.active,
-        .datepicker table tr td span.active,
-        .datepicker table tr td span.active.active {
-            background: linear-gradient(180deg, #ff2332, #ca0817);
-            color: #fff;
-        }
-
-        .datepicker table tr td.today,
-        .datepicker table tr td.today:hover {
-            background: rgba(255, 149, 44, 0.12);
-            color: #fff;
-        }
-
-        .datepicker table tr td.new,
-        .datepicker table tr td.old,
-        .datepicker table tr td.disabled,
-        .datepicker table tr td.disabled:hover {
-            color: rgba(255, 255, 255, 0.34);
-        }
-
-        .datepicker table tr th.dow,
-        .datepicker table tr th.datepicker-switch,
-        .datepicker table tr th.prev,
-        .datepicker table tr th.next {
-            color: rgba(255, 255, 255, 0.92);
-            font-weight: 700;
-        }
-
-        .datepicker .datepicker-switch:hover,
-        .datepicker .next:hover,
-        .datepicker .prev:hover,
-        .datepicker tfoot tr th:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
-
         .booking-occasion-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -878,7 +805,7 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             background: rgba(255, 255, 255, 0.03);
             color: #fff;
-            border-radius: .65rem;
+            border-radius: var(--booking-radius-md);
             min-height: 3.2rem;
             padding: .5rem;
             font-weight: 500;
@@ -907,6 +834,276 @@
             color: rgba(255, 255, 255, 0.66);
         }
 
+        .booking-date-modal .modal-dialog {
+            max-width: 36rem;
+        }
+
+        .booking-date-modal {
+            z-index: 2005;
+        }
+
+        #bookingDateModal ~ .modal-backdrop.show {
+            z-index: 2000;
+        }
+
+        .booking-date-modal .modal-content {
+            border-radius: .45rem;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background:
+                radial-gradient(circle at top right, rgba(255, 149, 44, 0.22), transparent 42%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015)),
+                #0f0f10;
+            box-shadow: 0 36px 92px rgba(0, 0, 0, 0.58);
+            color: #fff;
+        }
+
+        .booking-date-modal .modal-body {
+            padding: 1.35rem;
+        }
+
+        .booking-date-modal .modal-content,
+        .booking-date-modal .modal-body,
+        .booking-date-modal .booking-date-modal__calendar,
+        .booking-date-modal .flatpickr-calendar.booking-calendar,
+        .booking-date-modal .flatpickr-day {
+            pointer-events: auto;
+        }
+
+        .booking-date-modal__kicker {
+            color: rgba(255, 255, 255, 0.56);
+            font-size: .74rem;
+            font-weight: 700;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+        }
+
+        .booking-date-modal__title {
+            color: #fff;
+            font-size: 1.35rem;
+            font-weight: 700;
+        }
+
+        .booking-date-modal__copy {
+            color: rgba(255, 255, 255, 0.68);
+            font-size: .94rem;
+        }
+
+        .booking-date-modal__selection {
+            min-height: 4rem;
+            border-radius: .35rem;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: linear-gradient(180deg, rgba(255, 149, 44, 0.12), rgba(255, 255, 255, 0.04));
+            color: #fff;
+            display: grid;
+            gap: .2rem;
+            align-content: center;
+            padding: .75rem .95rem;
+        }
+
+        .booking-date-modal__selection-label {
+            color: rgba(255, 255, 255, 0.58);
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        .booking-date-modal__selection strong {
+            color: #fff;
+            font-size: 1.08rem;
+            font-weight: 800;
+            letter-spacing: .02em;
+        }
+
+        .booking-date-modal__hint {
+            color: rgba(255, 255, 255, 0.72);
+            font-size: .88rem;
+        }
+
+        .booking-date-modal__calendar {
+            position: relative;
+            padding: 1rem;
+            border-radius: .4rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015)),
+                #0a0a0a;
+        }
+
+        .booking-date-modal__input {
+            position: absolute;
+            inset: 0;
+            width: 0;
+            height: 0;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .flatpickr-calendar.booking-calendar {
+            --booking-calendar-width: 24.5rem;
+            width: var(--booking-calendar-width);
+            padding: .95rem;
+            border-radius: .45rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background:
+                radial-gradient(circle at top right, rgba(255, 149, 44, 0.14), transparent 38%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01)),
+                #111;
+            box-shadow: 0 26px 54px rgba(0, 0, 0, 0.42);
+        }
+
+        .booking-date-modal .flatpickr-calendar.booking-calendar {
+            --booking-calendar-width: 100%;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            box-shadow: none;
+            margin: 0 auto;
+        }
+
+        .flatpickr-calendar.booking-calendar::before,
+        .flatpickr-calendar.booking-calendar::after {
+            display: none;
+        }
+
+        .flatpickr-calendar.booking-calendar.open,
+        .flatpickr-calendar.booking-calendar.inline {
+            display: block;
+        }
+
+        .flatpickr-calendar.booking-calendar .flatpickr-months {
+            align-items: center;
+            gap: .45rem;
+            margin-bottom: .85rem;
+        }
+
+        .flatpickr-calendar.booking-calendar .flatpickr-month {
+            height: 3rem;
+        }
+
+        .flatpickr-calendar.booking-calendar .flatpickr-current-month {
+            height: 3rem;
+            padding-top: .5rem;
+            color: #fff;
+            font-size: 1.06rem;
+            font-weight: 700;
+        }
+
+        .flatpickr-calendar.booking-calendar .flatpickr-current-month .cur-month,
+        .flatpickr-calendar.booking-calendar .flatpickr-current-month input.cur-year {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .flatpickr-calendar.booking-calendar .numInputWrapper:hover,
+        .flatpickr-calendar.booking-calendar .flatpickr-current-month .flatpickr-monthDropdown-months:hover {
+            background: transparent;
+        }
+
+        .flatpickr-calendar.booking-calendar .flatpickr-prev-month,
+        .flatpickr-calendar.booking-calendar .flatpickr-next-month {
+            top: .95rem;
+            width: 2.3rem;
+            height: 2.3rem;
+            padding: 0;
+            border-radius: .35rem;
+            color: rgba(255, 255, 255, 0.86);
+            display: grid;
+            place-items: center;
+        }
+
+        .flatpickr-calendar.booking-calendar .flatpickr-prev-month:hover,
+        .flatpickr-calendar.booking-calendar .flatpickr-next-month:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+        }
+
+        .flatpickr-calendar.booking-calendar .flatpickr-prev-month svg,
+        .flatpickr-calendar.booking-calendar .flatpickr-next-month svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        .flatpickr-calendar.booking-calendar .flatpickr-weekdays {
+            height: auto;
+            margin-bottom: .45rem;
+        }
+
+        .flatpickr-calendar.booking-calendar .flatpickr-weekdaycontainer,
+        .flatpickr-calendar.booking-calendar .flatpickr-rContainer,
+        .flatpickr-calendar.booking-calendar .flatpickr-days,
+        .flatpickr-calendar.booking-calendar .dayContainer {
+            width: 100%;
+            min-width: 100%;
+            max-width: 100%;
+        }
+
+        .flatpickr-calendar.booking-calendar span.flatpickr-weekday {
+            height: 2.35rem;
+            line-height: 2.35rem;
+            color: rgba(255, 255, 255, 0.68);
+            font-size: .76rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .flatpickr-calendar.booking-calendar .dayContainer {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: .28rem 0;
+        }
+
+        .flatpickr-calendar.booking-calendar .flatpickr-day {
+            width: 3rem;
+            max-width: 3rem;
+            height: 3rem;
+            line-height: 3rem;
+            margin: 0 auto;
+            border-radius: .35rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.94);
+            font-size: .95rem;
+            font-weight: 600;
+        }
+
+        .flatpickr-calendar.booking-calendar .flatpickr-day:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.14);
+        }
+
+        .flatpickr-calendar.booking-calendar .flatpickr-day.today {
+            border-color: rgba(255, 149, 44, 0.48);
+        }
+
+        .flatpickr-calendar.booking-calendar .flatpickr-day.selected,
+        .flatpickr-calendar.booking-calendar .flatpickr-day.startRange,
+        .flatpickr-calendar.booking-calendar .flatpickr-day.endRange {
+            background: linear-gradient(180deg, rgba(255, 149, 44, 0.92), rgba(219, 29, 48, 0.92));
+            border-color: rgba(255, 149, 44, 0.72);
+            color: #fff;
+            box-shadow: 0 10px 24px rgba(219, 29, 48, 0.22);
+        }
+
+        .flatpickr-calendar.booking-calendar .flatpickr-day.inRange {
+            background: rgba(255, 149, 44, 0.18);
+            border-color: transparent;
+            box-shadow: none;
+        }
+
+        .flatpickr-calendar.booking-calendar .flatpickr-day.prevMonthDay,
+        .flatpickr-calendar.booking-calendar .flatpickr-day.nextMonthDay,
+        .flatpickr-calendar.booking-calendar .flatpickr-day.flatpickr-disabled {
+            color: rgba(255, 255, 255, 0.24);
+        }
+
+        .flatpickr-calendar.booking-calendar .flatpickr-day.flatpickr-disabled:hover,
+        .flatpickr-calendar.booking-calendar .flatpickr-day.prevMonthDay:hover,
+        .flatpickr-calendar.booking-calendar .flatpickr-day.nextMonthDay:hover {
+            background: transparent;
+            border-color: transparent;
+        }
+
         @media (max-width: 991.98px) {
             .booking-slot {
                 min-height: 4rem;
@@ -920,6 +1117,31 @@
         }
 
         @media (max-width: 575.98px) {
+            .booking-date-modal .modal-dialog {
+                max-width: calc(100vw - 1rem);
+                margin-inline: auto;
+            }
+
+            .booking-date-modal .modal-body {
+                padding: 1rem;
+            }
+
+            .booking-date-modal__calendar {
+                padding: .8rem;
+            }
+
+            .flatpickr-calendar.booking-calendar {
+                --booking-calendar-width: min(100vw - 1.5rem, 21rem);
+                padding: .75rem;
+            }
+
+            .flatpickr-calendar.booking-calendar .flatpickr-day {
+                width: 2.55rem;
+                max-width: 2.55rem;
+                height: 2.55rem;
+                line-height: 2.55rem;
+            }
+
             .booking-slots__grid,
             .booking-mode-grid,
             .booking-steps,
@@ -931,10 +1153,8 @@
 @endpush
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.12.4/build/js/intlTelInput.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         (() => {
             const root = document.querySelector('[data-booking-flow]');
@@ -961,7 +1181,6 @@
             const eventTimeGroup = root.querySelector('[data-event-time-group]');
             const eventTimeInput = root.querySelector('[data-event-time-input]');
             const bookingSearchDateInput = document.getElementById('bookingSearchDate');
-            const bookingSearchDateTrigger = document.getElementById('bookingSearchDateTrigger');
             const bookingSearchPersonsInput = document.getElementById('bookingSearchPersons');
             const bookingSearchTimeInput = document.getElementById('bookingSearchTime');
             const slotsSection = root.querySelector('[data-step-slots]');
@@ -969,10 +1188,10 @@
             const paymentSection = root.querySelector('[data-step-payment]');
             const submitButton = root.querySelector('[data-step-submit]');
             const openPaymentStepButton = root.querySelector('[data-open-payment-step]');
-
-            const dateModal = document.getElementById('bookingDateModal');
-            const closeDateModalButton = dateModal?.querySelector('[data-close-date-modal]') || null;
-            const dateInlinePicker = document.getElementById('bookingDateInlinePicker');
+            const bookingDateModalElement = document.getElementById('bookingDateModal');
+            const bookingDateModalInput = document.getElementById('bookingDateModalInput');
+            const bookingDatePreview = document.querySelector('[data-booking-date-preview]');
+            const bookingDateModalCloseButton = bookingDateModalElement?.querySelector('[data-bs-dismiss="modal"]');
             const occasionModal = document.getElementById('occasionModal');
             const openOccasionModalButton = document.getElementById('openOccasionModal');
             const closeOccasionModalButtons = occasionModal?.querySelectorAll('[data-close-occasion-modal]') || [];
@@ -986,48 +1205,16 @@
             const getBookingType = () => bookingTypeInputs.find((input) => input.checked)?.value || 'table';
             let availabilityChecked = false;
             let availabilityAbortController = null;
-            let datepickerReady = false;
-            let fallbackDateInput = null;
-            let dateModalInstance = null;
+            let availabilityRefreshTimer = null;
+            let bookingDatePicker = null;
 
-            [occasionModal, dateModal].forEach((modal) => {
-                if (modal && modal.parentElement !== document.body) {
-                    document.body.appendChild(modal);
-                }
-            });
-
-            if (dateModal && window.bootstrap?.Modal) {
-                dateModalInstance = window.bootstrap.Modal.getOrCreateInstance(dateModal, {
-                    backdrop: true,
-                    focus: true,
-                });
+            if (bookingDateModalElement && bookingDateModalElement.parentElement !== document.body) {
+                document.body.appendChild(bookingDateModalElement);
             }
 
-            const formatDateForDisplay = (dateValue) => {
-                if (!dateValue) {
-                    return '';
-                }
-
-                const [year, month, day] = dateValue.split('-');
-
-                if (!year || !month || !day) {
-                    return dateValue;
-                }
-
-                return `${day}/${month}/${year}`;
-            };
-
-            const formatDateForStorage = (date) => {
-                if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
-                    return '';
-                }
-
-                const year = date.getFullYear();
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const day = String(date.getDate()).padStart(2, '0');
-
-                return `${year}-${month}-${day}`;
-            };
+            if (occasionModal && occasionModal.parentElement !== document.body) {
+                document.body.appendChild(occasionModal);
+            }
 
             const setStepVisible = (element, shouldShow) => {
                 if (!element) {
@@ -1096,9 +1283,52 @@
                 }
             };
 
+            const queueAvailabilityRefresh = () => {
+                if (!availabilityUrl) {
+                    return;
+                }
+
+                window.clearTimeout(availabilityRefreshTimer);
+                availabilityRefreshTimer = window.setTimeout(() => {
+                    refreshAvailability();
+                }, 180);
+            };
+
+            const formatSelectedDate = (dateValue) => {
+                if (!dateValue) {
+                    return 'Select your reservation date';
+                }
+
+                const parsedDate = new Date(`${dateValue}T00:00:00`);
+
+                if (Number.isNaN(parsedDate.getTime())) {
+                    return dateValue;
+                }
+
+                return new Intl.DateTimeFormat('en-GB', {
+                    weekday: 'short',
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                }).format(parsedDate);
+            };
+
+            const updateDatePreview = (dateValue = '') => {
+                if (bookingDatePreview) {
+                    bookingDatePreview.textContent = formatSelectedDate(dateValue);
+                }
+            };
+
             const syncSearchControls = () => {
                 if (bookingSearchDateInput) {
-                    bookingSearchDateInput.value = formatDateForDisplay(bookingDateInput.value);
+                    const selectedDate = bookingDateInput.value || '';
+
+                    if (bookingDatePicker) {
+                        bookingDatePicker.setDate(selectedDate, false, 'Y-m-d');
+                    }
+
+                    bookingSearchDateInput.value = selectedDate;
+                    updateDatePreview(selectedDate);
                 }
 
                 if (bookingSearchPersonsInput) {
@@ -1111,9 +1341,14 @@
             };
 
             const markFiltersDirty = () => {
+                const shouldRefresh = availabilityChecked;
                 availabilityChecked = false;
                 resetSlotSelection();
                 resetAfterSearch();
+
+                if (shouldRefresh) {
+                    queueAvailabilityRefresh();
+                }
             };
 
             const syncSelectedDate = (nextDate) => {
@@ -1124,35 +1359,17 @@
                 bookingDateInput.value = nextDate;
                 syncSearchControls();
                 markFiltersDirty();
-                dateModalInstance?.hide();
             };
 
-            const openDateModal = () => {
-                if (dateModalInstance) {
-                    dateModalInstance.show();
-                    return;
+            const openBookingDateModal = () => {
+                const selectedDate = bookingDateInput.value || bookingSearchDateInput?.value || '';
+
+                if (bookingDatePicker) {
+                    bookingDatePicker.setDate(selectedDate, false, 'Y-m-d');
+                    bookingDatePicker.jumpToDate(selectedDate || bookingSearchDateInput?.dataset.minDate || 'today');
                 }
 
-                if (dateModal) {
-                    dateModal.classList.add('show');
-                    dateModal.style.display = 'block';
-                    dateModal.removeAttribute('aria-hidden');
-                    document.body.classList.add('modal-open');
-                }
-            };
-
-            const closeDateModal = () => {
-                if (dateModalInstance) {
-                    dateModalInstance.hide();
-                    return;
-                }
-
-                if (dateModal) {
-                    dateModal.classList.remove('show');
-                    dateModal.style.display = 'none';
-                    dateModal.setAttribute('aria-hidden', 'true');
-                    document.body.classList.remove('modal-open');
-                }
+                updateDatePreview(selectedDate);
             };
 
             const resetSlotSelection = () => {
@@ -1312,72 +1529,16 @@
                 cardCheckoutNote?.classList.toggle('d-none', selectedPayment !== 'card_on_confirmation');
             };
 
-            dateModal?.addEventListener('show.bs.modal', () => {
-                if (datepickerReady && dateInlinePicker && window.jQuery?.fn?.datepicker) {
-                    window.jQuery(dateInlinePicker).datepicker('setDate', bookingSearchDateInput?.value || formatDateForDisplay(bookingDateInput.value));
-                }
-
-                if (fallbackDateInput) {
-                    fallbackDateInput.value = bookingDateInput.value || '{{ now()->toDateString() }}';
-                }
+            bookingSearchDateInput?.addEventListener('click', (event) => {
+                openBookingDateModal();
             });
 
-            dateModal?.addEventListener('click', (event) => {
-                if (event.target === dateModal) {
-                    closeDateModal();
+            bookingSearchDateInput?.addEventListener('keydown', (event) => {
+                if (['Enter', ' ', 'Spacebar', 'ArrowDown'].includes(event.key)) {
+                    event.preventDefault();
+                    openBookingDateModal();
+                    bookingSearchDateInput.click();
                 }
-            });
-
-            closeDateModalButton?.addEventListener('click', () => {
-                closeDateModal();
-            });
-
-            if (dateInlinePicker) {
-                if (window.jQuery?.fn?.datepicker) {
-                    try {
-                        window.jQuery(dateInlinePicker)
-                            .datepicker({
-                                todayHighlight: true,
-                                format: 'dd/mm/yyyy',
-                                startDate: '{{ now()->format('d/m/Y') }}',
-                                keyboardNavigation: false,
-                            })
-                            .on('changeDate', (event) => {
-                                syncSelectedDate(formatDateForStorage(event.date));
-                            });
-
-                        datepickerReady = true;
-                    } catch (error) {
-                        console.error('Booking datepicker failed to initialize.', error);
-                    }
-                }
-
-                if (!datepickerReady) {
-                    dateInlinePicker.innerHTML = `<input type="date" class="booking-date-fallback" min="{{ now()->toDateString() }}" value="${bookingDateInput.value || '{{ now()->toDateString() }}'}">`;
-
-                    fallbackDateInput = dateInlinePicker.querySelector('.booking-date-fallback');
-                    fallbackDateInput?.addEventListener('change', () => {
-                        syncSelectedDate(fallbackDateInput.value || '');
-                    });
-                }
-            }
-
-            bookingSearchDateTrigger?.addEventListener('click', (event) => {
-                event.preventDefault();
-                openDateModal();
-            });
-
-            bookingSearchDateTrigger?.addEventListener('keydown', (event) => {
-                if (event.key !== 'Enter' && event.key !== ' ') {
-                    return;
-                }
-
-                event.preventDefault();
-                openDateModal();
-            });
-
-            bookingSearchDateInput?.addEventListener('focus', () => {
-                openDateModal();
             });
 
             bookingSearchPersonsInput?.addEventListener('change', () => {
@@ -1388,6 +1549,10 @@
             bookingSearchTimeInput?.addEventListener('change', () => {
                 bookingTimeFilterInput.value = bookingSearchTimeInput.value || 'all';
                 markFiltersDirty();
+            });
+
+            bookingDateModalElement?.addEventListener('show.bs.modal', () => {
+                openBookingDateModal();
             });
 
             openOccasionModalButton?.addEventListener('click', () => showModal(occasionModal));
@@ -1447,6 +1612,32 @@
 
             const phoneInput = document.getElementById('phone_display');
             let iti = null;
+            if (bookingDateModalInput && window.flatpickr) {
+                bookingDatePicker = window.flatpickr(bookingDateModalInput, {
+                    altInput: false,
+                    allowInput: false,
+                    dateFormat: 'Y-m-d',
+                    defaultDate: bookingDateInput.value || bookingDateModalInput.value || null,
+                    disableMobile: true,
+                    minDate: bookingSearchDateInput.dataset.minDate || 'today',
+                    inline: true,
+                    monthSelectorType: 'static',
+                    nextArrow: '<svg aria-hidden="true" viewBox="0 0 17 17"><path d="M6.41 3.59 11.32 8.5l-4.91 4.91 1.18 1.18L13.68 8.5 7.59 2.41 6.41 3.59Z"></path></svg>',
+                    prevArrow: '<svg aria-hidden="true" viewBox="0 0 17 17"><path d="m10.59 13.41-4.91-4.91 4.91-4.91-1.18-1.18L3.32 8.5l6.09 6.09 1.18-1.18Z"></path></svg>',
+                    onChange: (_, dateString) => {
+                        syncSelectedDate(dateString);
+                        updateDatePreview(dateString);
+                        window.setTimeout(() => {
+                            bookingDateModalCloseButton?.click();
+                        }, 80);
+                    },
+                    onReady: (_, __, instance) => {
+                        instance.calendarContainer.classList.add('booking-calendar');
+                        updateDatePreview(bookingDateInput.value || bookingDateModalInput.value || '');
+                    },
+                });
+            }
+
             if (phoneInput && window.intlTelInput) {
                 iti = window.intlTelInput(phoneInput, {
                     initialCountry: 'it',

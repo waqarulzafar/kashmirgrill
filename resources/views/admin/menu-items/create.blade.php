@@ -1,20 +1,29 @@
 @extends('admin.layout')
 
 @section('admin_title', 'Create Menu Item')
+@section('admin_description', 'Add a new dish with pricing, tags, imagery, and availability details ready for the live ordering flow.')
+
+@section('admin_actions')
+    <a href="{{ route('admin.menu-items.index') }}" class="btn btn-light">Back to Menu Items</a>
+@endsection
 
 @section('admin_content')
-    <div class="card border-0 shadow-sm rounded-4">
-        <div class="card-body p-4">
-            <h2 class="h5 mb-3">New Menu Item</h2>
-
+    <div class="card admin-panel">
+        <div class="admin-panel-head">
+            <div>
+                <h3 class="admin-panel-title">New Menu Item</h3>
+                <p class="admin-panel-copy">Create a customer-facing dish record with the right operational metadata from the start.</p>
+            </div>
+        </div>
+        <div class="admin-panel-body pt-4">
             @if($categories->isEmpty())
-                <div class="alert alert-warning">
+                <div class="alert alert-warning admin-alert">
                     Create at least one category before adding menu items.
                     <a href="{{ route('admin.menu-categories.create') }}" class="alert-link">Add category</a>
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('admin.menu-items.store') }}" enctype="multipart/form-data" class="row g-3">
+            <form method="POST" action="{{ route('admin.menu-items.store') }}" enctype="multipart/form-data" class="row g-4">
                 @csrf
                 <div class="col-12 col-lg-6">
                     <label for="menu_category_id" class="form-label">Category</label>
@@ -53,7 +62,7 @@
                     </div>
                 </div>
                 <div class="col-12 d-flex gap-2">
-                    <button type="submit" class="btn btn-brand" @disabled($categories->isEmpty())>Save Menu Item</button>
+                    <button type="submit" class="btn btn-primary" @disabled($categories->isEmpty())>Save Menu Item</button>
                     <a href="{{ route('admin.menu-items.index') }}" class="btn btn-light">Cancel</a>
                 </div>
             </form>

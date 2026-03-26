@@ -96,6 +96,33 @@
                     </div>
 
                     <div class="menu-item">
+                        <a class="menu-link {{ request()->routeIs('admin.bookings.*') ? 'active' : '' }}" href="{{ route('admin.bookings.index') }}">
+                            <span class="menu-icon">
+                                <i class="ki-duotone ki-calendar-8 fs-2">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                    <span class="path3"></span>
+                                </i>
+                            </span>
+                            <span class="menu-title">Bookings</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}" href="{{ route('admin.orders.index') }}">
+                            <span class="menu-icon">
+                                <i class="ki-duotone ki-delivery-24 fs-2">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                    <span class="path3"></span>
+                                    <span class="path4"></span>
+                                </i>
+                            </span>
+                            <span class="menu-title">Orders</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item">
                         <a class="menu-link {{ request()->routeIs('admin.profile.*') ? 'active' : '' }}" href="{{ route('admin.profile.edit') }}">
                             <span class="menu-icon">
                                 <i class="ki-duotone ki-user fs-2">

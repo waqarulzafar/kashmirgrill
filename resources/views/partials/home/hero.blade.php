@@ -1,18 +1,5 @@
 <section class="hero-signature position-relative overflow-hidden" data-home-hero data-no-reveal>
-    <div class="hero-signature__media" aria-hidden="true">
-        <video
-            class="hero-signature__video"
-            data-home-hero-video
-            data-home-hero-video-desktop="{{ asset('assets/videos/kashmir-hero-desktop.mp4') }}"
-            data-home-hero-video-mobile="{{ asset('assets/videos/kashmir-hero-mobile.mp4') }}"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="metadata"
-            poster="{{ asset('assets/images/hero/kashmir-hero-poster.jpg') }}"
-        ></video>
-    </div>
+    <div class="hero-signature__media" aria-hidden="true" data-home-hero-backdrop></div>
 
     <div class="hero-signature__veil" data-home-hero-veil></div>
     <div class="hero-signature__embers" aria-hidden="true">
@@ -39,24 +26,58 @@
             <div class="col-12 col-xl-5">
                 <div class="hero-signature__aside" data-home-hero-aside>
                     <div class="hero-signature__visual" data-home-hero-visual-stack>
-                        <div class="hero-signature__platter-shell" data-home-hero-platter-shell>
-                            <span class="hero-signature__platter-shadow" aria-hidden="true" data-home-hero-platter-shadow></span>
-                            <span class="hero-signature__platter-glow" aria-hidden="true" data-home-hero-platter-glow></span>
-                            <div class="hero-signature__platter-stage" data-home-hero-platter-stage>
-                                <canvas
-                                    class="hero-signature__platter-frame"
-                                    width="620"
-                                    height="620"
-                                    role="img"
-                                    aria-label="Kashmir Grill House menu platter selection"
-                                    data-home-hero-platter
-                                    data-home-hero-frames-base="{{ asset('assets/images/hero/pranzo-scroll-frames') }}"
-                                    data-home-hero-frames-count="60"
-                                ></canvas>
+                        <div class="hero-signature__orbital-shell" data-home-hero-orbital-shell>
+                            <span class="hero-signature__orbital-glow" aria-hidden="true"></span>
+
+                            <div class="hero-signature__orbit hero-signature__orbit--outer" data-home-hero-orbit data-orbit-direction="1">
+                                <span class="hero-signature__planet" data-home-hero-planet>
+                                    <span class="hero-signature__planet-core" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                            <path d="M6 12h12M12 6v12M8 8l8 8M16 8l-8 8" />
+                                        </svg>
+                                    </span>
+                                    <span class="hero-signature__planet-label">Signature</span>
+                                </span>
+                            </div>
+
+                            <div class="hero-signature__orbit hero-signature__orbit--middle" data-home-hero-orbit data-orbit-direction="-1">
+                                <span class="hero-signature__planet" data-home-hero-planet>
+                                    <span class="hero-signature__planet-core" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                            <path d="M12 3c2.4 2.2 3.6 4.2 3.6 6.2A3.6 3.6 0 1 1 8.4 9.2C8.4 7.2 9.6 5.2 12 3Z" />
+                                            <path d="M12 13.2c-1.9 0-3.4 1.5-3.4 3.4S10.1 20 12 20s3.4-1.5 3.4-3.4" />
+                                        </svg>
+                                    </span>
+                                    <span class="hero-signature__planet-label">Charcoal</span>
+                                </span>
+                            </div>
+
+                            <div class="hero-signature__orbit hero-signature__orbit--inner" data-home-hero-orbit data-orbit-direction="1">
+                                <span class="hero-signature__planet" data-home-hero-planet>
+                                    <span class="hero-signature__planet-core" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                            <path d="M12 4.5a4 4 0 0 0-4 4V10a4 4 0 0 0 8 0V8.5a4 4 0 0 0-4-4Z" />
+                                            <path d="M6.5 12.5c1.8 4.7 9.2 4.7 11 0" />
+                                            <path d="M8.4 17.3 7 20m8.6-2.7L17 20" />
+                                        </svg>
+                                    </span>
+                                    <span class="hero-signature__planet-label">Halal</span>
+                                </span>
+                            </div>
+
+                            <div class="hero-signature__image-shell" data-home-hero-image-shell>
+                                <img
+                                    class="hero-signature__hero-image"
+                                    src="{{ asset('images/hero-right-image.png') }}"
+                                    alt="Kashmir Grill House mixed grill platter"
+                                    width="686"
+                                    height="686"
+                                    loading="eager"
+                                    decoding="async"
+                                    data-home-hero-image
+                                >
                             </div>
                         </div>
-                        <span class="hero-signature__float-pill hero-signature__float-pill--one" data-home-float-pill>Chef Special</span>
-                        <span class="hero-signature__float-pill hero-signature__float-pill--two" data-home-float-pill>Fresh Tandoor</span>
                     </div>
                 </div>
             </div>

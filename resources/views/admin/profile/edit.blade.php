@@ -1,13 +1,21 @@
 @extends('admin.layout')
 
 @section('admin_title', 'My Profile')
+@section('admin_description', 'Maintain the admin identity and credentials used to access the restaurant control panel.')
+
+@section('admin_actions')
+    <a href="{{ route('admin.dashboard') }}" class="btn btn-light">Back to Dashboard</a>
+@endsection
 
 @section('admin_content')
-    <div class="card border-0 shadow-sm">
-        <div class="card-header border-0 pt-6">
-            <h2 class="card-title fw-bold mb-0">Update Profile</h2>
+    <div class="card admin-panel">
+        <div class="admin-panel-head">
+            <div>
+                <h3 class="admin-panel-title">Update Profile</h3>
+                <p class="admin-panel-copy">Change your admin details and rotate your password when you need to refresh credentials securely.</p>
+            </div>
         </div>
-        <div class="card-body pt-0">
+        <div class="admin-panel-body pt-4">
             <form method="POST" action="{{ route('admin.profile.update') }}" class="row g-5">
                 @csrf
                 @method('PUT')

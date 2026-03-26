@@ -3,7 +3,7 @@
     $submitLabel = $submitLabel ?? 'Save Slot';
 @endphp
 
-<div class="row g-3">
+<div class="row g-4">
     <div class="col-12 col-md-6">
         <label class="form-label" for="name">Slot Name</label>
         <input id="name" name="name" type="text" class="form-control" value="{{ old('name', $slot?->name) }}" placeholder="Dinner Prime Seating" required>
@@ -38,7 +38,7 @@
     </div>
 
     <div class="col-12 d-flex flex-wrap gap-2">
-        <button type="submit" class="btn btn-brand">{{ $submitLabel }}</button>
-        <a href="{{ route('admin.dine-in-slots.index') }}" class="btn btn-outline-light">Cancel</a>
+        <button type="submit" class="btn btn-primary">{{ $submitLabel }}</button>
+        <a href="{{ route('admin.dine-in-slots.index') }}" class="btn btn-light">Cancel</a>
     </div>
 </div>

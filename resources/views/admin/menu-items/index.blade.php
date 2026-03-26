@@ -1,17 +1,23 @@
 @extends('admin.layout')
 
 @section('admin_title', 'Manage Menu Items')
+@section('admin_description', 'Control dish presentation, pricing, imagery, and live availability from one consistent catalog view.')
+
+@section('admin_actions')
+    <a href="{{ route('admin.menu-items.create') }}" class="btn btn-primary">Add Menu Item</a>
+@endsection
 
 @section('admin_content')
-    <div class="card border-0 shadow-sm rounded-4">
-        <div class="card-body p-4">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h2 class="h5 mb-0">Menu Items</h2>
-                <a href="{{ route('admin.menu-items.create') }}" class="btn btn-brand btn-sm">Add Item</a>
+    <div class="card admin-panel">
+        <div class="admin-panel-head">
+            <div>
+                <h3 class="admin-panel-title">Menu Catalog</h3>
+                <p class="admin-panel-copy">Review how each item appears operationally before it reaches the public menu and checkout flow.</p>
             </div>
-
+        </div>
+        <div class="admin-panel-body pt-4">
             <div class="table-responsive">
-                <table class="table align-middle">
+                <table class="table align-middle admin-table">
                     <thead>
                         <tr>
                             <th>Image</th>
@@ -27,7 +33,7 @@
                             <tr>
                                 <td style="width: 90px;">
                                     @if($item->image_path)
-                                        <img src="{{ $item->imageUrl() }}" alt="{{ $item->name }}" class="img-fluid rounded" loading="lazy">
+                                        <img src="{{ $item->imageUrl() }}" alt="{{ $item->name }}" class="admin-media-thumb" loading="lazy">
                                     @else
                                         <span class="badge text-bg-light">No Image</span>
                                     @endif
@@ -39,7 +45,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $item->category?->name ?? '-' }}</td>
-                                <td>£{{ number_format((float) $item->price, 2) }}</td>
+                                <td>EUR {{ number_format((float) $item->price, 2) }}</td>
                                 <td>
                                     @if($item->is_available)
                                         <span class="badge text-bg-success">Available</span>
@@ -48,13 +54,13 @@
                                     @endif
                                 </td>
                                 <td class="text-end">
-                                    <a href="{{ route('admin.menu-items.edit', $item) }}" class="btn btn-outline-secondary btn-sm">Edit</a>
-                                    <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete-item-{{ $item->id }}">Delete</button>
+                                    <a href="{{ route('admin.menu-items.edit', $item) }}" class="btn btn-light btn-sm">Edit</a>
+                                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete-item-{{ $item->id }}">Delete</button>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="text-center text-secondary py-4">No menu items yet.</td>
+                                <td colspan="6" class="admin-empty">No menu items yet.</td>
                             </tr>
                         @endforelse
                     </tbody>

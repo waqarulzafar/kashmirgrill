@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminProfileController;
+use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\DineInSlotController;
 use App\Http\Controllers\Admin\MenuCategoryController;
 use App\Http\Controllers\Admin\MenuItemController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
@@ -46,7 +48,7 @@ Route::get('/checkout/payment/paypal/cancel/{order}', [CheckoutController::class
 Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('/checkout/slots', [CheckoutController::class, 'slots'])->name('checkout.slots');
 
-Route::middleware('auth')
+Route::middleware(['auth', 'admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
@@ -65,4 +67,12 @@ Route::middleware('auth')
 
         Route::resource('dine-in-slots', DineInSlotController::class)
             ->except(['show']);
+
+        Route::get('bookings', [AdminBookingController::class, 'index'])->name('bookings.index');
+        Route::get('bookings/{booking}', [AdminBookingController::class, 'show'])->name('bookings.show');
+        Route::patch('bookings/{booking}', [AdminBookingController::class, 'update'])->name('bookings.update');
+
+        Route::get('orders', [AdminOrderController::class, 'index'])->name('orders.index');
+        Route::get('orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
+        Route::patch('orders/{order}', [AdminOrderController::class, 'update'])->name('orders.update');
     });

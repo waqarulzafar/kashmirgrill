@@ -243,8 +243,286 @@
         html[data-bs-theme="dark"] body.app-default .app-footer {
             background: rgba(0, 0, 0, 0.24);
         }
+
+        body.app-default .admin-shell {
+            padding-top: 1.25rem;
+            padding-bottom: 2rem;
+        }
+
+        @media (max-width: 991.98px) {
+            body.app-default .admin-shell {
+                padding-top: 1rem;
+            }
+        }
+
+        body.app-default .admin-page-hero {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.5rem;
+            padding: clamp(1.35rem, 3vw, 2rem);
+            margin-bottom: 1.5rem;
+            background:
+                radial-gradient(circle at top right, rgba(255, 149, 44, 0.22), transparent 32%),
+                linear-gradient(135deg, rgba(219, 29, 48, 0.16), rgba(8, 8, 8, 0.04) 55%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 22px 44px rgba(0, 0, 0, 0.14);
+        }
+
+        body.app-default .admin-page-hero::after {
+            content: '';
+            position: absolute;
+            inset: auto -8% -38% auto;
+            width: 220px;
+            height: 220px;
+            border-radius: 999px;
+            background: radial-gradient(circle, rgba(255, 149, 44, 0.16), transparent 68%);
+            pointer-events: none;
+        }
+
+        body.app-default .admin-page-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            margin-bottom: .85rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: .74rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .18em;
+        }
+
+        body.app-default .admin-page-kicker::before {
+            content: '';
+            width: 2.5rem;
+            height: 1px;
+            background: linear-gradient(90deg, var(--kgh-orange), transparent);
+        }
+
+        body.app-default .admin-page-title {
+            margin: 0;
+            font-size: clamp(1.6rem, 2.8vw, 2.35rem);
+            font-weight: 700;
+            letter-spacing: -.03em;
+            color: #fff;
+        }
+
+        body.app-default .admin-page-description {
+            max-width: 64rem;
+            margin: .75rem 0 0;
+            color: rgba(255, 255, 255, 0.75);
+            font-size: .98rem;
+            line-height: 1.7;
+        }
+
+        body.app-default .admin-page-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .75rem;
+            justify-content: flex-end;
+        }
+
+        body.app-default .admin-page-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .75rem;
+            margin-bottom: 1.5rem;
+            padding: .9rem;
+            border-radius: 1.25rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        body.app-default .admin-page-tab {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2.7rem;
+            padding: .7rem 1rem;
+            border-radius: .95rem;
+            font-weight: 600;
+            color: inherit;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid transparent;
+            transition: all .18s ease;
+        }
+
+        body.app-default .admin-page-tab:hover,
+        body.app-default .admin-page-tab.is-active {
+            color: #fff;
+            background: linear-gradient(90deg, rgba(219, 29, 48, 0.28), rgba(255, 149, 44, 0.22));
+            border-color: rgba(255, 149, 44, 0.24);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        body.app-default .admin-panel {
+            border-radius: 1.35rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 18px 34px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        body.app-default .admin-panel-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.35rem 1.5rem 0;
+        }
+
+        body.app-default .admin-panel-title {
+            margin: 0;
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+
+        body.app-default .admin-panel-copy {
+            margin: .35rem 0 0;
+            color: rgba(255, 255, 255, 0.64);
+            font-size: .9rem;
+        }
+
+        body.app-default .admin-panel-body {
+            padding: 1.5rem;
+        }
+
+        body.app-default .admin-stat-card {
+            border-radius: 1.2rem;
+            padding: 1.15rem 1.2rem;
+            min-height: 100%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        body.app-default .admin-stat-label {
+            display: block;
+            margin-bottom: .55rem;
+            color: rgba(255, 255, 255, 0.62);
+            font-size: .78rem;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        body.app-default .admin-stat-value {
+            display: block;
+            color: #fff;
+            font-size: clamp(1.55rem, 2.2vw, 2.2rem);
+            font-weight: 700;
+            line-height: 1.05;
+        }
+
+        body.app-default .admin-stat-meta {
+            display: block;
+            margin-top: .65rem;
+            color: rgba(255, 255, 255, 0.58);
+            font-size: .86rem;
+            line-height: 1.5;
+        }
+
+        body.app-default .admin-table thead th {
+            padding-top: .85rem;
+            padding-bottom: .85rem;
+            color: rgba(255, 255, 255, 0.58);
+            font-size: .74rem;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            border-bottom-width: 1px;
+        }
+
+        body.app-default .admin-table tbody td {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            vertical-align: middle;
+        }
+
+        body.app-default .admin-empty {
+            padding: 2.4rem 1rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.58);
+        }
+
+        body.app-default .admin-note {
+            padding: 1rem 1.1rem;
+            border-radius: 1rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px dashed rgba(255, 255, 255, 0.12);
+            color: rgba(255, 255, 255, 0.72);
+        }
+
+        body.app-default .admin-media-thumb {
+            width: 76px;
+            height: 76px;
+            object-fit: cover;
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        body.app-default .admin-preview-card {
+            padding: 1rem;
+            border-radius: 1rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        body.app-default .alert.admin-alert {
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1rem;
+            box-shadow: 0 16px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        html[data-bs-theme="light"] body.app-default .admin-page-hero {
+            background:
+                radial-gradient(circle at top right, rgba(255, 149, 44, 0.16), transparent 34%),
+                linear-gradient(135deg, rgba(219, 29, 48, 0.12), rgba(255, 255, 255, 0.72) 58%),
+                #ffffff;
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+
+        html[data-bs-theme="light"] body.app-default .admin-page-title {
+            color: #171717;
+        }
+
+        html[data-bs-theme="light"] body.app-default .admin-page-kicker,
+        html[data-bs-theme="light"] body.app-default .admin-page-description,
+        html[data-bs-theme="light"] body.app-default .admin-panel-copy,
+        html[data-bs-theme="light"] body.app-default .admin-stat-label,
+        html[data-bs-theme="light"] body.app-default .admin-stat-meta,
+        html[data-bs-theme="light"] body.app-default .admin-note,
+        html[data-bs-theme="light"] body.app-default .admin-empty,
+        html[data-bs-theme="light"] body.app-default .admin-table thead th {
+            color: rgba(26, 26, 26, 0.62) !important;
+        }
+
+        html[data-bs-theme="light"] body.app-default .admin-page-tabs,
+        html[data-bs-theme="light"] body.app-default .admin-stat-card,
+        html[data-bs-theme="light"] body.app-default .admin-preview-card,
+        html[data-bs-theme="light"] body.app-default .admin-note {
+            background: rgba(255, 255, 255, 0.76);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+
+        html[data-bs-theme="light"] body.app-default .admin-page-tab {
+            background: rgba(0, 0, 0, 0.03);
+            color: #333;
+        }
+
+        html[data-bs-theme="light"] body.app-default .admin-stat-value {
+            color: #171717;
+        }
+
+        @media (max-width: 991.98px) {
+            body.app-default .admin-page-actions {
+                justify-content: flex-start;
+            }
+        }
     </style>
     @yield('styles')
+    @stack('styles')
     <!--end::Global Stylesheets Bundle-->
     <script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
 </head>
@@ -4812,6 +5090,7 @@
 <script></script>
 <!--end::Global Javascript Bundle-->
 @yield('scripts')
+@stack('scripts')
 <!--end::Javascript-->
 </body>
 <!--end::Body-->
