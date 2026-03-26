@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Mail\OrderPlacedMail;
 use App\Mail\OrderStatusUpdatedMail;
+use App\Models\MenuCategory;
+use App\Models\MenuItem;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\User;
@@ -193,6 +195,98 @@ class AdminOrderManagementTest extends TestCase
                 && str_contains($rendered, 'No onions, please.')
                 && str_contains($rendered, '+39 7777777');
         });
+    }
+
+    public function test_account_is_created_and_logged_in_only_after_checkout_success(): void
+    {
+        Mail::fake();
+
+        $category = MenuCategory::query()->create([
+            'name' => 'Main Course',
+            'slug' => 'main-course',
+        ]);
+
+        $menuItem = MenuItem::query()->create([
+            'menu_category_id' => $category->id,
+            'name' => 'Chicken Karahi',
+            'slug' => 'chicken-karahi',
+            'price' => 18.50,
+            'is_available' => true,
+        ]);
+
+        $gateway = new class implements PaymentGateway
+        {
+            public function method(): string
+            {
+                return Order::PAYMENT_METHOD_STRIPE;
+            }
+
+            public function createCheckout(Order $order, string $successUrl, string $cancelUrl): CheckoutRedirect
+            {
+                return new CheckoutRedirect(
+                    method: Order::PAYMENT_METHOD_STRIPE,
+                    url: 'https://example.com/checkout',
+                    sessionId: 'sess_checkout_account',
+                );
+            }
+
+            public function confirmCheckout(Order $order, Request $request): PaymentConfirmation
+            {
+                return PaymentConfirmation::paid('pi_checkout_account', (string) $request->query('session_id', 'sess_checkout_account'));
+            }
+        };
+
+        $manager = $this->createMock(PaymentGatewayManager::class);
+        $manager->method('for')
+            ->with(Order::PAYMENT_METHOD_STRIPE)
+            ->willReturn($gateway);
+
+        $this->app->instance(PaymentGatewayManager::class, $manager);
+
+        $this->withSession([
+            'cart.items' => [
+                (string) $menuItem->id => [
+                    'menu_item_id' => $menuItem->id,
+                    'name' => 'Chicken Karahi',
+                    'slug' => 'chicken-karahi',
+                    'price' => 18.50,
+                    'quantity' => 2,
+                    'image_url' => null,
+                    'category_name' => 'Main Course',
+                ],
+            ],
+        ])->post(route('checkout.store'), [
+            'full_name' => 'Areeba Malik',
+            'email' => 'areeba@example.com',
+            'phone' => '+39 5555555',
+            'fulfillment_type' => Order::FULFILLMENT_TAKEAWAY,
+            'payment_method' => Order::PAYMENT_METHOD_STRIPE,
+            'create_account' => '1',
+            'account_name' => 'Areeba Malik',
+            'password' => 'secretpass123',
+            'password_confirmation' => 'secretpass123',
+        ])->assertRedirect('https://example.com/checkout');
+
+        $this->assertGuest();
+        $this->assertDatabaseMissing('users', [
+            'email' => 'areeba@example.com',
+        ]);
+
+        /** @var Order $order */
+        $order = Order::query()->latest('id')->firstOrFail();
+
+        $this->get(route('checkout.payment.stripe.success', $order).'?session_id=sess_checkout_account')
+            ->assertRedirect(route('checkout.success'));
+
+        $order->refresh();
+
+        $user = User::query()->where('email', 'areeba@example.com')->first();
+
+        $this->assertNotNull($user);
+        $this->assertAuthenticatedAs($user);
+        $this->assertSame($user->id, $order->user_id);
+        $this->assertSame('created', $order->payment_meta['account_creation']['status'] ?? null);
+        $this->assertArrayNotHasKey('pending_account', $order->payment_meta ?? []);
     }
 
     public function test_checkout_success_truncates_oversized_payment_reference_before_saving(): void

@@ -158,6 +158,7 @@ class BookingController extends Controller
                 : Carbon::createFromFormat('H:i', (string) $validated['time'])->format('H:i:s');
 
             $booking = Booking::create([
+                'user_id' => $request->user()?->id,
                 'full_name' => (string) $validated['full_name'],
                 'email' => (string) $validated['email'],
                 'phone' => (string) $validated['phone'],

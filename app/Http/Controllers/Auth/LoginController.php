@@ -43,7 +43,7 @@ class LoginController extends Controller
             if (is_string($adminPath) && is_string($intendedPath) && str_starts_with($intendedPath, $adminPath)) {
                 $request->session()->forget('url.intended');
 
-                return redirect()->route('home');
+                return redirect()->route('account.dashboard');
             }
         }
 
@@ -54,6 +54,6 @@ class LoginController extends Controller
     {
         return auth()->user()?->role === 'admin'
             ? route('admin.dashboard')
-            : route('home');
+            : route('account.dashboard');
     }
 }

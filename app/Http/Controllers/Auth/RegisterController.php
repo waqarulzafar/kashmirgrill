@@ -65,6 +65,6 @@ class RegisterController extends Controller
     {
         return auth()->user()?->role === 'admin'
             ? route('admin.dashboard')
-            : route('home');
+            : route('account.dashboard');
     }
 }

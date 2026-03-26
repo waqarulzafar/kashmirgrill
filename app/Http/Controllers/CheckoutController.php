@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CheckoutLoginRequest;
 use App\Mail\OrderPlacedMail;
 use App\Models\Booking;
 use App\Models\DineInSlot;
@@ -17,12 +18,14 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
+use Throwable;
 
 class CheckoutController extends Controller
 {
@@ -128,21 +131,22 @@ class CheckoutController extends Controller
         });
 
         $validated = $validator->validate();
+
+        if ($request->user() === null && User::query()->where('email', (string) $validated['email'])->exists()) {
+            return $this->redirectToCheckoutLogin(
+                request: $request,
+                email: (string) $validated['email'],
+                checkoutInput: $this->checkoutInputFromRequest($request),
+                message: 'This email is already registered. Sign in to continue checkout with your account.'
+            );
+        }
+
         $cartSummary = $cart->summary();
         $subtotal = (float) $cartSummary['subtotal'];
         $deliveryFee = $validated['fulfillment_type'] === Order::FULFILLMENT_DELIVERY ? 3.50 : 0.00;
         $total = $subtotal + $deliveryFee;
 
         $user = $request->user();
-        if (! $user && ! empty($validated['create_account'])) {
-            $user = User::query()->create([
-                'name' => (string) $validated['account_name'],
-                'email' => (string) $validated['email'],
-                'password' => (string) $validated['password'],
-            ]);
-            Auth::login($user);
-        }
-
         $slot = null;
         if ($validated['fulfillment_type'] === Order::FULFILLMENT_DINE_IN && ! empty($validated['reservation_slot_id'])) {
             $slot = DineInSlot::query()
@@ -158,6 +162,7 @@ class CheckoutController extends Controller
             total: $total,
             slot: $slot,
             user: $user,
+            paymentMeta: $this->pendingAccountMeta($validated, $user),
         );
 
         try {
@@ -198,6 +203,39 @@ class CheckoutController extends Controller
         ])->save();
 
         return redirect()->away($checkoutRedirect->url);
+    }
+
+    public function login(CheckoutLoginRequest $request): RedirectResponse
+    {
+        $validated = $request->validated();
+        $checkoutInput = $this->checkoutInputFromSession($request);
+
+        if (! Auth::attempt([
+            'email' => (string) $validated['email'],
+            'password' => (string) $validated['password'],
+        ], $request->boolean('remember'))) {
+            return $this->redirectToCheckoutLogin(
+                request: $request,
+                email: (string) $validated['email'],
+                checkoutInput: $checkoutInput,
+                message: 'The provided password does not match this account.',
+                errorBag: 'checkoutLogin'
+            );
+        }
+
+        $request->session()->regenerate();
+
+        $user = $request->user();
+
+        if ($user !== null) {
+            $checkoutInput = $this->normalizeCheckoutInputForUser($checkoutInput, $user);
+        }
+
+        $request->session()->flashInput($checkoutInput);
+
+        return redirect()
+            ->route('checkout.create')
+            ->with('success', 'Signed in successfully. You can continue checkout now.');
     }
 
     public function stripeSuccess(Request $request, Order $order, CartManager $cart, PaymentGatewayManager $paymentGateways): RedirectResponse
@@ -258,6 +296,7 @@ class CheckoutController extends Controller
     /**
      * @param  array<string, mixed>  $validated
      * @param  array<string, mixed>  $cartSummary
+     * @param  array<string, mixed>  $paymentMeta
      */
     private function createOrder(
         array $validated,
@@ -267,8 +306,9 @@ class CheckoutController extends Controller
         float $total,
         ?DineInSlot $slot,
         ?User $user,
+        array $paymentMeta,
     ): Order {
-        return DB::transaction(function () use ($validated, $cartSummary, $subtotal, $deliveryFee, $total, $slot, $user) {
+        return DB::transaction(function () use ($validated, $cartSummary, $subtotal, $deliveryFee, $total, $slot, $user, $paymentMeta) {
             $order = Order::query()->create([
                 'reference' => 'KGH-PENDING-'.Str::upper(Str::random(12)),
                 'user_id' => $user?->id,
@@ -289,6 +329,7 @@ class CheckoutController extends Controller
                 'payment_method' => (string) $validated['payment_method'],
                 'payment_provider' => (string) $validated['payment_method'],
                 'payment_status' => Order::PAYMENT_STATUS_PENDING,
+                'payment_meta' => $paymentMeta,
                 'placed_at' => now(),
             ]);
 
@@ -362,14 +403,21 @@ class CheckoutController extends Controller
                 ->withErrors(['payment' => $confirmation->message ?? 'Payment could not be completed.']);
         }
 
+        $accountResolution = $this->resolvePostPaymentAccount($order);
+
         $order->forceFill([
             'status' => Order::STATUS_PENDING,
             'payment_status' => Order::PAYMENT_STATUS_PAID,
+            'user_id' => $accountResolution['user']?->id ?? $order->user_id,
             'payment_session_id' => $confirmation->sessionId ?? $order->payment_session_id,
             'payment_reference' => $this->normalizePaymentReference($confirmation->transactionId ?? $order->payment_reference),
-            'payment_meta' => $this->mergePaymentMeta($order, $confirmation->payload),
+            'payment_meta' => array_merge($accountResolution['payment_meta'], $confirmation->payload),
             'paid_at' => now(),
         ])->save();
+
+        if ($accountResolution['user'] !== null) {
+            Auth::login($accountResolution['user']);
+        }
 
         Mail::to($order->customer_email)->send(new OrderPlacedMail($order));
 
@@ -411,6 +459,106 @@ class CheckoutController extends Controller
         return array_merge($current, $incoming);
     }
 
+    /**
+     * @param  array<string, mixed>  $validated
+     * @return array<string, mixed>
+     */
+    private function pendingAccountMeta(array $validated, ?User $user): array
+    {
+        if ($user !== null || empty($validated['create_account'])) {
+            return [];
+        }
+
+        return [
+            'pending_account' => [
+                'name' => (string) $validated['account_name'],
+                'email' => (string) $validated['email'],
+                'password' => Crypt::encryptString((string) $validated['password']),
+            ],
+        ];
+    }
+
+    /**
+     * @return array{user: ?User, payment_meta: array<string, mixed>}
+     */
+    private function resolvePostPaymentAccount(Order $order): array
+    {
+        $currentMeta = is_array($order->payment_meta) ? $order->payment_meta : [];
+        $pendingAccount = $currentMeta['pending_account'] ?? null;
+
+        unset($currentMeta['pending_account']);
+
+        if ($order->user_id !== null) {
+            return [
+                'user' => $order->user,
+                'payment_meta' => $currentMeta,
+            ];
+        }
+
+        if (! is_array($pendingAccount)) {
+            return [
+                'user' => null,
+                'payment_meta' => $currentMeta,
+            ];
+        }
+
+        $name = trim((string) ($pendingAccount['name'] ?? ''));
+        $email = trim((string) ($pendingAccount['email'] ?? ''));
+        $encryptedPassword = (string) ($pendingAccount['password'] ?? '');
+
+        if ($name === '' || $email === '' || $encryptedPassword === '') {
+            return [
+                'user' => null,
+                'payment_meta' => $currentMeta + [
+                    'account_creation' => [
+                        'status' => 'skipped_invalid_payload',
+                    ],
+                ],
+            ];
+        }
+
+        if (User::query()->where('email', $email)->exists()) {
+            return [
+                'user' => null,
+                'payment_meta' => $currentMeta + [
+                    'account_creation' => [
+                        'status' => 'skipped_existing_email',
+                    ],
+                ],
+            ];
+        }
+
+        try {
+            $password = Crypt::decryptString($encryptedPassword);
+        } catch (Throwable) {
+            return [
+                'user' => null,
+                'payment_meta' => $currentMeta + [
+                    'account_creation' => [
+                        'status' => 'skipped_invalid_payload',
+                    ],
+                ],
+            ];
+        }
+
+        $user = User::query()->create([
+            'name' => $name,
+            'email' => $email,
+            'password' => $password,
+        ]);
+
+        return [
+            'user' => $user,
+            'payment_meta' => $currentMeta + [
+                'account_creation' => [
+                    'status' => 'created',
+                    'user_id' => $user->id,
+                    'created_at' => now()->toIso8601String(),
+                ],
+            ],
+        ];
+    }
+
     private function normalizePaymentReference(?string $reference): ?string
     {
         if ($reference === null) {
@@ -424,6 +572,81 @@ class CheckoutController extends Controller
         }
 
         return Str::limit($reference, 120, '');
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function checkoutInputFromRequest(Request $request): array
+    {
+        $checkoutInput = $request->except([
+            '_token',
+            'password',
+            'password_confirmation',
+            'account_name',
+            'create_account',
+        ]);
+
+        return is_array($checkoutInput) ? $checkoutInput : [];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function checkoutInputFromSession(Request $request): array
+    {
+        $checkoutInput = $request->session()->getOldInput();
+
+        return is_array($checkoutInput) ? $checkoutInput : [];
+    }
+
+    /**
+     * @param  array<string, mixed>  $checkoutInput
+     */
+    private function redirectToCheckoutLogin(
+        Request $request,
+        string $email,
+        array $checkoutInput,
+        string $message,
+        string $errorBag = 'default'
+    ): RedirectResponse {
+        $sanitizedInput = $this->sanitizeCheckoutInput($checkoutInput);
+        $request->session()->flashInput($sanitizedInput);
+
+        return redirect()
+            ->route('checkout.create')
+            ->withErrors(['email' => $message], $errorBag)
+            ->with('checkout_login_modal', true)
+            ->with('checkout_login_email', $email);
+    }
+
+    /**
+     * @param  array<string, mixed>  $checkoutInput
+     * @return array<string, mixed>
+     */
+    private function sanitizeCheckoutInput(array $checkoutInput): array
+    {
+        unset(
+            $checkoutInput['password'],
+            $checkoutInput['password_confirmation'],
+            $checkoutInput['account_name'],
+            $checkoutInput['create_account']
+        );
+
+        return $checkoutInput;
+    }
+
+    /**
+     * @param  array<string, mixed>  $checkoutInput
+     * @return array<string, mixed>
+     */
+    private function normalizeCheckoutInputForUser(array $checkoutInput, User $user): array
+    {
+        $checkoutInput = $this->sanitizeCheckoutInput($checkoutInput);
+        $checkoutInput['full_name'] = $user->name;
+        $checkoutInput['email'] = $user->email;
+
+        return $checkoutInput;
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
@@ -41,12 +42,30 @@ Route::get('/checkout', [CheckoutController::class, 'create'])->name('checkout.c
 Route::post('/checkout', [CheckoutController::class, 'store'])
     ->middleware('throttle:8,1')
     ->name('checkout.store');
+Route::post('/checkout/login', [CheckoutController::class, 'login'])
+    ->middleware(['guest', 'throttle:8,1'])
+    ->name('checkout.login');
 Route::get('/checkout/payment/stripe/success/{order}', [CheckoutController::class, 'stripeSuccess'])->name('checkout.payment.stripe.success');
 Route::get('/checkout/payment/stripe/cancel/{order}', [CheckoutController::class, 'stripeCancel'])->name('checkout.payment.stripe.cancel');
 Route::get('/checkout/payment/paypal/success/{order}', [CheckoutController::class, 'paypalSuccess'])->name('checkout.payment.paypal.success');
 Route::get('/checkout/payment/paypal/cancel/{order}', [CheckoutController::class, 'paypalCancel'])->name('checkout.payment.paypal.cancel');
 Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('/checkout/slots', [CheckoutController::class, 'slots'])->name('checkout.slots');
+
+Route::middleware('auth')
+    ->prefix('account')
+    ->name('account.')
+    ->group(function () {
+        Route::get('/', [AccountController::class, 'dashboard'])->name('dashboard');
+        Route::get('/orders', [AccountController::class, 'orders'])->name('orders');
+        Route::get('/orders/{order}', [AccountController::class, 'showOrder'])->name('orders.show');
+        Route::get('/bookings', [AccountController::class, 'bookings'])->name('bookings');
+        Route::get('/bookings/{booking}', [AccountController::class, 'showBooking'])->name('bookings.show');
+        Route::get('/profile', [AccountController::class, 'profile'])->name('profile');
+        Route::put('/profile', [AccountController::class, 'updateProfile'])->name('profile.update');
+        Route::put('/password', [AccountController::class, 'updatePassword'])->name('password.update');
+        Route::delete('/', [AccountController::class, 'destroy'])->name('destroy');
+    });
 
 Route::middleware(['auth', 'admin'])
     ->prefix('admin')

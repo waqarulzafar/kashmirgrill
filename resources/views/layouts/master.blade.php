@@ -249,6 +249,54 @@
             background: linear-gradient(90deg, rgba(219, 29, 48, 0.18), rgba(255, 149, 44, 0.18));
         }
 
+        .navbar-premium .nav-user-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding-right: 0.75rem;
+        }
+
+        .navbar-premium .nav-user-pill {
+            width: 2.2rem;
+            height: 2.2rem;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            box-shadow: 0 8px 18px rgba(219, 29, 48, 0.24);
+        }
+
+        .navbar-premium .nav-user-meta {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .navbar-premium .nav-user-name {
+            color: #fff;
+            font-size: 0.94rem;
+            font-weight: 600;
+        }
+
+        .navbar-premium .nav-user-copy {
+            color: rgba(255, 255, 255, 0.62);
+            font-size: 0.72rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .premium-site-alert {
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 149, 44, 0.26);
+            background: linear-gradient(90deg, rgba(219, 29, 48, 0.08), rgba(255, 149, 44, 0.12));
+            color: #2b1700;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08);
+        }
+
         .navbar-premium .dropdown-divider {
             border-color: rgba(255, 255, 255, 0.08);
             margin: 0.35rem 0;
@@ -1218,20 +1266,55 @@
                     </ul>
                     <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
                         @auth
-                            <li class="nav-item">
-                                <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.*') ? 'active' : '' }}">Admin</a>
+                            <li class="nav-item dropdown">
+                                <a
+                                    href="#"
+                                    class="nav-link dropdown-toggle nav-user-toggle {{ request()->routeIs('account.*') ? 'active' : '' }}"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    <span class="nav-user-pill">{{ strtoupper(substr((string) auth()->user()->name, 0, 1)) }}</span>
+                                    <span class="nav-user-meta d-none d-lg-flex">
+                                        <span class="nav-user-name">{{ \Illuminate\Support\Str::of((string) auth()->user()->name)->before(' ') }}</span>
+                                        <span class="nav-user-copy">My Account</span>
+                                    </span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="{{ route('account.dashboard') }}">Account Overview</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('account.orders') }}">Order History</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('account.bookings') }}">Booking History</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('account.profile') }}">Profile Settings</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a
+                                            href="{{ route('logout') }}"
+                                            class="dropdown-item"
+                                            onclick="event.preventDefault(); document.getElementById('site-logout-form').submit();"
+                                        >
+                                            Sign Out
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                         @endauth
-                        <li class="nav-item d-none d-lg-block">
-                            <span class="badge rounded-pill badge-brand">Premium Dining</span>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('book-now') }}" class="btn btn-brand btn-sm px-3">Book Now</a>
-                        </li>
+                        @guest
+                            <li class="nav-item d-none d-lg-block">
+                                <span class="badge rounded-pill badge-brand">Premium Dining</span>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('book-now') }}" class="btn btn-brand btn-sm px-3">Book Now</a>
+                            </li>
+                        @endguest
                     </ul>
                 </div>
             </div>
         </nav>
+
+        @auth
+            <form id="site-logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
+        @endauth
 
         <div id="smooth-wrapper">
             <div id="smooth-content">
@@ -1246,6 +1329,14 @@
                 @endphp
 
                 <main class="flex-grow-1 {{ $fullBleedMain ? 'py-0' : 'py-4' }}">
+                    @if (session('success') || session('status'))
+                        <div class="container pt-2">
+                            <div class="alert premium-site-alert mb-4" role="alert">
+                                {{ session('success') ?? session('status') }}
+                            </div>
+                        </div>
+                    @endif
+
                     @yield('content')
                 </main>
 
@@ -1322,7 +1413,12 @@
                             <a class="social-circle" href="{{ $tiktokUrl }}" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a>
                             <a class="social-circle" href="{{ $googleBusinessUrl }}" target="_blank" rel="noopener noreferrer" aria-label="Google Business Profile"><i class="fa-brands fa-google" aria-hidden="true"></i></a>
                         </div>
-                        <a href="{{ route('book-now') }}" class="btn btn-brand-outline btn-sm">Reserve Your Table</a>
+                        <div class="d-flex flex-wrap gap-2">
+                            <a href="{{ route('book-now') }}" class="btn btn-brand-outline btn-sm">Reserve Your Table</a>
+                            @guest
+                                <a href="{{ route('login') }}" class="btn btn-brand-outline btn-sm">Login</a>
+                            @endguest
+                        </div>
                     </div>
                 </div>
                 <hr class="border-secondary border-opacity-25 my-4">

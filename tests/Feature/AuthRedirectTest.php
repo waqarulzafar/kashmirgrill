@@ -23,7 +23,7 @@ class AuthRedirectTest extends TestCase
         ])->assertRedirect(route('admin.dashboard'));
     }
 
-    public function test_regular_user_login_redirects_to_home_page(): void
+    public function test_regular_user_login_redirects_to_account_dashboard(): void
     {
         $user = User::factory()->create([
             'role' => 'customer',
@@ -33,7 +33,7 @@ class AuthRedirectTest extends TestCase
         $this->post(route('login'), [
             'email' => $user->email,
             'password' => 'password',
-        ])->assertRedirect(route('home'));
+        ])->assertRedirect(route('account.dashboard'));
     }
 
     public function test_regular_user_is_not_redirected_back_into_admin_after_login(): void
@@ -48,7 +48,7 @@ class AuthRedirectTest extends TestCase
         ])->post(route('login'), [
             'email' => $user->email,
             'password' => 'password',
-        ])->assertRedirect(route('home'));
+        ])->assertRedirect(route('account.dashboard'));
     }
 
     public function test_authenticated_users_are_redirected_from_guest_pages_by_role(): void
@@ -67,6 +67,6 @@ class AuthRedirectTest extends TestCase
 
         $this->actingAs($user)
             ->get(route('register'))
-            ->assertRedirect(route('home'));
+            ->assertRedirect(route('account.dashboard'));
     }
 }

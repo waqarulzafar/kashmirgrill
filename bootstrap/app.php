@@ -20,7 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectUsersTo(function (Request $request): string {
             return $request->user()?->role === 'admin'
                 ? route('admin.dashboard')
-                : route('home');
+                : route('account.dashboard');
         });
     })
     ->withExceptions(function (Exceptions $exceptions): void {

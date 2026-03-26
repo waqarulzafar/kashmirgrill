@@ -31,6 +31,7 @@ class Booking extends Model
     public const PAYMENT_STATUS_CANCELLED = 'cancelled';
 
     protected $fillable = [
+        'user_id',
         'full_name',
         'email',
         'phone',
@@ -58,6 +59,11 @@ class Booking extends Model
     public function dineInSlot(): BelongsTo
     {
         return $this->belongsTo(DineInSlot::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     /**

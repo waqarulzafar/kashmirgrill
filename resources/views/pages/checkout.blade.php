@@ -23,6 +23,8 @@
     if (! array_key_exists((string) $selectedPaymentMethod, $paymentOptions) && $defaultPaymentMethod) {
         $selectedPaymentMethod = $defaultPaymentMethod;
     }
+    $shouldOpenCheckoutLoginModal = (bool) session('checkout_login_modal') || $errors->checkoutLogin->any();
+    $checkoutLoginEmail = (string) session('checkout_login_email', $prefillEmail);
     $fulfillmentMeta = [
         \App\Models\Order::FULFILLMENT_TAKEAWAY => [
             'icon' => 'fa-bag-shopping',
@@ -62,6 +64,76 @@
                     </ul>
                 </div>
             @endif
+
+            @guest
+                <div
+                    class="modal fade checkout-login-modal"
+                    id="checkoutLoginModal"
+                    tabindex="-1"
+                    aria-labelledby="checkoutLoginModalLabel"
+                    aria-hidden="true"
+                    data-checkout-login-modal
+                    @if($shouldOpenCheckoutLoginModal) data-open-on-load="true" @endif
+                >
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content checkout-login-modal__content">
+                            <div class="modal-header checkout-login-modal__header">
+                                <div>
+                                    <p class="checkout-kicker mb-1">Existing Account</p>
+                                    <h3 class="modal-title checkout-login-modal__title" id="checkoutLoginModalLabel">Sign in to continue checkout</h3>
+                                </div>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="checkout-login-modal__copy">We found an account with this email address. Sign in below and continue your checkout without losing your current order details.</p>
+
+                                <form method="POST" action="{{ route('checkout.login') }}" class="row g-3">
+                                    @csrf
+                                    <div class="col-12">
+                                        <label for="checkout_login_email" class="form-label">Email</label>
+                                        <input
+                                            id="checkout_login_email"
+                                            name="email"
+                                            type="email"
+                                            class="form-control @error('email', 'checkoutLogin') is-invalid @enderror"
+                                            value="{{ $checkoutLoginEmail }}"
+                                            required
+                                            autocomplete="email"
+                                        >
+                                        @error('email', 'checkoutLogin')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="checkout_login_password" class="form-label">Password</label>
+                                        <input
+                                            id="checkout_login_password"
+                                            name="password"
+                                            type="password"
+                                            class="form-control @error('password', 'checkoutLogin') is-invalid @enderror"
+                                            required
+                                            autocomplete="current-password"
+                                        >
+                                        @error('password', 'checkoutLogin')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="1" id="checkout_login_remember" name="remember">
+                                            <label class="form-check-label" for="checkout_login_remember">Remember me</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 d-flex flex-column flex-sm-row gap-2">
+                                        <button type="submit" class="btn btn-brand flex-fill">Sign In & Continue</button>
+                                        <a href="{{ route('login') }}" class="btn btn-brand-outline flex-fill">Open Full Login Page</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endguest
 
             <div class="row g-4">
                 <div class="col-12 col-xl-8">
@@ -190,6 +262,9 @@
                                                 Create account during checkout
                                             </label>
                                         </div>
+                                        <button type="button" class="btn btn-link checkout-login-trigger px-0 mt-3" data-bs-toggle="modal" data-bs-target="#checkoutLoginModal">
+                                            Already have an account? Sign in here
+                                        </button>
 
                                         <div class="mt-3" data-create-account-fields @if(!old('create_account')) hidden @endif>
                                             <div class="row g-3">
@@ -483,6 +558,41 @@
             margin-bottom: 1rem;
         }
 
+        .checkout-login-trigger {
+            color: rgba(255, 255, 255, 0.82);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .checkout-login-trigger:hover,
+        .checkout-login-trigger:focus {
+            color: #fff;
+        }
+
+        .checkout-login-modal__content {
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+                #0b0b0b;
+            color: #f3f3f3;
+        }
+
+        .checkout-login-modal__header {
+            border-bottom-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .checkout-login-modal__title {
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .checkout-login-modal__copy {
+            color: rgba(255, 255, 255, 0.74);
+            margin-bottom: 1rem;
+        }
+
         .checkout-summary-head {
             display: flex;
             align-items: flex-start;
@@ -577,4 +687,21 @@
             }
         }
     </style>
+@endpush
+
+@push('scripts')
+    @guest
+        <script>
+            (() => {
+                const modalElement = document.querySelector('[data-checkout-login-modal]');
+                if (!modalElement || modalElement.dataset.openOnLoad !== 'true' || !window.bootstrap?.Modal) {
+                    return;
+                }
+
+                window.addEventListener('load', () => {
+                    window.bootstrap.Modal.getOrCreateInstance(modalElement).show();
+                }, { once: true });
+            })();
+        </script>
+    @endguest
 @endpush
