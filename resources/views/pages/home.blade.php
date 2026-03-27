@@ -1,8 +1,8 @@
 @extends('layouts.master')
 
-@section('title', 'Kashmir Grill House | Halal Pakistani & Indian Restaurant in Como')
-@section('meta_description', 'Visit Kashmir Grill House in Como, Italy for halal Pakistani and Indian favorites including grills, curries, biryani, dine-in, takeaway, and delivery-friendly service.')
-@section('meta_keywords', 'Kashmir Grill House Como, halal Pakistani Indian restaurant Como, grilled dishes Como, curry Como, biryani Como, dine-in takeaway delivery Como')
+@section('title', __('Kashmir Grill House | Halal Pakistani & Indian Restaurant in Como'))
+@section('meta_description', __('Visit Kashmir Grill House in Como, Italy for halal Pakistani and Indian favorites including grills, curries, biryani, dine-in, takeaway, and delivery-friendly service.'))
+@section('meta_keywords', __('Kashmir Grill House Como, halal Pakistani Indian restaurant Como, grilled dishes Como, curry Como, biryani Como, dine-in takeaway delivery Como'))
 @section('body_class', 'home-menu-theme')
 
 @section('hero')

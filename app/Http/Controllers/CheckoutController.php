@@ -34,7 +34,7 @@ class CheckoutController extends Controller
         if ($cart->isEmpty()) {
             return redirect()
                 ->route('menu')
-                ->withErrors(['cart' => 'Your cart is empty. Add items before checkout.']);
+                ->withErrors(['cart' => __('Your cart is empty. Add items before checkout.')]);
         }
 
         $selectedDate = $request->old('reservation_date', now()->toDateString());
@@ -47,9 +47,9 @@ class CheckoutController extends Controller
             'slotAvailability' => $slotAvailability,
             'selectedDate' => $selectedDate,
             'fulfillmentOptions' => [
-                Order::FULFILLMENT_TAKEAWAY => 'Take Away',
-                Order::FULFILLMENT_DELIVERY => 'Delivery',
-                Order::FULFILLMENT_DINE_IN => 'Dine In',
+                Order::FULFILLMENT_TAKEAWAY => __('Take Away'),
+                Order::FULFILLMENT_DELIVERY => __('Delivery'),
+                Order::FULFILLMENT_DINE_IN => __('Dine In'),
             ],
             'paymentOptions' => $paymentOptions,
         ]);
@@ -60,7 +60,7 @@ class CheckoutController extends Controller
         if ($cart->isEmpty()) {
             return redirect()
                 ->route('menu')
-                ->withErrors(['cart' => 'Your cart is empty.']);
+                ->withErrors(['cart' => __('Your cart is empty.')]);
         }
 
         $validator = Validator::make($request->all(), [
@@ -126,7 +126,7 @@ class CheckoutController extends Controller
 
             $remaining = $this->remainingGuestsForSlot($reservationDate, $slotId);
             if ($remaining < $guestCount) {
-                $validator->errors()->add('reservation_slot_id', "Only {$remaining} seats are left for this slot.");
+                $validator->errors()->add('reservation_slot_id', __('Only :count seats are left for this slot.', ['count' => $remaining]));
             }
         });
 
@@ -137,7 +137,7 @@ class CheckoutController extends Controller
                 request: $request,
                 email: (string) $validated['email'],
                 checkoutInput: $this->checkoutInputFromRequest($request),
-                message: 'This email is already registered. Sign in to continue checkout with your account.'
+                message: __('This email is already registered. Sign in to continue checkout with your account.')
             );
         }
 
@@ -193,7 +193,7 @@ class CheckoutController extends Controller
             return redirect()
                 ->route('checkout.create')
                 ->withInput()
-                ->withErrors(['payment' => 'Unable to initialize payment right now. Please try again.']);
+                ->withErrors(['payment' => __('Unable to initialize payment right now. Please try again.')]);
         }
 
         $order->forceFill([
@@ -218,7 +218,7 @@ class CheckoutController extends Controller
                 request: $request,
                 email: (string) $validated['email'],
                 checkoutInput: $checkoutInput,
-                message: 'The provided password does not match this account.',
+                message: __('The provided password does not match this account.'),
                 errorBag: 'checkoutLogin'
             );
         }
@@ -235,10 +235,10 @@ class CheckoutController extends Controller
 
         return redirect()
             ->route('checkout.create')
-            ->with('success', 'Signed in successfully. You can continue checkout now.');
+            ->with('success', __('Signed in successfully. You can continue checkout now.'));
     }
 
-    public function stripeSuccess(Request $request, Order $order, CartManager $cart, PaymentGatewayManager $paymentGateways): RedirectResponse
+    public function stripeSuccess(Request $request, string $locale, Order $order, CartManager $cart, PaymentGatewayManager $paymentGateways): RedirectResponse
     {
         return $this->handlePaymentSuccess(
             method: Order::PAYMENT_METHOD_STRIPE,
@@ -249,7 +249,7 @@ class CheckoutController extends Controller
         );
     }
 
-    public function paypalSuccess(Request $request, Order $order, CartManager $cart, PaymentGatewayManager $paymentGateways): RedirectResponse
+    public function paypalSuccess(Request $request, string $locale, Order $order, CartManager $cart, PaymentGatewayManager $paymentGateways): RedirectResponse
     {
         return $this->handlePaymentSuccess(
             method: Order::PAYMENT_METHOD_PAYPAL,
@@ -260,12 +260,12 @@ class CheckoutController extends Controller
         );
     }
 
-    public function stripeCancel(Order $order): RedirectResponse
+    public function stripeCancel(string $locale, Order $order): RedirectResponse
     {
         return $this->handlePaymentCancel(Order::PAYMENT_METHOD_STRIPE, $order);
     }
 
-    public function paypalCancel(Order $order): RedirectResponse
+    public function paypalCancel(string $locale, Order $order): RedirectResponse
     {
         return $this->handlePaymentCancel(Order::PAYMENT_METHOD_PAYPAL, $order);
     }
@@ -656,7 +656,7 @@ class CheckoutController extends Controller
     {
         return collect(config('payments.methods.orders', []))
             ->filter(fn (array $method): bool => (bool) ($method['enabled'] ?? false))
-            ->mapWithKeys(fn (array $method, string $key): array => [$key => (string) ($method['label'] ?? $key)])
+            ->mapWithKeys(fn (array $method, string $key): array => [$key => __((string) ($method['label'] ?? $key))])
             ->all();
     }
 

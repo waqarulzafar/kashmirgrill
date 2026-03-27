@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
-@section('title', 'Order Placed | Kashmir Grill House Como')
-@section('meta_description', 'Your Kashmir Grill House order has been placed successfully.')
+@section('title', __('Order Placed | Kashmir Grill House Como'))
+@section('meta_description', __('Your Kashmir Grill House order has been placed successfully.'))
 @section('meta_robots', 'noindex,follow')
 @section('body_class', 'checkout-success-theme')
 
@@ -9,9 +9,9 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-xl-10 text-center">
-                <p class="checkout-success-kicker mb-2">Order Status</p>
-                <h1 class="display-5 fw-bold mb-3 text-white">Order Confirmed</h1>
-                <p class="lead mb-0 checkout-success-hero-copy">Your payment has been received and the kitchen team now has your order.</p>
+                <p class="checkout-success-kicker mb-2">{{ __('Order Status') }}</p>
+                <h1 class="display-5 fw-bold mb-3 text-white">{{ __('Order Confirmed') }}</h1>
+                <p class="lead mb-0 checkout-success-hero-copy">{{ __('Your payment has been received and the kitchen team now has your order.') }}</p>
             </div>
         </div>
     </div>
@@ -27,39 +27,39 @@
                             <i class="fa-solid fa-bag-shopping"></i>
                         </span>
                         <div>
-                            <h2 class="checkout-success-title mb-2">Order Submitted Successfully</h2>
-                            <p class="checkout-success-copy mb-0">We will start processing your order shortly. For urgent updates, contact the restaurant directly.</p>
+                            <h2 class="checkout-success-title mb-2">{{ __('Order Submitted Successfully') }}</h2>
+                            <p class="checkout-success-copy mb-0">{{ __('We will start processing your order shortly. For urgent updates, contact the restaurant directly.') }}</p>
                         </div>
                     </div>
 
             @if(session('order_reference'))
                         <div class="checkout-success-reference">
-                            <p class="mb-1">Order Reference</p>
+                            <p class="mb-1">{{ __('Order Reference') }}</p>
                             <strong>{{ session('order_reference') }}</strong>
                         </div>
             @endif
 
                     <div class="checkout-success-meta">
                         <div class="checkout-success-meta__item">
-                            <h3>1. Payment Captured</h3>
-                            <p>Your checkout completed successfully and your order is now queued for review.</p>
+                            <h3>{{ __('1. Payment Captured') }}</h3>
+                            <p>{{ __('Your checkout completed successfully and your order is now queued for review.') }}</p>
                         </div>
                         <div class="checkout-success-meta__item">
-                            <h3>2. Kitchen Review</h3>
-                            <p>Our team will confirm preparation timing and any delivery or dine-in details.</p>
+                            <h3>{{ __('2. Kitchen Review') }}</h3>
+                            <p>{{ __('Our team will confirm preparation timing and any delivery or dine-in details.') }}</p>
                         </div>
                         <div class="checkout-success-meta__item">
-                            <h3>3. Live Updates</h3>
-                            <p>We will send status emails as your order moves through confirmation and service.</p>
+                            <h3>{{ __('3. Live Updates') }}</h3>
+                            <p>{{ __('We will send status emails as your order moves through confirmation and service.') }}</p>
                         </div>
                     </div>
 
                     <div class="d-flex flex-wrap gap-2 gap-md-3">
                         @auth
-                            <a href="{{ route('account.dashboard') }}" class="btn btn-brand checkout-success-btn">Open Dashboard</a>
+                            <a href="{{ route('account.dashboard') }}" class="btn btn-brand checkout-success-btn">{{ __('Open Dashboard') }}</a>
                         @endauth
-                        <a href="{{ route('menu') }}" class="btn btn-brand-outline checkout-success-btn">Back to Menu</a>
-                        <a href="tel:+393511203141" class="btn btn-brand-outline checkout-success-btn">Call Restaurant</a>
+                        <a href="{{ route('menu') }}" class="btn btn-brand-outline checkout-success-btn">{{ __('Back to Menu') }}</a>
+                        <a href="tel:+393511203141" class="btn btn-brand-outline checkout-success-btn">{{ __('Call Restaurant') }}</a>
                     </div>
                 </article>
             </div>

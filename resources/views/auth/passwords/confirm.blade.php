@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Confirm Password | Kashmir Grill House')
+@section('title', __('Confirm Password | Kashmir Grill House'))
 @section('body_class', 'auth-page-theme')
 
 @section('content')

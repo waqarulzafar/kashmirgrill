@@ -11,10 +11,13 @@
         $facebookUrl = 'https://www.facebook.com/share/1CVDdWNQJy/';
         $tiktokUrl = 'https://www.tiktok.com/@kashmirgrillhouse';
         $googleBusinessUrl = 'https://share.google/grft1lwOxyW4px1OV';
-        $defaultTitle = 'Kashmir Grill House | Halal Pakistani & Indian Restaurant in Como, Italy';
+        $currentLocaleMeta = $siteCurrentLocaleData ?? config('locales.supported.'.app()->getLocale(), []);
+        $supportedLocaleMeta = config('locales.supported', []);
+        $localizedPageUrls = $localizedCurrentUrls ?? [];
+        $defaultTitle = __('Kashmir Grill House | Halal Pakistani & Indian Restaurant in Como, Italy');
         $pageTitle = trim($__env->yieldContent('meta_title', $__env->yieldContent('title', $defaultTitle)));
-        $pageDescription = trim($__env->yieldContent('meta_description', 'Kashmir Grill House is a halal Pakistani and Indian restaurant in Como, Italy offering dine-in, takeaway, delivery-friendly service, and table reservations.'));
-        $pageKeywords = trim($__env->yieldContent('meta_keywords', 'Kashmir Grill House, halal restaurant Como, Pakistani restaurant Como, Indian restaurant Como, Via Milano 253 Como, dine-in Como, takeaway Como, delivery Como, grilled food Como, curry Como'));
+        $pageDescription = trim($__env->yieldContent('meta_description', __('Kashmir Grill House is a halal Pakistani and Indian restaurant in Como, Italy offering dine-in, takeaway, delivery-friendly service, and table reservations.')));
+        $pageKeywords = trim($__env->yieldContent('meta_keywords', __('Kashmir Grill House, halal restaurant Como, Pakistani restaurant Como, Indian restaurant Como, Via Milano 253 Como, dine-in Como, takeaway Como, delivery Como, grilled food Como, curry Como')));
         $pageRobots = trim($__env->yieldContent('meta_robots', 'index,follow,max-image-preview:large'));
         $ogImage = trim($__env->yieldContent('og_image', asset('assets/images/logo.png')));
         $ogType = trim($__env->yieldContent('og_type', 'website'));
@@ -46,7 +49,11 @@
                 'telephone' => $businessPhone,
                 'contactType' => 'reservations',
                 'areaServed' => 'IT',
-                'availableLanguage' => ['English', 'Italian'],
+                'availableLanguage' => collect($supportedLocaleMeta)
+                    ->pluck('schema_language')
+                    ->filter()
+                    ->values()
+                    ->all(),
             ]],
             'sameAs' => [
                 $instagramUrl,
@@ -71,18 +78,28 @@
     <meta name="format-detection" content="telephone=yes">
     <link rel="canonical" href="{{ $canonicalUrl }}">
     <meta property="og:site_name" content="{{ $defaultSite }}">
-    <meta property="og:locale" content="it_IT">
-    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:locale" content="{{ $currentLocaleMeta['og_locale'] ?? 'en_GB' }}">
+    @foreach($supportedLocaleMeta as $localeCode => $localeMeta)
+        @if($localeCode !== ($siteCurrentLocale ?? app()->getLocale()))
+            <meta property="og:locale:alternate" content="{{ $localeMeta['og_locale'] }}">
+        @endif
+    @endforeach
     <meta property="og:type" content="{{ $ogType }}">
     <meta property="og:title" content="{{ $pageTitle }}">
     <meta property="og:description" content="{{ $pageDescription }}">
     <meta property="og:url" content="{{ $canonicalUrl }}">
     <meta property="og:image" content="{{ $ogImage }}">
-    <meta property="og:image:alt" content="Kashmir Grill House in Como, Italy">
+    <meta property="og:image:alt" content="{{ __('Kashmir Grill House in Como, Italy') }}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $pageTitle }}">
     <meta name="twitter:description" content="{{ $pageDescription }}">
     <meta name="twitter:image" content="{{ $ogImage }}">
+    @foreach($localizedPageUrls as $localeCode => $url)
+        <link rel="alternate" hreflang="{{ $supportedLocaleMeta[$localeCode]['hreflang'] ?? $localeCode }}" href="{{ $url }}">
+    @endforeach
+    @if(!empty($localizedPageUrls[$siteDefaultLocale ?? '']))
+        <link rel="alternate" hreflang="x-default" href="{{ $localizedPageUrls[$siteDefaultLocale] }}">
+    @endif
     <link id="favicon" rel="icon" type="image/gif" href="{{ asset('assets/images/preloader/kashmir-loader.gif') }}">
     <link rel="shortcut icon" type="image/gif" href="{{ asset('assets/images/preloader/kashmir-loader.gif') }}">
     <link rel="apple-touch-icon" href="{{ asset('assets/images/preloader/kashmir-loader.gif') }}">
@@ -287,6 +304,71 @@
             font-size: 0.72rem;
             letter-spacing: 0.06em;
             text-transform: uppercase;
+        }
+
+        .language-switcher__trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+        }
+
+        .language-switcher__trigger--footer {
+            min-height: 2.85rem;
+            padding: 0.72rem 0.95rem;
+            border-radius: 0.95rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .language-switcher__menu {
+            min-width: 15.5rem;
+        }
+
+        .language-switcher__item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .language-switcher__flag {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.65rem;
+            font-size: 1.15rem;
+            line-height: 1;
+        }
+
+        .language-switcher__label,
+        .language-switcher__copy {
+            display: inline-flex;
+            flex-direction: column;
+            gap: 0.05rem;
+            line-height: 1.1;
+        }
+
+        .language-switcher__label strong,
+        .language-switcher__copy strong {
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .language-switcher__label small,
+        .language-switcher__copy small {
+            color: rgba(255, 255, 255, 0.62);
+            font-size: 0.72rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .language-switcher__item.is-current {
+            background: linear-gradient(90deg, rgba(219, 29, 48, 0.22), rgba(255, 149, 44, 0.2));
+        }
+
+        .site-footer__language {
+            margin-top: 1rem;
         }
 
         .premium-site-alert {
@@ -1215,7 +1297,7 @@
     @stack('styles')
 </head>
 <body class="@yield('body_class')">
-    <div id="sitePreloader" class="site-preloader" role="status" aria-live="polite" aria-label="Page loading">
+    <div id="sitePreloader" class="site-preloader" role="status" aria-live="polite" aria-label="{{ __('Page loading') }}">
         <div class="site-preloader__inner">
             <img
                 class="site-preloader__icon"
@@ -1226,7 +1308,7 @@
                 decoding="async"
             >
             <div class="site-preloader__text">
-                <strong>Kashmir Grill</strong> Loading
+                <strong>{{ __('Kashmir Grill') }}</strong> {{ __('Loading') }}
                 <span class="site-preloader__dots" aria-hidden="true"><span></span><span></span><span></span></span>
             </div>
         </div>
@@ -1243,30 +1325,30 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    @php
+                        $navigationEvents = \App\Support\EventCatalog::all();
+                    @endphp
                     <ul class="navbar-nav me-auto ms-md-3 mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">{{ __('Home') }}</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle {{ request()->routeIs('events*') ? 'active' : '' }}" href="{{ route('events') }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Events
+                                {{ __('Events') }}
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('events') }}">All Events</a></li>
+                                <li><a class="dropdown-item" href="{{ route('events') }}">{{ __('All Events') }}</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{{ route('events.show', 'ceremonies') }}">Ceremonies</a></li>
-                                <li><a class="dropdown-item" href="{{ route('events.show', 'get-together') }}">Get Together</a></li>
-                                <li><a class="dropdown-item" href="{{ route('events.show', 'meetings') }}">Meetings</a></li>
-                                <li><a class="dropdown-item" href="{{ route('events.show', 'conferences') }}">Conferences</a></li>
-                                <li><a class="dropdown-item" href="{{ route('events.show', 'valentines-day') }}">Valentine's Day</a></li>
-                                <li><a class="dropdown-item" href="{{ route('events.show', 'festivals') }}">Festivals</a></li>
+                                @foreach($navigationEvents as $navigationEvent)
+                                    <li><a class="dropdown-item" href="{{ route('events.show', $navigationEvent['slug']) }}">{{ $navigationEvent['name'] }}</a></li>
+                                @endforeach
                             </ul>
                         </li>
-                        <li class="nav-item"><a class="nav-link {{ request()->routeIs('menu') ? 'active' : '' }}" href="{{ route('menu') }}">Menu</a></li>
-                        <li class="nav-item"><a class="nav-link {{ request()->routeIs('book-now') ? 'active' : '' }}" href="{{ route('book-now') }}">Book Now</a></li>
-                        <li class="nav-item"><a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Contact</a></li>
-                    </ul>
-                    <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
-                        @auth
-                            <li class="nav-item dropdown">
+                        <li class="nav-item"><a class="nav-link {{ request()->routeIs('menu') ? 'active' : '' }}" href="{{ route('menu') }}">{{ __('Menu') }}</a></li>
+                        <li class="nav-item"><a class="nav-link {{ request()->routeIs('book-now') ? 'active' : '' }}" href="{{ route('book-now') }}">{{ __('Book Now') }}</a></li>
+                        <li class="nav-item"><a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">{{ __('Contact') }}</a></li>
+	                    </ul>
+	                    <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+	                        @auth
+	                            <li class="nav-item dropdown">
                                 <a
                                     href="#"
                                     class="nav-link dropdown-toggle nav-user-toggle {{ request()->routeIs('account.*') ? 'active' : '' }}"
@@ -1276,14 +1358,14 @@
                                     <span class="nav-user-pill">{{ strtoupper(substr((string) auth()->user()->name, 0, 1)) }}</span>
                                     <span class="nav-user-meta d-none d-lg-flex">
                                         <span class="nav-user-name">{{ \Illuminate\Support\Str::of((string) auth()->user()->name)->before(' ') }}</span>
-                                        <span class="nav-user-copy">My Account</span>
+                                        <span class="nav-user-copy">{{ __('My Account') }}</span>
                                     </span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="{{ route('account.dashboard') }}">Account Overview</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('account.orders') }}">Order History</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('account.bookings') }}">Booking History</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('account.profile') }}">Profile Settings</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('account.dashboard') }}">{{ __('Account Overview') }}</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('account.orders') }}">{{ __('Order History') }}</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('account.bookings') }}">{{ __('Booking History') }}</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('account.profile') }}">{{ __('Profile Settings') }}</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <a
@@ -1291,7 +1373,7 @@
                                             class="dropdown-item"
                                             onclick="event.preventDefault(); document.getElementById('site-logout-form').submit();"
                                         >
-                                            Sign Out
+                                            {{ __('Sign Out') }}
                                         </a>
                                     </li>
                                 </ul>
@@ -1299,15 +1381,18 @@
                         @endauth
                         @guest
                             <li class="nav-item d-none d-lg-block">
-                                <span class="badge rounded-pill badge-brand">Premium Dining</span>
+                                <span class="badge rounded-pill badge-brand">{{ __('Premium Dining') }}</span>
                             </li>
-                            <li class="nav-item">
-                                <a href="{{ route('book-now') }}" class="btn btn-brand btn-sm px-3">Book Now</a>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
+	                            <li class="nav-item">
+	                                <a href="{{ route('book-now') }}" class="btn btn-brand btn-sm px-3">{{ __('Book Now') }}</a>
+	                            </li>
+	                        @endguest
+	                        <li class="nav-item">
+	                            @include('partials.site.language-switcher')
+	                        </li>
+	                    </ul>
+	                </div>
+	            </div>
         </nav>
 
         @auth
@@ -1341,20 +1426,20 @@
                 </main>
 
                 @if (request()->routeIs('home'))
-                    <section class="hero-transfer-banner-shell" aria-label="Airport transfer offer">
+                    <section class="hero-transfer-banner-shell" aria-label="{{ __('Airport transfer offer') }}">
                         <div class="container">
-                            <section class="footer-transfer-banner" aria-label="Free pick and drop offer">
+                            <section class="footer-transfer-banner" aria-label="{{ __('Free pick and drop offer') }}">
                                 <div class="footer-transfer-banner__inner">
                                     <div>
-                                        <p class="footer-transfer-banner__title-top">Enjoy a seamless journey with</p>
+                                        <p class="footer-transfer-banner__title-top">{{ __('Enjoy a seamless journey with') }}</p>
                                         <h2 class="footer-transfer-banner__title-main">Kashmir Grill House in Como</h2>
                                         <div class="footer-transfer-banner__offer-row">
-                                            <p class="footer-transfer-banner__offer-label">We provide</p>
-                                            <span class="footer-transfer-banner__offer-pill">FREE PICK &amp; DROP</span>
+                                            <p class="footer-transfer-banner__offer-label">{{ __('We provide') }}</p>
+                                            <span class="footer-transfer-banner__offer-pill">{{ __('FREE PICK & DROP') }}</span>
                                         </div>
                                         <div class="footer-transfer-banner__actions">
-                                            <a href="{{ route('book-now') }}" class="btn btn-brand btn-sm footer-transfer-banner__cta">Reserve Table</a>
-                                            <a href="tel:{{ $businessPhoneHref }}" class="btn btn-brand-outline btn-sm footer-transfer-banner__cta">Call {{ $businessPhone }}</a>
+                                            <a href="{{ route('book-now') }}" class="btn btn-brand btn-sm footer-transfer-banner__cta">{{ __('Reserve Table') }}</a>
+                                            <a href="tel:{{ $businessPhoneHref }}" class="btn btn-brand-outline btn-sm footer-transfer-banner__cta">{{ __('Call :phone', ['phone' => $businessPhone]) }}</a>
                                         </div>
                                     </div>
 
@@ -1372,18 +1457,18 @@
                                             </div>
                                         </div>
                                         <p class="footer-transfer-banner__copy">
-                                            Reserve your table now for <strong>free airport transfers</strong> to our restaurant.
+                                            {!! __('Reserve your table now for <strong>free airport transfers</strong> to our restaurant.') !!}
                                         </p>
                                     </div>
 
-                                    <a class="footer-transfer-banner__qr" href="{{ $googleBusinessUrl }}" target="_blank" rel="noopener noreferrer" aria-label="Scan QR to open Kashmir Grill House Google Business Profile">
+                                    <a class="footer-transfer-banner__qr" href="{{ $googleBusinessUrl }}" target="_blank" rel="noopener noreferrer" aria-label="{{ __('Scan QR to open Kashmir Grill House Google Business Profile') }}">
                                         <img
                                             src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data={{ urlencode($googleBusinessUrl) }}"
-                                            alt="QR code for Kashmir Grill House Google Business Profile"
+                                            alt="{{ __('QR code for Kashmir Grill House Google Business Profile') }}"
                                             loading="lazy"
                                             decoding="async"
                                         >
-                                        <span class="footer-transfer-banner__qr-label">Scan Me!</span>
+                                        <span class="footer-transfer-banner__qr-label">{{ __('Scan Me!') }}</span>
                                     </a>
                                 </div>
                             </section>
@@ -1396,33 +1481,36 @@
                 <div class="row g-4 align-items-start">
                     <div class="col-lg-4">
                         <h5 class="footer-title section-accent mb-3">Kashmir Grill House</h5>
-                        <p class="mb-3">Halal Pakistani and Indian cuisine in Como with dine-in, takeaway, and delivery-friendly service.</p>
-                        <span class="highlight-chip">Check Google for today&apos;s opening hours</span>
+                        <p class="mb-3">{{ __('Halal Pakistani and Indian cuisine in Como with dine-in, takeaway, and delivery-friendly service.') }}</p>
+                        <span class="highlight-chip">{{ __('Check Google for today\'s opening hours') }}</span>
                     </div>
                     <div class="col-md-6 col-lg-4">
-                        <h6 class="footer-title mb-3">Contact</h6>
+                        <h6 class="footer-title mb-3">{{ __('Contact') }}</h6>
                         <p class="mb-2">{{ $businessAddressLine }}</p>
                         <p class="mb-2"><a class="footer-link" href="tel:{{ $businessPhoneHref }}">{{ $businessPhone }}</a></p>
-                        <p class="mb-0"><a class="footer-link" href="{{ $googleBusinessUrl }}" target="_blank" rel="noopener noreferrer">Google Business Profile &amp; Directions</a></p>
+                        <p class="mb-0"><a class="footer-link" href="{{ $googleBusinessUrl }}" target="_blank" rel="noopener noreferrer">{{ __('Google Business Profile & Directions') }}</a></p>
                     </div>
                     <div class="col-md-6 col-lg-4">
-                        <h6 class="footer-title mb-3">Follow Us</h6>
+                        <h6 class="footer-title mb-3">{{ __('Follow Us') }}</h6>
                         <div class="d-flex gap-2 mb-3">
-                            <a class="social-circle" href="{{ $instagramUrl }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
-                            <a class="social-circle" href="{{ $facebookUrl }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
-                            <a class="social-circle" href="{{ $tiktokUrl }}" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a>
-                            <a class="social-circle" href="{{ $googleBusinessUrl }}" target="_blank" rel="noopener noreferrer" aria-label="Google Business Profile"><i class="fa-brands fa-google" aria-hidden="true"></i></a>
+                            <a class="social-circle" href="{{ $instagramUrl }}" target="_blank" rel="noopener noreferrer" aria-label="{{ __('Instagram') }}"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+                            <a class="social-circle" href="{{ $facebookUrl }}" target="_blank" rel="noopener noreferrer" aria-label="{{ __('Facebook') }}"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+                            <a class="social-circle" href="{{ $tiktokUrl }}" target="_blank" rel="noopener noreferrer" aria-label="{{ __('TikTok') }}"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a>
+                            <a class="social-circle" href="{{ $googleBusinessUrl }}" target="_blank" rel="noopener noreferrer" aria-label="{{ __('Google Business Profile') }}"><i class="fa-brands fa-google" aria-hidden="true"></i></a>
                         </div>
                         <div class="d-flex flex-wrap gap-2">
-                            <a href="{{ route('book-now') }}" class="btn btn-brand-outline btn-sm">Reserve Your Table</a>
+                            <a href="{{ route('book-now') }}" class="btn btn-brand-outline btn-sm">{{ __('Reserve Your Table') }}</a>
                             @guest
-                                <a href="{{ route('login') }}" class="btn btn-brand-outline btn-sm">Login</a>
+                                <a href="{{ route('login') }}" class="btn btn-brand-outline btn-sm">{{ __('Login') }}</a>
                             @endguest
+                        </div>
+                        <div class="site-footer__language">
+                            @include('partials.site.language-switcher', ['variant' => 'footer'])
                         </div>
                     </div>
                 </div>
                 <hr class="border-secondary border-opacity-25 my-4">
-                <p class="mb-0 small text-white-50">&copy; {{ date('Y') }} Kashmir Grill House. All rights reserved.</p>
+                <p class="mb-0 small text-white-50">&copy; {{ date('Y') }} Kashmir Grill House. {{ __('All rights reserved.') }}</p>
                     </div>
                 </footer>
             </div>

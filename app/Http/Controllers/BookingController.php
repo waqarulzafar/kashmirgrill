@@ -36,17 +36,17 @@ class BookingController extends Controller
                 ? $this->getSlotAvailability($selectedDate, $selectedGuests, $selectedTimeFilter)
                 : collect(),
             'bookingTypeOptions' => [
-                Booking::TYPE_TABLE => 'Table Reservation',
-                Booking::TYPE_EVENT => 'Whole Restaurant Event',
+                Booking::TYPE_TABLE => __('Table Reservation'),
+                Booking::TYPE_EVENT => __('Whole Restaurant Event'),
             ],
             'paymentMethodOptions' => $paymentMethodOptions,
             'occasionOptions' => [
-                'Birthday',
-                'Anniversary',
-                'Graduation',
-                'Retirement',
-                'Celebration',
-                'Business Dinner',
+                __('Birthday'),
+                __('Anniversary'),
+                __('Graduation'),
+                __('Retirement'),
+                __('Celebration'),
+                __('Business Dinner'),
             ],
         ]);
     }
@@ -82,7 +82,7 @@ class BookingController extends Controller
         $renderedAt = (int) $validated['form_rendered_at'];
         if ($renderedAt <= 0 || now()->timestamp - $renderedAt < 3) {
             return back()
-                ->withErrors(['full_name' => 'Submission blocked. Please try again.'])
+                ->withErrors(['full_name' => __('Submission blocked. Please try again.')])
                 ->withInput();
         }
 
@@ -114,7 +114,7 @@ class BookingController extends Controller
             }
 
             return back()
-                ->withErrors(['full_name' => 'Your reservation is already being processed. Please wait a moment and try again.'])
+                ->withErrors(['full_name' => __('Your reservation is already being processed. Please wait a moment and try again.')])
                 ->withInput();
         }
 
@@ -141,14 +141,14 @@ class BookingController extends Controller
 
                 if (! $slot) {
                     return back()
-                        ->withErrors(['selected_slot_id' => 'Selected slot is no longer available.'])
+                        ->withErrors(['selected_slot_id' => __('Selected slot is no longer available.')])
                         ->withInput();
                 }
 
                 $remainingSeats = $this->remainingGuestsForSlot($bookingDate, $slot->id);
                 if ($remainingSeats < $guestCount) {
                     return back()
-                        ->withErrors(['selected_slot_id' => "Only {$remainingSeats} seats are left for this slot."])
+                        ->withErrors(['selected_slot_id' => __('Only :count seats are left for this slot.', ['count' => $remainingSeats])])
                         ->withInput();
                 }
             }
@@ -303,7 +303,7 @@ class BookingController extends Controller
     {
         return collect(config('payments.methods.bookings', []))
             ->filter(fn (array $method): bool => (bool) ($method['enabled'] ?? false))
-            ->mapWithKeys(fn (array $method, string $key): array => [$key => (string) ($method['label'] ?? $key)])
+            ->mapWithKeys(fn (array $method, string $key): array => [$key => __((string) ($method['label'] ?? $key))])
             ->all();
     }
 }

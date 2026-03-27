@@ -1,23 +1,23 @@
 @extends('layouts.master')
 
-@section('title', 'Menu | Kashmir Grill House Como')
-@section('meta_description', 'Browse the Kashmir Grill House menu in Como with halal Pakistani and Indian grills, curries, biryani and rice dishes, starters, desserts, and drinks.')
-@section('meta_keywords', 'Kashmir Grill House menu, halal menu Como, Pakistani Indian food menu Como, grills curries biryani Como')
+@section('title', __('Menu | Kashmir Grill House Como'))
+@section('meta_description', __('Browse the Kashmir Grill House menu in Como with halal Pakistani and Indian grills, curries, biryani and rice dishes, starters, desserts, and drinks.'))
+@section('meta_keywords', __('Kashmir Grill House menu, halal menu Como, Pakistani Indian food menu Como, grills curries biryani Como'))
 
 @php
     $categoryNotes = [
-        'appetizers' => 'Crispy starters and tandoor bites to begin the table.',
-        'antipasti' => 'Classic starters and soups to open the table.',
-        'grill' => 'Charcoal-fired meats and tandoor signatures with bold spice.',
-        'griglia' => 'Smoky tandoor grills and signature kebab cuts.',
-        'main-course' => 'Rich gravies, classics, and house specials.',
-        'primi-piati' => 'Hearty curry classics and karahi-style specialties.',
-        'veg-dishes' => 'Comforting vegetarian favorites with layered flavor.',
-        'rice' => 'Fragrant basmati rice and biryani dishes.',
-        'seasoning' => 'Chutneys, dips, and house add-ons for extra punch.',
-        'desserts' => 'Traditional sweets and chilled finishes.',
-        'mix-platter' => 'Sharing platters for couples, families, and groups.',
-        'drinks' => 'Cooling lassis, chai, and refreshing house drinks.',
+        'appetizers' => __('Crispy starters and tandoor bites to begin the table.'),
+        'antipasti' => __('Classic starters and soups to open the table.'),
+        'grill' => __('Charcoal-fired meats and tandoor signatures with bold spice.'),
+        'griglia' => __('Smoky tandoor grills and signature kebab cuts.'),
+        'main-course' => __('Rich gravies, classics, and house specials.'),
+        'primi-piati' => __('Hearty curry classics and karahi-style specialties.'),
+        'veg-dishes' => __('Comforting vegetarian favorites with layered flavor.'),
+        'rice' => __('Fragrant basmati rice and biryani dishes.'),
+        'seasoning' => __('Chutneys, dips, and house add-ons for extra punch.'),
+        'desserts' => __('Traditional sweets and chilled finishes.'),
+        'mix-platter' => __('Sharing platters for couples, families, and groups.'),
+        'drinks' => __('Cooling lassis, chai, and refreshing house drinks.'),
     ];
 
     $heroImage = $categories->flatMap->menuItems->first()?->imageUrl() ?? asset('assets/images/menu/mix-platter.jpg');
@@ -42,7 +42,7 @@
             <div class="container py-5 py-lg-6 position-relative">
                 <div class="row align-items-center g-4 g-lg-5">
                     <div class="col-12 col-lg-7">
-                        <span class="menu-hero-badge" data-menu-hero-badge>kashmir grill house</span>
+                        <span class="menu-hero-badge" data-menu-hero-badge>{{ __('kashmir grill house') }}</span>
 
                         <h1 class="menu-hero-title mb-3" data-menu-hero-title>
                             <span class="line-wrap"><span class="line line-light">FOOD</span></span>
@@ -50,16 +50,16 @@
                         </h1>
 
                         <p class="menu-hero-subtitle mb-4" data-menu-hero-subtitle>
-                            Explore our categories and signature dishes presented in a bold menu experience inspired by the original menu artwork.
+                            {{ __('Explore our categories and signature dishes presented in a bold menu experience inspired by the original menu artwork.') }}
                         </p>
 
                         <div class="d-flex flex-wrap gap-2" data-menu-hero-cta>
                             @if($categories->isNotEmpty())
                                 <button type="button" class="menu-cta-btn menu-cta-primary" data-menu-chip="{{ $categories->first()->slug }}">
-                                    Start With {{ $categories->first()->name }}
+                                    {{ __('Start With :category', ['category' => $categories->first()->name]) }}
                                 </button>
                             @endif
-                            <a href="{{ route('book-now') }}" class="menu-cta-btn menu-cta-ghost">Reserve Table</a>
+                            <a href="{{ route('book-now') }}" class="menu-cta-btn menu-cta-ghost">{{ __('Reserve Table') }}</a>
                         </div>
                     </div>
 
@@ -68,7 +68,7 @@
                             <div class="menu-hero-visual-glow" data-menu-hero-glow aria-hidden="true"></div>
                             <img
                                 src="{{ $heroImage }}"
-                                alt="Kashmir Grill House menu preview"
+                                alt="{{ __('Kashmir Grill House menu preview') }}"
                                 class="img-fluid"
                                 width="700"
                                 height="700"
@@ -85,16 +85,16 @@
         @if($categories->isEmpty())
             <section class="container py-5">
                 <div class="alert alert-warning border-0 shadow-sm rounded-4">
-                    <h2 class="h5 mb-2">No menu items found</h2>
+                    <h2 class="h5 mb-2">{{ __('No menu items found') }}</h2>
                     <p class="mb-0">
-                        Run <code>php artisan db:seed</code> to load the seeded menu categories and items.
+                        {!! __('Run <code>php artisan db:seed</code> to load the seeded menu categories and items.') !!}
                     </p>
                 </div>
             </section>
         @else
             <section class="menu-chip-shell sticky-top" data-no-reveal>
                 <div class="container py-2">
-                    <div class="menu-chip-rail" data-menu-chip-rail role="tablist" aria-label="Menu categories">
+                    <div class="menu-chip-rail" data-menu-chip-rail role="tablist" aria-label="{{ __('Menu categories') }}">
                         @foreach($categories as $category)
                             <button
                                 type="button"
@@ -127,11 +127,11 @@
                                 <div class="menu-category-header-panel">
                                     <div class="menu-category-header-top">
                                         <div class="menu-kicker">{{ str_pad((string) ($loop->iteration), 2, '0', STR_PAD_LEFT) }}</div>
-                                        <span class="menu-category-count">{{ $category->menuItems->count() }} items</span>
+                                        <span class="menu-category-count">{{ __(':count items', ['count' => $category->menuItems->count()]) }}</span>
                                     </div>
                                     <h2 class="menu-category-title mb-2">{{ $category->name }}</h2>
                                     <p class="menu-category-copy mb-0">
-                                        {{ $categoryNotes[$category->slug] ?? 'Signature dishes made with bold spice and careful preparation.' }}
+                                        {{ $categoryNotes[$category->slug] ?? __('Signature dishes made with bold spice and careful preparation.') }}
                                     </p>
                                 </div>
                             </div>
@@ -165,7 +165,7 @@
                                                 <div class="d-flex justify-content-between align-items-start gap-2">
                                                     <h3 class="menu-item-title mb-0">{{ $item->name }}</h3>
                                                     @if(!$item->is_available)
-                                                        <span class="badge text-bg-secondary">Unavailable</span>
+                                                        <span class="badge text-bg-secondary">{{ __('Unavailable') }}</span>
                                                     @endif
                                                 </div>
 
@@ -182,7 +182,7 @@
                                                 @endif
 
                                                 <div class="menu-item-actions">
-                                                    <a href="{{ route('menu.items.show', $item) }}" class="menu-item-link-label">View Details</a>
+                                                    <a href="{{ route('menu.items.show', $item) }}" class="menu-item-link-label">{{ __('View Details') }}</a>
 
                                                     <form method="POST" action="{{ route('cart.items.add') }}" class="menu-item-card-actions" data-add-to-cart-form>
                                                         @csrf
@@ -190,7 +190,7 @@
                                                         <input type="hidden" name="quantity" value="1">
                                                         <button type="submit" class="menu-add-btn">
                                                             <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
-                                                            Add To Cart
+                                                            {{ __('Add To Cart') }}
                                                         </button>
                                                     </form>
                                                 </div>

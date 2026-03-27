@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
-@section('title', $menuItem->name . ' | Menu | Kashmir Grill House Como')
-@section('meta_description', $menuItem->description ?: ('Discover ' . $menuItem->name . ' at Kashmir Grill House Como.'))
+@section('title', $menuItem->name . ' | ' . __('Menu') . ' | Kashmir Grill House Como')
+@section('meta_description', $menuItem->description ?: __('Discover :item at Kashmir Grill House Como.', ['item' => $menuItem->name]))
 
 @php
     $image = $menuItem->imageUrl() ?? asset('assets/images/menu/main-course.jpg');
@@ -30,8 +30,8 @@
 
                     <div class="col-12 col-lg-6">
                         <div class="menu-detail-content h-100">
-                            <a href="{{ route('menu') }}" class="menu-detail-back">Back to Menu</a>
-                            <p class="menu-detail-kicker mb-2">{{ $menuItem->category?->name ?? 'Menu Item' }}</p>
+                            <a href="{{ route('menu') }}" class="menu-detail-back">{{ __('Back to Menu') }}</a>
+                            <p class="menu-detail-kicker mb-2">{{ $menuItem->category?->name ?? __('Menu Item') }}</p>
                             <h1 class="menu-detail-title mb-3">{{ $menuItem->name }}</h1>
                             <div class="menu-detail-price mb-3">&euro;{{ number_format((float) $menuItem->price, 2) }}</div>
 
@@ -53,14 +53,14 @@
                                         <form method="POST" action="{{ route('cart.items.add') }}" class="menu-detail-cart-form d-flex gap-2 align-items-center" data-add-to-cart-form>
                                             @csrf
                                             <input type="hidden" name="menu_item_id" value="{{ $menuItem->id }}">
-                                            <input type="number" name="quantity" min="1" max="20" value="1" class="menu-detail-qty" aria-label="Quantity">
-                                            <button type="submit" class="menu-detail-btn menu-detail-btn-primary">Add To Cart</button>
+                                            <input type="number" name="quantity" min="1" max="20" value="1" class="menu-detail-qty" aria-label="{{ __('Quantity') }}">
+                                            <button type="submit" class="menu-detail-btn menu-detail-btn-primary">{{ __('Add To Cart') }}</button>
                                         </form>
                                     @else
-                                        <span class="badge text-bg-secondary align-self-center">Currently unavailable</span>
+                                        <span class="badge text-bg-secondary align-self-center">{{ __('Currently unavailable') }}</span>
                                     @endif
-                                    <a href="{{ route('book-now') }}" class="menu-detail-btn menu-detail-btn-ghost">Reserve Table</a>
-                                    <a href="{{ route('menu') }}#menu-{{ $menuItem->category?->slug }}" class="menu-detail-btn menu-detail-btn-ghost">View {{ $menuItem->category?->name }}</a>
+                                    <a href="{{ route('book-now') }}" class="menu-detail-btn menu-detail-btn-ghost">{{ __('Reserve Table') }}</a>
+                                    <a href="{{ route('menu') }}#menu-{{ $menuItem->category?->slug }}" class="menu-detail-btn menu-detail-btn-ghost">{{ __('View :category', ['category' => $menuItem->category?->name]) }}</a>
                                 </div>
                             </div>
                         </div>
@@ -74,10 +74,10 @@
                 <div class="menu-detail-related">
                     <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
                         <div>
-                            <p class="menu-detail-kicker mb-2">More from {{ $menuItem->category?->name }}</p>
-                            <h2 class="menu-detail-related-title mb-0">You May Also Like</h2>
+                            <p class="menu-detail-kicker mb-2">{{ __('More from :category', ['category' => $menuItem->category?->name]) }}</p>
+                            <h2 class="menu-detail-related-title mb-0">{{ __('You May Also Like') }}</h2>
                         </div>
-                        <a href="{{ route('menu') }}#menu-{{ $menuItem->category?->slug }}" class="menu-detail-back m-0">View Full Category</a>
+                        <a href="{{ route('menu') }}#menu-{{ $menuItem->category?->slug }}" class="menu-detail-back m-0">{{ __('View Full Category') }}</a>
                     </div>
 
                     <div class="row g-4">

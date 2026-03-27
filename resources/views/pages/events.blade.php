@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
-@section('title', 'Events & Occasions | Kashmir Grill House Como')
-@section('meta_description', 'Discover private dining, celebrations, and event hosting at Kashmir Grill House with curated halal menus and structured reservation support.')
+@section('title', __('Events & Occasions | Kashmir Grill House Como'))
+@section('meta_description', __('Discover private dining, celebrations, and event hosting at Kashmir Grill House with curated halal menus and structured reservation support.'))
 @section('body_class', 'home-menu-theme')
 
 @section('content')
@@ -10,30 +10,30 @@
             <div class="events-hero">
                 <div class="row g-4 align-items-center">
                     <div class="col-12 col-lg-7">
-                        <span class="badge badge-brand rounded-pill mb-3">Events & Occasions</span>
-                        <h1 class="events-hero__title mb-3">Private Dining and Occasion Hosting with the Same Premium Hospitality</h1>
+                        <span class="badge badge-brand rounded-pill mb-3">{{ __('Events & Occasions') }}</span>
+                        <h1 class="events-hero__title mb-3">{{ __('Private Dining and Occasion Hosting with the Same Premium Hospitality') }}</h1>
                         <p class="events-hero__copy mb-4">
-                            Kashmir Grill House offers event-focused dining for celebrations, family gatherings, and professional occasions, with halal menu planning, coordinated service, and advance booking support.
+                            {{ __('Kashmir Grill House offers event-focused dining for celebrations, family gatherings, and professional occasions, with halal menu planning, coordinated service, and advance booking support.') }}
                         </p>
                         <div class="d-flex flex-wrap gap-2">
-                            <a href="{{ route('book-now') }}" class="btn btn-brand">Book Event</a>
-                            <a href="{{ route('contact') }}" class="btn btn-brand-outline">Speak to Team</a>
+                            <a href="{{ route('book-now') }}" class="btn btn-brand">{{ __('Book Event') }}</a>
+                            <a href="{{ route('contact') }}" class="btn btn-brand-outline">{{ __('Speak to Team') }}</a>
                         </div>
                     </div>
 
                     <div class="col-12 col-lg-5">
                         <div class="events-hero__panel">
                             <div class="events-hero__panel-item">
-                                <span>Event Types</span>
-                                <strong>{{ count($events) }} curated options</strong>
+                                <span>{{ __('Event Types') }}</span>
+                                <strong>{{ __(':count curated options', ['count' => count($events)]) }}</strong>
                             </div>
                             <div class="events-hero__panel-item">
-                                <span>Food Standard</span>
-                                <strong>100% halal kitchen</strong>
+                                <span>{{ __('Food Standard') }}</span>
+                                <strong>{{ __('100% halal kitchen') }}</strong>
                             </div>
                             <div class="events-hero__panel-item">
-                                <span>Planning Support</span>
-                                <strong>Menu and seating coordination</strong>
+                                <span>{{ __('Planning Support') }}</span>
+                                <strong>{{ __('Menu and seating coordination') }}</strong>
                             </div>
                         </div>
                     </div>
@@ -43,20 +43,20 @@
 
         <section class="container pb-4 pb-lg-5">
             <div class="events-service-strip">
-                <span>Private Celebrations</span>
-                <span>Family Gatherings</span>
-                <span>Corporate Dining</span>
-                <span>Advance Menu Planning</span>
-                <span>Halal Group Service</span>
-                <span>Seasonal Occasions</span>
+                <span>{{ __('Private Celebrations') }}</span>
+                <span>{{ __('Family Gatherings') }}</span>
+                <span>{{ __('Corporate Dining') }}</span>
+                <span>{{ __('Advance Menu Planning') }}</span>
+                <span>{{ __('Halal Group Service') }}</span>
+                <span>{{ __('Seasonal Occasions') }}</span>
             </div>
         </section>
 
         <section class="container pb-4 pb-lg-5">
             <x-section-header
-                badge="Event Categories"
-                title="Choose the Right Event Format for Your Guests"
-                subtitle="Each event category includes a dedicated overview, service direction, and booking path so guests can understand exactly what we provide."
+                :badge="__('Event Categories')"
+                :title="__('Choose the Right Event Format for Your Guests')"
+                :subtitle="__('Each event category includes a dedicated overview, service direction, and booking path so guests can understand exactly what we provide.')"
             />
 
             <div class="row g-4">
@@ -73,7 +73,7 @@
                                 >
                             </a>
                             <div class="events-card__body">
-                                <p class="events-card__eyebrow mb-2">Occasion Type</p>
+                                <p class="events-card__eyebrow mb-2">{{ __('Occasion Type') }}</p>
                                 <h2 class="events-card__title mb-2">{{ $event['name'] }}</h2>
                                 <p class="events-card__copy mb-3">{{ $event['description'] }}</p>
 
@@ -86,8 +86,8 @@
                                 @endif
 
                                 <div class="d-flex flex-wrap gap-2">
-                                    <a href="{{ route('events.show', $event['slug']) }}" class="btn btn-brand btn-sm">View Details</a>
-                                    <a href="{{ route('book-now') }}" class="btn btn-brand-outline btn-sm">Book Now</a>
+                                    <a href="{{ route('events.show', $event['slug']) }}" class="btn btn-brand btn-sm">{{ __('View Details') }}</a>
+                                    <a href="{{ route('book-now') }}" class="btn btn-brand-outline btn-sm">{{ __('Book Now') }}</a>
                                 </div>
                             </div>
                         </article>
@@ -100,24 +100,24 @@
             <div class="row g-4">
                 <div class="col-12 col-lg-6">
                     <div class="events-info-panel h-100">
-                        <p class="events-card__eyebrow mb-2">What We Handle</p>
-                        <h2 class="events-info-panel__title mb-3">Professional Event Dining Without Unclear Planning</h2>
+                        <p class="events-card__eyebrow mb-2">{{ __('What We Handle') }}</p>
+                        <h2 class="events-info-panel__title mb-3">{{ __('Professional Event Dining Without Unclear Planning') }}</h2>
                         <ul class="events-info-panel__list">
-                            <li>Guest-focused seating and table planning</li>
-                            <li>Advance menu coordination before the event date</li>
-                            <li>Flexible service pacing for family and business occasions</li>
-                            <li>Support for shared platters and mixed menu preferences</li>
+                            <li>{{ __('Guest-focused seating and table planning') }}</li>
+                            <li>{{ __('Advance menu coordination before the event date') }}</li>
+                            <li>{{ __('Flexible service pacing for family and business occasions') }}</li>
+                            <li>{{ __('Support for shared platters and mixed menu preferences') }}</li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
                     <div class="events-info-panel h-100">
-                        <p class="events-card__eyebrow mb-2">Booking Process</p>
-                        <h2 class="events-info-panel__title mb-3">A Clear Reservation Flow for Private Occasions</h2>
+                        <p class="events-card__eyebrow mb-2">{{ __('Booking Process') }}</p>
+                        <h2 class="events-info-panel__title mb-3">{{ __('A Clear Reservation Flow for Private Occasions') }}</h2>
                         <ol class="events-info-panel__steps">
-                            <li>Choose the event type that fits your gathering</li>
-                            <li>Submit booking details with guest count and notes</li>
-                            <li>Confirm menu direction and table requirements with our team</li>
+                            <li>{{ __('Choose the event type that fits your gathering') }}</li>
+                            <li>{{ __('Submit booking details with guest count and notes') }}</li>
+                            <li>{{ __('Confirm menu direction and table requirements with our team') }}</li>
                         </ol>
                     </div>
                 </div>

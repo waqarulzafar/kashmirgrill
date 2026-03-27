@@ -72,8 +72,8 @@ class Booking extends Model
     public static function typeLabels(): array
     {
         return [
-            self::TYPE_TABLE => 'Table Reservation',
-            self::TYPE_EVENT => 'Whole Restaurant Event',
+            self::TYPE_TABLE => __('Table Reservation'),
+            self::TYPE_EVENT => __('Whole Restaurant Event'),
         ];
     }
 
@@ -83,9 +83,9 @@ class Booking extends Model
     public static function statusLabels(): array
     {
         return [
-            self::STATUS_PENDING => 'Pending',
-            self::STATUS_CONFIRMED => 'Confirmed',
-            self::STATUS_CANCELLED => 'Cancelled',
+            self::STATUS_PENDING => __('Pending'),
+            self::STATUS_CONFIRMED => __('Confirmed'),
+            self::STATUS_CANCELLED => __('Cancelled'),
         ];
     }
 
@@ -95,8 +95,8 @@ class Booking extends Model
     public static function paymentMethodLabels(): array
     {
         return [
-            self::PAYMENT_METHOD_PAY_ON_ARRIVAL => 'Pay at Restaurant',
-            self::PAYMENT_METHOD_CARD_ON_CONFIRMATION => 'Card Checkout After Confirmation',
+            self::PAYMENT_METHOD_PAY_ON_ARRIVAL => __('Pay at Restaurant'),
+            self::PAYMENT_METHOD_CARD_ON_CONFIRMATION => __('Card Checkout After Confirmation'),
         ];
     }
 
@@ -106,9 +106,9 @@ class Booking extends Model
     public static function paymentStatusLabels(): array
     {
         return [
-            self::PAYMENT_STATUS_PENDING => 'Pending',
-            self::PAYMENT_STATUS_PAID => 'Paid',
-            self::PAYMENT_STATUS_CANCELLED => 'Cancelled',
+            self::PAYMENT_STATUS_PENDING => __('Pending'),
+            self::PAYMENT_STATUS_PAID => __('Paid'),
+            self::PAYMENT_STATUS_CANCELLED => __('Cancelled'),
         ];
     }
 

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
-@section('title', 'Reservation Request Received | Kashmir Grill House Como')
-@section('meta_description', 'Your reservation request has been received by Kashmir Grill House in Como. Our team will confirm your booking details shortly.')
+@section('title', __('Reservation Request Received | Kashmir Grill House Como'))
+@section('meta_description', __('Your reservation request has been received by Kashmir Grill House in Como. Our team will confirm your booking details shortly.'))
 @section('meta_robots', 'noindex,follow')
 @section('body_class', 'booking-success-theme')
 
@@ -9,9 +9,9 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-xl-10 text-center">
-                <p class="booking-success-kicker mb-2">Reservation Status</p>
-                <h1 class="display-5 fw-bold mb-3 text-white">Booking Request Received</h1>
-                <p class="lead mb-0 booking-success-hero-copy">Thank you. We have emailed your booking details and our team will verify your slot availability shortly.</p>
+                <p class="booking-success-kicker mb-2">{{ __('Reservation Status') }}</p>
+                <h1 class="display-5 fw-bold mb-3 text-white">{{ __('Booking Request Received') }}</h1>
+                <p class="lead mb-0 booking-success-hero-copy">{{ __('Thank you. We have emailed your booking details and our team will verify your slot availability shortly.') }}</p>
             </div>
         </div>
     </div>
@@ -27,36 +27,36 @@
                             <i class="fa-solid fa-circle-check"></i>
                         </span>
                         <div>
-                            <h2 class="booking-success-title mb-2">Success</h2>
-                            <p class="booking-success-copy mb-0">Your booking request is now in review. A confirmation email with your reservation details has been sent.</p>
+                            <h2 class="booking-success-title mb-2">{{ __('Success') }}</h2>
+                            <p class="booking-success-copy mb-0">{{ __('Your booking request is now in review. A confirmation email with your reservation details has been sent.') }}</p>
                         </div>
                     </div>
 
                     @if(session('booking_reference'))
                         <div class="booking-success-reference">
-                            <p class="mb-1">Reservation Reference</p>
+                            <p class="mb-1">{{ __('Reservation Reference') }}</p>
                             <strong>#{{ session('booking_reference') }}</strong>
                         </div>
                     @endif
 
                     <div class="booking-success-meta">
                         <div class="booking-success-meta__item">
-                            <h3>1. Review in Progress</h3>
-                            <p>We are validating date, party size, and slot availability.</p>
+                            <h3>{{ __('1. Review in Progress') }}</h3>
+                            <p>{{ __('We are validating date, party size, and slot availability.') }}</p>
                         </div>
                         <div class="booking-success-meta__item">
-                            <h3>2. Confirmation</h3>
-                            <p>You will receive confirmation by phone or email from our team.</p>
+                            <h3>{{ __('2. Confirmation') }}</h3>
+                            <p>{{ __('You will receive confirmation by phone or email from our team.') }}</p>
                         </div>
                         <div class="booking-success-meta__item">
-                            <h3>3. Final Arrangement</h3>
-                            <p>For special events, we will finalize menu and payment preference.</p>
+                            <h3>{{ __('3. Final Arrangement') }}</h3>
+                            <p>{{ __('For special events, we will finalize menu and payment preference.') }}</p>
                         </div>
                     </div>
 
                     <div class="d-flex flex-wrap gap-2 gap-md-3">
-                        <a href="{{ route('home') }}" class="btn btn-brand booking-success-btn">Back to Home</a>
-                        <a href="{{ route('book-now') }}" class="btn btn-brand-outline booking-success-btn">Create Another Booking</a>
+                        <a href="{{ route('home') }}" class="btn btn-brand booking-success-btn">{{ __('Back to Home') }}</a>
+                        <a href="{{ route('book-now') }}" class="btn btn-brand-outline booking-success-btn">{{ __('Create Another Booking') }}</a>
                     </div>
                 </article>
             </div>

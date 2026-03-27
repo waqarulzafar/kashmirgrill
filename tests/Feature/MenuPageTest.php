@@ -23,4 +23,15 @@ class MenuPageTest extends TestCase
         $response->assertSee(route('menu.items.show', $menuItem), false);
         $this->assertNotNull($menuItem->slug);
     }
+
+    public function test_localized_menu_item_page_renders_for_a_slug(): void
+    {
+        $this->seed(DatabaseSeeder::class);
+
+        $menuItem = MenuItem::query()->firstOrFail();
+
+        $this->get(route('menu.items.show', ['locale' => 'en', 'menuItem' => $menuItem]))
+            ->assertOk()
+            ->assertSee($menuItem->name);
+    }
 }

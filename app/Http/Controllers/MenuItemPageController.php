@@ -7,7 +7,7 @@ use Illuminate\Contracts\View\View;
 
 class MenuItemPageController extends Controller
 {
-    public function __invoke(MenuItem $menuItem): View
+    public function __invoke(string $locale, MenuItem $menuItem): View
     {
         $menuItem->load('category');
 

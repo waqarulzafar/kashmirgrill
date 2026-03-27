@@ -8,12 +8,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class EventDetailPageController extends Controller
 {
-    public function __invoke(string $slug): View
+    public function __invoke(string $locale, string $slug): View
     {
         $event = EventCatalog::find($slug);
 
-        if (!$event) {
-            throw new NotFoundHttpException();
+        if (! $event) {
+            throw new NotFoundHttpException;
         }
 
         $relatedEvents = collect(EventCatalog::all())

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
-@section('title', 'Checkout | Kashmir Grill House Como')
-@section('meta_description', 'Complete your Kashmir Grill House order with takeaway, delivery, or dine-in reservation checkout.')
+@section('title', __('Checkout | Kashmir Grill House Como'))
+@section('meta_description', __('Complete your Kashmir Grill House order with takeaway, delivery, or dine-in reservation checkout.'))
 @section('body_class', 'checkout-home-theme')
 
 @php
@@ -28,25 +28,25 @@
     $fulfillmentMeta = [
         \App\Models\Order::FULFILLMENT_TAKEAWAY => [
             'icon' => 'fa-bag-shopping',
-            'note' => 'Pick up at our Como counter.',
+            'note' => __('Pick up at our Como counter.'),
         ],
         \App\Models\Order::FULFILLMENT_DELIVERY => [
             'icon' => 'fa-motorcycle',
-            'note' => 'Delivered to your saved address.',
+            'note' => __('Delivered to your saved address.'),
         ],
         \App\Models\Order::FULFILLMENT_DINE_IN => [
             'icon' => 'fa-utensils',
-            'note' => 'Reserve table, time, and guests.',
+            'note' => __('Reserve table, time, and guests.'),
         ],
     ];
     $paymentMeta = [
         \App\Models\Order::PAYMENT_METHOD_STRIPE => [
             'icon' => 'fa-solid fa-credit-card',
-            'note' => 'Pay securely by card via Stripe Checkout.',
+            'note' => __('Pay securely by card via Stripe Checkout.'),
         ],
         \App\Models\Order::PAYMENT_METHOD_PAYPAL => [
             'icon' => 'fa-brands fa-paypal',
-            'note' => 'Pay with your PayPal wallet or linked card.',
+            'note' => __('Pay with your PayPal wallet or linked card.'),
         ],
     ];
 @endphp
@@ -56,7 +56,7 @@
         <div class="checkout-shell">
             @if ($errors->any())
                 <div class="alert alert-danger checkout-alert">
-                    <strong>Please fix the following:</strong>
+                    <strong>{{ __('Please fix the following:') }}</strong>
                     <ul class="mb-0 mt-2 ps-3">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -79,18 +79,18 @@
                         <div class="modal-content checkout-login-modal__content">
                             <div class="modal-header checkout-login-modal__header">
                                 <div>
-                                    <p class="checkout-kicker mb-1">Existing Account</p>
-                                    <h3 class="modal-title checkout-login-modal__title" id="checkoutLoginModalLabel">Sign in to continue checkout</h3>
+                                    <p class="checkout-kicker mb-1">{{ __('Existing Account') }}</p>
+                                    <h3 class="modal-title checkout-login-modal__title" id="checkoutLoginModalLabel">{{ __('Sign in to continue checkout') }}</h3>
                                 </div>
-                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
                             </div>
                             <div class="modal-body">
-                                <p class="checkout-login-modal__copy">We found an account with this email address. Sign in below and continue your checkout without losing your current order details.</p>
+                                <p class="checkout-login-modal__copy">{{ __('We found an account with this email address. Sign in below and continue your checkout without losing your current order details.') }}</p>
 
                                 <form method="POST" action="{{ route('checkout.login') }}" class="row g-3">
                                     @csrf
                                     <div class="col-12">
-                                        <label for="checkout_login_email" class="form-label">Email</label>
+                                        <label for="checkout_login_email" class="form-label">{{ __('Email') }}</label>
                                         <input
                                             id="checkout_login_email"
                                             name="email"
@@ -105,7 +105,7 @@
                                         @enderror
                                     </div>
                                     <div class="col-12">
-                                        <label for="checkout_login_password" class="form-label">Password</label>
+                                        <label for="checkout_login_password" class="form-label">{{ __('Password') }}</label>
                                         <input
                                             id="checkout_login_password"
                                             name="password"
@@ -121,12 +121,12 @@
                                     <div class="col-12">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="1" id="checkout_login_remember" name="remember">
-                                            <label class="form-check-label" for="checkout_login_remember">Remember me</label>
+                                            <label class="form-check-label" for="checkout_login_remember">{{ __('Remember me') }}</label>
                                         </div>
                                     </div>
                                     <div class="col-12 d-flex flex-column flex-sm-row gap-2">
-                                        <button type="submit" class="btn btn-brand flex-fill">Sign In & Continue</button>
-                                        <a href="{{ route('login') }}" class="btn btn-brand-outline flex-fill">Open Full Login Page</a>
+                                        <button type="submit" class="btn btn-brand flex-fill">{{ __('Sign In & Continue') }}</button>
+                                        <a href="{{ route('login') }}" class="btn btn-brand-outline flex-fill">{{ __('Open Full Login Page') }}</a>
                                     </div>
                                 </form>
                             </div>
@@ -143,20 +143,20 @@
 
                             <div class="col-12 checkout-block">
                                 <div class="checkout-block-head">
-                                    <p class="checkout-block-step mb-1">Step 1</p>
-                                    <h3 class="checkout-block-title mb-0">Contact Details</h3>
+                                    <p class="checkout-block-step mb-1">{{ __('Step 1') }}</p>
+                                    <h3 class="checkout-block-title mb-0">{{ __('Contact Details') }}</h3>
                                 </div>
                                 <div class="row g-3 mt-1">
                                     <div class="col-12 col-md-6">
-                                        <label for="full_name" class="form-label">Full Name</label>
+                                        <label for="full_name" class="form-label">{{ __('Full Name') }}</label>
                                         <input id="full_name" name="full_name" type="text" class="form-control" value="{{ $prefillName }}" required>
                                     </div>
                                     <div class="col-12 col-md-6">
-                                        <label for="email" class="form-label">Email</label>
+                                        <label for="email" class="form-label">{{ __('Email') }}</label>
                                         <input id="email" name="email" type="email" class="form-control" value="{{ $prefillEmail }}" required>
                                     </div>
                                     <div class="col-12 col-md-6">
-                                        <label for="phone" class="form-label">Phone</label>
+                                        <label for="phone" class="form-label">{{ __('Phone') }}</label>
                                         <input id="phone" name="phone" type="text" class="form-control" value="{{ $prefillPhone }}" required>
                                     </div>
                                 </div>
@@ -164,8 +164,8 @@
 
                             <div class="col-12 checkout-block">
                                 <div class="checkout-block-head">
-                                    <p class="checkout-block-step mb-1">Step 2</p>
-                                    <h3 class="checkout-block-title mb-0">Choose Order Type</h3>
+                                    <p class="checkout-block-step mb-1">{{ __('Step 2') }}</p>
+                                    <h3 class="checkout-block-title mb-0">{{ __('Choose Order Type') }}</h3>
                                 </div>
                                 <div class="checkout-fulfillment-grid mt-3">
                                     @foreach($fulfillmentOptions as $value => $label)
@@ -189,30 +189,30 @@
 
                             <div class="col-12" data-fulfillment-section="delivery" @if($selectedFulfillment !== \App\Models\Order::FULFILLMENT_DELIVERY) hidden @endif>
                                 <div class="checkout-inline-card">
-                                    <label for="delivery_address" class="form-label">Delivery Address</label>
-                                    <textarea id="delivery_address" name="delivery_address" class="form-control" rows="3" placeholder="Street, building, floor, city">{{ old('delivery_address') }}</textarea>
+                                    <label for="delivery_address" class="form-label">{{ __('Delivery Address') }}</label>
+                                    <textarea id="delivery_address" name="delivery_address" class="form-control" rows="3" placeholder="{{ __('Street, building, floor, city') }}">{{ old('delivery_address') }}</textarea>
                                 </div>
                             </div>
 
                             <div class="col-12" data-fulfillment-section="dine_in" @if($selectedFulfillment !== \App\Models\Order::FULFILLMENT_DINE_IN) hidden @endif>
                                 <div class="checkout-inline-card">
-                                    <h4 class="checkout-inline-title mb-3">Table Reservation Details</h4>
+                                    <h4 class="checkout-inline-title mb-3">{{ __('Table Reservation Details') }}</h4>
                                     <div class="row g-3">
                                         <div class="col-12 col-md-4">
-                                            <label for="reservation_date" class="form-label">Reservation Date</label>
+                                            <label for="reservation_date" class="form-label">{{ __('Reservation Date') }}</label>
                                             <input id="reservation_date" name="reservation_date" type="date" class="form-control" value="{{ old('reservation_date', $selectedDate) }}" data-slot-date>
                                         </div>
                                         <div class="col-12 col-md-4">
-                                            <label for="guest_count" class="form-label">Guests</label>
+                                            <label for="guest_count" class="form-label">{{ __('Guests') }}</label>
                                             <input id="guest_count" name="guest_count" type="number" class="form-control" min="1" max="20" value="{{ old('guest_count', 2) }}" data-slot-guests>
                                         </div>
                                         <div class="col-12 col-md-4">
-                                            <label for="reservation_slot_id" class="form-label">Available Time Slot</label>
+                                            <label for="reservation_slot_id" class="form-label">{{ __('Available Time Slot') }}</label>
                                             <select id="reservation_slot_id" name="reservation_slot_id" class="form-select" data-slot-select>
-                                                <option value="">Select a slot</option>
+                                                <option value="">{{ __('Select a slot') }}</option>
                                                 @foreach($slotAvailability as $slot)
                                                     <option value="{{ $slot['id'] }}" @selected((string) old('reservation_slot_id') === (string) $slot['id']) @disabled(!$slot['can_book'])>
-                                                        {{ $slot['name'] }} ({{ $slot['time_range'] }}) - {{ $slot['remaining'] }} seats left
+                                                        {{ $slot['name'] }} ({{ $slot['time_range'] }}) - {{ __(':count seats left', ['count' => $slot['remaining']]) }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -223,16 +223,16 @@
 
                             <div class="col-12 checkout-block">
                                 <div class="checkout-block-head">
-                                    <p class="checkout-block-step mb-1">Step 3</p>
-                                    <h3 class="checkout-block-title mb-0">Order Notes</h3>
+                                    <p class="checkout-block-step mb-1">{{ __('Step 3') }}</p>
+                                    <h3 class="checkout-block-title mb-0">{{ __('Order Notes') }}</h3>
                                 </div>
-                                <textarea id="notes" name="notes" class="form-control mt-3" rows="3" placeholder="Delivery instructions, allergy notes, or table request">{{ old('notes') }}</textarea>
+                                <textarea id="notes" name="notes" class="form-control mt-3" rows="3" placeholder="{{ __('Delivery instructions, allergy notes, or table request') }}">{{ old('notes') }}</textarea>
                             </div>
 
                             <div class="col-12 checkout-block">
                                 <div class="checkout-block-head">
-                                    <p class="checkout-block-step mb-1">Step 4</p>
-                                    <h3 class="checkout-block-title mb-0">Payment Method</h3>
+                                    <p class="checkout-block-step mb-1">{{ __('Step 4') }}</p>
+                                    <h3 class="checkout-block-title mb-0">{{ __('Payment Method') }}</h3>
                                 </div>
                                 <div class="checkout-fulfillment-grid mt-3">
                                     @foreach($paymentOptions as $value => $label)
@@ -259,25 +259,25 @@
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="1" id="create_account" name="create_account" @checked(old('create_account')) data-create-account-toggle>
                                             <label class="form-check-label" for="create_account">
-                                                Create account during checkout
+                                                {{ __('Create account during checkout') }}
                                             </label>
                                         </div>
                                         <button type="button" class="btn btn-link checkout-login-trigger px-0 mt-3" data-bs-toggle="modal" data-bs-target="#checkoutLoginModal">
-                                            Already have an account? Sign in here
+                                            {{ __('Already have an account? Sign in here') }}
                                         </button>
 
                                         <div class="mt-3" data-create-account-fields @if(!old('create_account')) hidden @endif>
                                             <div class="row g-3">
                                                 <div class="col-12 col-md-4">
-                                                    <label for="account_name" class="form-label">Account Name</label>
+                                                    <label for="account_name" class="form-label">{{ __('Account Name') }}</label>
                                                     <input id="account_name" name="account_name" type="text" class="form-control" value="{{ old('account_name', $prefillName) }}">
                                                 </div>
                                                 <div class="col-12 col-md-4">
-                                                    <label for="password" class="form-label">Password</label>
+                                                    <label for="password" class="form-label">{{ __('Password') }}</label>
                                                     <input id="password" name="password" type="password" class="form-control">
                                                 </div>
                                                 <div class="col-12 col-md-4">
-                                                    <label for="password_confirmation" class="form-label">Confirm Password</label>
+                                                    <label for="password_confirmation" class="form-label">{{ __('Confirm Password') }}</label>
                                                     <input id="password_confirmation" name="password_confirmation" type="password" class="form-control">
                                                 </div>
                                             </div>
@@ -289,7 +289,7 @@
                             <div class="col-12">
                                 <button type="submit" class="btn btn-brand checkout-submit-btn">
                                     <i class="fa-solid fa-check-to-slot" aria-hidden="true"></i>
-                                    Place Order
+                                    {{ __('Place Order') }}
                                 </button>
                             </div>
                         </form>
@@ -300,21 +300,21 @@
                     <article class="checkout-card checkout-summary">
                         <div class="checkout-summary-head">
                             <div>
-                                <p class="checkout-kicker mb-1">Order Summary</p>
-                                <h3 class="checkout-summary-title mb-0">Cart Overview</h3>
+                                <p class="checkout-kicker mb-1">{{ __('Order Summary') }}</p>
+                                <h3 class="checkout-summary-title mb-0">{{ __('Cart Overview') }}</h3>
                             </div>
-                            <span class="checkout-summary-count">{{ $cartQuantity }} items</span>
+                            <span class="checkout-summary-count">{{ __(':count items', ['count' => $cartQuantity]) }}</span>
                         </div>
 
                         @if($cartItems->isEmpty())
-                            <p class="checkout-empty mb-0">Your cart is empty. Add menu items first to continue checkout.</p>
+                            <p class="checkout-empty mb-0">{{ __('Your cart is empty. Add menu items first to continue checkout.') }}</p>
                         @else
                             <div class="checkout-summary-list">
                                 @foreach($cartItems as $item)
                                     <div class="checkout-summary__item">
                                         <div>
                                             <p class="checkout-summary-name mb-1">{{ $item['name'] }}</p>
-                                            <p class="checkout-summary-meta mb-0">Qty {{ $item['quantity'] }} x &euro;{{ number_format((float) $item['price'], 2) }}</p>
+                                            <p class="checkout-summary-meta mb-0">{{ __('Qty :qty x', ['qty' => $item['quantity']]) }} &euro;{{ number_format((float) $item['price'], 2) }}</p>
                                         </div>
                                         <strong>&euro;{{ number_format((float) $item['line_total'], 2) }}</strong>
                                     </div>
@@ -324,10 +324,10 @@
 
                         <div class="checkout-summary-totals">
                             <p class="mb-1 d-flex justify-content-between">
-                                <span>Subtotal</span>
+                                <span>{{ __('Subtotal') }}</span>
                                 <strong>&euro;{{ number_format($cartSubtotal, 2) }}</strong>
                             </p>
-                            <p class="mb-0 checkout-summary-note">Delivery fee is added only when Delivery is selected.</p>
+                            <p class="mb-0 checkout-summary-note">{{ __('Delivery fee is added only when Delivery is selected.') }}</p>
                         </div>
                     </article>
                 </div>

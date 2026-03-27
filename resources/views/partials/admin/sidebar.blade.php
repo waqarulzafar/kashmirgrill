@@ -133,6 +133,18 @@
                             <span class="menu-title">My Profile</span>
                         </a>
                     </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ request()->routeIs('admin.localization.*') ? 'active' : '' }}" href="{{ route('admin.localization.edit') }}">
+                            <span class="menu-icon">
+                                <i class="ki-duotone ki-geolocation-home fs-2">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                </i>
+                            </span>
+                            <span class="menu-title">Localization</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

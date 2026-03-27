@@ -1,8 +1,8 @@
 @extends('layouts.master')
 
-@section('title', 'Reserve a Table | Kashmir Grill House Como')
-@section('meta_description', 'Book your table or full restaurant event at Kashmir Grill House in Como with live slot availability and a guided reservation flow.')
-@section('meta_keywords', 'book table Kashmir Grill House, event booking Como, reservation slots Como halal restaurant')
+@section('title', __('Reserve a Table | Kashmir Grill House Como'))
+@section('meta_description', __('Book your table or full restaurant event at Kashmir Grill House in Como with live slot availability and a guided reservation flow.'))
+@section('meta_keywords', __('book table Kashmir Grill House, event booking Como, reservation slots Como halal restaurant'))
 @section('body_class', 'booking-flow-theme')
 
 @php
@@ -23,7 +23,7 @@
     <section class="container py-4 py-lg-5 booking-flow" data-booking-flow data-availability-url="{{ route('bookings.availability') }}">
         @if ($errors->any())
             <div class="alert alert-danger booking-alert mb-4">
-                <strong>Please fix the following before submitting:</strong>
+                <strong>{{ __('Please fix the following before submitting:') }}</strong>
                 <ul class="mb-0 mt-2 ps-3">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -38,26 +38,26 @@
                     <div id="bookingGallery" class="carousel slide booking-gallery" data-bs-ride="carousel" data-bs-interval="4200">
                         <div class="carousel-inner rounded-4 overflow-hidden">
                             <div class="carousel-item active">
-                                <img src="{{ asset('assets/images/menu/griglia/mix-grill-tandoori.jpg') }}" alt="Kashmir Grill House signature grill platter" class="d-block w-100 booking-gallery__image" loading="lazy" decoding="async">
+                                <img src="{{ asset('assets/images/menu/griglia/mix-grill-tandoori.jpg') }}" alt="{{ __('Kashmir Grill House signature grill platter') }}" class="d-block w-100 booking-gallery__image" loading="lazy" decoding="async">
                             </div>
                             <div class="carousel-item">
-                                <img src="{{ asset('assets/images/menu/primi-piati/butter-chicken.jpg') }}" alt="Butter chicken served for dining guests" class="d-block w-100 booking-gallery__image" loading="lazy" decoding="async">
+                                <img src="{{ asset('assets/images/menu/primi-piati/butter-chicken.jpg') }}" alt="{{ __('Butter chicken served for dining guests') }}" class="d-block w-100 booking-gallery__image" loading="lazy" decoding="async">
                             </div>
                             <div class="carousel-item">
-                                <img src="{{ asset('assets/images/menu/antipasti/samosa-chaat.jpg') }}" alt="Starter options for table and event bookings" class="d-block w-100 booking-gallery__image" loading="lazy" decoding="async">
+                                <img src="{{ asset('assets/images/menu/antipasti/samosa-chaat.jpg') }}" alt="{{ __('Starter options for table and event bookings') }}" class="d-block w-100 booking-gallery__image" loading="lazy" decoding="async">
                             </div>
                         </div>
                     </div>
 
                     <div class="booking-showcase__content">
-                        <h2 class="booking-showcase__title mb-2">Find Your Perfect Reservation</h2>
+                        <h2 class="booking-showcase__title mb-2">{{ __('Find Your Perfect Reservation') }}</h2>
                         <p class="booking-showcase__subtitle mb-3">
-                            Reserve a table for regular service or request the whole restaurant for private events.
+                            {{ __('Reserve a table for regular service or request the whole restaurant for private events.') }}
                         </p>
                         <ul class="booking-showcase__list mb-0">
-                            <li>Live slot availability based on active admin time slots.</li>
-                            <li>Dedicated event booking mode for exclusive restaurant use.</li>
-                            <li>Fast guest details flow with international phone input.</li>
+                            <li>{{ __('Live slot availability based on active admin time slots.') }}</li>
+                            <li>{{ __('Dedicated event booking mode for exclusive restaurant use.') }}</li>
+                            <li>{{ __('Fast guest details flow with international phone input.') }}</li>
                         </ul>
                     </div>
                 </article>
@@ -66,9 +66,9 @@
             <div class="col-12 col-xl-6">
                 <article class="booking-panel h-100">
                     <header class="booking-panel__header">
-                        <p class="booking-kicker mb-1">Reservation Flow</p>
-                        <h1 class="booking-panel__title mb-2">Book Table or Full Event</h1>
-                        <p class="booking-panel__subtitle mb-0">Pick date, party size, and preferred timing first, then continue with guest and payment details.</p>
+                        <p class="booking-kicker mb-1">{{ __('Reservation Flow') }}</p>
+                        <h1 class="booking-panel__title mb-2">{{ __('Book Table or Full Event') }}</h1>
+                        <p class="booking-panel__subtitle mb-0">{{ __('Pick date, party size, and preferred timing first, then continue with guest and payment details.') }}</p>
                     </header>
 
                     <form method="POST" action="{{ route('bookings.store') }}" class="booking-form" data-booking-form>
@@ -84,7 +84,7 @@
                         <input type="hidden" name="phone_country_iso2" id="bookingPhoneCountry" value="{{ old('phone_country_iso2') }}">
 
                         <div class="d-none" aria-hidden="true">
-                            <label for="website">Website</label>
+                            <label for="website">{{ __('Website') }}</label>
                             <input id="website" name="website" type="text" autocomplete="off" tabindex="-1">
                         </div>
 
@@ -94,7 +94,7 @@
                                     <input type="radio" name="booking_type" value="{{ $value }}" @checked($bookingType === $value) data-booking-type>
                                     <span>
                                         <strong>{{ $label }}</strong>
-                                        <small>{{ $value === \App\Models\Booking::TYPE_TABLE ? 'Choose from available seatings' : 'Reserve for private functions' }}</small>
+                                        <small>{{ $value === \App\Models\Booking::TYPE_TABLE ? __('Choose from available seatings') : __('Reserve for private functions') }}</small>
                                     </span>
                                 </label>
                             @endforeach
@@ -108,7 +108,7 @@
 
                             <div class="row g-3 mt-1">
                                 <div class="col-12 col-md-4">
-                                    <p class="booking-search__label">Date</p>
+                                    <p class="booking-search__label">{{ __('Date') }}</p>
                                     <div class="booking-search__control booking-search__control--field booking-search__control--date">
                                         <input
                                             id="bookingSearchDate"
@@ -119,7 +119,7 @@
                                             data-bs-toggle="modal"
                                             data-bs-target="#bookingDateModal"
                                             autocomplete="off"
-                                            placeholder="Select date"
+                                            placeholder="{{ __('Select date') }}"
                                             aria-haspopup="dialog"
                                             readonly
                                         >
@@ -127,19 +127,19 @@
                                     </div>
                                 </div>
                                 <div class="col-6 col-md-4">
-                                    <p class="booking-search__label">Size</p>
+                                    <p class="booking-search__label">{{ __('Size') }}</p>
                                     <select id="bookingSearchPersons" class="booking-search__control booking-search__control--select">
                                         @for($i = 1; $i <= 80; $i++)
-                                            <option value="{{ $i }}" @selected($searchGuests === $i)>{{ $i }} {{ \Illuminate\Support\Str::plural('Guest', $i) }}</option>
+                                            <option value="{{ $i }}" @selected($searchGuests === $i)>{{ __(':count Guests', ['count' => $i]) }}</option>
                                         @endfor
                                     </select>
                                 </div>
                                 <div class="col-6 col-md-4">
-                                    <p class="booking-search__label">Time</p>
+                                    <p class="booking-search__label">{{ __('Time') }}</p>
                                     <select id="bookingSearchTime" class="booking-search__control booking-search__control--select">
-                                        <option value="all" @selected($searchTimeFilter === 'all')>All</option>
-                                        <option value="lunch" @selected($searchTimeFilter === 'lunch')>Lunch</option>
-                                        <option value="dinner" @selected($searchTimeFilter === 'dinner')>Dinner</option>
+                                        <option value="all" @selected($searchTimeFilter === 'all')>{{ __('All') }}</option>
+                                        <option value="lunch" @selected($searchTimeFilter === 'lunch')>{{ __('Lunch') }}</option>
+                                        <option value="dinner" @selected($searchTimeFilter === 'dinner')>{{ __('Dinner') }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -148,15 +148,15 @@
                                 <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" data-find-spinner></span>
                                 <span data-find-label>
                                     <i class="fa-solid fa-magnifying-glass"></i>
-                                    Find Availability
+                                    {{ __('Find Availability') }}
                                 </span>
                             </button>
                         </section>
 
                         <section class="booking-slots mt-4 d-none" data-slots-section data-step-slots>
                             <div class="d-flex justify-content-between align-items-center gap-2 mb-3">
-                                <h3 class="booking-step-title mb-0">Available Times</h3>
-                                <span class="booking-slots__status" data-slots-status>Choose one slot</span>
+                                <h3 class="booking-step-title mb-0">{{ __('Available Times') }}</h3>
+                                <span class="booking-slots__status" data-slots-status>{{ __('Choose one slot') }}</span>
                             </div>
                             <div class="booking-slots__grid" data-slots-grid>
                                 @foreach($slotAvailability as $slot)
@@ -169,108 +169,108 @@
                                         @disabled(!$slot['can_book'])
                                     >
                                         <strong>{{ $slot['start_time'] }}</strong>
-                                        <small>{{ $slot['remaining'] }} seats left</small>
+                                        <small>{{ __(':count seats left', ['count' => $slot['remaining']]) }}</small>
                                     </button>
                                 @endforeach
                             </div>
                             <p class="booking-slots__empty mb-0 {{ $slotAvailability->isNotEmpty() ? 'd-none' : '' }}" data-slots-empty>
-                                No slots found for this selection. Try another date or party size.
+                                {{ __('No slots found for this selection. Try another date or party size.') }}
                             </p>
                         </section>
 
                         <section class="booking-details mt-4 d-none" data-step-details>
                             <div class="booking-steps mb-4">
-                                <span class="is-active">1. Guest Details</span>
-                                <span>2. Preferences</span>
-                                <span>3. Checkout</span>
+                                <span class="is-active">{{ __('1. Guest Details') }}</span>
+                                <span>{{ __('2. Preferences') }}</span>
+                                <span>{{ __('3. Checkout') }}</span>
                             </div>
 
                             <div class="row g-3">
                                 <div class="col-12 col-md-6">
-                                    <label for="full_name" class="form-label">Full Name</label>
+                                    <label for="full_name" class="form-label">{{ __('Full Name') }}</label>
                                     <input id="full_name" name="full_name" type="text" class="form-control" value="{{ old('full_name') }}" required>
                                 </div>
                                 <div class="col-12 col-md-6">
-                                    <label for="email" class="form-label">Email Address</label>
+                                    <label for="email" class="form-label">{{ __('Email Address') }}</label>
                                     <input id="email" name="email" type="email" class="form-control" value="{{ old('email') }}" required>
                                 </div>
                                 <div class="col-12 col-md-6">
-                                    <label for="phone_display" class="form-label">Phone Number</label>
+                                    <label for="phone_display" class="form-label">{{ __('Phone Number') }}</label>
                                     <input id="phone_display" name="phone_display" type="tel" class="form-control" value="{{ old('phone') }}" required>
                                 </div>
                                 <div class="col-12 col-md-6 {{ $bookingType === \App\Models\Booking::TYPE_TABLE ? 'd-none' : '' }}" data-event-time-group>
-                                    <label for="event_time" class="form-label">Preferred Start Time</label>
+                                    <label for="event_time" class="form-label">{{ __('Preferred Start Time') }}</label>
                                     <input id="event_time" type="time" class="form-control" value="{{ old('time') }}" data-event-time-input @if($bookingType === \App\Models\Booking::TYPE_EVENT) name="time" required @endif>
                                 </div>
                                 <div class="col-12 col-md-6">
-                                    <label for="table_preference" class="form-label">Seating Preference</label>
+                                    <label for="table_preference" class="form-label">{{ __('Seating Preference') }}</label>
                                     <select id="table_preference" name="table_preference" class="form-select">
-                                        <option value="">No preference</option>
-                                        <option value="Window" @selected(old('table_preference') === 'Window')>Window</option>
-                                        <option value="Quiet Corner" @selected(old('table_preference') === 'Quiet Corner')>Quiet Corner</option>
-                                        <option value="Family Seating" @selected(old('table_preference') === 'Family Seating')>Family Seating</option>
-                                        <option value="Outdoor" @selected(old('table_preference') === 'Outdoor')>Outdoor</option>
+                                        <option value="">{{ __('No preference') }}</option>
+                                        <option value="Window" @selected(old('table_preference') === 'Window')>{{ __('Window') }}</option>
+                                        <option value="Quiet Corner" @selected(old('table_preference') === 'Quiet Corner')>{{ __('Quiet Corner') }}</option>
+                                        <option value="Family Seating" @selected(old('table_preference') === 'Family Seating')>{{ __('Family Seating') }}</option>
+                                        <option value="Outdoor" @selected(old('table_preference') === 'Outdoor')>{{ __('Outdoor') }}</option>
                                     </select>
                                 </div>
                                 <div class="col-12 col-md-6">
-                                    <label for="selected_menu" class="form-label">Menu Focus</label>
+                                    <label for="selected_menu" class="form-label">{{ __('Menu Focus') }}</label>
                                     <select id="selected_menu" name="selected_menu" class="form-select">
-                                        <option value="">Choose menu focus</option>
-                                        <option value="A la carte" @selected(old('selected_menu') === 'A la carte')>A la carte</option>
-                                        <option value="Family Sharing" @selected(old('selected_menu') === 'Family Sharing')>Family Sharing</option>
-                                        <option value="Vegetarian" @selected(old('selected_menu') === 'Vegetarian')>Vegetarian</option>
-                                        <option value="Chef Specials" @selected(old('selected_menu') === 'Chef Specials')>Chef Specials</option>
-                                        <option value="Event Buffet" @selected(old('selected_menu') === 'Event Buffet')>Event Buffet</option>
+                                        <option value="">{{ __('Choose menu focus') }}</option>
+                                        <option value="A la carte" @selected(old('selected_menu') === 'A la carte')>{{ __('A la carte') }}</option>
+                                        <option value="Family Sharing" @selected(old('selected_menu') === 'Family Sharing')>{{ __('Family Sharing') }}</option>
+                                        <option value="Vegetarian" @selected(old('selected_menu') === 'Vegetarian')>{{ __('Vegetarian') }}</option>
+                                        <option value="Chef Specials" @selected(old('selected_menu') === 'Chef Specials')>{{ __('Chef Specials') }}</option>
+                                        <option value="Event Buffet" @selected(old('selected_menu') === 'Event Buffet')>{{ __('Event Buffet') }}</option>
                                     </select>
                                 </div>
 
                                 <div class="col-12">
-                                    <label class="form-label">Special Occasion</label>
+                                    <label class="form-label">{{ __('Special Occasion') }}</label>
                                     <button type="button" class="booking-inline-select" id="openOccasionModal">
-                                        <span id="occasionLabel">{{ old('special_occasion', 'Select special occasions') }}</span>
+                                        <span id="occasionLabel">{{ old('special_occasion', __('Select special occasions')) }}</span>
                                         <i class="fa-solid fa-chevron-right"></i>
                                     </button>
                                     <input type="hidden" name="special_occasion" id="specialOccasionValue" value="{{ old('special_occasion') }}">
                                 </div>
 
                                 <div class="col-12">
-                                    <label for="additional_notes" class="form-label">Message</label>
-                                    <textarea id="additional_notes" name="additional_notes" class="form-control" rows="4" placeholder="Any special requests or preferences?">{{ old('additional_notes') }}</textarea>
+                                    <label for="additional_notes" class="form-label">{{ __('Message') }}</label>
+                                    <textarea id="additional_notes" name="additional_notes" class="form-control" rows="4" placeholder="{{ __('Any special requests or preferences?') }}">{{ old('additional_notes') }}</textarea>
                                 </div>
                             </div>
 
                             <button type="button" class="btn btn-brand-outline booking-next-btn mt-4" data-open-payment-step>
-                                Continue to Checkout
+                                {{ __('Continue to Checkout') }}
                             </button>
                         </section>
 
                         <section class="booking-payment mt-4 d-none" data-step-payment>
-                            <h3 class="booking-step-title mb-3">Checkout Preference</h3>
+                            <h3 class="booking-step-title mb-3">{{ __('Checkout Preference') }}</h3>
                             <div class="booking-mode-grid">
                                 @foreach($paymentMethodOptions as $value => $label)
                                     <label class="booking-mode-option booking-mode-option--payment">
                                         <input type="radio" name="payment_method" value="{{ $value }}" @checked($selectedBookingPaymentMethod === $value)>
                                         <span>
                                             <strong>{{ $label }}</strong>
-                                            <small>{{ $value === \App\Models\Booking::PAYMENT_METHOD_CARD_ON_CONFIRMATION ? 'Secure payment link sent once slot is confirmed' : 'Settle bill at the restaurant' }}</small>
+                                            <small>{{ $value === \App\Models\Booking::PAYMENT_METHOD_CARD_ON_CONFIRMATION ? __('Secure payment link sent once slot is confirmed') : __('Settle bill at the restaurant') }}</small>
                                         </span>
                                     </label>
                                 @endforeach
                             </div>
                             <p class="booking-payment-note mt-2 mb-0 d-none" data-card-checkout-note>
-                                Card details are collected through a secure checkout link after availability confirmation.
+                                {{ __('Card details are collected through a secure checkout link after availability confirmation.') }}
                             </p>
 
                             <div class="form-check mt-3 booking-optin">
                                 <input class="form-check-input" type="checkbox" value="1" id="marketing_opt_in" name="marketing_opt_in" @checked(old('marketing_opt_in'))>
                                 <label class="form-check-label" for="marketing_opt_in">
-                                    I would like to receive updates and offers from Kashmir Grill House.
+                                    {{ __('I would like to receive updates and offers from Kashmir Grill House.') }}
                                 </label>
                             </div>
                         </section>
 
                         <button type="submit" class="btn btn-brand booking-submit-btn mt-4 d-none" data-step-submit>
-                            Continue Reservation
+                            {{ __('Continue Reservation') }}
                         </button>
                     </form>
                 </article>
@@ -284,22 +284,22 @@
                 <div class="modal-body">
                     <div class="d-flex align-items-start justify-content-between gap-3 mb-3">
                         <div>
-                            <p class="booking-date-modal__kicker mb-1">Reservation Date</p>
-                            <h3 id="bookingDateModalTitle" class="booking-date-modal__title mb-1">Choose your date</h3>
-                            <p class="booking-date-modal__copy mb-0">Pick a date and we will refresh availability for that day.</p>
+                            <p class="booking-date-modal__kicker mb-1">{{ __('Reservation Date') }}</p>
+                            <h3 id="bookingDateModalTitle" class="booking-date-modal__title mb-1">{{ __('Choose your date') }}</h3>
+                            <p class="booking-date-modal__copy mb-0">{{ __('Pick a date and we will refresh availability for that day.') }}</p>
                         </div>
-                        <button type="button" class="booking-modal-close" data-bs-dismiss="modal" aria-label="Close date picker">
+                        <button type="button" class="booking-modal-close" data-bs-dismiss="modal" aria-label="{{ __('Close date picker') }}">
                             <i class="fa-solid fa-xmark"></i>
                         </button>
                     </div>
 
                     <div class="booking-date-modal__selection mb-3">
-                        <span class="booking-date-modal__selection-label">Selected date</span>
-                        <strong data-booking-date-preview>{{ \Illuminate\Support\Carbon::parse($searchDate)->format('D, d M Y') }}</strong>
+                        <span class="booking-date-modal__selection-label">{{ __('Selected date') }}</span>
+                        <strong data-booking-date-preview>{{ \Illuminate\Support\Carbon::parse($searchDate)->translatedFormat('D, d M Y') }}</strong>
                     </div>
 
                     <p class="booking-date-modal__hint mb-3">
-                        Tap any available day below. Your date will be applied instantly.
+                        {{ __('Tap any available day below. Your date will be applied instantly.') }}
                     </p>
 
                     <div class="booking-date-modal__calendar">
@@ -313,18 +313,18 @@
     <div class="booking-overlay d-none" id="occasionModal" aria-hidden="true">
         <div class="booking-modal-card" role="dialog" aria-modal="true" aria-labelledby="occasionTitle">
             <div class="booking-modal-head">
-                <h4 id="occasionTitle" class="mb-0">Select Special Occasion</h4>
+                <h4 id="occasionTitle" class="mb-0">{{ __('Select Special Occasion') }}</h4>
                 <button type="button" class="booking-modal-close" data-close-occasion-modal>
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-            <p class="booking-modal-copy mb-3">Are you celebrating something special? Let us know so we can prepare better.</p>
+            <p class="booking-modal-copy mb-3">{{ __('Are you celebrating something special? Let us know so we can prepare better.') }}</p>
             <div class="booking-occasion-grid" id="occasionGrid">
                 @foreach($occasionOptions as $occasion)
                     <button type="button" class="booking-occasion-option" data-occasion-option="{{ $occasion }}">{{ $occasion }}</button>
                 @endforeach
             </div>
-            <button type="button" class="btn btn-brand booking-modal-apply mt-3" id="applyOccasionSelection">Done</button>
+            <button type="button" class="btn btn-brand booking-modal-apply mt-3" id="applyOccasionSelection">{{ __('Done') }}</button>
         </div>
     </div>
 @endsection
@@ -1207,6 +1207,18 @@
             const applyOccasionButton = document.getElementById('applyOccasionSelection');
             const paymentMethodInputs = Array.from(root.querySelectorAll('input[name=\"payment_method\"]'));
             const cardCheckoutNote = root.querySelector('[data-card-checkout-note]');
+            const bookingCopy = {
+                checkingAvailability: @json(__('Checking availability...')),
+                findAvailability: @json(__('Find Availability')),
+                selectReservationDate: @json(__('Select your reservation date')),
+                chooseOneSlot: @json(__('Choose one slot')),
+                selectedPrefix: @json(__('Selected')),
+                noAvailableSlots: @json(__('No available slots')),
+                seatsLeft: @json(__('seats left')),
+                chooseDateFirst: @json(__('Please choose a date first')),
+                loadSlotsFailed: @json(__('Could not load slots')),
+                selectSpecialOccasions: @json(__('Select special occasions')),
+            };
 
             const getBookingType = () => bookingTypeInputs.find((input) => input.checked)?.value || 'table';
             let availabilityChecked = false;
@@ -1241,8 +1253,8 @@
 
                 if (findLabel) {
                     findLabel.innerHTML = isLoading
-                        ? 'Checking availability...'
-                        : '<i class="fa-solid fa-magnifying-glass"></i> Find Availability';
+                        ? bookingCopy.checkingAvailability
+                        : `<i class="fa-solid fa-magnifying-glass"></i> ${bookingCopy.findAvailability}`;
                 }
             };
 
@@ -1302,7 +1314,7 @@
 
             const formatSelectedDate = (dateValue) => {
                 if (!dateValue) {
-                    return 'Select your reservation date';
+                    return bookingCopy.selectReservationDate;
                 }
 
                 const parsedDate = new Date(`${dateValue}T00:00:00`);
@@ -1311,7 +1323,7 @@
                     return dateValue;
                 }
 
-                return new Intl.DateTimeFormat('en-GB', {
+                return new Intl.DateTimeFormat(document.documentElement.lang || 'en-GB', {
                     weekday: 'short',
                     day: '2-digit',
                     month: 'short',
@@ -1394,7 +1406,7 @@
                 if (!button) {
                     selectedSlotInput.value = '';
                     selectedTimeInput.value = '';
-                    slotsStatus.textContent = 'Choose one slot';
+                    slotsStatus.textContent = bookingCopy.chooseOneSlot;
                     resetAfterSearch();
                     return;
                 }
@@ -1402,7 +1414,7 @@
                 button.classList.add('is-active');
                 selectedSlotInput.value = button.dataset.slotId || '';
                 selectedTimeInput.value = button.dataset.slotTime || '';
-                slotsStatus.textContent = `Selected ${button.dataset.slotTime || ''}`;
+                slotsStatus.textContent = `${bookingCopy.selectedPrefix} ${button.dataset.slotTime || ''}`;
                 showDetailsStep();
             };
 
@@ -1416,7 +1428,7 @@
 
                 if (!Array.isArray(slots) || slots.length === 0) {
                     slotsEmpty?.classList.remove('d-none');
-                    slotsStatus.textContent = 'No available slots';
+                    slotsStatus.textContent = bookingCopy.noAvailableSlots;
                     selectedSlotInput.value = '';
                     selectedTimeInput.value = '';
                     resetAfterSearch();
@@ -1424,7 +1436,7 @@
                 }
 
                 slotsEmpty?.classList.add('d-none');
-                slotsStatus.textContent = 'Choose one slot';
+                slotsStatus.textContent = bookingCopy.chooseOneSlot;
 
                 slots.forEach((slot) => {
                     const button = document.createElement('button');
@@ -1434,7 +1446,7 @@
                     button.dataset.slotId = String(slot.id);
                     button.dataset.slotTime = slot.start_time;
                     button.disabled = slot.can_book !== true;
-                    button.innerHTML = `<strong>${slot.start_time}</strong><small>${slot.remaining} seats left</small>`;
+                    button.innerHTML = `<strong>${slot.start_time}</strong><small>${slot.remaining} ${bookingCopy.seatsLeft}</small>`;
 
                     button.addEventListener('click', () => selectSlotButton(button));
 
@@ -1463,12 +1475,12 @@
 
                 if (!bookingDateInput.value) {
                     setStepVisible(slotsSection, true);
-                    slotsStatus.textContent = 'Please choose a date first';
+                    slotsStatus.textContent = bookingCopy.chooseDateFirst;
                     return;
                 }
 
                 setStepVisible(slotsSection, true);
-                slotsStatus.textContent = 'Checking availability...';
+                slotsStatus.textContent = bookingCopy.checkingAvailability;
                 setFindLoading(true);
 
                 if (availabilityAbortController) {
@@ -1504,7 +1516,7 @@
                         return;
                     }
 
-                    slotsStatus.textContent = 'Could not load slots';
+                    slotsStatus.textContent = bookingCopy.loadSlotsFailed;
                     console.error(error);
                 } finally {
                     setFindLoading(false);
@@ -1577,7 +1589,7 @@
                     occasionButtons.forEach((item) => item.classList.remove('is-active'));
                     button.classList.add('is-active');
                     occasionValue.value = button.dataset.occasionOption || '';
-                    occasionLabel.textContent = occasionValue.value || 'Select special occasions';
+                    occasionLabel.textContent = occasionValue.value || bookingCopy.selectSpecialOccasions;
                 });
             });
 

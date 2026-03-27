@@ -1,8 +1,8 @@
 @extends('layouts.master')
 
-@section('title', 'Contact Kashmir Grill House | Via Milano, Como')
-@section('meta_description', 'Contact Kashmir Grill House at Via Milano, 253, 22100 Como CO, Italy for reservations, takeaway orders, social links, and Google directions.')
-@section('meta_keywords', 'contact Kashmir Grill House, Via Milano 253 Como, halal restaurant phone Como, Kashmir Grill House directions')
+@section('title', __('Contact Kashmir Grill House | Via Milano, Como'))
+@section('meta_description', __('Contact Kashmir Grill House at Via Milano, 253, 22100 Como CO, Italy for reservations, takeaway orders, social links, and Google directions.'))
+@section('meta_keywords', __('contact Kashmir Grill House, Via Milano 253 Como, halal restaurant phone Como, Kashmir Grill House directions'))
 @section('body_class', 'home-menu-theme')
 
 @section('content')
@@ -11,30 +11,30 @@
             <div class="contact-hero">
                 <div class="row g-4 align-items-center">
                     <div class="col-12 col-lg-7">
-                        <span class="badge badge-brand rounded-pill mb-3">Contact Kashmir Grill House</span>
-                        <h1 class="contact-hero__title mb-3">Reservations, Directions, and Restaurant Information in One Place</h1>
+                        <span class="badge badge-brand rounded-pill mb-3">{{ __('Contact Kashmir Grill House') }}</span>
+                        <h1 class="contact-hero__title mb-3">{{ __('Reservations, Directions, and Restaurant Information in One Place') }}</h1>
                         <p class="contact-hero__copy mb-4">
-                            Contact our team for table reservations, takeaway enquiries, event coordination, and direct directions to Kashmir Grill House in Como.
+                            {{ __('Contact our team for table reservations, takeaway enquiries, event coordination, and direct directions to Kashmir Grill House in Como.') }}
                         </p>
                         <div class="d-flex flex-wrap gap-2">
-                            <a href="{{ route('book-now') }}" class="btn btn-brand">Book Now</a>
-                            <a href="tel:+393511203141" class="btn btn-brand-outline">Call Restaurant</a>
+                            <a href="{{ route('book-now') }}" class="btn btn-brand">{{ __('Book Now') }}</a>
+                            <a href="tel:+393511203141" class="btn btn-brand-outline">{{ __('Call Restaurant') }}</a>
                         </div>
                     </div>
 
                     <div class="col-12 col-lg-5">
                         <div class="contact-hero__panel">
                             <div class="contact-hero__panel-item">
-                                <span>Address</span>
+                                <span>{{ __('Address') }}</span>
                                 <strong>Via Milano, 253, 22100 Como CO, Italy</strong>
                             </div>
                             <div class="contact-hero__panel-item">
-                                <span>Phone</span>
+                                <span>{{ __('Phone') }}</span>
                                 <strong>+39 351 1203141</strong>
                             </div>
                             <div class="contact-hero__panel-item">
-                                <span>Support</span>
-                                <strong>Bookings, takeaway, and event enquiries</strong>
+                                <span>{{ __('Support') }}</span>
+                                <strong>{{ __('Bookings, takeaway, and event enquiries') }}</strong>
                             </div>
                         </div>
                     </div>
@@ -44,11 +44,11 @@
 
         <section class="container pb-4 pb-lg-5">
             <div class="contact-service-strip">
-                <span>Table Reservations</span>
-                <span>Takeaway Orders</span>
-                <span>Event Enquiries</span>
-                <span>Google Directions</span>
-                <span>Social Channels</span>
+                <span>{{ __('Table Reservations') }}</span>
+                <span>{{ __('Takeaway Orders') }}</span>
+                <span>{{ __('Event Enquiries') }}</span>
+                <span>{{ __('Google Directions') }}</span>
+                <span>{{ __('Social Channels') }}</span>
             </div>
         </section>
 
@@ -56,38 +56,38 @@
             <div class="row g-4">
                 <div class="col-12 col-lg-5">
                     <article class="contact-card h-100">
-                        <p class="contact-card__eyebrow mb-2">Restaurant Details</p>
-                        <h2 class="contact-card__title mb-4">Everything You Need Before You Visit</h2>
+                        <p class="contact-card__eyebrow mb-2">{{ __('Restaurant Details') }}</p>
+                        <h2 class="contact-card__title mb-4">{{ __('Everything You Need Before You Visit') }}</h2>
 
                         <dl class="contact-info-list mb-4">
-                            <dt>Address</dt>
+                            <dt>{{ __('Address') }}</dt>
                             <dd>Via Milano, 253, 22100 Como CO, Italy</dd>
 
-                            <dt>Phone</dt>
+                            <dt>{{ __('Phone') }}</dt>
                             <dd><a href="tel:+393511203141">+39 351 1203141</a></dd>
 
-                            <dt>Google Profile</dt>
+                            <dt>{{ __('Google Profile') }}</dt>
                             <dd>
                                 <a href="https://share.google/grft1lwOxyW4px1OV" target="_blank" rel="noopener noreferrer">
-                                    Open profile, reviews, and directions
+                                    {{ __('Open profile, reviews, and directions') }}
                                 </a>
                             </dd>
 
-                            <dt>Opening Hours</dt>
+                            <dt>{{ __('Opening Hours') }}</dt>
                             <dd>
-                                Please check the
-                                <a href="https://share.google/grft1lwOxyW4px1OV" target="_blank" rel="noopener noreferrer">Google Business Profile</a>
-                                for today&apos;s hours.
+                                {{ __('Please check the') }}
+                                <a href="https://share.google/grft1lwOxyW4px1OV" target="_blank" rel="noopener noreferrer">{{ __('Google Business Profile') }}</a>
+                                {{ __('for today\'s hours.') }}
                             </dd>
                         </dl>
 
                         <div class="contact-social-block">
-                            <p class="contact-card__eyebrow mb-3">Follow Us</p>
+                            <p class="contact-card__eyebrow mb-3">{{ __('Follow Us') }}</p>
                             <div class="d-flex flex-wrap gap-2">
-                                <a class="contact-social-circle" href="https://www.instagram.com/kashmirgrillhouse_?utm_source=qr&igsh=ZjJmZDhtZHQzZ2l6" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
-                                <a class="contact-social-circle" href="https://www.facebook.com/share/1CVDdWNQJy/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
-                                <a class="contact-social-circle" href="https://www.tiktok.com/@kashmirgrillhouse" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a>
-                                <a class="contact-social-circle" href="https://share.google/grft1lwOxyW4px1OV" target="_blank" rel="noopener noreferrer" aria-label="Google Business Profile"><i class="fa-brands fa-google" aria-hidden="true"></i></a>
+                                <a class="contact-social-circle" href="https://www.instagram.com/kashmirgrillhouse_?utm_source=qr&igsh=ZjJmZDhtZHQzZ2l6" target="_blank" rel="noopener noreferrer" aria-label="{{ __('Instagram') }}"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+                                <a class="contact-social-circle" href="https://www.facebook.com/share/1CVDdWNQJy/" target="_blank" rel="noopener noreferrer" aria-label="{{ __('Facebook') }}"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+                                <a class="contact-social-circle" href="https://www.tiktok.com/@kashmirgrillhouse" target="_blank" rel="noopener noreferrer" aria-label="{{ __('TikTok') }}"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a>
+                                <a class="contact-social-circle" href="https://share.google/grft1lwOxyW4px1OV" target="_blank" rel="noopener noreferrer" aria-label="{{ __('Google Business Profile') }}"><i class="fa-brands fa-google" aria-hidden="true"></i></a>
                             </div>
                         </div>
                     </article>
@@ -96,22 +96,22 @@
                 <div class="col-12 col-lg-7">
                     <article class="contact-map-card h-100 overflow-hidden" id="map-section">
                         <div class="contact-map-card__intro">
-                            <p class="contact-card__eyebrow mb-2">Location & Directions</p>
-                            <h2 class="contact-card__title mb-2">Find Us on the Map</h2>
-                            <p class="contact-map-card__copy mb-0">The map loads only when needed to keep the page lighter and faster.</p>
+                            <p class="contact-card__eyebrow mb-2">{{ __('Location & Directions') }}</p>
+                            <h2 class="contact-card__title mb-2">{{ __('Find Us on the Map') }}</h2>
+                            <p class="contact-map-card__copy mb-0">{{ __('The map loads only when needed to keep the page lighter and faster.') }}</p>
                         </div>
 
                         <div class="map-shell" id="lazy-map-shell"
                              data-map-src="https://www.google.com/maps?q=Via+Milano,+253,+22100+Como,+Italy&output=embed">
                             <div class="map-placeholder" id="map-placeholder">
-                                <p class="mb-3">Directions are available on demand.</p>
-                                <button type="button" class="btn btn-brand btn-sm" id="load-map-btn">Load Map</button>
+                                <p class="mb-3">{{ __('Directions are available on demand.') }}</p>
+                                <button type="button" class="btn btn-brand btn-sm" id="load-map-btn">{{ __('Load Map') }}</button>
                             </div>
                         </div>
 
                         <noscript>
                             <iframe
-                                title="Kashmir Grill House location"
+                                title="{{ __('Kashmir Grill House location') }}"
                                 src="https://www.google.com/maps?q=Via+Milano,+253,+22100+Como,+Italy&output=embed"
                                 width="100%"
                                 height="420"

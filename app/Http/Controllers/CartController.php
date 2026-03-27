@@ -28,7 +28,7 @@ class CartController extends Controller
         return $this->respond($request, $summary, 'Item added to cart.');
     }
 
-    public function update(Request $request, int $menuItem, CartManager $cart): JsonResponse|RedirectResponse
+    public function update(Request $request, string $locale, int $menuItem, CartManager $cart): JsonResponse|RedirectResponse
     {
         $validated = $request->validate([
             'quantity' => ['required', 'integer', 'min:0', 'max:99'],
@@ -41,7 +41,7 @@ class CartController extends Controller
         return $this->respond($request, $summary, $message);
     }
 
-    public function remove(Request $request, int $menuItem, CartManager $cart): JsonResponse|RedirectResponse
+    public function remove(Request $request, string $locale, int $menuItem, CartManager $cart): JsonResponse|RedirectResponse
     {
         $summary = $cart->remove($menuItem);
 

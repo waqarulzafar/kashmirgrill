@@ -9,9 +9,9 @@
             <div class="col-12 col-xl-10">
                 <div class="account-hero">
                     <div>
-                        <p class="account-hero__kicker mb-2">Customer Area</p>
-                        <h1 class="account-hero__title mb-2">@yield('account_heading', 'My Dashboard')</h1>
-                        <p class="account-hero__copy mb-0">@yield('account_intro', 'Manage your Kashmir Grill House account with the same website experience and styling.')</p>
+                        <p class="account-hero__kicker mb-2">{{ __('Customer Area') }}</p>
+                        <h1 class="account-hero__title mb-2">@yield('account_heading', __('My Dashboard'))</h1>
+                        <p class="account-hero__copy mb-0">@yield('account_intro', __('Manage your Kashmir Grill House account with the same website experience and styling.'))</p>
                     </div>
                     <div class="account-hero__meta">
                         <span>{{ $user->name }}</span>
@@ -33,7 +33,7 @@
             <div class="col-12 col-xl-9">
                 @if ($errors->any())
                     <div class="alert alert-danger account-alert mb-4">
-                        <strong>Please fix the following before continuing:</strong>
+                        <strong>{{ __('Please fix the following before continuing:') }}</strong>
                         <ul class="mb-0 mt-2 ps-3">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>

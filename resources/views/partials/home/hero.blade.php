@@ -13,14 +13,14 @@
             <div class="col-12 col-xl-7">
                 <span class="badge badge-brand rounded-pill mb-3" data-home-hero-kicker>Kashmir Grill House</span>
                 <h1 class="display-4 fw-semibold mb-3 js-hero-headline" data-home-hero-title>
-                    Halal Pakistani &amp; Indian Dining in <span class="text-brand-accent">Como</span>
+                    {{ __('Halal Pakistani & Indian Dining in') }} <span class="text-brand-accent">Como</span>
                 </h1>
                 <p class="lead text-white-50 mb-4" data-home-hero-copy>
-                    Kashmir Grill House serves halal Pakistani and Indian favorites on Via Milano in Como, with dine-in, takeaway, and delivery-friendly options for everyday meals and family gatherings.
+                    {{ __('Kashmir Grill House serves halal Pakistani and Indian favorites on Via Milano in Como, with dine-in, takeaway, and delivery-friendly options for everyday meals and family gatherings.') }}
                 </p>
                 <div class="d-flex flex-wrap gap-2" data-home-hero-actions>
-                    <a href="{{ route('book-now') }}" class="btn btn-brand px-4">Book Now</a>
-                    <a href="{{ route('menu') }}" class="btn btn-brand-outline px-4">View Menu</a>
+                    <a href="{{ route('book-now') }}" class="btn btn-brand px-4">{{ __('Book Now') }}</a>
+                    <a href="{{ route('menu') }}" class="btn btn-brand-outline px-4">{{ __('View Menu') }}</a>
                 </div>
             </div>
             <div class="col-12 col-xl-5">
@@ -36,7 +36,7 @@
                                             <path d="M6 12h12M12 6v12M8 8l8 8M16 8l-8 8" />
                                         </svg>
                                     </span>
-                                    <span class="hero-signature__planet-label">Signature</span>
+                                    <span class="hero-signature__planet-label">{{ __('Signature') }}</span>
                                 </span>
                             </div>
 
@@ -48,7 +48,7 @@
                                             <path d="M12 13.2c-1.9 0-3.4 1.5-3.4 3.4S10.1 20 12 20s3.4-1.5 3.4-3.4" />
                                         </svg>
                                     </span>
-                                    <span class="hero-signature__planet-label">Charcoal</span>
+                                    <span class="hero-signature__planet-label">{{ __('Charcoal') }}</span>
                                 </span>
                             </div>
 
@@ -61,7 +61,7 @@
                                             <path d="M8.4 17.3 7 20m8.6-2.7L17 20" />
                                         </svg>
                                     </span>
-                                    <span class="hero-signature__planet-label">Halal</span>
+                                    <span class="hero-signature__planet-label">{{ __('Halal') }}</span>
                                 </span>
                             </div>
 
@@ -69,7 +69,7 @@
                                 <img
                                     class="hero-signature__hero-image"
                                     src="{{ asset('images/hero-right-image.png') }}"
-                                    alt="Kashmir Grill House mixed grill platter"
+                                    alt="{{ __('Kashmir Grill House mixed grill platter') }}"
                                     width="686"
                                     height="686"
                                     loading="eager"

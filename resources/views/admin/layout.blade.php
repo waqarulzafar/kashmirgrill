@@ -49,6 +49,7 @@
                             <a href="{{ route('admin.dine-in-slots.index') }}" class="admin-page-tab {{ request()->routeIs('admin.dine-in-slots.*') ? 'is-active' : '' }}">Dine-In Slots</a>
                             <a href="{{ route('admin.bookings.index') }}" class="admin-page-tab {{ request()->routeIs('admin.bookings.*') ? 'is-active' : '' }}">Bookings</a>
                             <a href="{{ route('admin.orders.index') }}" class="admin-page-tab {{ request()->routeIs('admin.orders.*') ? 'is-active' : '' }}">Orders</a>
+                            <a href="{{ route('admin.localization.edit') }}" class="admin-page-tab {{ request()->routeIs('admin.localization.*') ? 'is-active' : '' }}">Localization</a>
                         </nav>
 
                         @if (session('success'))

@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', $event['name'] . ' | Events | Kashmir Grill House Como')
+@section('title', $event['name'] . ' | ' . __('Events') . ' | Kashmir Grill House Como')
 @section('meta_description', $event['description'])
 @section('body_class', 'home-menu-theme')
 
@@ -22,8 +22,8 @@
                     </div>
                     <div class="col-12 col-lg-6">
                         <div class="event-detail-content h-100">
-                            <a href="{{ route('events') }}" class="event-detail-back">Back to Events</a>
-                            <p class="event-detail-kicker mb-2">Event Type</p>
+                            <a href="{{ route('events') }}" class="event-detail-back">{{ __('Back to Events') }}</a>
+                            <p class="event-detail-kicker mb-2">{{ __('Event Type') }}</p>
                             <h1 class="event-detail-title mb-3">{{ $event['name'] }}</h1>
                             <p class="event-detail-summary mb-3">{{ $event['summary'] }}</p>
                             <p class="event-detail-copy mb-4">{{ $event['details'] }}</p>
@@ -31,7 +31,7 @@
                             <div class="row g-3 mb-4">
                                 <div class="col-12 col-md-6">
                                     <div class="event-detail-panel h-100">
-                                        <h2 class="event-detail-panel__title mb-2">Ideal For</h2>
+                                        <h2 class="event-detail-panel__title mb-2">{{ __('Ideal For') }}</h2>
                                         <ul class="event-detail-list">
                                             @foreach($event['ideal_for'] as $item)
                                                 <li>{{ $item }}</li>
@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="event-detail-panel h-100">
-                                        <h2 class="event-detail-panel__title mb-2">Highlights</h2>
+                                        <h2 class="event-detail-panel__title mb-2">{{ __('Highlights') }}</h2>
                                         <ul class="event-detail-list">
                                             @foreach($event['highlights'] as $highlight)
                                                 <li>{{ $highlight }}</li>
@@ -52,8 +52,8 @@
                             </div>
 
                             <div class="d-flex flex-wrap gap-2">
-                                <a href="{{ route('book-now') }}" class="btn btn-brand">Book This Event</a>
-                                <a href="{{ route('contact') }}" class="btn btn-brand-outline">Contact Team</a>
+                                <a href="{{ route('book-now') }}" class="btn btn-brand">{{ __('Book This Event') }}</a>
+                                <a href="{{ route('contact') }}" class="btn btn-brand-outline">{{ __('Contact Team') }}</a>
                             </div>
                         </div>
                     </div>
@@ -66,10 +66,10 @@
                 <div class="event-detail-related">
                     <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
                         <div>
-                            <p class="event-detail-kicker mb-2">Other Occasion Types</p>
-                            <h2 class="event-detail-related__title mb-0">Explore More Event Formats</h2>
+                            <p class="event-detail-kicker mb-2">{{ __('Other Occasion Types') }}</p>
+                            <h2 class="event-detail-related__title mb-0">{{ __('Explore More Event Formats') }}</h2>
                         </div>
-                        <a href="{{ route('events') }}" class="event-detail-back m-0">All Events</a>
+                        <a href="{{ route('events') }}" class="event-detail-back m-0">{{ __('All Events') }}</a>
                     </div>
 
                     <div class="row g-4">

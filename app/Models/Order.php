@@ -103,14 +103,14 @@ class Order extends Model
     public static function statusLabels(): array
     {
         return [
-            self::STATUS_PENDING_PAYMENT => 'Pending Payment',
-            self::STATUS_PENDING => 'Pending Review',
-            self::STATUS_CONFIRMED => 'Confirmed',
-            self::STATUS_PREPARING => 'Preparing',
-            self::STATUS_READY => 'Ready',
-            self::STATUS_COMPLETED => 'Completed',
-            self::STATUS_CANCELLED => 'Cancelled',
-            self::STATUS_PAYMENT_FAILED => 'Payment Failed',
+            self::STATUS_PENDING_PAYMENT => __('Pending Payment'),
+            self::STATUS_PENDING => __('Pending Review'),
+            self::STATUS_CONFIRMED => __('Confirmed'),
+            self::STATUS_PREPARING => __('Preparing'),
+            self::STATUS_READY => __('Ready'),
+            self::STATUS_COMPLETED => __('Completed'),
+            self::STATUS_CANCELLED => __('Cancelled'),
+            self::STATUS_PAYMENT_FAILED => __('Payment Failed'),
         ];
     }
 
@@ -120,12 +120,12 @@ class Order extends Model
     public static function manageableStatusLabels(): array
     {
         return [
-            self::STATUS_PENDING => 'Pending Review',
-            self::STATUS_CONFIRMED => 'Confirmed',
-            self::STATUS_PREPARING => 'Preparing',
-            self::STATUS_READY => 'Ready for Pickup / Service',
-            self::STATUS_COMPLETED => 'Completed',
-            self::STATUS_CANCELLED => 'Cancelled',
+            self::STATUS_PENDING => __('Pending Review'),
+            self::STATUS_CONFIRMED => __('Confirmed'),
+            self::STATUS_PREPARING => __('Preparing'),
+            self::STATUS_READY => __('Ready for Pickup / Service'),
+            self::STATUS_COMPLETED => __('Completed'),
+            self::STATUS_CANCELLED => __('Cancelled'),
         ];
     }
 
@@ -135,9 +135,9 @@ class Order extends Model
     public static function fulfillmentLabels(): array
     {
         return [
-            self::FULFILLMENT_TAKEAWAY => 'Take Away',
-            self::FULFILLMENT_DELIVERY => 'Delivery',
-            self::FULFILLMENT_DINE_IN => 'Dine In',
+            self::FULFILLMENT_TAKEAWAY => __('Take Away'),
+            self::FULFILLMENT_DELIVERY => __('Delivery'),
+            self::FULFILLMENT_DINE_IN => __('Dine In'),
         ];
     }
 
@@ -147,8 +147,8 @@ class Order extends Model
     public static function paymentMethodLabels(): array
     {
         return [
-            self::PAYMENT_METHOD_STRIPE => 'Stripe',
-            self::PAYMENT_METHOD_PAYPAL => 'PayPal',
+            self::PAYMENT_METHOD_STRIPE => __('Stripe'),
+            self::PAYMENT_METHOD_PAYPAL => __('PayPal'),
         ];
     }
 
@@ -158,10 +158,10 @@ class Order extends Model
     public static function paymentStatusLabels(): array
     {
         return [
-            self::PAYMENT_STATUS_PENDING => 'Pending',
-            self::PAYMENT_STATUS_PAID => 'Paid',
-            self::PAYMENT_STATUS_FAILED => 'Failed',
-            self::PAYMENT_STATUS_CANCELLED => 'Cancelled',
+            self::PAYMENT_STATUS_PENDING => __('Pending'),
+            self::PAYMENT_STATUS_PAID => __('Paid'),
+            self::PAYMENT_STATUS_FAILED => __('Failed'),
+            self::PAYMENT_STATUS_CANCELLED => __('Cancelled'),
         ];
     }
 }

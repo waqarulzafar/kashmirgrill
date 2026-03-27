@@ -6,7 +6,9 @@ use App\Services\Payments\Gateways\PayPalPaymentGateway;
 use App\Services\Payments\Gateways\StripePaymentGateway;
 use App\Services\Payments\PaymentGatewayManager;
 use App\Support\CartManager;
+use App\Support\LocalizationManager;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -31,8 +33,25 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrap();
+
+        URL::defaults([
+            'locale' => app(LocalizationManager::class)->defaultLocale(),
+        ]);
+
         View::composer('layouts.master', function ($view): void {
-            $view->with('globalCart', app(CartManager::class)->summary());
+            $localizationManager = app(LocalizationManager::class);
+
+            $view->with([
+                'globalCart' => app(CartManager::class)->summary(),
+                'siteLocales' => $localizationManager->localeSwitcher(request()),
+                'siteCurrentLocale' => app()->getLocale(),
+                'siteCurrentLocaleData' => $localizationManager->currentLocaleData(app()->getLocale()),
+                'siteDefaultLocale' => $localizationManager->defaultLocale(),
+                'localizedCurrentUrls' => $localizationManager->localizedUrlsFor(
+                    request()->route(),
+                    request()->route()?->parameters() ?? [],
+                ),
+            ]);
         });
     }
 }

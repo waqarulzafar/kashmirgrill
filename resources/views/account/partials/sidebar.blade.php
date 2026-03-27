@@ -7,10 +7,10 @@
         </div>
     </div>
 
-    <nav class="account-sidebar__nav" aria-label="Account sections">
-        <a href="{{ route('account.dashboard') }}" class="account-sidebar__link {{ $activeAccountPage === 'dashboard' ? 'is-active' : '' }}">Overview</a>
-        <a href="{{ route('account.orders') }}" class="account-sidebar__link {{ $activeAccountPage === 'orders' ? 'is-active' : '' }}">Order History</a>
-        <a href="{{ route('account.bookings') }}" class="account-sidebar__link {{ $activeAccountPage === 'bookings' ? 'is-active' : '' }}">Booking History</a>
-        <a href="{{ route('account.profile') }}" class="account-sidebar__link {{ $activeAccountPage === 'profile' ? 'is-active' : '' }}">Profile & Security</a>
+    <nav class="account-sidebar__nav" aria-label="{{ __('Account sections') }}">
+        <a href="{{ route('account.dashboard') }}" class="account-sidebar__link {{ $activeAccountPage === 'dashboard' ? 'is-active' : '' }}">{{ __('Overview') }}</a>
+        <a href="{{ route('account.orders') }}" class="account-sidebar__link {{ $activeAccountPage === 'orders' ? 'is-active' : '' }}">{{ __('Order History') }}</a>
+        <a href="{{ route('account.bookings') }}" class="account-sidebar__link {{ $activeAccountPage === 'bookings' ? 'is-active' : '' }}">{{ __('Booking History') }}</a>
+        <a href="{{ route('account.profile') }}" class="account-sidebar__link {{ $activeAccountPage === 'profile' ? 'is-active' : '' }}">{{ __('Profile & Security') }}</a>
     </nav>
 </aside>

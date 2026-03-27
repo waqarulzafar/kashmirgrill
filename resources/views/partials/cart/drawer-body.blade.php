@@ -6,8 +6,8 @@
 
 @if($items->isEmpty())
     <div class="floating-cart__empty">
-        <p class="mb-2">Your cart is empty.</p>
-        <p class="mb-0 text-secondary">Browse menu items and tap <strong>Add to Cart</strong> to begin your checkout.</p>
+        <p class="mb-2">{{ __('Your cart is empty.') }}</p>
+        <p class="mb-0 text-secondary">{!! __('Browse menu items and tap <strong>Add to Cart</strong> to begin your checkout.') !!}</p>
     </div>
 @else
     <div class="floating-cart__items">
@@ -28,13 +28,13 @@
                     @endif
                     <div class="floating-cart__item-meta">
                         <span class="floating-cart__item-price">&euro;{{ number_format($price, 2) }}</span>
-                        <span class="floating-cart__item-line">Line: &euro;{{ number_format($lineTotal, 2) }}</span>
+                        <span class="floating-cart__item-line">{{ __('Line:') }} &euro;{{ number_format($lineTotal, 2) }}</span>
                     </div>
                     <div class="floating-cart__qty">
-                        <button type="button" data-cart-action="set-qty" data-menu-item-id="{{ $menuItemId }}" data-quantity="{{ $quantity - 1 }}" aria-label="Decrease quantity">-</button>
+                        <button type="button" data-cart-action="set-qty" data-menu-item-id="{{ $menuItemId }}" data-quantity="{{ $quantity - 1 }}" aria-label="{{ __('Decrease quantity') }}">-</button>
                         <span>{{ $quantity }}</span>
-                        <button type="button" data-cart-action="set-qty" data-menu-item-id="{{ $menuItemId }}" data-quantity="{{ $quantity + 1 }}" aria-label="Increase quantity">+</button>
-                        <button type="button" class="floating-cart__remove" data-cart-action="remove" data-menu-item-id="{{ $menuItemId }}">Remove</button>
+                        <button type="button" data-cart-action="set-qty" data-menu-item-id="{{ $menuItemId }}" data-quantity="{{ $quantity + 1 }}" aria-label="{{ __('Increase quantity') }}">+</button>
+                        <button type="button" class="floating-cart__remove" data-cart-action="remove" data-menu-item-id="{{ $menuItemId }}">{{ __('Remove') }}</button>
                     </div>
                 </div>
             </article>
@@ -43,12 +43,12 @@
 
     <div class="floating-cart__footer">
         <div class="floating-cart__totals">
-            <p class="mb-1">Items: <strong>{{ $count }}</strong></p>
-            <p class="mb-0">Subtotal: <strong>&euro;{{ number_format($subtotal, 2) }}</strong></p>
+            <p class="mb-1">{{ __('Items:') }} <strong>{{ $count }}</strong></p>
+            <p class="mb-0">{{ __('Subtotal:') }} <strong>&euro;{{ number_format($subtotal, 2) }}</strong></p>
         </div>
         <div class="floating-cart__actions">
-            <button type="button" class="btn btn-brand-outline btn-sm" data-cart-action="clear">Clear</button>
-            <a href="{{ route('checkout.create') }}" class="btn btn-brand btn-sm">Checkout</a>
+            <button type="button" class="btn btn-brand-outline btn-sm" data-cart-action="clear">{{ __('Clear') }}</button>
+            <a href="{{ route('checkout.create') }}" class="btn btn-brand btn-sm">{{ __('Checkout') }}</a>
         </div>
     </div>
 @endif

@@ -1,75 +1,75 @@
 @php
     $featuredDishes = [
         [
-            'name' => 'Charcoal Seekh Kebab Plate',
-            'label' => 'Lead Favorite',
+            'name' => __('Charcoal Seekh Kebab Plate'),
+            'label' => __('Lead Favorite'),
             'image' => 'assets/images/menu/griglia/beef-seekh-kebab.jpg',
-            'alt' => 'Smoky seekh kebab plated with herbs',
-            'tags' => ['Grill', 'Smoky', 'Sharing'],
-            'description' => 'Flame-finished seekh kebabs with mint chutney and garnish, built for mixed-table ordering.',
+            'alt' => __('Smoky seekh kebab plated with herbs'),
+            'tags' => [__('Grill'), __('Smoky'), __('Sharing')],
+            'description' => __('Flame-finished seekh kebabs with mint chutney and garnish, built for mixed-table ordering.'),
             'price' => 'EUR 14',
-            'prep' => '12-15 min',
-            'orderHint' => 'Top grill pick',
+            'prep' => __('12-15 min'),
+            'orderHint' => __('Top grill pick'),
             'parallax' => '0.08',
         ],
         [
-            'name' => 'House Butter Chicken',
-            'label' => 'Curry Classic',
+            'name' => __('House Butter Chicken'),
+            'label' => __('Curry Classic'),
             'image' => 'assets/images/menu/primi-piati/butter-chicken.jpg',
-            'alt' => 'Butter chicken served in copper bowl',
-            'tags' => ['Curry', 'Creamy'],
-            'description' => 'Creamy tomato curry with balanced spice and tender chicken; a repeat-order staple.',
+            'alt' => __('Butter chicken served in copper bowl'),
+            'tags' => [__('Curry'), __('Creamy')],
+            'description' => __('Creamy tomato curry with balanced spice and tender chicken; a repeat-order staple.'),
             'price' => 'EUR 13',
-            'prep' => '10-12 min',
-            'orderHint' => 'Family favorite',
+            'prep' => __('10-12 min'),
+            'orderHint' => __('Family favorite'),
             'parallax' => '0.11',
         ],
         [
-            'name' => 'Lamb Biryani',
-            'label' => 'Rice Special',
+            'name' => __('Lamb Biryani'),
+            'label' => __('Rice Special'),
             'image' => 'assets/images/menu/lamb-biryani.jpg',
-            'alt' => 'Lamb biryani served with aromatic rice',
-            'tags' => ['Rice', 'Aromatic'],
-            'description' => 'Fragrant basmati rice layered with spiced lamb, ideal for weekend lunch and takeaway.',
+            'alt' => __('Lamb biryani served with aromatic rice'),
+            'tags' => [__('Rice'), __('Aromatic')],
+            'description' => __('Fragrant basmati rice layered with spiced lamb, ideal for weekend lunch and takeaway.'),
             'price' => 'EUR 14',
-            'prep' => '14-16 min',
-            'orderHint' => 'Best seller',
+            'prep' => __('14-16 min'),
+            'orderHint' => __('Best seller'),
             'parallax' => '0.1',
         ],
         [
-            'name' => 'Mix Grill Tandoori',
-            'label' => 'Chef Mix',
+            'name' => __('Mix Grill Tandoori'),
+            'label' => __('Chef Mix'),
             'image' => 'assets/images/menu/griglia/mix-grill-tandoori.jpg',
-            'alt' => 'Mixed tandoori grill platter',
-            'tags' => ['Grill', 'Platter'],
-            'description' => 'A mixed grill board combining chicken cuts and kebabs for group tables and sharing.',
+            'alt' => __('Mixed tandoori grill platter'),
+            'tags' => [__('Grill'), __('Platter')],
+            'description' => __('A mixed grill board combining chicken cuts and kebabs for group tables and sharing.'),
             'price' => 'EUR 18',
-            'prep' => '16-20 min',
-            'orderHint' => 'Group order',
+            'prep' => __('16-20 min'),
+            'orderHint' => __('Group order'),
             'parallax' => '0.09',
         ],
         [
-            'name' => 'Chicken Tikka Masala',
-            'label' => 'House Sauce',
+            'name' => __('Chicken Tikka Masala'),
+            'label' => __('House Sauce'),
             'image' => 'assets/images/menu/primi-piati/chicken-tikka-masala.jpg',
-            'alt' => 'Chicken tikka masala in rich sauce',
-            'tags' => ['Curry', 'Classic'],
-            'description' => 'Chargrilled chicken tikka finished in a smooth masala sauce with warm spice depth.',
+            'alt' => __('Chicken tikka masala in rich sauce'),
+            'tags' => [__('Curry'), __('Classic')],
+            'description' => __('Chargrilled chicken tikka finished in a smooth masala sauce with warm spice depth.'),
             'price' => 'EUR 13',
-            'prep' => '10-12 min',
-            'orderHint' => 'Repeat order',
+            'prep' => __('10-12 min'),
+            'orderHint' => __('Repeat order'),
             'parallax' => '0.1',
         ],
         [
-            'name' => 'Shinwari Lamb Karahi',
-            'label' => 'Karahi Style',
+            'name' => __('Shinwari Lamb Karahi'),
+            'label' => __('Karahi Style'),
             'image' => 'assets/images/menu/primi-piati/shinwari-lamb-karahi.jpg',
-            'alt' => 'Shinwari lamb karahi cooked with herbs',
-            'tags' => ['Karahi', 'Lamb'],
-            'description' => 'Traditional karahi profile with ginger, tomato, and green chili notes for bold flavor fans.',
+            'alt' => __('Shinwari lamb karahi cooked with herbs'),
+            'tags' => [__('Karahi'), __('Lamb')],
+            'description' => __('Traditional karahi profile with ginger, tomato, and green chili notes for bold flavor fans.'),
             'price' => 'EUR 16',
-            'prep' => '15-18 min',
-            'orderHint' => 'Rich flavor',
+            'prep' => __('15-18 min'),
+            'orderHint' => __('Rich flavor'),
             'parallax' => '0.12',
         ],
     ];
@@ -89,22 +89,22 @@
                 <div class="col-12 col-lg-8">
                     <x-section-header
                         class="dishes-gallery__header"
-                        badge="Food Gallery"
-                        title="Popular Dishes from the Kashmir Grill Kitchen"
-                        subtitle="A quick look at guest favorites from the grill, curry, and rice menu in Como."
+                        :badge="__('Food Gallery')"
+                        :title="__('Popular Dishes from the Kashmir Grill Kitchen')"
+                        :subtitle="__('A quick look at guest favorites from the grill, curry, and rice menu in Como.')"
                     />
                 </div>
                 <div class="col-12 col-lg-4">
                     <aside class="dishes-gallery__intro-cta h-100">
-                        <p class="dishes-gallery__info-kicker mb-2">Most Ordered</p>
+                        <p class="dishes-gallery__info-kicker mb-2">{{ __('Most Ordered') }}</p>
                         <div class="d-flex flex-wrap gap-2 mb-3">
-                            <span class="dishes-gallery__chip">Grill Favorites</span>
-                            <span class="dishes-gallery__chip">Curry Classics</span>
-                            <span class="dishes-gallery__chip">Rice Specials</span>
+                            <span class="dishes-gallery__chip">{{ __('Grill Favorites') }}</span>
+                            <span class="dishes-gallery__chip">{{ __('Curry Classics') }}</span>
+                            <span class="dishes-gallery__chip">{{ __('Rice Specials') }}</span>
                         </div>
-                        <p class="mb-3 text-secondary">Guest repeat-orders for dine-in, takeaway, and group tables in Como.</p>
-                        <p class="mb-3 text-secondary">Now showing <strong>{{ $totalFeatured }} dishes</strong> | <strong>EUR {{ $lowestPrice }}-{{ $highestPrice }}</strong></p>
-                        <a href="{{ route('menu') }}" class="btn btn-brand btn-sm">View Full Menu</a>
+                        <p class="mb-3 text-secondary">{{ __('Guest repeat-orders for dine-in, takeaway, and group tables in Como.') }}</p>
+                        <p class="mb-3 text-secondary">{!! __('Now showing <strong>:count dishes</strong> | <strong>EUR :low-:high</strong>', ['count' => $totalFeatured, 'low' => $lowestPrice, 'high' => $highestPrice]) !!}</p>
+                        <a href="{{ route('menu') }}" class="btn btn-brand btn-sm">{{ __('View Full Menu') }}</a>
                     </aside>
                 </div>
             </div>
@@ -112,19 +112,19 @@
 
         <div class="dishes-gallery__stats mb-3 mb-lg-4" data-gsap-item>
             <article class="dishes-gallery__stat-card">
-                <p class="dishes-gallery__stat-label mb-1">Featured Picks</p>
+                <p class="dishes-gallery__stat-label mb-1">{{ __('Featured Picks') }}</p>
                 <p class="dishes-gallery__stat-value mb-0">{{ $totalFeatured }}</p>
             </article>
             <article class="dishes-gallery__stat-card">
-                <p class="dishes-gallery__stat-label mb-1">Cuisine Streams</p>
-                <p class="dishes-gallery__stat-value mb-0">3 Core</p>
+                <p class="dishes-gallery__stat-label mb-1">{{ __('Cuisine Streams') }}</p>
+                <p class="dishes-gallery__stat-value mb-0">{{ __('3 Core') }}</p>
             </article>
             <article class="dishes-gallery__stat-card">
-                <p class="dishes-gallery__stat-label mb-1">Price Window</p>
+                <p class="dishes-gallery__stat-label mb-1">{{ __('Price Window') }}</p>
                 <p class="dishes-gallery__stat-value mb-0">EUR {{ $lowestPrice }}-{{ $highestPrice }}</p>
             </article>
             <article class="dishes-gallery__stat-card">
-                <p class="dishes-gallery__stat-label mb-1">Halal Kitchen</p>
+                <p class="dishes-gallery__stat-label mb-1">{{ __('Halal Kitchen') }}</p>
                 <p class="dishes-gallery__stat-value mb-0">100%</p>
             </article>
         </div>
@@ -153,13 +153,13 @@
 
             <article class="dishes-gallery__service-strip h-100">
                 <div>
-                    <p class="dishes-gallery__service-kicker mb-1">Service Note</p>
-                    <h3 class="h5 mb-2">Designed for Mixed Preferences at Family and Group Tables</h3>
-                    <p class="mb-0 text-secondary">The menu combines grill items, curries, and rice dishes so groups can order across styles without compromising on halal standards.</p>
+                    <p class="dishes-gallery__service-kicker mb-1">{{ __('Service Note') }}</p>
+                    <h3 class="h5 mb-2">{{ __('Designed for Mixed Preferences at Family and Group Tables') }}</h3>
+                    <p class="mb-0 text-secondary">{{ __('The menu combines grill items, curries, and rice dishes so groups can order across styles without compromising on halal standards.') }}</p>
                 </div>
                 <div class="d-flex flex-wrap gap-2">
-                    <a href="{{ route('menu') }}" class="btn btn-brand-outline btn-sm">Browse Menu</a>
-                    <a href="{{ route('book-now') }}" class="btn btn-brand btn-sm">Book a Table</a>
+                    <a href="{{ route('menu') }}" class="btn btn-brand-outline btn-sm">{{ __('Browse Menu') }}</a>
+                    <a href="{{ route('book-now') }}" class="btn btn-brand btn-sm">{{ __('Book a Table') }}</a>
                 </div>
             </article>
         </div>

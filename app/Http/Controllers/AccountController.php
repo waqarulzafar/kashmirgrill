@@ -169,7 +169,7 @@ class AccountController extends Controller
 
         return redirect()
             ->route('account.profile')
-            ->with('success', 'Your profile details were updated successfully.');
+            ->with('success', __('Your profile details were updated successfully.'));
     }
 
     public function updatePassword(UpdateAccountPasswordRequest $request): RedirectResponse
@@ -186,7 +186,7 @@ class AccountController extends Controller
 
         return redirect()
             ->route('account.profile')
-            ->with('success', 'Your password was updated successfully.');
+            ->with('success', __('Your password was updated successfully.'));
     }
 
     public function destroy(DeleteAccountRequest $request): RedirectResponse
@@ -203,7 +203,7 @@ class AccountController extends Controller
 
         return redirect()
             ->route('home')
-            ->with('success', 'Your account has been deleted successfully.');
+            ->with('success', __('Your account has been deleted successfully.'));
     }
 
     private function syncHistoricalRecords(User $user, ?string $email = null): void
