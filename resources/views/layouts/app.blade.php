@@ -216,7 +216,7 @@
                             <span class="badge rounded-pill badge-brand">Premium Dining</span>
                         </li>
                         <li class="nav-item">
-                            <a href="#book-now" class="btn btn-brand btn-sm px-3">Book Now</a>
+                            <a href="#book-now" class="btn btn-brand btn-sm px-3">Reserve a Table</a>
                         </li>
                     </ul>
                 </div>
@@ -257,7 +257,7 @@
                             <a class="social-circle" href="https://www.tiktok.com/@kashmirgrillhouse" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a>
                             <a class="social-circle" href="https://share.google/grft1lwOxyW4px1OV" target="_blank" rel="noopener noreferrer" aria-label="Google Business Profile"><i class="fa-brands fa-google" aria-hidden="true"></i></a>
                         </div>
-                        <a href="#book-now" class="btn btn-brand-outline btn-sm">Reserve Your Table</a>
+                        <a href="#book-now" class="btn btn-brand-outline btn-sm">Reserve a Table</a>
                     </div>
                 </div>
                 <hr class="border-secondary border-opacity-25 my-4">

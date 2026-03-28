@@ -17,7 +17,7 @@
                             {{ __('Contact our team for table reservations, takeaway enquiries, event coordination, and direct directions to Kashmir Grill House in Como.') }}
                         </p>
                         <div class="d-flex flex-wrap gap-2">
-                            <a href="{{ route('book-now') }}" class="btn btn-brand">{{ __('Book Now') }}</a>
+                            <a href="{{ route('book-now') }}" class="btn btn-brand">{{ __('Reserve a Table') }}</a>
                             <a href="tel:+393511203141" class="btn btn-brand-outline">{{ __('Call Restaurant') }}</a>
                         </div>
                     </div>

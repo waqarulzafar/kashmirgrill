@@ -80,9 +80,12 @@
         ->filter();
     $lowestPrice = $priceValues->min() ?? 12;
     $highestPrice = $priceValues->max() ?? 18;
+    $featuredDishTicker = collect($featuredDishes)
+        ->map(fn (array $dish): string => $dish['name'].' | '.$dish['orderHint'])
+        ->all();
 @endphp
 
-<section id="dishes" class="py-4 py-lg-5 dishes-gallery" data-dish-parallax="true" data-gsap-stagger>
+<section id="dishes" class="py-4 py-lg-5 dishes-gallery" data-dish-parallax="true" data-gsap-stagger data-home-dishes-section>
     <div class="container">
         <div class="dishes-gallery__intro-shell mb-3 mb-lg-4" data-gsap-item>
             <div class="row g-4 align-items-end">
@@ -110,28 +113,38 @@
             </div>
         </div>
 
-        <div class="dishes-gallery__stats mb-3 mb-lg-4" data-gsap-item>
-            <article class="dishes-gallery__stat-card">
+        <div class="dishes-gallery__stats mb-3 mb-lg-4" data-home-dishes-stats>
+            <article class="dishes-gallery__stat-card" data-home-dishes-stat-card>
                 <p class="dishes-gallery__stat-label mb-1">{{ __('Featured Picks') }}</p>
                 <p class="dishes-gallery__stat-value mb-0">{{ $totalFeatured }}</p>
             </article>
-            <article class="dishes-gallery__stat-card">
+            <article class="dishes-gallery__stat-card" data-home-dishes-stat-card>
                 <p class="dishes-gallery__stat-label mb-1">{{ __('Cuisine Streams') }}</p>
                 <p class="dishes-gallery__stat-value mb-0">{{ __('3 Core') }}</p>
             </article>
-            <article class="dishes-gallery__stat-card">
+            <article class="dishes-gallery__stat-card" data-home-dishes-stat-card>
                 <p class="dishes-gallery__stat-label mb-1">{{ __('Price Window') }}</p>
                 <p class="dishes-gallery__stat-value mb-0">EUR {{ $lowestPrice }}-{{ $highestPrice }}</p>
             </article>
-            <article class="dishes-gallery__stat-card">
+            <article class="dishes-gallery__stat-card" data-home-dishes-stat-card>
                 <p class="dishes-gallery__stat-label mb-1">{{ __('Halal Kitchen') }}</p>
                 <p class="dishes-gallery__stat-value mb-0">100%</p>
             </article>
         </div>
 
+        <div class="dishes-gallery__ticker-shell mb-4 mb-lg-5" data-home-dishes-ticker>
+            <div class="dishes-gallery__ticker-track" data-home-dishes-ticker-track>
+                @for($loopIndex = 0; $loopIndex < 2; $loopIndex++)
+                    @foreach($featuredDishTicker as $tickerItem)
+                        <span class="dishes-gallery__ticker-item">{{ $tickerItem }}</span>
+                    @endforeach
+                @endfor
+            </div>
+        </div>
+
         <div class="dishes-gallery__layout">
             @foreach($featuredDishes as $dish)
-                <article class="dish-tile {{ $loop->first ? 'dish-tile--lead' : 'dish-tile--spot' }} js-dish-card rounded-4 p-4 h-100 shadow-sm" data-parallax-speed="{{ $dish['parallax'] }}">
+                <article class="dish-tile {{ $loop->first ? 'dish-tile--lead' : 'dish-tile--spot' }} js-dish-card rounded-4 p-4 h-100 shadow-sm" data-parallax-speed="{{ $dish['parallax'] }}" data-home-dishes-card>
                     <div class="dish-visual mb-3" data-gsap-parallax data-parallax-factor="{{ $dish['parallax'] }}">
                         <img src="{{ asset($dish['image']) }}" alt="{{ $dish['alt'] }}" loading="lazy" decoding="async" fetchpriority="low" sizes="(max-width: 991px) 100vw, 32vw">
                         <span class="dish-visual-label">{{ $dish['label'] }}</span>
@@ -151,7 +164,7 @@
                 </article>
             @endforeach
 
-            <article class="dishes-gallery__service-strip h-100">
+            <article class="dishes-gallery__service-strip h-100" data-home-dishes-card>
                 <div>
                     <p class="dishes-gallery__service-kicker mb-1">{{ __('Service Note') }}</p>
                     <h3 class="h5 mb-2">{{ __('Designed for Mixed Preferences at Family and Group Tables') }}</h3>
@@ -159,7 +172,7 @@
                 </div>
                 <div class="d-flex flex-wrap gap-2">
                     <a href="{{ route('menu') }}" class="btn btn-brand-outline btn-sm">{{ __('Browse Menu') }}</a>
-                    <a href="{{ route('book-now') }}" class="btn btn-brand btn-sm">{{ __('Book a Table') }}</a>
+                    <a href="{{ route('book-now') }}" class="btn btn-brand btn-sm">{{ __('Reserve a Table') }}</a>
                 </div>
             </article>
         </div>

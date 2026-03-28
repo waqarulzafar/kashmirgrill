@@ -19,7 +19,7 @@
                     {{ __('Kashmir Grill House serves halal Pakistani and Indian favorites on Via Milano in Como, with dine-in, takeaway, and delivery-friendly options for everyday meals and family gatherings.') }}
                 </p>
                 <div class="d-flex flex-wrap gap-2" data-home-hero-actions>
-                    <a href="{{ route('book-now') }}" class="btn btn-brand px-4">{{ __('Book Now') }}</a>
+                    <a href="{{ route('book-now') }}" class="btn btn-brand px-4">{{ __('Reserve a Table') }}</a>
                     <a href="{{ route('menu') }}" class="btn btn-brand-outline px-4">{{ __('View Menu') }}</a>
                 </div>
             </div>

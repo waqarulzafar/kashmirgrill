@@ -10,7 +10,7 @@
                 <div class="home-journey-cta">
                     <p class="mb-3 text-secondary">{{ __('Planning a family meal or group dinner? Use the booking form or call the restaurant to share guest count, timing, and any special requests.') }}</p>
                     <div class="d-flex flex-wrap gap-2">
-                        <a href="{{ route('book-now') }}" class="btn btn-brand">{{ __('Book Now') }}</a>
+                        <a href="{{ route('book-now') }}" class="btn btn-brand">{{ __('Reserve a Table') }}</a>
                         <a href="{{ route('contact') }}" class="btn btn-brand-outline">{{ __('Contact Team') }}</a>
                     </div>
                 </div>

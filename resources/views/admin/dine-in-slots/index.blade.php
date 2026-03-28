@@ -101,7 +101,7 @@
 @push('styles')
     <style>
         .admin-slot-card {
-            background: linear-gradient(180deg, rgba(255, 255, 255, .03), rgba(255, 255, 255, .01));
+            background: #ffffff;
         }
 
         .admin-slot-table thead th {

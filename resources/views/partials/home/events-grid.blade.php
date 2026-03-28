@@ -34,7 +34,7 @@
                 <x-highlight-card
                     :title="__('Takeaway for Gatherings')"
                     :text="__('Arrange takeaway orders for home gatherings and small celebrations with halal menu choices.')"
-                    :ctaLabel="__('Book / Call')"
+                    :ctaLabel="__('Reserve a Table')"
                     :ctaHref="route('book-now')"
                 />
             </div>

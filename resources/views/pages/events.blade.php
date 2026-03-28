@@ -87,7 +87,7 @@
 
                                 <div class="d-flex flex-wrap gap-2">
                                     <a href="{{ route('events.show', $event['slug']) }}" class="btn btn-brand btn-sm">{{ __('View Details') }}</a>
-                                    <a href="{{ route('book-now') }}" class="btn btn-brand-outline btn-sm">{{ __('Book Now') }}</a>
+                                    <a href="{{ route('book-now') }}" class="btn btn-brand-outline btn-sm">{{ __('Book Event') }}</a>
                                 </div>
                             </div>
                         </article>

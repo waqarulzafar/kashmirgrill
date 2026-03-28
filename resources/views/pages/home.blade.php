@@ -1324,6 +1324,62 @@
             letter-spacing: .03em;
         }
 
+        .dishes-gallery__ticker-shell {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+                rgba(8, 8, 8, 0.62);
+            box-shadow: 0 16px 28px rgba(0, 0, 0, 0.18);
+        }
+
+        .dishes-gallery__ticker-shell::before,
+        .dishes-gallery__ticker-shell::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: clamp(2.5rem, 8vw, 5rem);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .dishes-gallery__ticker-shell::before {
+            left: 0;
+            background: linear-gradient(90deg, rgba(8, 8, 8, 0.96), rgba(8, 8, 8, 0));
+        }
+
+        .dishes-gallery__ticker-shell::after {
+            right: 0;
+            background: linear-gradient(270deg, rgba(8, 8, 8, 0.96), rgba(8, 8, 8, 0));
+        }
+
+        .dishes-gallery__ticker-track {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            width: max-content;
+            padding: .95rem 1rem;
+            will-change: transform;
+        }
+
+        .dishes-gallery__ticker-item {
+            display: inline-flex;
+            align-items: center;
+            min-height: 2.2rem;
+            padding: .38rem .85rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.88);
+            font: 700 .8rem/1 'Rajdhani', sans-serif;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
         .dishes-gallery__layout {
             display: grid;
             grid-template-columns: repeat(12, minmax(0, 1fr));

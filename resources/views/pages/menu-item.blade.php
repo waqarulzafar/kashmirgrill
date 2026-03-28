@@ -59,7 +59,7 @@
                                     @else
                                         <span class="badge text-bg-secondary align-self-center">{{ __('Currently unavailable') }}</span>
                                     @endif
-                                    <a href="{{ route('book-now') }}" class="menu-detail-btn menu-detail-btn-ghost">{{ __('Reserve Table') }}</a>
+                                    <a href="{{ route('book-now') }}" class="menu-detail-btn menu-detail-btn-ghost">{{ __('Reserve a Table') }}</a>
                                     <a href="{{ route('menu') }}#menu-{{ $menuItem->category?->slug }}" class="menu-detail-btn menu-detail-btn-ghost">{{ __('View :category', ['category' => $menuItem->category?->name]) }}</a>
                                 </div>
                             </div>

@@ -3,17 +3,17 @@
 <!--begin::Head-->
 <head>
     <title>Kashmir Grill House | Admin</title>
-    <meta name="csrf-token" content="{{csrf_token()}}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8" />
     <meta name="description" content="Kashmir Grill House admin panel for bookings, menu, and reservation management." />
     <meta name="keywords" content="kashmir grill house admin, bookings dashboard, menu management" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:type" content="article" />
-    <meta property="og:title" content="Metronic - The World's #1 Selling Tailwind CSS & Bootstrap Admin Template by KeenThemes" />
-    <meta property="og:url" content="https://keenthemes.com/metronic" />
-    <meta property="og:site_name" content="Metronic by Keenthemes" />
-    <link rel="canonical" href="http://preview.keenthemes.comindex.html" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Kashmir Grill House | Admin" />
+    <meta property="og:url" content="{{ url()->current() }}" />
+    <meta property="og:site_name" content="Kashmir Grill House" />
+    <link rel="canonical" href="{{ url()->current() }}" />
     <link rel="shortcut icon" type="image/gif" href="{{ asset('assets/images/preloader/kashmir-loader.gif') }}" />
     <!--begin::Fonts(mandatory for all pages)-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
@@ -39,9 +39,66 @@
         }
 
         body.app-default .app-header {
-            background: linear-gradient(180deg, rgba(0, 0, 0, 0.95), rgba(7, 7, 7, 0.92));
-            border-bottom: 1px solid rgba(219, 29, 48, 0.34);
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+            background: rgba(255, 255, 255, 0.96);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        body.app-default #kt_app_header_container {
+            min-height: 72px;
+            padding-inline: clamp(1rem, 2vw, 1.5rem);
+            gap: 1rem;
+        }
+
+        body.app-default #kt_app_header_wrapper {
+            gap: 1rem;
+        }
+
+        body.app-default .app-header .app-navbar {
+            display: flex;
+            align-items: center;
+            gap: .25rem;
+        }
+
+        body.app-default .app-header .app-navbar-item {
+            display: flex;
+            align-items: center;
+            margin-left: 0 !important;
+        }
+
+        body.app-default .app-header .btn.btn-icon,
+        body.app-default .app-header .btn.btn-flex.btn-icon {
+            border-radius: .9rem;
+        }
+
+        body.app-default .app-header .btn.btn-custom.btn-icon-muted,
+        body.app-default .app-header #kt_app_sidebar_mobile_toggle,
+        body.app-default .app-header #kt_app_header_menu_toggle {
+            color: #4b5563;
+            background: rgba(15, 23, 42, 0.04);
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            transition: background-color .2s ease, border-color .2s ease, color .2s ease, transform .2s ease;
+        }
+
+        body.app-default .app-header .btn.btn-custom.btn-icon-muted:hover,
+        body.app-default .app-header #kt_app_sidebar_mobile_toggle:hover,
+        body.app-default .app-header #kt_app_header_menu_toggle:hover {
+            color: var(--kgh-red);
+            background: rgba(219, 29, 48, 0.08);
+            border-color: rgba(219, 29, 48, 0.14);
+            transform: translateY(-1px);
+        }
+
+        body.app-default .app-header .symbol.symbol-35px {
+            width: 42px;
+            height: 42px;
+        }
+
+        body.app-default .app-header .symbol.symbol-35px img {
+            border-radius: .95rem !important;
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
         }
 
         body.app-default .app-sidebar {
@@ -63,7 +120,7 @@
         }
 
         body.app-default .kgh-admin-logo-mobile {
-            height: 38px;
+            height: 34px;
             width: auto;
             object-fit: contain;
         }
@@ -82,8 +139,8 @@
         body.app-default .app-sidebar .menu .menu-link.active,
         body.app-default .app-sidebar .menu .menu-link:hover {
             color: #fff;
-            background: linear-gradient(90deg, rgba(219, 29, 48, 0.24), rgba(255, 149, 44, 0.22));
-            box-shadow: inset 0 0 0 1px rgba(255, 149, 44, 0.24);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: inset 0 0 0 1px rgba(255, 149, 44, 0.2);
         }
 
         body.app-default .app-sidebar-logo {
@@ -125,14 +182,19 @@
         }
 
         html[data-bs-theme="light"] body.app-default {
-            background:
-                radial-gradient(circle at 90% -10%, rgba(219, 29, 48, 0.08), transparent 38%),
-                radial-gradient(circle at 0% 100%, rgba(255, 149, 44, 0.1), transparent 40%),
-                linear-gradient(180deg, #ffffff 0%, var(--kgh-ivory) 100%);
+            background: #ffffff;
         }
 
         html[data-bs-theme="light"] body.app-default #kt_app_main {
-            background: linear-gradient(180deg, #ffffff 0%, var(--kgh-ivory) 100%);
+            background: #ffffff;
+        }
+
+        html[data-bs-theme="light"] body.app-default .app-wrapper,
+        html[data-bs-theme="light"] body.app-default .app-main,
+        html[data-bs-theme="light"] body.app-default .app-content,
+        html[data-bs-theme="light"] body.app-default .app-container,
+        html[data-bs-theme="light"] body.app-default #kt_app_content_container {
+            background: #ffffff;
         }
 
         html[data-bs-theme="light"] body.app-default .card,
@@ -170,8 +232,79 @@
             border-color: rgba(0, 0, 0, 0.1) !important;
         }
 
+        html[data-bs-theme="light"] body.app-default .btn-light-primary {
+            color: var(--kgh-red) !important;
+            background: #fdecef !important;
+            border-color: #f8d1d8 !important;
+            box-shadow: 0 8px 18px rgba(219, 29, 48, 0.08);
+        }
+
+        html[data-bs-theme="light"] body.app-default .btn-light-primary:hover,
+        html[data-bs-theme="light"] body.app-default .btn-light-primary:focus,
+        html[data-bs-theme="light"] body.app-default .btn-light-primary:active {
+            color: #b41627 !important;
+            background: #f9dde3 !important;
+            border-color: #f1bec8 !important;
+            box-shadow: 0 10px 22px rgba(219, 29, 48, 0.12);
+        }
+
+        html[data-bs-theme="light"] body.app-default .badge-light-primary {
+            color: var(--kgh-red) !important;
+            background: #fdecef !important;
+            border-color: #f8d1d8 !important;
+        }
+
+        html[data-bs-theme="light"] body.app-default .btn-light-success {
+            color: #b85f00 !important;
+            background: #fff1df !important;
+            border-color: #ffdcb1 !important;
+            box-shadow: 0 8px 18px rgba(255, 149, 44, 0.1);
+        }
+
+        html[data-bs-theme="light"] body.app-default .btn-light-success:hover,
+        html[data-bs-theme="light"] body.app-default .btn-light-success:focus,
+        html[data-bs-theme="light"] body.app-default .btn-light-success:active {
+            color: #9f5000 !important;
+            background: #ffe9cf !important;
+            border-color: #ffd29a !important;
+        }
+
+        html[data-bs-theme="light"] body.app-default .badge-light-success {
+            color: #b85f00 !important;
+            background: #fff1df !important;
+            border-color: #ffdcb1 !important;
+        }
+
+        html[data-bs-theme="light"] body.app-default .btn-light {
+            color: #344054 !important;
+            background: #f6f7f9 !important;
+            border-color: #e4e7ec !important;
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.05);
+        }
+
+        html[data-bs-theme="light"] body.app-default .btn-light:hover,
+        html[data-bs-theme="light"] body.app-default .btn-light:focus,
+        html[data-bs-theme="light"] body.app-default .btn-light:active {
+            color: #101828 !important;
+            background: #eef1f5 !important;
+            border-color: #d0d5dd !important;
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+        }
+
+        html[data-bs-theme="light"] body.app-default .badge-light {
+            color: #475467 !important;
+            background: #f6f7f9 !important;
+            border-color: #e4e7ec !important;
+        }
+
         html[data-bs-theme="light"] body.app-default .app-footer {
             background: rgba(255, 255, 255, 0.8);
+        }
+
+        html[data-bs-theme="dark"] body.app-default .app-header {
+            background: rgba(255, 255, 255, 0.96);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
         }
 
         html[data-bs-theme="dark"] body.app-default {
@@ -261,10 +394,7 @@
             border-radius: 1.5rem;
             padding: clamp(1.35rem, 3vw, 2rem);
             margin-bottom: 1.5rem;
-            background:
-                radial-gradient(circle at top right, rgba(255, 149, 44, 0.22), transparent 32%),
-                linear-gradient(135deg, rgba(219, 29, 48, 0.16), rgba(8, 8, 8, 0.04) 55%),
-                linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+            background: #111111;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 22px 44px rgba(0, 0, 0, 0.14);
         }
@@ -276,7 +406,7 @@
             width: 220px;
             height: 220px;
             border-radius: 999px;
-            background: radial-gradient(circle, rgba(255, 149, 44, 0.16), transparent 68%);
+            background: rgba(255, 149, 44, 0.12);
             pointer-events: none;
         }
 
@@ -296,7 +426,7 @@
             content: '';
             width: 2.5rem;
             height: 1px;
-            background: linear-gradient(90deg, var(--kgh-orange), transparent);
+            background: rgba(255, 149, 44, 0.5);
         }
 
         body.app-default .admin-page-title {
@@ -351,7 +481,7 @@
         body.app-default .admin-page-tab:hover,
         body.app-default .admin-page-tab.is-active {
             color: #fff;
-            background: linear-gradient(90deg, rgba(219, 29, 48, 0.28), rgba(255, 149, 44, 0.22));
+            background: rgba(219, 29, 48, 0.22);
             border-color: rgba(255, 149, 44, 0.24);
             box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
         }
@@ -391,7 +521,7 @@
             border-radius: 1.2rem;
             padding: 1.15rem 1.2rem;
             min-height: 100%;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+            background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
@@ -476,11 +606,13 @@
         }
 
         html[data-bs-theme="light"] body.app-default .admin-page-hero {
-            background:
-                radial-gradient(circle at top right, rgba(255, 149, 44, 0.16), transparent 34%),
-                linear-gradient(135deg, rgba(219, 29, 48, 0.12), rgba(255, 255, 255, 0.72) 58%),
-                #ffffff;
+            background: #ffffff;
             border-color: rgba(0, 0, 0, 0.08);
+            box-shadow: 0 18px 36px rgba(15, 23, 42, 0.07);
+        }
+
+        html[data-bs-theme="light"] body.app-default .admin-page-hero::after {
+            display: none;
         }
 
         html[data-bs-theme="light"] body.app-default .admin-page-title {
@@ -502,13 +634,27 @@
         html[data-bs-theme="light"] body.app-default .admin-stat-card,
         html[data-bs-theme="light"] body.app-default .admin-preview-card,
         html[data-bs-theme="light"] body.app-default .admin-note {
-            background: rgba(255, 255, 255, 0.76);
+            background: #ffffff;
             border-color: rgba(0, 0, 0, 0.08);
+            box-shadow: 0 12px 26px rgba(15, 23, 42, 0.05);
         }
 
         html[data-bs-theme="light"] body.app-default .admin-page-tab {
-            background: rgba(0, 0, 0, 0.03);
+            background: #ffffff;
+            border-color: rgba(15, 23, 42, 0.08);
             color: #333;
+        }
+
+        html[data-bs-theme="light"] body.app-default .admin-page-tab:hover,
+        html[data-bs-theme="light"] body.app-default .admin-page-tab.is-active {
+            color: var(--kgh-red);
+            background: rgba(219, 29, 48, 0.08);
+            border-color: rgba(219, 29, 48, 0.16);
+            box-shadow: none;
+        }
+
+        html[data-bs-theme="light"] body.app-default .admin-page-kicker::before {
+            background: rgba(219, 29, 48, 0.2);
         }
 
         html[data-bs-theme="light"] body.app-default .admin-stat-value {

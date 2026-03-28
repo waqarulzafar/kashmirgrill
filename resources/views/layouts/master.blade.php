@@ -1343,7 +1343,7 @@
                             </ul>
                         </li>
                         <li class="nav-item"><a class="nav-link {{ request()->routeIs('menu') ? 'active' : '' }}" href="{{ route('menu') }}">{{ __('Menu') }}</a></li>
-                        <li class="nav-item"><a class="nav-link {{ request()->routeIs('book-now') ? 'active' : '' }}" href="{{ route('book-now') }}">{{ __('Book Now') }}</a></li>
+                        <li class="nav-item"><a class="nav-link {{ request()->routeIs('book-now') ? 'active' : '' }}" href="{{ route('book-now') }}">{{ __('Reserve a Table') }}</a></li>
                         <li class="nav-item"><a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">{{ __('Contact') }}</a></li>
 	                    </ul>
 	                    <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
@@ -1384,7 +1384,7 @@
                                 <span class="badge rounded-pill badge-brand">{{ __('Premium Dining') }}</span>
                             </li>
 	                            <li class="nav-item">
-	                                <a href="{{ route('book-now') }}" class="btn btn-brand btn-sm px-3">{{ __('Book Now') }}</a>
+	                                <a href="{{ route('book-now') }}" class="btn btn-brand btn-sm px-3">{{ __('Reserve a Table') }}</a>
 	                            </li>
 	                        @endguest
 	                        <li class="nav-item">
@@ -1431,14 +1431,14 @@
                             <section class="footer-transfer-banner" aria-label="{{ __('Free pick and drop offer') }}">
                                 <div class="footer-transfer-banner__inner">
                                     <div>
-                                        <p class="footer-transfer-banner__title-top">{{ __('Enjoy a seamless journey with') }}</p>
+                                        <p class="footer-transfer-banner__title-top">{{ __('Plan your visit to') }}</p>
                                         <h2 class="footer-transfer-banner__title-main">Kashmir Grill House in Como</h2>
                                         <div class="footer-transfer-banner__offer-row">
-                                            <p class="footer-transfer-banner__offer-label">{{ __('We provide') }}</p>
-                                            <span class="footer-transfer-banner__offer-pill">{{ __('FREE PICK & DROP') }}</span>
+                                            <p class="footer-transfer-banner__offer-label">{{ __('Check') }}</p>
+                                            <span class="footer-transfer-banner__offer-pill">{{ __('DIRECTIONS & HOURS') }}</span>
                                         </div>
                                         <div class="footer-transfer-banner__actions">
-                                            <a href="{{ route('book-now') }}" class="btn btn-brand btn-sm footer-transfer-banner__cta">{{ __('Reserve Table') }}</a>
+                                            <a href="{{ route('book-now') }}" class="btn btn-brand btn-sm footer-transfer-banner__cta">{{ __('Reserve a Table') }}</a>
                                             <a href="tel:{{ $businessPhoneHref }}" class="btn btn-brand-outline btn-sm footer-transfer-banner__cta">{{ __('Call :phone', ['phone' => $businessPhone]) }}</a>
                                         </div>
                                     </div>
@@ -1457,7 +1457,7 @@
                                             </div>
                                         </div>
                                         <p class="footer-transfer-banner__copy">
-                                            {!! __('Reserve your table now for <strong>free airport transfers</strong> to our restaurant.') !!}
+                                            {!! __('Reserve a table and scan for <strong>directions, reviews, and opening hours</strong> before you arrive.') !!}
                                         </p>
                                     </div>
 
@@ -1499,7 +1499,7 @@
                             <a class="social-circle" href="{{ $googleBusinessUrl }}" target="_blank" rel="noopener noreferrer" aria-label="{{ __('Google Business Profile') }}"><i class="fa-brands fa-google" aria-hidden="true"></i></a>
                         </div>
                         <div class="d-flex flex-wrap gap-2">
-                            <a href="{{ route('book-now') }}" class="btn btn-brand-outline btn-sm">{{ __('Reserve Your Table') }}</a>
+                            <a href="{{ route('book-now') }}" class="btn btn-brand-outline btn-sm">{{ __('Reserve a Table') }}</a>
                             @guest
                                 <a href="{{ route('login') }}" class="btn btn-brand-outline btn-sm">{{ __('Login') }}</a>
                             @endguest

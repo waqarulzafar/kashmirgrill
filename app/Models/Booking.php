@@ -47,14 +47,26 @@ class Booking extends Model
         'special_occasion',
         'payment_method',
         'payment_status',
+        'payment_amount',
+        'payment_session_id',
+        'payment_reference',
+        'payment_meta',
+        'paid_at',
+        'payment_token',
         'marketing_opt_in',
         'additional_notes',
     ];
 
-    protected $casts = [
-        'date' => 'date',
-        'marketing_opt_in' => 'boolean',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'date' => 'date',
+            'payment_amount' => 'decimal:2',
+            'payment_meta' => 'array',
+            'paid_at' => 'datetime',
+            'marketing_opt_in' => 'boolean',
+        ];
+    }
 
     public function dineInSlot(): BelongsTo
     {
@@ -115,5 +127,18 @@ class Booking extends Model
     public function formattedReference(): string
     {
         return 'KGH-'.str_pad((string) $this->id, 6, '0', STR_PAD_LEFT);
+    }
+
+    public function requiresCardConfirmationPayment(): bool
+    {
+        return $this->payment_method === self::PAYMENT_METHOD_CARD_ON_CONFIRMATION;
+    }
+
+    public function canCollectCardPayment(): bool
+    {
+        return $this->status === self::STATUS_CONFIRMED
+            && $this->requiresCardConfirmationPayment()
+            && $this->payment_status === self::PAYMENT_STATUS_PENDING
+            && (float) ($this->payment_amount ?? 0) > 0;
     }
 }

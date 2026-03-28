@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\MenuCategoryController;
 use App\Http\Controllers\Admin\MenuItemController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\BookingPaymentController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\EventDetailPageController;
@@ -88,6 +89,11 @@ Route::middleware('set.locale')->group(function () use ($localePattern): void {
                 ->middleware('throttle:5,1')
                 ->name('bookings.store');
             Route::get('/book-now/success', [BookingController::class, 'success'])->name('bookings.success');
+            Route::get('/book-now/payment/{booking}/{token}', [BookingPaymentController::class, 'show'])->name('bookings.payment.show');
+            Route::post('/book-now/payment/{booking}/{token}/checkout', [BookingPaymentController::class, 'checkout'])->name('bookings.payment.checkout');
+            Route::get('/book-now/payment/{booking}/{token}/stripe/success', [BookingPaymentController::class, 'stripeSuccess'])->name('bookings.payment.stripe.success');
+            Route::get('/book-now/payment/{booking}/{token}/stripe/cancel', [BookingPaymentController::class, 'stripeCancel'])->name('bookings.payment.stripe.cancel');
+            Route::get('/book-now/payment/{booking}/{token}/success', [BookingPaymentController::class, 'success'])->name('bookings.payment.success');
             Route::view('/contact', 'pages.contact')->name('contact');
 
             Route::post('/cart/items', [CartController::class, 'add'])->name('cart.items.add');
@@ -151,6 +157,7 @@ Route::middleware('set.locale')->group(function () use ($localePattern): void {
             Route::get('bookings', [AdminBookingController::class, 'index'])->name('bookings.index');
             Route::get('bookings/{booking}', [AdminBookingController::class, 'show'])->name('bookings.show');
             Route::patch('bookings/{booking}', [AdminBookingController::class, 'update'])->name('bookings.update');
+            Route::delete('bookings/{booking}', [AdminBookingController::class, 'destroy'])->name('bookings.destroy');
 
             Route::get('orders', [AdminOrderController::class, 'index'])->name('orders.index');
             Route::get('orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');

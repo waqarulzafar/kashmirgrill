@@ -81,7 +81,7 @@
                             <div class="home-discovery-story__icon" aria-hidden="true"><i class="fa-solid fa-utensils"></i></div>
                             <p class="mb-3 text-secondary">{{ __('Explore the menu, reserve your table, or open the Google Business Profile for live directions, reviews, and current opening hours.') }}</p>
                             <div class="d-flex flex-wrap gap-2">
-                                <a href="{{ route('book-now') }}" class="btn btn-brand btn-sm">{{ __('Reserve Table') }}</a>
+                                <a href="{{ route('book-now') }}" class="btn btn-brand btn-sm">{{ __('Reserve a Table') }}</a>
                                 <a href="https://share.google/grft1lwOxyW4px1OV" target="_blank" rel="noopener noreferrer" class="btn btn-brand-outline btn-sm">{{ __('Open Google') }}</a>
                             </div>
                         </div>

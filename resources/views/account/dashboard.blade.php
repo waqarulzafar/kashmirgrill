@@ -134,7 +134,7 @@
             </a>
             <a href="{{ route('book-now') }}" class="account-quicklink-card">
                 <span>{{ __('Reserve') }}</span>
-                <strong>{{ __('Book a Table') }}</strong>
+                <strong>{{ __('Reserve a Table') }}</strong>
                 <small>{{ __('Return to the reservation flow when you want to make your next booking.') }}</small>
             </a>
             <a href="{{ route('menu') }}" class="account-quicklink-card">

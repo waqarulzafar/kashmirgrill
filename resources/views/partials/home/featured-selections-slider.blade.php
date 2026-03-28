@@ -90,7 +90,7 @@
 
                                         <div class="d-flex flex-wrap gap-2">
                                             <a href="{{ route('menu') }}" class="btn btn-brand">{{ __('View Full Menu') }}</a>
-                                            <a href="{{ route('book-now') }}" class="btn btn-brand-outline">{{ __('Book a Table') }}</a>
+                                            <a href="{{ route('book-now') }}" class="btn btn-brand-outline">{{ __('Reserve a Table') }}</a>
                                         </div>
                                     </div>
                                 </div>

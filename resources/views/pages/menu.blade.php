@@ -59,7 +59,7 @@
                                     {{ __('Start With :category', ['category' => $categories->first()->name]) }}
                                 </button>
                             @endif
-                            <a href="{{ route('book-now') }}" class="menu-cta-btn menu-cta-ghost">{{ __('Reserve Table') }}</a>
+                            <a href="{{ route('book-now') }}" class="menu-cta-btn menu-cta-ghost">{{ __('Reserve a Table') }}</a>
                         </div>
                     </div>
 

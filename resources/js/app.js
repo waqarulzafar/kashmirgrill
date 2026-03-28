@@ -1195,6 +1195,11 @@ async function initHomeExperience() {
     const featuredSlider = document.querySelector('#homeFeaturedSelections');
     const featuredSlides = Array.from(document.querySelectorAll('[data-home-featured-slide]'));
     const featuredDiscs = Array.from(document.querySelectorAll('[data-home-featured-disc]'));
+    const dishesSection = document.querySelector('[data-home-dishes-section]');
+    const dishesStats = dishesSection?.querySelector('[data-home-dishes-stats]') ?? null;
+    const dishesTickerTrack = dishesSection?.querySelector('[data-home-dishes-ticker-track]') ?? null;
+    const dishesStatCards = dishesSection ? Array.from(dishesSection.querySelectorAll('[data-home-dishes-stat-card]')) : [];
+    const dishesCards = dishesSection ? Array.from(dishesSection.querySelectorAll('[data-home-dishes-card]')) : [];
     const progressBar = root.querySelector('[data-home-progress]');
 
     if (prefersReduced || document.body.dataset.gsap === 'off') {
@@ -1629,10 +1634,61 @@ async function initHomeExperience() {
             });
         });
 
+        if (dishesSection && (dishesStatCards.length || dishesCards.length)) {
+            const dishesTimeline = gsap.timeline({
+                scrollTrigger: {
+                    trigger: dishesSection,
+                    start: 'top 84%',
+                    end: 'bottom 68%',
+                    scrub: isLiteMotion ? 0.35 : 0.8,
+                },
+            });
+
+            if (dishesStats) {
+                dishesTimeline.from(dishesStats, {
+                    autoAlpha: 0,
+                    y: 20,
+                    duration: 0.28,
+                    ease: 'power2.out',
+                });
+            }
+
+            if (dishesStatCards.length) {
+                dishesTimeline.from(dishesStatCards, {
+                    opacity: 0.42,
+                    y: 18,
+                    scale: 0.985,
+                    duration: 0.42,
+                    stagger: 0.14,
+                    ease: 'power2.out',
+                }, dishesStats ? '-=0.08' : 0);
+            }
+
+            if (dishesCards.length) {
+                dishesTimeline.from(dishesCards, {
+                    opacity: 0.34,
+                    y: 28,
+                    scale: 0.972,
+                    duration: 0.62,
+                    stagger: 0.18,
+                    ease: 'power3.out',
+                }, dishesStatCards.length ? '-=0.06' : 0);
+            }
+        }
+
+        if (dishesTickerTrack) {
+            gsap.to(dishesTickerTrack, {
+                xPercent: -50,
+                duration: isLiteMotion ? 26 : 18,
+                ease: 'none',
+                repeat: -1,
+            });
+        }
+
         const animatedSections = Array.from(document.querySelectorAll('main section'));
         animatedSections.forEach((section) => {
             const header = section.querySelector('.section-header');
-            const cards = section.querySelectorAll('.highlight-card, .dish-tile, .event-card, blockquote, .chef-spotlight, .home-stat-card, .home-step-card, .home-feature-panel, .dishes-gallery__info-card, .dishes-gallery__service-strip');
+            const cards = section.querySelectorAll('.highlight-card, .event-card, blockquote, .chef-spotlight, .home-stat-card, .home-step-card, .home-feature-panel, .dishes-gallery__info-card');
 
             if (header) {
                 gsap.from(header, {
