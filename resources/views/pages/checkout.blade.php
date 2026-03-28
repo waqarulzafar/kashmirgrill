@@ -128,6 +128,13 @@
                                         <button type="submit" class="btn btn-brand flex-fill">{{ __('Sign In & Continue') }}</button>
                                         <a href="{{ route('login') }}" class="btn btn-brand-outline flex-fill">{{ __('Open Full Login Page') }}</a>
                                     </div>
+                                    @if (Route::has('password.request'))
+                                        <div class="col-12">
+                                            <a href="{{ route('password.request') }}" class="checkout-login-modal__forgot">
+                                                {{ __('Forgot your password? Reset it here') }}
+                                            </a>
+                                        </div>
+                                    @endif
                                 </form>
                             </div>
                         </div>
@@ -591,6 +598,19 @@
         .checkout-login-modal__copy {
             color: rgba(255, 255, 255, 0.74);
             margin-bottom: 1rem;
+        }
+
+        .checkout-login-modal__forgot {
+            color: rgba(255, 255, 255, 0.82);
+            font-size: .92rem;
+            font-weight: 600;
+            text-decoration: underline;
+            text-underline-offset: .18em;
+        }
+
+        .checkout-login-modal__forgot:hover,
+        .checkout-login-modal__forgot:focus {
+            color: #ffffff;
         }
 
         .checkout-summary-head {

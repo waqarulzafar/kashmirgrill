@@ -70,6 +70,42 @@ class CheckoutFlowTest extends TestCase
         $this->assertGuest();
     }
 
+    public function test_checkout_page_reopens_login_modal_with_flashed_details_and_reset_link(): void
+    {
+        $response = $this->withSession([
+            'cart.items' => [
+                '1' => [
+                    'menu_item_id' => 1,
+                    'name' => 'Chicken Karahi',
+                    'slug' => 'chicken-karahi',
+                    'price' => 18.50,
+                    'quantity' => 2,
+                    'image_url' => null,
+                    'category_name' => 'Main Course',
+                ],
+            ],
+            '_old_input' => [
+                'full_name' => 'Waqar Khan',
+                'email' => 'waqar@example.com',
+                'phone' => '+39 33221144',
+                'fulfillment_type' => Order::FULFILLMENT_DELIVERY,
+                'delivery_address' => 'Via Milano 12, Como',
+                'payment_method' => Order::PAYMENT_METHOD_STRIPE,
+            ],
+            'checkout_login_modal' => true,
+            'checkout_login_email' => 'waqar@example.com',
+        ])->get(route('checkout.create'));
+
+        $response
+            ->assertOk()
+            ->assertSee('data-open-on-load="true"', false)
+            ->assertSee('value="Waqar Khan"', false)
+            ->assertSee('value="waqar@example.com"', false)
+            ->assertSee('Via Milano 12, Como')
+            ->assertSee(route('password.request'), false)
+            ->assertSee('Forgot your password? Reset it here');
+    }
+
     public function test_customer_can_login_from_checkout_modal_and_return_to_checkout_page(): void
     {
         $user = User::factory()->create([
