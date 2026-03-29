@@ -2005,7 +2005,7 @@
             }
 
             .hero-signature__layout {
-                --bs-gutter-y: .85rem;
+                --bs-gutter-y: 1.1rem;
             }
 
             .hero-signature__copy-col {
@@ -2017,16 +2017,17 @@
             }
 
             .hero-signature__visual-col {
-                margin-top: -.15rem;
+                margin-top: 0;
             }
 
             .hero-signature__aside {
                 width: min(100%, 420px);
                 margin-inline: auto;
+                padding-top: .4rem;
             }
 
             .hero-signature__visual {
-                min-height: 250px;
+                min-height: 280px;
             }
 
             .hero-signature__orbital-shell {
@@ -2132,11 +2133,11 @@
         @media (max-width: 575.98px) {
             .hero-signature__content {
                 padding-top: .9rem;
-                padding-bottom: 1.25rem;
+                padding-bottom: 1.4rem;
             }
 
             .hero-signature__layout {
-                --bs-gutter-y: .35rem;
+                --bs-gutter-y: .9rem;
             }
 
             body.home-menu-theme .hero-signature h1 {
@@ -2156,7 +2157,19 @@
             }
 
             .hero-signature__visual-col {
-                margin-top: -.35rem;
+                margin-top: 0;
+            }
+
+            .hero-signature__copy-col [data-home-hero-actions] {
+                gap: .75rem !important;
+            }
+
+            .hero-signature__copy-col [data-home-hero-actions] .btn {
+                min-width: min(100%, 11rem);
+            }
+
+            .hero-signature__aside {
+                padding-top: .55rem;
             }
 
             .home-featured-slider__price-item {
@@ -2200,15 +2213,43 @@
             }
 
             .hero-signature__image-shell {
-                width: min(100%, 208px);
+                width: min(100%, 216px);
             }
 
             .hero-signature__visual {
-                min-height: 190px;
+                min-height: 228px;
             }
 
             .hero-signature__planet-label {
                 display: none;
+            }
+        }
+
+        @media (max-width: 399.98px) {
+            .hero-signature__layout {
+                --bs-gutter-y: .8rem;
+            }
+
+            .hero-signature__copy-col [data-home-hero-actions] .btn {
+                min-width: 9.6rem;
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+
+            .hero-signature__aside {
+                padding-top: .7rem;
+            }
+
+            .hero-signature__orbital-shell {
+                width: min(100%, 248px);
+            }
+
+            .hero-signature__image-shell {
+                width: min(100%, 198px);
+            }
+
+            .hero-signature__visual {
+                min-height: 214px;
             }
         }
 
