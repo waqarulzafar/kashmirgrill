@@ -804,6 +804,10 @@
             color: #fff;
         }
 
+        .hero-signature__layout {
+            --bs-gutter-y: 1.5rem;
+        }
+
         .hero-signature__aside {
             display: grid;
             gap: 0;
@@ -1892,8 +1896,23 @@
                 border-radius: 1rem;
             }
 
+            .home-scroll-progress {
+                display: none;
+            }
+
             .home-reviews-carousel__nav {
                 display: none;
+            }
+
+            .home-marquee::before,
+            .home-marquee::after {
+                width: 2.25rem;
+            }
+
+            .home-marquee__track {
+                gap: .75rem;
+                padding: .75rem .9rem;
+                animation: none;
             }
 
             .home-featured-slider__top {
@@ -1904,8 +1923,21 @@
                 max-width: 100%;
             }
 
+            .home-featured-slider__card {
+                padding: .95rem;
+            }
+
+            .home-featured-slider__price-head {
+                grid-template-columns: minmax(0, 1fr) auto;
+                align-items: start;
+            }
+
+            .home-featured-slider__dish-line {
+                display: none;
+            }
+
             .home-featured-slider__visual {
-                min-height: 300px;
+                min-height: 260px;
                 backdrop-filter: none;
             }
 
@@ -1915,8 +1947,13 @@
             }
 
             .home-featured-slider__visual-disc {
-                width: min(235px, 68vw);
-                height: min(235px, 68vw);
+                width: min(220px, 62vw);
+                height: min(220px, 62vw);
+            }
+
+            .home-featured-slider__visual-chip {
+                padding: .32rem .62rem;
+                font-size: .66rem;
             }
 
             .home-featured-slider__nav {
@@ -1949,20 +1986,80 @@
                 height: 200px;
             }
 
+            .dish-tile {
+                will-change: auto;
+            }
+
+            body.home-menu-theme .dish-tile {
+                transform: none;
+            }
+
+            body.home-menu-theme .hero-signature,
+            .hero-signature {
+                min-height: auto;
+            }
+
+            .hero-signature__content {
+                padding-top: clamp(1.25rem, 7vw, 2rem);
+                padding-bottom: 1.75rem;
+            }
+
+            .hero-signature__layout {
+                --bs-gutter-y: .85rem;
+            }
+
+            .hero-signature__copy-col {
+                text-align: center;
+            }
+
+            .hero-signature__copy-col [data-home-hero-actions] {
+                justify-content: center;
+            }
+
+            .hero-signature__visual-col {
+                margin-top: -.15rem;
+            }
+
+            .hero-signature__aside {
+                width: min(100%, 420px);
+                margin-inline: auto;
+            }
+
             .hero-signature__visual {
-                min-height: 320px;
+                min-height: 250px;
             }
 
             .hero-signature__orbital-shell {
-                width: min(100%, 460px);
+                width: min(100%, 400px);
+                will-change: auto;
+            }
+
+            .hero-signature__orbit--outer {
+                display: none;
+            }
+
+            .hero-signature__planet-core {
+                width: 2.8rem;
+                height: 2.8rem;
+                backdrop-filter: none;
             }
 
             .hero-signature__image-shell {
-                width: min(100%, 390px);
+                width: min(100%, 320px);
+                will-change: auto;
+            }
+
+            .hero-signature__hero-image {
+                transform: scale(1.08);
+                will-change: auto;
             }
 
             .hero-signature__planet-label {
                 font-size: .62rem;
+            }
+
+            .hero-signature__embers {
+                display: none;
             }
 
             .home-discovery-story__visual-shell {
@@ -2033,6 +2130,53 @@
         }
 
         @media (max-width: 575.98px) {
+            .hero-signature__content {
+                padding-top: .9rem;
+                padding-bottom: 1.25rem;
+            }
+
+            .hero-signature__layout {
+                --bs-gutter-y: .35rem;
+            }
+
+            body.home-menu-theme .hero-signature h1 {
+                font-size: clamp(2.35rem, 14vw, 3.35rem);
+            }
+
+            .hero-signature__copy-col .badge-brand {
+                margin-bottom: .75rem !important;
+            }
+
+            .hero-signature__copy-col [data-home-hero-title] {
+                margin-bottom: .75rem !important;
+            }
+
+            .hero-signature__copy-col [data-home-hero-copy] {
+                margin-bottom: 1rem !important;
+            }
+
+            .hero-signature__visual-col {
+                margin-top: -.35rem;
+            }
+
+            .home-featured-slider__price-item {
+                padding: .75rem .8rem;
+            }
+
+            .home-featured-slider__visual {
+                min-height: 220px;
+            }
+
+            .home-featured-slider__visual-chip--a {
+                left: .75rem;
+                bottom: .75rem;
+            }
+
+            .home-featured-slider__visual-chip--b {
+                right: .75rem;
+                top: .75rem;
+            }
+
             .dishes-gallery__stats {
                 grid-template-columns: 1fr;
             }
@@ -2047,12 +2191,20 @@
                 grid-column: auto;
             }
 
+            .dish-tile {
+                padding: 1rem !important;
+            }
+
             .hero-signature__orbital-shell {
-                width: min(100%, 380px);
+                width: min(100%, 272px);
             }
 
             .hero-signature__image-shell {
-                width: min(100%, 320px);
+                width: min(100%, 208px);
+            }
+
+            .hero-signature__visual {
+                min-height: 190px;
             }
 
             .hero-signature__planet-label {
@@ -2126,11 +2278,24 @@
             display: none;
         }
 
+        body[data-performance-mode="lite"] .dish-tile {
+            transform: none;
+            will-change: auto;
+        }
+
+        body[data-performance-mode="lite"] .hero-signature__orbital-shell,
+        body[data-performance-mode="lite"] .hero-signature__image-shell,
+        body[data-performance-mode="lite"] .hero-signature__hero-image,
+        body[data-performance-mode="lite"] .dish-visual img {
+            will-change: auto;
+        }
+
         body[data-performance-mode="lite"] .home-marquee__track,
         body[data-performance-mode="lite"] .chef-spotlight__image,
         body[data-performance-mode="lite"] .dish-float .dish-visual,
         body[data-performance-mode="lite"] .dish-float-delay .dish-visual {
             animation: none !important;
+            transform: none !important;
         }
 
         body[data-performance-mode="lite"] .home-scroll-progress {

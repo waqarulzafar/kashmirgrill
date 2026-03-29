@@ -9,8 +9,8 @@
     </div>
 
     <div class="container position-relative hero-signature__content">
-        <div class="row g-4 align-items-end">
-            <div class="col-12 col-xl-7">
+        <div class="row g-4 align-items-end hero-signature__layout">
+            <div class="col-12 col-xl-7 hero-signature__copy-col">
                 <span class="badge badge-brand rounded-pill mb-3" data-home-hero-kicker>Kashmir Grill House</span>
                 <h1 class="display-4 fw-semibold mb-3 js-hero-headline" data-home-hero-title>
                     {{ __('Halal Pakistani & Indian Dining in') }} <span class="text-brand-accent">Como</span>
@@ -23,7 +23,7 @@
                     <a href="{{ route('menu') }}" class="btn btn-brand-outline px-4">{{ __('View Menu') }}</a>
                 </div>
             </div>
-            <div class="col-12 col-xl-5">
+            <div class="col-12 col-xl-5 hero-signature__visual-col">
                 <div class="hero-signature__aside" data-home-hero-aside>
                     <div class="hero-signature__visual" data-home-hero-visual-stack>
                         <div class="hero-signature__orbital-shell" data-home-hero-orbital-shell>

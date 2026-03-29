@@ -1150,6 +1150,24 @@
             filter: saturate(1.05) contrast(1.03);
         }
 
+        @media (hover: none), (pointer: coarse) {
+            .card:hover,
+            .event-card:hover,
+            .dish-tile:hover,
+            .menu-card:hover,
+            .map-shell:hover,
+            .btn-brand:hover,
+            .btn-brand-outline:hover {
+                transform: none !important;
+            }
+
+            .card:hover img,
+            .menu-card:hover .menu-card-image,
+            .event-card:hover .event-banner svg {
+                transform: none !important;
+            }
+        }
+
         .reveal-on-scroll {
             opacity: 0;
             transform: translateY(20px);

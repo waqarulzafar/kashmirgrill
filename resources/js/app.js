@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hasMenuExperience = Boolean(document.querySelector('[data-menu-experience]'));
     const hasHomeExperience = Boolean(document.querySelector('[data-home-experience]')) || document.body.classList.contains('home-menu-theme');
     const motionProfile = getMotionProfile();
+    const canUseSmoothScroll = shouldUseSmoothScroll(motionProfile);
 
     document.body.dataset.performanceMode = motionProfile.prefersReduced
         ? 'reduced'
@@ -23,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initCartUi();
     initCheckoutExperience();
 
-    if (!motionProfile.prefersReduced && document.body.dataset.gsap !== 'off') {
+    if (canUseSmoothScroll) {
         void initGlobalSmoothScroll({ isLiteMotion: motionProfile.isLite });
     }
 
@@ -61,6 +62,14 @@ function getMotionProfile() {
         coarsePointer,
         smallViewport,
     };
+}
+
+function shouldUseSmoothScroll(motionProfile) {
+    return !motionProfile.prefersReduced
+        && !motionProfile.isLite
+        && !motionProfile.coarsePointer
+        && !motionProfile.smallViewport
+        && document.body.dataset.gsap !== 'off';
 }
 
 async function initTooltipsAndPopovers() {
@@ -730,11 +739,8 @@ async function initGlobalSmoothScroll({ isLiteMotion = false } = {}) {
     }
 
     globalScrollSmootherPromise = (async () => {
-        if (document.body.dataset.gsap === 'off') {
-            return null;
-        }
-
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const motionProfile = getMotionProfile();
+        if (!shouldUseSmoothScroll(motionProfile)) {
             return null;
         }
 
@@ -854,7 +860,9 @@ async function initMenuExperience() {
 
     try {
         const { gsap, ScrollTrigger } = await getGsapRuntime();
-        smoothScroller = await initGlobalSmoothScroll({ isLiteMotion });
+        smoothScroller = shouldUseSmoothScroll(motionProfile)
+            ? await initGlobalSmoothScroll({ isLiteMotion })
+            : null;
 
         const heroTimeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
         heroTimeline
@@ -1174,6 +1182,7 @@ async function initHomeExperience() {
     const motionProfile = getMotionProfile();
     const prefersReduced = motionProfile.prefersReduced;
     const isLiteMotion = motionProfile.isLite;
+    const enableScrollScrubEffects = !motionProfile.coarsePointer && !motionProfile.smallViewport && !isLiteMotion;
     const hero = document.querySelector('[data-home-hero]');
     const heroBackdrop = document.querySelector('[data-home-hero-backdrop]');
     const heroVeil = document.querySelector('[data-home-hero-veil]');
@@ -1208,9 +1217,12 @@ async function initHomeExperience() {
 
     try {
         const { gsap, ScrollTrigger } = await getGsapRuntime();
-        await initGlobalSmoothScroll({ isLiteMotion });
 
-        if (progressBar) {
+        if (shouldUseSmoothScroll(motionProfile)) {
+            await initGlobalSmoothScroll({ isLiteMotion });
+        }
+
+        if (progressBar && enableScrollScrubEffects) {
             gsap.to(progressBar, {
                 scaleX: 1,
                 ease: 'none',
@@ -1302,7 +1314,7 @@ async function initHomeExperience() {
             homeHeroTimeline.from(heroPanel, { autoAlpha: 0, x: 20, y: 14, duration: 0.65 }, '-=0.45');
         }
 
-        if (heroBackdrop) {
+        if (heroBackdrop && enableScrollScrubEffects) {
             gsap.fromTo(heroBackdrop, {
                 scale: 1,
                 yPercent: 0,
@@ -1319,7 +1331,7 @@ async function initHomeExperience() {
             });
         }
 
-        if (heroVeil) {
+        if (heroVeil && enableScrollScrubEffects) {
             gsap.to(heroVeil, {
                 backgroundPosition: '50% 56%',
                 ease: 'none',
@@ -1348,16 +1360,18 @@ async function initHomeExperience() {
                 delay: 0.08,
             });
 
-            gsap.to(heroVisualStack, {
-                yPercent: -5,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: hero || heroVisualStack,
-                    start: 'top top',
-                    end: 'bottom top',
-                    scrub: isLiteMotion ? 0.16 : 0.38,
-                },
-            });
+            if (enableScrollScrubEffects) {
+                gsap.to(heroVisualStack, {
+                    yPercent: -5,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: hero || heroVisualStack,
+                        start: 'top top',
+                        end: 'bottom top',
+                        scrub: isLiteMotion ? 0.16 : 0.38,
+                    },
+                });
+            }
         }
 
         if (heroOrbitalShell) {
@@ -1375,19 +1389,21 @@ async function initHomeExperience() {
                 duration: 0.65,
             }, '-=0.5');
 
-            gsap.to(heroOrbitalShell, {
-                yPercent: isLiteMotion ? -2 : -6,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: hero || heroOrbitalShell,
-                    start: 'top top+=12',
-                    end: 'bottom top',
-                    scrub: isLiteMotion ? 0.16 : 0.42,
-                },
-            });
+            if (enableScrollScrubEffects) {
+                gsap.to(heroOrbitalShell, {
+                    yPercent: isLiteMotion ? -2 : -6,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: hero || heroOrbitalShell,
+                        start: 'top top+=12',
+                        end: 'bottom top',
+                        scrub: isLiteMotion ? 0.16 : 0.42,
+                    },
+                });
+            }
         }
 
-        if (heroImageShell) {
+        if (heroImageShell && enableScrollScrubEffects) {
             gsap.set(heroImageShell, {
                 transformOrigin: '50% 50%',
                 force3D: true,
@@ -1416,7 +1432,7 @@ async function initHomeExperience() {
             });
         }
 
-        if (heroImage) {
+        if (heroImage && enableScrollScrubEffects) {
             gsap.to(heroImage, {
                 rotate: isLiteMotion ? -8 : -18,
                 ease: 'none',
@@ -1429,23 +1445,25 @@ async function initHomeExperience() {
             });
         }
 
-        heroOrbits.forEach((orbit, index) => {
-            const direction = orbit.dataset.orbitDirection === '-1' ? -1 : 1;
-            const rotationAmount = isLiteMotion ? (18 + (index * 6)) : (52 + (index * 18));
+        if (enableScrollScrubEffects) {
+            heroOrbits.forEach((orbit, index) => {
+                const direction = orbit.dataset.orbitDirection === '-1' ? -1 : 1;
+                const rotationAmount = isLiteMotion ? (18 + (index * 6)) : (52 + (index * 18));
 
-            gsap.to(orbit, {
-                rotate: direction * rotationAmount,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: hero || orbit,
-                    start: 'top top+=24',
-                    end: 'bottom top',
-                    scrub: isLiteMotion ? 0.08 : 0.18,
-                },
+                gsap.to(orbit, {
+                    rotate: direction * rotationAmount,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: hero || orbit,
+                        start: 'top top+=24',
+                        end: 'bottom top',
+                        scrub: isLiteMotion ? 0.08 : 0.18,
+                    },
+                });
             });
-        });
+        }
 
-        if (heroOrbitalGlow) {
+        if (heroOrbitalGlow && enableScrollScrubEffects) {
             gsap.to(heroOrbitalGlow, {
                 scale: isLiteMotion ? 1.03 : 1.1,
                 opacity: isLiteMotion ? 0.72 : 0.94,
@@ -1526,31 +1544,33 @@ async function initHomeExperience() {
             }
         }
 
-        featuredDiscs.forEach((disc, index) => {
-            gsap.to(disc, {
-                rotate: isLiteMotion ? '+=16' : '+=38',
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: disc.closest('[data-home-featured-slide]') || disc,
-                    start: 'top bottom',
-                    end: 'bottom top',
-                    scrub: isLiteMotion ? 0.08 : 0.2,
-                },
+        if (enableScrollScrubEffects) {
+            featuredDiscs.forEach((disc) => {
+                gsap.to(disc, {
+                    rotate: isLiteMotion ? '+=16' : '+=38',
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: disc.closest('[data-home-featured-slide]') || disc,
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: isLiteMotion ? 0.08 : 0.2,
+                    },
+                });
             });
-        });
 
-        document.querySelectorAll('[data-home-featured-visual]').forEach((visual) => {
-            gsap.to(visual, {
-                yPercent: -3,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: visual.closest('[data-home-featured-slider-section], .carousel-item') || visual,
-                    start: 'top bottom',
-                    end: 'bottom top',
-                    scrub: isLiteMotion ? 0.12 : 0.28,
-                },
+            document.querySelectorAll('[data-home-featured-visual]').forEach((visual) => {
+                gsap.to(visual, {
+                    yPercent: -3,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: visual.closest('[data-home-featured-slider-section], .carousel-item') || visual,
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: isLiteMotion ? 0.12 : 0.28,
+                    },
+                });
             });
-        });
+        }
 
         // Keep chips static in the featured slider to reduce jank while scrolling this section.
         document.querySelectorAll('.home-featured-slider__visual-chip').forEach((chip) => {
@@ -1595,7 +1615,7 @@ async function initHomeExperience() {
                 }, '-=0.2');
         }
 
-        if (storyVisual) {
+        if (storyVisual && enableScrollScrubEffects) {
             gsap.to(storyVisual, {
                 yPercent: -2,
                 ease: 'none',
@@ -1608,33 +1628,35 @@ async function initHomeExperience() {
             });
         }
 
-        storyDiscs.forEach((disc, index) => {
-            gsap.to(disc, {
-                rotate: isLiteMotion ? '+=14' : '+=30',
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: storySection || disc,
-                    start: 'top bottom',
-                    end: 'bottom top',
-                    scrub: isLiteMotion ? 0.08 : 0.18,
-                },
+        if (enableScrollScrubEffects) {
+            storyDiscs.forEach((disc) => {
+                gsap.to(disc, {
+                    rotate: isLiteMotion ? '+=14' : '+=30',
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: storySection || disc,
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: isLiteMotion ? 0.08 : 0.18,
+                    },
+                });
             });
-        });
 
-        storyDiscsReverse.forEach((disc) => {
-            gsap.to(disc, {
-                rotate: isLiteMotion ? '-=12' : '-=24',
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: storySection || disc,
-                    start: 'top bottom',
-                    end: 'bottom top',
-                    scrub: isLiteMotion ? 0.08 : 0.16,
-                },
+            storyDiscsReverse.forEach((disc) => {
+                gsap.to(disc, {
+                    rotate: isLiteMotion ? '-=12' : '-=24',
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: storySection || disc,
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: isLiteMotion ? 0.08 : 0.16,
+                    },
+                });
             });
-        });
+        }
 
-        if (dishesSection && (dishesStatCards.length || dishesCards.length)) {
+        if (dishesSection && (dishesStatCards.length || dishesCards.length) && enableScrollScrubEffects) {
             const dishesTimeline = gsap.timeline({
                 scrollTrigger: {
                     trigger: dishesSection,
@@ -1676,7 +1698,7 @@ async function initHomeExperience() {
             }
         }
 
-        if (dishesTickerTrack) {
+        if (dishesTickerTrack && enableScrollScrubEffects) {
             gsap.to(dishesTickerTrack, {
                 xPercent: -50,
                 duration: isLiteMotion ? 26 : 18,
@@ -1720,18 +1742,20 @@ async function initHomeExperience() {
             }
         });
 
-        document.querySelectorAll('.dish-visual img, .chef-spotlight__image').forEach((target) => {
-            gsap.to(target, {
-                yPercent: -7,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: target.closest('section, .carousel-item, .dish-tile') || target,
-                    start: 'top bottom',
-                    end: 'bottom top',
-                    scrub: isLiteMotion ? 0.18 : 0.6,
-                },
+        if (enableScrollScrubEffects) {
+            document.querySelectorAll('.dish-visual img, .chef-spotlight__image').forEach((target) => {
+                gsap.to(target, {
+                    yPercent: -7,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: target.closest('section, .carousel-item, .dish-tile') || target,
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: isLiteMotion ? 0.18 : 0.6,
+                    },
+                });
             });
-        });
+        }
 
         const finePointer = window.matchMedia('(pointer: fine)').matches;
         if (finePointer && !isLiteMotion) {
